@@ -1,5 +1,5 @@
 <?php
-// test config
+
 $params = require(__DIR__ . '/params.php');
 
 $config = [
