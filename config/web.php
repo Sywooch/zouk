@@ -1,5 +1,5 @@
 <?php
-// test3
+
 $params = require(__DIR__ . '/params.php');
 
 $config = [
@@ -35,6 +35,16 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+            ],
+        ],
+        'urlManager' => [
+            'enablePrettyUrl'     => true,
+            'showScriptName'      => false,
+            'enableStrictParsing' => true,
+
+            'rules' => [
+                '/'                                   => 'site/index',
+                '<controller:[\w-]+>/<action:[\w-]+>' => '<controller>/<action>',
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
