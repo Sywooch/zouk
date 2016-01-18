@@ -15,16 +15,17 @@ class LangRequest extends Request
             $this->_lang_url = $this->getUrl();
 
             $url_list = explode('/', $this->_lang_url);
-            $urlListIndex = (YII_DEBUG && !empty(\Yii::$app->params['mainPathCount'])) ? \Yii::$app->params['mainPathCount'] : 1;
+            $urlListIndex = (YII_DEBUG && !empty(\Yii::$app->params['mainPathCount'])) ? \Yii::$app->params['mainPathCount'] + 1 : 1;
             $lang_url = isset($url_list[$urlListIndex]) ? $url_list[$urlListIndex] : null;
             Lang::setCurrent($lang_url);
 
             if( $lang_url !== null && $lang_url === Lang::getCurrent()->url)
             {
                 if (YII_DEBUG && !empty(\Yii::$app->params['mainPathCount'])) {
-                    unset($url_list[\Yii::$app->params['mainPathCount']]);
-                    $this->_lang_url = join('/', $url_list);
-
+                    if ($url_list[$urlListIndex] == $lang_url) {
+                        unset($url_list[$urlListIndex]);
+                        $this->_lang_url = join('/', $url_list);
+                    }
                 } else if (strpos($this->_lang_url, Lang::getCurrent()->url) === 1) {
                     $this->_lang_url = substr($this->_lang_url, strlen(Lang::getCurrent()->url)+1);
                 }

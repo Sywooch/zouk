@@ -31,7 +31,7 @@ class LangUrlManager extends UrlManager
             if (YII_DEBUG && !empty(\Yii::$app->params['mainPathCount'])) {
                 $url_list = explode('/', $url);
                 $mainPath = [];
-                for ($i = 0; $i < \Yii::$app->params['mainPathCount']; $i++) {
+                for ($i = 0; $i <= \Yii::$app->params['mainPathCount']; $i++) {
                     $mainPath[] = array_shift($url_list);
                 }
                 $url_list = array_merge($mainPath, [$lang->url], $url_list);
