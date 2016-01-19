@@ -7,20 +7,20 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-frontend',
-    'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'id'                  => 'app-frontend',
+    'basePath'            => dirname(__DIR__),
+    'bootstrap'           => ['log'],
     'controllerNamespace' => 'frontend\controllers',
-    'components' => [
-        'user' => [
-            'identityClass' => 'common\models\User',
+    'components'          => [
+        'user'         => [
+            'identityClass'   => 'common\models\User',
             'enableAutoLogin' => true,
         ],
-        'log' => [
+        'log'          => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
+            'targets'    => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class'  => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
             ],
@@ -28,7 +28,7 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'urlManager' => [
+        'urlManager'   => [
             'enablePrettyUrl'     => true,
             'showScriptName'      => false,
             'enableStrictParsing' => true,
@@ -38,20 +38,35 @@ return [
                 '<controller:[\w-]+>/<action:[\w-]+>' => '<controller>/<action>',
             ],
         ],
-        'request' => [
-            'class' => 'frontend\components\LangRequest'
+        'request'      => [
+            'class' => 'frontend\components\LangRequest',
         ],
-        'language'=>'ru-RU',
-        'i18n' => [
+        'language'     => 'ru-RU',
+        'i18n'         => [
             'translations' => [
                 '*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@frontend/messages',
+                    'class'          => 'yii\i18n\PhpMessageSource',
+                    'basePath'       => '@frontend/messages',
                     'sourceLanguage' => 'pseudo',
-                    'fileMap' => [],
+                    'fileMap'        => [],
                 ],
             ],
         ],
+        'translate' => [
+            'class' => 'frontend\components\Translate',
+            'translations' => [
+                '*' => [
+                    'class'          => 'yii\i18n\PhpMessageSource',
+                    'basePath'       => '@frontend/messages',
+                    'sourceLanguage' => 'pseudo',
+                    'fileMap'        => [],
+                ],
+            ],
+            'defaultLanguage' => [
+                "ru",
+                "en",
+            ],
+        ],
     ],
-    'params' => $params,
+    'params'              => $params,
 ];

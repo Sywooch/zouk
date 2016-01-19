@@ -108,4 +108,21 @@ class Lang extends \yii\db\ActiveRecord
             }
         }
     }
+
+    static function t($category, $message, $params = [], $language = null)
+    {
+        if (Yii::$app !== null) {
+            if (!is_array($language)) {
+                $language = [$language ?: Yii::$app->language];
+            }
+            return Yii::$app->translate->translateO($category, $message, $params, $language);
+        } else {
+            $p = [];
+            foreach ((array) $params as $name => $value) {
+                $p['{' . $name . '}'] = $value;
+            }
+
+            return ($p === []) ? $message : strtr($message, $p);
+        }
+    }
 }

@@ -2,9 +2,11 @@
 
 /* @var $this yii\web\View */
 
+use frontend\models\Lang;
 use yii\helpers\Html;
 
-$this->title = Yii::t('about/index', 'title');
+$this->title = Lang::t('about/index', 'title');
+
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
