@@ -3,6 +3,7 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -29,8 +30,8 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
+        'brandUrl'   => Yii::$app->homeUrl,
+        'options'    => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
@@ -44,14 +45,14 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
         $menuItems[] = [
-            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-            'url' => ['/site/logout'],
-            'linkOptions' => ['data-method' => 'post']
+            'label'       => 'Logout (' . Yii::$app->user->identity->username . ')',
+            'url'         => ['/site/logout'],
+            'linkOptions' => ['data-method' => 'post'],
         ];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
+        'items'   => $menuItems,
     ]);
     NavBar::end();
     ?>
@@ -61,6 +62,29 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="" height="50px" width="100%"/>
+            </div>
+            <div class="col-md-8">
+                <div class="pull-right">
+                    <?php
+                    echo Html::button(Lang::t('main', 'mainButtonList'), ['class' => 'btn btn-default']), " ";
+                    echo Html::button(Lang::t('main', 'mainButtonTags'), ['class' => 'btn btn-default']), " ";
+                    echo Html::button(Lang::t('main', 'mainButtonEvents'), ['class' => 'btn btn-default']), " ";
+                    echo Html::button(Lang::t('main', 'mainButtonSchools'), ['class' => 'btn btn-default']), " ";
+                    if (!Yii::$app->user->isGuest) {
+                        echo Html::a(
+                            Lang::t('main', 'mainButtonAddRecord'),
+                            ['/list/add'],
+                            ['class' => 'btn btn-default']
+                        ), " ";
+                    }
+                    ?>
+                </div>
+            </div>
+
+        </div>
         <?= $content ?>
     </div>
 </div>

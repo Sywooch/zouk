@@ -5,7 +5,7 @@
 use frontend\models\Lang;
 use yii\helpers\Html;
 
-$this->title = Lang::t('about/index', 'title');
+$this->title = Lang::t('page/about', 'title');
 
 $this->params['breadcrumbs'][] = $this->title;
 
