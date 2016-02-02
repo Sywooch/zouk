@@ -63,11 +63,9 @@ AppAsset::register($this);
         ]) ?>
         <?= Alert::widget() ?>
         <div class="row">
-            <div class="col-md-4">
-                <img src="" height="50px" width="100%"/>
-            </div>
-            <div class="col-md-8">
-                <div class="pull-right">
+            <div class="col-md-12">
+                <img src="img/logo.png" height="100px"/>
+                <div class="pull-right" style="vertical-align: middle; line-height: 100px">
                     <?php
                     echo Html::button(Lang::t('main', 'mainButtonList'), ['class' => 'btn btn-default']), " ";
                     echo Html::button(Lang::t('main', 'mainButtonTags'), ['class' => 'btn btn-default']), " ";
