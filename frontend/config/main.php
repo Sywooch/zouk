@@ -34,8 +34,9 @@ return [
             'enableStrictParsing' => true,
             'class'               => 'frontend\components\LangUrlManager',
             'rules'               => [
-                '/'                                   => 'site/index',
-                '<controller:[\w-]+>/<action:[\w-]+>' => '<controller>/<action>',
+                '/'                                              => 'site/index',
+                '<controller:[\w-]+>/<action:[\w-]+>/<id:[\d+]>' => '<controller>/<action>',
+                '<controller:[\w-]+>/<action:[\w-]+>'            => '<controller>/<action>',
             ],
         ],
         'request'      => [
@@ -52,9 +53,9 @@ return [
                 ],
             ],
         ],
-        'translate' => [
-            'class' => 'frontend\components\Translate',
-            'translations' => [
+        'translate'    => [
+            'class'           => 'frontend\components\Translate',
+            'translations'    => [
                 '*' => [
                     'class'          => 'yii\i18n\PhpMessageSource',
                     'basePath'       => '@frontend/messages',

@@ -3,6 +3,10 @@ body {
     height: 100%;
 }
 
+.cp {
+    cursor: pointer;
+}
+
 .wrap {
     min-height: 100%;
     height: auto;
@@ -88,4 +92,77 @@ a.desc:after {
     border-left: 3px solid #eed3d7;
     padding: 10px 20px;
     margin: 0 0 15px 0;
+}
+
+.block-item-summary {
+    padding: 12px 0 10px 0;
+    border-bottom: 1px solid #ECEAEB;
+}
+
+.summary h3 {
+    margin-top: 0;
+    margin-bottom: .35em;
+    line-height: 1.3;
+    font-size: 24px;
+}
+
+.votes,
+.views {
+    display: inline-block;
+    height: 38px;
+    min-width: 38px;
+    margin: 0 3px 0 0;
+    font-size: 11px;
+    color: #777;
+    padding: 5px 5px 6px 5px;
+    text-align: center;
+}
+
+.mini-counts {
+    font-size: 17px;
+    font-weight: 300;
+    color: #777;
+    margin-bottom: 4px;
+}
+
+.started {
+    width: auto;
+    line-height: inherit;
+    padding-top: 4px;
+    white-space: nowrap;
+    float: right;
+}
+
+.started-link {
+    font-size: 12px;
+    color: #999;
+}
+
+.item-hyperlink {
+    color: #0077CC;
+    line-height: 1.3;
+    margin-bottom: 1.2em;
+}
+
+.item-hyperlink:visited {
+    color: #005999;
+}
+
+#item-header {
+    clear: both;
+    padding: 5px 0;
+    border-bottom: 1px solid #E5E5E5;
+    margin-bottom: 1em;
+}
+
+#item-header h1 {
+    font-size: 28px;
+    line-height: 1.3;
+    margin-bottom: 0.35em;
+}
+
+
+.glyphicon.glyphicon-triangle-top,
+.glyphicon.glyphicon-triangle-bottom {
+    font-size: 50px;
 }

@@ -17,9 +17,7 @@ $this->title = Lang::t('main/index', 'title');
 <div class="site-index">
     <div class="body-content">
 
-        <div class="row">
-
-        </div>
+        <?= \frontend\widgets\ItemList::widget([]) ?>
 
     </div>
 </div>

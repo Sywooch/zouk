@@ -60,4 +60,13 @@ class ListController extends Controller
             ['item' => $item]
         );
     }
+
+    public function actionView($id)
+    {
+        $item = Item::findOne((int)$id);
+        return $this->render(
+            'view',
+            ['item' => $item]
+        );
+    }
 }
