@@ -166,3 +166,11 @@ a.desc:after {
 .glyphicon.glyphicon-triangle-bottom {
     font-size: 50px;
 }
+
+@media (min-width: 520px) {
+    .main-button-block {
+        vertical-align: middle; !important;
+        line-height: 100px; !important;
+        float: right;
+    }
+}

@@ -65,7 +65,7 @@ AppAsset::register($this);
         <div class="row">
             <div class="col-md-12">
                 <img src="img/logo.png" height="100px"/>
-                <div class="pull-right" style="vertical-align: middle; line-height: 100px">
+                <div class="main-button-block">
                     <?php
                     echo Html::button(Lang::t('main', 'mainButtonList'), ['class' => 'btn btn-default']), " ";
                     echo Html::button(Lang::t('main', 'mainButtonTags'), ['class' => 'btn btn-default']), " ";
