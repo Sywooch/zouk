@@ -9,7 +9,7 @@ use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = Lang::t('page/listAdd', 'title');
+$this->title = Lang::t('page/listEdit', 'title');
 
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -23,12 +23,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'list-add-form']); ?>
 
-            <?= $form->field($item, 'title')->label(Lang::t('page/listAdd', 'fieldTitle')) ?>
+            <?= $form->field($item, 'title')->label(Lang::t('page/listEdit', 'fieldTitle')) ?>
 
-            <?= $form->field($item, 'description')->textarea()->label(Lang::t('page/listAdd', 'fieldDescription')) ?>
+            <?= $form->field($item, 'description')->textarea()->label(Lang::t('page/listEdit', 'fieldDescription')) ?>
 
             <div class="form-group">
-                <?= Html::submitButton(Lang::t('page/listAdd', 'buttonAdd'), ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>
+                <?= Html::submitButton(Lang::t('page/listEdit', 'buttonAdd'), ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>

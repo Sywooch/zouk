@@ -164,7 +164,11 @@ a.desc:after {
 
 .glyphicon.glyphicon-triangle-top,
 .glyphicon.glyphicon-triangle-bottom {
-    font-size: 50px;
+    font-size: 2em;
+}
+
+.vote-count-item {
+    font-size: 2em;
 }
 
 @media (min-width: 520px) {
@@ -174,3 +178,4 @@ a.desc:after {
         float: right;
     }
 }
+

@@ -7,6 +7,7 @@ use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
@@ -58,13 +59,10 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
         <?= Alert::widget() ?>
         <div class="row">
             <div class="col-md-12">
-                <img src="img/logo.png" height="100px"/>
+                <a href="<?= Url::base() ?>"><img src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>" height="100px"/></a>
                 <div class="main-button-block">
                     <?php
                     echo Html::button(Lang::t('main', 'mainButtonList'), ['class' => 'btn btn-default']), " ";

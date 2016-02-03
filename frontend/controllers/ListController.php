@@ -44,7 +44,6 @@ class ListController extends Controller
 
     public function actionAdd()
     {
-
         $item = new Item();
         if ($item->load(Yii::$app->request->post())) {
             $item->user_id = Yii::$app->user->identity->getId();
@@ -66,6 +65,22 @@ class ListController extends Controller
         $item = Item::findOne((int)$id);
         return $this->render(
             'view',
+            ['item' => $item]
+        );
+    }
+
+    public function actionEdit($id)
+    {
+        /** @var Item $item */
+        $item = Item::findOne($id);
+        if ($item && $item->load(Yii::$app->request->post())) {
+            if ($item = $item->save()) {
+                return Yii::$app->getResponse()->redirect(Url::to(['list/view', 'id' => $id]));
+            }
+        }
+
+        return $this->render(
+            'edit',
             ['item' => $item]
         );
     }

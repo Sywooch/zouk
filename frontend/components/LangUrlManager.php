@@ -1,6 +1,7 @@
 <?php
 namespace frontend\components;
 
+use yii\helpers\Url;
 use yii\web\UrlManager;
 use frontend\models\Lang;
 
@@ -39,5 +40,12 @@ class LangUrlManager extends UrlManager
             }
             return '/' . $lang->url . $url;
         }
+    }
+
+    public function to($src)
+    {
+        $localHome = \Yii::$app->params['localHomeUrl'];
+        $url = $localHome . $src;
+        return Url::to($url, true);
     }
 }
