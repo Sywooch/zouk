@@ -62,7 +62,7 @@ AppAsset::register($this);
         <?= Alert::widget() ?>
         <div class="row">
             <div class="col-md-12">
-                <a href="<?= Url::base() ?>"><img src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>" height="100px"/></a>
+                <a href="<?= Url::home() ?>"><img src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>" height="100px"/></a>
                 <div class="main-button-block">
                     <?php
                     echo Html::button(Lang::t('main', 'mainButtonList'), ['class' => 'btn btn-default']), " ";
