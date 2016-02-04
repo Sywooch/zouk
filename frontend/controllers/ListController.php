@@ -66,7 +66,7 @@ class ListController extends Controller
     {
         $item = Item::findOne((int)$id);
         $thisUser = User::thisUser();
-        $vote = !empty($thisUser) ? User::thisUser()->getVoteByEntity(Vote::ENTITY_ITEM, $id) : null;
+        $vote = !empty($thisUser) ? $thisUser->getVoteByEntity(Vote::ENTITY_ITEM, $id) : null;
 
         return $this->render(
             'view',
