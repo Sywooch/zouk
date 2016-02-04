@@ -185,4 +185,23 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    /**
+     * @param $entity
+     * @param $entity_id
+     *
+     * @return null|Vote
+     */
+    public function getVoteByEntity($entity, $entity_id)
+    {
+        return Vote::findOne(['user_id' => $this->id, 'entity' => $entity, 'entity_id' => $entity_id]);
+    }
+
+    /**
+     * @return null|User
+     */
+    public static function thisUser()
+    {
+        return Yii::$app->user->isGuest ? null : Yii::$app->user->identity;
+    }
 }

@@ -171,6 +171,10 @@ a.desc:after {
     font-size: 2em;
 }
 
+.voted {
+    color: #c67605;
+}
+
 @media (min-width: 520px) {
     .main-button-block {
         vertical-align: middle; !important;

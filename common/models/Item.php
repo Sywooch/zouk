@@ -19,7 +19,7 @@ use yii\web\IdentityInterface;
  * @property integer $date_update
  * @property integer $date_create
  */
-class Item extends ActiveRecord
+class Item extends VoteModel
 {
 
     /**
@@ -80,5 +80,15 @@ class Item extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['user_id' => 'id']);
+    }
+
+    public function addVote($changeVote)
+    {
+        $this->like_count += $changeVote;
+    }
+
+    public function getVoteCount()
+    {
+        return $this->like_count;
     }
 }

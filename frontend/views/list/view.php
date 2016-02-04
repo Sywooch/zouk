@@ -2,14 +2,26 @@
 /**
  * @var yii\web\View        $this
  * @var \common\models\Item $item
+ * @var Vote $vote
  */
+use common\models\User;
+use common\models\Vote;
 use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/view.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
 $this->title = $item->title;
 
 $this->params['breadcrumbs'][] = Lang::t('page/listView', 'title');
+
+$thisUser = User::thisUser();
+$voteItem = !empty($thisUser) ? $thisUser->getVoteByEntity(Vote::ENTITY_ITEM, $item->id) : null;
+$voteUpHtml = '<span class="glyphicon glyphicon-triangle-top"></span>';
+$voteDownHtml = '<span class="glyphicon glyphicon-triangle-bottom"></span>';
+$urlUp = Url::to(['vote/add']);
+$urlDown = Url::to(['vote/add']);
 
 $url = Url::to(['list/view', 'id' => $item->id]);
 ?>
@@ -31,9 +43,15 @@ $url = Url::to(['list/view', 'id' => $item->id]);
 
 
 <div class="row">
-    <div class="col-lg-1 text-center">
+    <div class="col-lg-1 text-center vote-block">
         <div>
-            <span class="glyphicon glyphicon-triangle-top"></span>
+            <?php
+            $divClass = ['cp','vote-up-link'];
+            if (!empty($voteItem) && $voteItem->vote == Vote::VOTE_UP) {
+                $divClass[] = 'voted';
+            }
+            echo Html::tag("div", $voteUpHtml, ['data-href' => $urlUp, 'class' => join(' ', $divClass), 'data-id' => $item->id, 'data-vote' => Vote::VOTE_UP, 'data-entity' => Vote::ENTITY_ITEM]);
+            ?>
         </div>
         <div>
             <span class="vote-count-item">
@@ -41,7 +59,13 @@ $url = Url::to(['list/view', 'id' => $item->id]);
             </span>
         </div>
         <div>
-            <span class="glyphicon glyphicon-triangle-bottom"></span>
+            <?php
+            $divClass = ['cp','vote-down-link'];
+            if (!empty($voteItem) && $voteItem->vote == Vote::VOTE_DOWN) {
+                $divClass[] = 'voted';
+            }
+            echo Html::tag("div", $voteDownHtml, ['data-href' => $urlDown, 'class' => join(' ', $divClass), 'data-id' => $item->id, 'data-vote' => Vote::VOTE_DOWN, 'data-entity' => Vote::ENTITY_ITEM]);
+            ?>
         </div>
     </div>
     <div class="col-lg-11">

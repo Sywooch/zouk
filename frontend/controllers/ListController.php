@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 
 use common\models\Item;
+use common\models\User;
+use common\models\Vote;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -29,10 +31,10 @@ class ListController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['add'],
+                'only' => ['add', 'edit'],
                 'rules' => [
                     [
-                        'actions' => ['add'],
+                        'actions' => ['add', 'edit'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -63,9 +65,15 @@ class ListController extends Controller
     public function actionView($id)
     {
         $item = Item::findOne((int)$id);
+        $thisUser = User::thisUser();
+        $vote = !empty($thisUser) ? User::thisUser()->getVoteByEntity(Vote::ENTITY_ITEM, $id) : null;
+
         return $this->render(
             'view',
-            ['item' => $item]
+            [
+                'item' => $item,
+                'vote' => $vote,
+            ]
         );
     }
 
