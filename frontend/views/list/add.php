@@ -13,6 +13,8 @@ $this->title = Lang::t('page/listAdd', 'title');
 
 $this->params['breadcrumbs'][] = $this->title;
 
+$videos = $item->getVideos();
+
 ?>
 <div id="item-header">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -27,6 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($item, 'description')->textarea()->label(Lang::t('page/listAdd', 'fieldDescription')) ?>
 
+            <h4>Видео:</h4>
+            <button class="btn btn-success">+</button>
+
+            <br/><br/>
             <div class="form-group">
                 <?= Html::submitButton(Lang::t('page/listAdd', 'buttonAdd'), ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>
             </div>

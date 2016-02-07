@@ -12,22 +12,24 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property integer $user_id
- * @property string  $title
- * @property string  $description
- * @property int     $like_count
- * @property int     $show_count
+ * @property string  $entity
+ * @property string  $entity_id
+ * @property string  $originalUrl
  * @property integer $date_update
  * @property integer $date_create
  */
-class Item extends VoteModel
+class Video extends ActiveRecord
 {
+
+    const ENTITY_NONE    = 'none';
+    const ENTITY_YOUTUBE = 'youtube';
 
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'item';
+        return 'video';
     }
 
     /**
@@ -39,8 +41,8 @@ class Item extends VoteModel
             'timestamp' => [
                 'class'      => 'yii\behaviors\TimestampBehavior',
                 'attributes' => [
-                    \yii\db\ActiveRecord::EVENT_BEFORE_INSERT => ['date_create', 'date_update'],
-                    \yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => ['date_update'],
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['date_create', 'date_update'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['date_update'],
                 ],
             ],
         ];
@@ -52,10 +54,7 @@ class Item extends VoteModel
     public function rules()
     {
         return [
-            [['title', 'description'], 'default', 'value' => ''],
             [['date_update', 'date_create'], 'integer'],
-            [['title'], 'string', 'max' => 255],
-            [['description'], 'string', 'max' => 2048],
         ];
     }
 
@@ -68,10 +67,9 @@ class Item extends VoteModel
         return [
             'id'          => 'ID',
             'userId'      => 'Пользователь',
-            'title'       => 'Заголовок',
-            'description' => 'Описание',
-            'likeCount'   => 'Голосов',
-            'showCount'   => 'Показов',
+            'entity'      => 'Сущность',
+            'entity_id'   => 'ID сущности',
+            'originalUrl' => 'ID сущности',
             'date_update' => 'Date Update',
             'date_create' => 'Date Create',
         ];
@@ -82,19 +80,17 @@ class Item extends VoteModel
         return $this->hasOne(User::className(), ['user_id' => 'id']);
     }
 
-    public function addVote($changeVote)
+    public function parseUrl($url)
     {
-        $this->like_count += $changeVote;
-    }
+        $entity = self::ENTITY_NONE;
+        $entity_id = "";
+        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match)) {
+            $entity = self::ENTITY_YOUTUBE;
+            $entity_id = $match[1];
+        }
 
-    public function getVoteCount()
-    {
-        return $this->like_count;
-    }
-
-    public function getVideos()
-    {
-        return $this->hasMany(Video::className(), ['id' => 'video_id'])
-            ->viaTable(ItemVideo::className(), ['item_id' => 'id']);
+        $this->entity = $entity;
+        $this->entity_id = $entity_id;
+        $this->originalUrl = $url;
     }
 }
