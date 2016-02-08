@@ -95,6 +95,6 @@ class Item extends VoteModel
     public function getVideos()
     {
         return $this->hasMany(Video::className(), ['id' => 'video_id'])
-            ->viaTable(ItemVideo::className(), ['item_id' => 'id']);
+            ->viaTable(ItemVideo::tableName(), ['item_id' => 'id']);
     }
 }

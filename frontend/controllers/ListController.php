@@ -2,7 +2,9 @@
 namespace frontend\controllers;
 
 use common\models\Item;
+use common\models\ItemVideo;
 use common\models\User;
+use common\models\Video;
 use common\models\Vote;
 use Yii;
 use common\models\LoginForm;
@@ -23,6 +25,8 @@ use yii\helpers\Url;
 class ListController extends Controller
 {
 
+    const MAX_VIDEO_ITEM = 5;
+
     /**
      * @inheritdoc
      */
@@ -31,12 +35,12 @@ class ListController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['add', 'edit'],
+                'only'  => ['add', 'edit'],
                 'rules' => [
                     [
                         'actions' => ['add', 'edit'],
-                        'allow' => true,
-                        'roles' => ['@'],
+                        'allow'   => true,
+                        'roles'   => ['@'],
                     ],
                 ],
             ],
@@ -51,8 +55,30 @@ class ListController extends Controller
             $item->user_id = Yii::$app->user->identity->getId();
             $item->like_count = 0;
             $item->show_count = 0;
-            if ($item = $item->save()) {
-                return Yii::$app->getResponse()->redirect(Url::toRoute('/'));
+            if ($item->save()) {
+                $videosUrl = Yii::$app->request->post('videos');
+                // Добавление видео к записи
+                if (!empty($videosUrl) && is_array($videosUrl)) {
+                    $itemVideoCount = 0;
+                    foreach ($videosUrl as $url) {
+                        if (!empty($url)) {
+                            $itemVideoCount++;
+                            if ($itemVideoCount > self::MAX_VIDEO_ITEM) {
+                                break;
+                            }
+                            $video = new Video();
+                            $video->parseUrl($url);
+                            $video->user_id = $item->user_id;
+                            if ($video->save()) {
+                                $itemVideo = new ItemVideo();
+                                $itemVideo->item_id = $item->id;
+                                $itemVideo->video_id = $video->id;
+                                $itemVideo->save();
+                            }
+                        }
+                    }
+                }
+                return Yii::$app->getResponse()->redirect(Url::to(['list/view', 'id' => $item->id]));
             }
         }
 

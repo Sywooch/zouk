@@ -15,6 +15,7 @@ use yii\web\IdentityInterface;
  * @property string  $entity
  * @property string  $entity_id
  * @property string  $originalUrl
+ * @property string  $video_title
  * @property integer $date_update
  * @property integer $date_create
  */
@@ -69,7 +70,8 @@ class Video extends ActiveRecord
             'userId'      => 'Пользователь',
             'entity'      => 'Сущность',
             'entity_id'   => 'ID сущности',
-            'originalUrl' => 'ID сущности',
+            'originalUrl' => 'url',
+            'video_title' => 'Заголовок видео',
             'date_update' => 'Date Update',
             'date_create' => 'Date Create',
         ];
@@ -87,6 +89,11 @@ class Video extends ActiveRecord
         if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match)) {
             $entity = self::ENTITY_YOUTUBE;
             $entity_id = $match[1];
+
+            $content = file_get_contents("http://youtube.com/get_video_info?video_id=" . $entity_id);
+            parse_str($content, $ytarr);
+
+            $this->video_title = $ytarr['title'];
         }
 
         $this->entity = $entity;

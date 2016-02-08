@@ -22,10 +22,11 @@ class m160207_135616_addVideoTable extends Migration
             'date_create' => Schema::TYPE_INTEGER . ' NOT NULL',
         ], $tableOptions);
 
-        $this->createTable('{{%itemVideo}}', [
+        $this->createTable('{{%item_video}}', [
             'id'          => Schema::TYPE_PK,
             'item_id'     => Schema::TYPE_INTEGER . ' NOT NULL',
             'video_id'    => Schema::TYPE_INTEGER . ' NOT NULL',
+            'video_title' => Schema::TYPE_STRING . ' NOT NULL',
             'date_update' => Schema::TYPE_INTEGER . ' NOT NULL',
             'date_create' => Schema::TYPE_INTEGER . ' NOT NULL',
         ], $tableOptions);
@@ -34,7 +35,7 @@ class m160207_135616_addVideoTable extends Migration
     public function down()
     {
         $this->dropTable('{{%video}}');
-        $this->dropTable('{{%itemVideo}}');
+        $this->dropTable('{{%item_video}}');
     }
 
 }

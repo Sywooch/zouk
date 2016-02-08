@@ -4,17 +4,15 @@
  * @var \common\models\Item $item
  */
 
-
 use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/add.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
 $this->title = Lang::t('page/listAdd', 'title');
 
 $this->params['breadcrumbs'][] = $this->title;
-
-$videos = $item->getVideos();
-
 ?>
 <div id="item-header">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -30,7 +28,10 @@ $videos = $item->getVideos();
             <?= $form->field($item, 'description')->textarea()->label(Lang::t('page/listAdd', 'fieldDescription')) ?>
 
             <h4>Видео:</h4>
-            <button class="btn btn-success">+</button>
+            <div id="blockVideos">
+
+            </div>
+            <a id="addVideoButton" class="btn btn-success">+</a>
 
             <br/><br/>
             <div class="form-group">

@@ -24,17 +24,10 @@ class ItemList extends \yii\bootstrap\Widget
 
     public function getAllItems($lastId = 0)
     {
-        $condition = [];
-
         $query = Item::find();
-        $pagination = new Pagination([
-            'defaultPageSize' => 5,
-            'totalCount'      => $query->count(),
-        ]);
 
-        return $query->orderBy('id')
-            ->offset($pagination->offset)
-            ->limit($pagination->limit)
+        return $query->orderBy('id DESC')
+            ->limit(10)
             ->where('id > :id', [':id' => $lastId])
             ->all();
     }

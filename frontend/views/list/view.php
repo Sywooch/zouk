@@ -2,9 +2,10 @@
 /**
  * @var yii\web\View        $this
  * @var \common\models\Item $item
- * @var Vote $vote
+ * @var Vote                $vote
  */
 use common\models\User;
+use common\models\Video;
 use common\models\Vote;
 use frontend\models\Lang;
 use yii\helpers\Html;
@@ -29,13 +30,13 @@ $url = Url::to(['list/view', 'id' => $item->id]);
     <h1>
         <?= Html::a($item->title, $url, ['class' => 'item-hyperlink']) ?>
         <?php
-            if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $item->user_id) {
-                echo Html::a(
-                    Lang::t('page/listView', 'edit'),
-                    Url::to(['list/edit', 'id' => $item->id]),
-                    ['class' => 'btn btn-success pull-right']
-                );
-            }
+        if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $item->user_id) {
+            echo Html::a(
+                Lang::t('page/listView', 'edit'),
+                Url::to(['list/edit', 'id' => $item->id]),
+                ['class' => 'btn btn-success pull-right']
+            );
+        }
         ?>
     </h1>
 
@@ -43,10 +44,10 @@ $url = Url::to(['list/view', 'id' => $item->id]);
 
 
 <div class="row">
-    <div class="col-lg-1 text-center vote-block">
+    <div class="col-lg-1 text-center vote-block hidden-xs hidden-sm">
         <div>
             <?php
-            $divClass = ['cp','vote-up-link'];
+            $divClass = ['cp', 'vote-up-link'];
             if (!empty($voteItem) && $voteItem->vote == Vote::VOTE_UP) {
                 $divClass[] = 'voted';
             }
@@ -60,7 +61,7 @@ $url = Url::to(['list/view', 'id' => $item->id]);
         </div>
         <div>
             <?php
-            $divClass = ['cp','vote-down-link'];
+            $divClass = ['cp', 'vote-down-link'];
             if (!empty($voteItem) && $voteItem->vote == Vote::VOTE_DOWN) {
                 $divClass[] = 'voted';
             }
@@ -72,5 +73,15 @@ $url = Url::to(['list/view', 'id' => $item->id]);
         <div class="item-text">
             <?= Html::encode($item->description) ?>
         </div>
+        <?php
+        /** @var Video[] $videos */
+        $videos = $item->getVideos()->all();
+        if (count($videos) > 0) {
+            ?>
+            <h3>Видео:</h3>
+            <?php
+            echo \frontend\widgets\VideosWidget::widget(['videos' => $videos]);
+        }
+        ?>
     </div>
 </div>
