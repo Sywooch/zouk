@@ -25,8 +25,6 @@ use yii\helpers\Url;
 class ListController extends Controller
 {
 
-    const MAX_VIDEO_ITEM = 5;
-
     /**
      * @inheritdoc
      */
@@ -56,27 +54,10 @@ class ListController extends Controller
             $item->like_count = 0;
             $item->show_count = 0;
             if ($item->save()) {
-                $videosUrl = Yii::$app->request->post('videos');
                 // Добавление видео к записи
+                $videosUrl = Yii::$app->request->post('videos');
                 if (!empty($videosUrl) && is_array($videosUrl)) {
-                    $itemVideoCount = 0;
-                    foreach ($videosUrl as $url) {
-                        if (!empty($url)) {
-                            $itemVideoCount++;
-                            if ($itemVideoCount > self::MAX_VIDEO_ITEM) {
-                                break;
-                            }
-                            $video = new Video();
-                            $video->parseUrl($url);
-                            $video->user_id = $item->user_id;
-                            if ($video->save()) {
-                                $itemVideo = new ItemVideo();
-                                $itemVideo->item_id = $item->id;
-                                $itemVideo->video_id = $video->id;
-                                $itemVideo->save();
-                            }
-                        }
-                    }
+                    $item->saveVideos($videosUrl, $item->user_id);
                 }
                 return Yii::$app->getResponse()->redirect(Url::to(['list/view', 'id' => $item->id]));
             }
@@ -108,7 +89,13 @@ class ListController extends Controller
         /** @var Item $item */
         $item = Item::findOne($id);
         if ($item && $item->load(Yii::$app->request->post())) {
-            if ($item = $item->save()) {
+            if ($item->save()) {
+                ItemVideo::deleteAll(['item_id' => $item->id]);
+                // Добавление видео к записи
+                $videosUrl = Yii::$app->request->post('videos');
+                if (!empty($videosUrl) && is_array($videosUrl)) {
+                    $item->saveVideos($videosUrl, $item->user_id);
+                }
                 return Yii::$app->getResponse()->redirect(Url::to(['list/view', 'id' => $id]));
             }
         }

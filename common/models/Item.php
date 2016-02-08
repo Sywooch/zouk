@@ -22,6 +22,8 @@ use yii\web\IdentityInterface;
 class Item extends VoteModel
 {
 
+    const MAX_VIDEO_ITEM = 5;
+
     /**
      * @inheritdoc
      */
@@ -92,9 +94,45 @@ class Item extends VoteModel
         return $this->like_count;
     }
 
+    /**
+     * @return Video[]
+     */
+    public function getVideoModels()
+    {
+        return $this->getVideos()->all();
+    }
+
     public function getVideos()
     {
         return $this->hasMany(Video::className(), ['id' => 'video_id'])
             ->viaTable(ItemVideo::tableName(), ['item_id' => 'id']);
+    }
+
+    public function saveVideos($videosUrl, $user_id)
+    {
+        $itemVideoCount = 0;
+        $videos = [];
+        foreach ($videosUrl as $url) {
+            if (!empty($url)) {
+                $itemVideoCount++;
+                if ($itemVideoCount > self::MAX_VIDEO_ITEM) {
+                    break;
+                }
+                $video = new Video();
+                $video = $video->parseUrlToModel($url);
+                if ($video->isNewRecord) {
+                    $video->user_id = $user_id;
+                }
+                if (!isset($videos[$video->entity][$video->entity_id]) &&
+                    (!$video->isNewRecord || $video->save())
+                ) {
+                    $videos[$video->entity][$video->entity_id] = $video;
+                    $itemVideo = new ItemVideo();
+                    $itemVideo->item_id = $this->id;
+                    $itemVideo->video_id = $video->id;
+                    $itemVideo->save();
+                }
+            }
+        }
     }
 }

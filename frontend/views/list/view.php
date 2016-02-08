@@ -74,8 +74,7 @@ $url = Url::to(['list/view', 'id' => $item->id]);
             <?= Html::encode($item->description) ?>
         </div>
         <?php
-        /** @var Video[] $videos */
-        $videos = $item->getVideos()->all();
+        $videos = $item->getVideoModels();
         if (count($videos) > 0) {
             ?>
             <h3>Видео:</h3>
