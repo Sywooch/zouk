@@ -24,11 +24,11 @@ class ItemList extends \yii\bootstrap\Widget
 
     public function getAllItems($lastId = 0)
     {
-        $query = Item::find();
-
-        return $query->orderBy('id DESC')
+        return Item::find()->orderBy('id DESC')
             ->limit(10)
-            ->where('id > :id', [':id' => $lastId])
+            ->from(["t" => Item::tableName()])
+            ->where('t.id > :id', [':id' => $lastId])
+            ->joinWith('videos')
             ->all();
     }
 }

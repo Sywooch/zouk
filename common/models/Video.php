@@ -14,7 +14,7 @@ use yii\web\IdentityInterface;
  * @property integer $user_id
  * @property string  $entity
  * @property string  $entity_id
- * @property string  $originalUrl
+ * @property string  $original_url
  * @property string  $video_title
  * @property integer $date_update
  * @property integer $date_create
@@ -70,7 +70,7 @@ class Video extends ActiveRecord
             'userId'      => 'Пользователь',
             'entity'      => 'Сущность',
             'entity_id'   => 'ID сущности',
-            'originalUrl' => 'url',
+            'original_url' => 'url',
             'video_title' => 'Заголовок видео',
             'date_update' => 'Date Update',
             'date_create' => 'Date Create',
@@ -123,7 +123,7 @@ class Video extends ActiveRecord
 
         $this->entity = $entity;
         $this->entity_id = $entity_id;
-        $this->originalUrl = $url;
+        $this->original_url = $url;
         return $this;
     }
 }

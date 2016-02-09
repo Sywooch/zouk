@@ -16,8 +16,7 @@ $this->title = Lang::t('page/listEdit', 'title');
 
 $this->params['breadcrumbs'][] = $this->title;
 
-/** @var Video[] $videos */
-$videos = $item->getVideoModels();
+$videos = $item->videos;
 ?>
 <div id="item-header">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -38,7 +37,7 @@ $videos = $item->getVideoModels();
                 foreach ($videos as $video) {
                     ?>
                     <div class="input-group margin-bottom">
-                        <input type="text" name="videos[]" class="form-control" value="<?= $video->originalUrl ?>" />
+                        <input type="text" name="videos[]" class="form-control" value="<?= $video->original_url ?>" />
                         <span type="submit" class=" input-group-addon btn btn-default">X</span>
                     </div>
                     <?php

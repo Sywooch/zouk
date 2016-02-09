@@ -94,14 +94,6 @@ class Item extends VoteModel
         return $this->like_count;
     }
 
-    /**
-     * @return Video[]
-     */
-    public function getVideoModels()
-    {
-        return $this->getVideos()->all();
-    }
-
     public function getVideos()
     {
         return $this->hasMany(Video::className(), ['id' => 'video_id'])

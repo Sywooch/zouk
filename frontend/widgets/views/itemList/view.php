@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $url = Url::to(['list/view', 'id' => $item->id]);
+$videos = $item->videos;
 ?>
 <div id="item-<?= $item->id ?>" class="row block-item-summary">
     <div class="col-lg-1">
@@ -27,6 +28,22 @@ $url = Url::to(['list/view', 'id' => $item->id]);
     <div class="col-lg-11">
         <div class="summary">
             <h3><?= Html::a($item->title, $url, ['class' => 'item-hyperlink']) ?></h3>
+        </div>
+        <div>
+            <?php
+            /** @var \common\models\Video[] $videos */
+            foreach ($videos as $video) {
+                ?>
+                <div>
+                    <?= Html::a(
+                        '<i class="glyphicon glyphicon-facetime-video"></i> ' . $video->video_title,
+                        $video->original_url,
+                        ['target' => '_blank']
+                    ) ?>
+                </div>
+                <?php
+            }
+            ?>
         </div>
 
         <div class="started">

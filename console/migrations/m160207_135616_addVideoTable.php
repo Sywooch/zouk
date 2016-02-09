@@ -17,7 +17,7 @@ class m160207_135616_addVideoTable extends Migration
             'user_id'     => Schema::TYPE_INTEGER . ' NOT NULL',
             'entity'      => Schema::TYPE_STRING . ' NOT NULL',
             'entity_id'   => Schema::TYPE_STRING . ' NOT NULL',
-            'originalUrl' => Schema::TYPE_STRING . ' NOT NULL',
+            'original_url' => Schema::TYPE_STRING . ' NOT NULL',
             'date_update' => Schema::TYPE_INTEGER . ' NOT NULL',
             'date_create' => Schema::TYPE_INTEGER . ' NOT NULL',
         ], $tableOptions);
