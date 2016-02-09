@@ -70,6 +70,14 @@ return [
                 "en",
             ],
         ],
+        'cloudinary'   => [
+            'class'  => 'common\components\CloudinaryComponent',
+            'params' => [
+                "cloud_name" => "dxommcjde",
+                "api_key"    => "659157529696934",
+                "api_secret" => "gkCIstEVyTmxPngwCwz9bEtYiQk",
+            ],
+        ],
     ],
     'params'              => $params,
 ];
