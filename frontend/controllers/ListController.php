@@ -50,6 +50,7 @@ class ListController extends Controller
     {
         $item = new Item();
         if ($item->load(Yii::$app->request->post())) {
+            $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
             $item->user_id = Yii::$app->user->identity->getId();
             $item->like_count = 0;
             $item->show_count = 0;
@@ -89,6 +90,7 @@ class ListController extends Controller
         /** @var Item $item */
         $item = Item::findOne($id);
         if ($item && $item->load(Yii::$app->request->post())) {
+            $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
             if ($item->save()) {
                 ItemVideo::deleteAll(['item_id' => $item->id]);
                 // Добавление видео к записи

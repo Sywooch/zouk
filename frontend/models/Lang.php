@@ -125,4 +125,13 @@ class Lang extends \yii\db\ActiveRecord
             return ($p === []) ? $message : strtr($message, $p);
         }
     }
+
+    static function tinymcSrcLang($language = null)
+    {
+        if (Yii::$app !== null) {
+            $language = $language ?: Yii::$app->language;
+            return '/js/tinymcLang/' . $language . '.js';
+        }
+    }
+
 }

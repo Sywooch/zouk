@@ -10,7 +10,10 @@ use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
+$this->registerJsFile('//cdn.tinymce.com/4/tinymce.min.js');
+$this->registerJsFile(Yii::$app->request->baseUrl . Lang::tinymcSrcLang(), ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/videoEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/edit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $this->title = Lang::t('page/listEdit', 'title');
 
@@ -24,7 +27,7 @@ $videos = $item->videos;
 <div>
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-9">
             <?php $form = ActiveForm::begin(['id' => 'list-add-form']); ?>
 
             <?= $form->field($item, 'title')->label(Lang::t('page/listEdit', 'fieldTitle')) ?>

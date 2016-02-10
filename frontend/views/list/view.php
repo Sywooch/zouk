@@ -71,7 +71,9 @@ $url = Url::to(['list/view', 'id' => $item->id]);
     </div>
     <div class="col-lg-11">
         <div class="item-text">
-            <?= Html::encode($item->description) ?>
+            <?php
+            echo \yii\helpers\HtmlPurifier::process($item->description, []);
+            ?>
         </div>
         <?php
         $videos = $item->videos;
