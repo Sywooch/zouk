@@ -175,8 +175,14 @@ a.desc:after {
     font-size: 2em;
 }
 
+
+.vote-down-link,
+.vote-up-link {
+    color: #737373;
+}
+
 .voted {
-    color: #c67605;
+    color: #FF5400;
 }
 
 @media (min-width: 520px) {

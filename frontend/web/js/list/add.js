@@ -19,4 +19,16 @@ $(document).ready(function () {
         ],
 
     });
+
+    tags = [];
+    if (typeof jsZoukVar['tagsAll'] != "undefined") {
+        tags = jsZoukVar['tagsAll'];
+    }
+    $('#tokenfield').tokenfield({
+        autocomplete: {
+            source: tags,
+            delay: 100
+        },
+        showAutocompleteOnFocus: true
+    })
 });

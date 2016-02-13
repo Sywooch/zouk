@@ -63,6 +63,7 @@ class ListController extends Controller
                 return Yii::$app->getResponse()->redirect(Url::to(['list/view', 'id' => $item->id]));
             }
         }
+        Yii::$app->params['jsZoukVar']['tagsAll'] = ['red'];
 
         return $this->render(
             'add',

@@ -8,11 +8,14 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Url;
+use yii\web\View;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
+$var = isset(Yii::$app->params['jsZoukVar']) ? Yii::$app->params['jsZoukVar'] : ["hello"];
+$this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -31,23 +34,22 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => 'Brazilian Zouk',
         'brandUrl'   => Yii::$app->homeUrl,
         'options'    => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => Lang::t('main', 'about'), 'url' => ['/site/about']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => Lang::t('main', 'signup'), 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => Lang::t('main', 'login'), 'url' => ['/site/login']];
     } else {
+        $menuItems[] = ['label' => Lang::t('main', 'profile'), 'url' => ['/site/profile']];
         $menuItems[] = [
-            'label'       => 'Logout (' . Yii::$app->user->identity->username . ')',
+            'label'       => Lang::t('main', 'logout', [Yii::$app->user->identity->username]),
             'url'         => ['/site/logout'],
             'linkOptions' => ['data-method' => 'post'],
         ];
@@ -63,13 +65,18 @@ AppAsset::register($this);
         <?= Alert::widget() ?>
         <div class="row">
             <div class="col-md-12">
-                <a href="<?= Url::home() ?>"><img src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>" height="100px"/></a>
+                <a href="<?= Url::home() ?>"><img src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>"
+                                                  height="100px"/></a>
                 <div class="main-button-block">
                     <?php
-                    echo Html::button(Lang::t('main', 'mainButtonList'), ['class' => 'btn btn-default']), " ";
-                    echo Html::button(Lang::t('main', 'mainButtonTags'), ['class' => 'btn btn-default']), " ";
-                    echo Html::button(Lang::t('main', 'mainButtonEvents'), ['class' => 'btn btn-default']), " ";
-                    echo Html::button(Lang::t('main', 'mainButtonSchools'), ['class' => 'btn btn-default']), " ";
+                    echo Html::a(
+                        Lang::t('main', 'mainButtonList'),
+                        Url::home(),
+                        ['class' => 'btn btn-default']
+                    ), " ";
+                    //                    echo Html::button(Lang::t('main', 'mainButtonTags'), ['class' => 'btn btn-default']), " ";
+                    //                    echo Html::button(Lang::t('main', 'mainButtonEvents'), ['class' => 'btn btn-default']), " ";
+                    //                    echo Html::button(Lang::t('main', 'mainButtonSchools'), ['class' => 'btn btn-default']), " ";
                     if (!Yii::$app->user->isGuest) {
                         echo Html::a(
                             Lang::t('main', 'mainButtonAddRecord'),

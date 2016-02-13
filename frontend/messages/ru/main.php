@@ -11,4 +11,10 @@ return [
     'listTabWeek'    => 'Неделя',
     'listTabMonth'   => 'Месяц',
 
+    'about'   => 'О сайте',
+    'profile' => 'Профиль',
+    'signup'  => 'Регистрация',
+    'login'   => 'Войти',
+    'logout'  => 'Выйти ({0})',
+
 ];
