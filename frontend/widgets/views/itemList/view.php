@@ -2,11 +2,13 @@
 /**
  * @var \common\models\Item $item
  */
+use common\models\Tags;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
 $url = Url::to(['list/view', 'id' => $item->id]);
 $videos = $item->videos;
+$tags = $item->tagEntity;
 ?>
 <div id="item-<?= $item->id ?>" class="row block-item-summary">
     <div class="col-lg-1">
@@ -42,6 +44,15 @@ $videos = $item->videos;
                     ) ?>
                 </div>
                 <?php
+            }
+            ?>
+        </div>
+        <div>
+            <?php
+            foreach ($tags as $tag) {
+                /** @var Tags $tagItem */
+                $tagItem = $tag->tags;
+                echo Html::tag('span', $tagItem->name, ['class' => 'label label-primary']), " ";
             }
             ?>
         </div>

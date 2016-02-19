@@ -81,7 +81,12 @@ class Item extends VoteModel
 
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['user_id' => 'id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getTagEntity()
+    {
+        return $this->hasMany(TagEntity::className(), ['entity_id' => 'id'])->andOnCondition([TagEntity::tableName() .  '.entity' => TagEntity::ENTITY_ITEM]);
     }
 
     public function addVote($changeVote)
@@ -126,5 +131,18 @@ class Item extends VoteModel
                 }
             }
         }
+    }
+
+    public function saveTags($tags)
+    {
+        foreach ($tags as $tag) {
+            TagEntity::addTag(trim($tag), Tags::TAG_GROUP_ALL, TagEntity::ENTITY_ITEM, $this->id);
+        }
+    }
+
+    public function addShowCount()
+    {
+        $this->show_count++;
+        $this->save();
     }
 }

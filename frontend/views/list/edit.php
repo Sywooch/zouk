@@ -10,8 +10,13 @@ use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
+// tinymce
 $this->registerJsFile('//cdn.tinymce.com/4/tinymce.min.js');
 $this->registerJsFile(Yii::$app->request->baseUrl . Lang::tinymcSrcLang(), ['depends' => [\yii\web\JqueryAsset::className()]]);
+// Tags
+$this->registerJsFile(Yii::$app->request->baseUrl . '/component/bootstrap-tokenfield/bootstrap-tokenfield.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerCssFile(Yii::$app->request->baseUrl . '/component/bootstrap-tokenfield/bootstrap-tokenfield.min.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/videoEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/edit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
@@ -20,6 +25,13 @@ $this->title = Lang::t('page/listEdit', 'title');
 $this->params['breadcrumbs'][] = $this->title;
 
 $videos = $item->videos;
+$tags = $item->tagEntity;
+$tagValues = [];
+foreach ($tags as $tag) {
+    $tagItem = $tag->tags;
+    $tagValues[] = $tagItem->name;
+}
+$tagValue = join(',', $tagValues);
 ?>
 <div id="item-header">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -48,6 +60,11 @@ $videos = $item->videos;
                 ?>
             </div>
             <a id="addVideoButton" class="btn btn-success margin-bottom">+</a>
+
+            <div class="input-group margin-bottom">
+                <span class="input-group-addon" id="basic-addon1">Метки</span>
+                <?= Html::textInput('tags', $tagValue, array('id' => 'tokenfield', 'data-tokens' => $tagValue, 'class' => 'form-control')) ?>
+            </div>
 
             <div class="form-group">
                 <?= Html::submitButton(Lang::t('page/listEdit', 'buttonAdd'), ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>

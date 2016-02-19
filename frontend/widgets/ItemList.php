@@ -28,7 +28,7 @@ class ItemList extends \yii\bootstrap\Widget
             ->limit(10)
             ->from(["t" => Item::tableName()])
             ->where('t.id > :id', [':id' => $lastId])
-            ->joinWith('videos')
+            ->joinWith(['videos', 'tagEntity', 'tagEntity.tags'])
             ->all();
     }
 }

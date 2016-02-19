@@ -8,12 +8,13 @@ use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
+// tinymce
 $this->registerJsFile('//cdn.tinymce.com/4/tinymce.min.js');
 $this->registerJsFile(Yii::$app->request->baseUrl . Lang::tinymcSrcLang(), ['depends' => [\yii\web\JqueryAsset::className()]]);
-
-
+// Tags
 $this->registerJsFile(Yii::$app->request->baseUrl . '/component/bootstrap-tokenfield/bootstrap-tokenfield.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerCssFile(Yii::$app->request->baseUrl . '/component/bootstrap-tokenfield/bootstrap-tokenfield.min.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/videoEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/add.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
@@ -34,18 +35,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($item, 'description')->textarea()->label(Lang::t('page/listAdd', 'fieldDescription')) ?>
 
-            <h4>Видео:</h4>
+            <h4>Видео: <a id="addVideoButton" class="btn btn-success margin-bottom">Добавить <i class="glyphicon glyphicon-facetime-video"></i></a></h4>
             <div id="blockVideos">
 
             </div>
-            <a id="addVideoButton" class="btn btn-success margin-bottom">+</a>
+
 
             <div class="input-group margin-bottom">
                 <span class="input-group-addon" id="basic-addon1">Метки</span>
-                <?= Html::textInput('Video[tags]', '', array('id' => 'tokenfield', 'data-tokens' => '', 'class' => 'form-control')) ?>
+                <?= Html::textInput('tags', '', array('id' => 'tokenfield', 'data-tokens' => '', 'class' => 'form-control')) ?>
             </div>
-
-
 
             <div class="form-group">
                 <?= Html::submitButton(Lang::t('page/listAdd', 'buttonAdd'), ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>

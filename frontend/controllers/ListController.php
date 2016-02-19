@@ -3,6 +3,8 @@ namespace frontend\controllers;
 
 use common\models\Item;
 use common\models\ItemVideo;
+use common\models\TagEntity;
+use common\models\Tags;
 use common\models\User;
 use common\models\Video;
 use common\models\Vote;
@@ -60,10 +62,17 @@ class ListController extends Controller
                 if (!empty($videosUrl) && is_array($videosUrl)) {
                     $item->saveVideos($videosUrl, $item->user_id);
                 }
+                // Добавляем теги
+                $tags = explode(',', Yii::$app->request->post('tags'));
+                if (is_array($tags)) {
+                    $item->saveTags($tags);
+                }
+
+
                 return Yii::$app->getResponse()->redirect(Url::to(['list/view', 'id' => $item->id]));
             }
         }
-        Yii::$app->params['jsZoukVar']['tagsAll'] = ['red'];
+        Yii::$app->params['jsZoukVar']['tagsAll'] = Tags::getTags(Tags::TAG_GROUP_ALL);
 
         return $this->render(
             'add',
@@ -74,6 +83,7 @@ class ListController extends Controller
     public function actionView($id)
     {
         $item = Item::findOne((int)$id);
+        $item->addShowCount();
         $thisUser = User::thisUser();
         $vote = !empty($thisUser) ? $thisUser->getVoteByEntity(Vote::ENTITY_ITEM, $id) : null;
 
@@ -99,9 +109,18 @@ class ListController extends Controller
                 if (!empty($videosUrl) && is_array($videosUrl)) {
                     $item->saveVideos($videosUrl, $item->user_id);
                 }
+
+                TagEntity::deleteAll(['entity' => TagEntity::ENTITY_ITEM, 'entity_id' => $item->id]);
+                $tags = explode(',', Yii::$app->request->post('tags'));
+                if (is_array($tags)) {
+                    $item->saveTags($tags);
+                }
+
+
                 return Yii::$app->getResponse()->redirect(Url::to(['list/view', 'id' => $id]));
             }
         }
+        Yii::$app->params['jsZoukVar']['tagsAll'] = Tags::getTags(Tags::TAG_GROUP_ALL);
 
         return $this->render(
             'edit',

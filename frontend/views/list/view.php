@@ -84,5 +84,16 @@ $url = Url::to(['list/view', 'id' => $item->id]);
             echo \frontend\widgets\VideosWidget::widget(['videos' => $videos]);
         }
         ?>
+        <br/>
+        <div>
+            <?php
+            $tags = $item->tagEntity;
+            $tagValues = [];
+            foreach ($tags as $tag) {
+                $tagItem = $tag->tags;
+                echo Html::tag('span', $tagItem->name, ['class' => 'label label-primary']), " ";
+            }
+            ?>
+        </div>
     </div>
 </div>
