@@ -178,7 +178,7 @@ class Item extends VoteModel
         if ($this->alias) {
             return Url::to(['list/view', 'alias' => $this->alias]);
         } else {
-            return Url::to(['list/view', 'id' => $this->id]);
+            return Url::to(['list/view', 'index' => $this->id]);
         }
     }
 }

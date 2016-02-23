@@ -84,7 +84,7 @@ class ListController extends Controller
     public function actionView()
     {
         $item = null;
-        if ($id = Yii::$app->request->get('id', null)) {
+        if ($id = Yii::$app->request->get('index', null)) {
             $item = Item::findOne((int)$id);
         } else {
             $alias = Yii::$app->request->get('alias', null);
