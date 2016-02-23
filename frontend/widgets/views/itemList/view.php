@@ -1,16 +1,17 @@
 <?php
 /**
- * @var \common\models\Item $item
+ * @var Item $item
  */
+use common\models\Item;
 use common\models\Tags;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$url = Url::to(['list/view', 'id' => $item->id]);
+$url = $item->getUrl();
 $videos = $item->videos;
 $tags = $item->tagEntity;
 ?>
-<div id="item-<?= $item->id ?>" class="row block-item-summary">
+<div id="item-<?= $item->id ?>" data-id="<?= $item->id ?>" class="row block-item-summary margin-bottom">
     <div class="col-lg-1">
         <div class="cp" onclick="window.location.href='<?= $url ?>'">
             <div class="votes">

@@ -74,6 +74,10 @@ class Lang extends \yii\db\ActiveRecord
     //Получение текущего объекта языка
     static function getCurrent()
     {
+        $cookies = \Yii::$app->response->cookies;
+        if ($cookies->has('language')) {
+            self::$current = Lang::getLangByUrl($cookies->get('language'));
+        }
         if (self::$current === null) {
             self::$current = self::getDefaultLang();
         }
@@ -84,7 +88,17 @@ class Lang extends \yii\db\ActiveRecord
     static function setCurrent($url = null)
     {
         $language = self::getLangByUrl($url);
-        self::$current = ($language === null) ? self::getDefaultLang() : $language;
+        if ($language === null) {
+            $cookiesRequest = \Yii::$app->request->cookies;
+            if ($cookiesRequest->has('language')) {
+                $language = self::getLangByUrl($cookiesRequest->get('language'));
+            }
+        }
+        self::$current = empty($language) ? self::getDefaultLang() : $language;
+        \Yii::$app->response->cookies->add(new \yii\web\Cookie([
+            'name'  => 'language',
+            'value' => $language->url,
+        ]));
         Yii::$app->language = self::$current->local;
     }
 

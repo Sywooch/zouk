@@ -35,6 +35,7 @@ return [
             'class'               => 'frontend\components\LangUrlManager',
             'rules'               => [
                 '/'                                                            => 'site/index',
+                'list/view/<alias:[\w-]+>'                                     => 'list/view',
                 'POST vote/add'                                                => 'vote/add',
                 'vote/<action:[\w-]+>/<entity:[\w-]+>/<id:[\d+]>/<vote:[\d+]>' => 'vote/<action>',
                 '<controller:[\w-]+>/<action:[\w-]+>/<id:[\d+]>'               => '<controller>/<action>',

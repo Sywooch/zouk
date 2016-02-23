@@ -171,6 +171,11 @@ a.desc:after {
     font-size: 2em;
 }
 
+.glyphicon.glyphicon-triangle-left,
+.glyphicon.glyphicon-triangle-right {
+    font-size: 1.5em;
+}
+
 .vote-count-item {
     font-size: 2em;
 }

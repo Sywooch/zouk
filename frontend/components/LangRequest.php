@@ -31,7 +31,6 @@ class LangRequest extends Request
                 }
             }
         }
-
         return $this->_lang_url;
     }
 

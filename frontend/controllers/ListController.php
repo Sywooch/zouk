@@ -8,6 +8,7 @@ use common\models\Tags;
 use common\models\User;
 use common\models\Video;
 use common\models\Vote;
+use frontend\widgets\ItemList;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -80,9 +81,16 @@ class ListController extends Controller
         );
     }
 
-    public function actionView($id)
+    public function actionView()
     {
-        $item = Item::findOne((int)$id);
+        $item = null;
+        if ($id = Yii::$app->request->get('id', null)) {
+            $item = Item::findOne((int)$id);
+        } else {
+            $alias = Yii::$app->request->get('alias', null);
+            $item = Item::findOne(['alias' => $alias]);
+        }
+
         $item->addShowCount();
         $thisUser = User::thisUser();
         $vote = !empty($thisUser) ? $thisUser->getVoteByEntity(Vote::ENTITY_ITEM, $id) : null;
@@ -117,7 +125,7 @@ class ListController extends Controller
                 }
 
 
-                return Yii::$app->getResponse()->redirect(Url::to(['list/view', 'id' => $id]));
+                return Yii::$app->getResponse()->redirect($item->getUrl());
             }
         }
         Yii::$app->params['jsZoukVar']['tagsAll'] = Tags::getTags(Tags::TAG_GROUP_ALL);
@@ -127,4 +135,22 @@ class ListController extends Controller
             ['item' => $item]
         );
     }
+
+    public function actionItems()
+    {
+        $lastId = Yii::$app->request->post('lastId', 0);
+        $order = Yii::$app->request->post('order', ItemList::ORDER_BY_ID);
+        return ItemList::widget(['lastId' => $lastId, 'onlyItem' => true, 'orderBy' => $order]);
+    }
+
+    public function actionWeek()
+    {
+        return $this->render('listWeek', []);
+    }
+
+    public function actionMonth()
+    {
+        return $this->render('listMonth', []);
+    }
+    
 }

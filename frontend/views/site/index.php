@@ -3,21 +3,18 @@
 /* @var $this yii\web\View */
 
 use frontend\models\Lang;
+use frontend\widgets\ItemList;
+use yii\bootstrap\Html;
+use yii\helpers\Url;
 
 $this->title = Lang::t('main/index', 'title');
+
+echo $this->render('/list/tabs', ['selectTab' => 1]);
 ?>
-<br/>
-<div class="">
-    <ul class="nav nav-tabs">
-        <li class="navbar-right"><a href="#"><?= Lang::t('main', 'listTabMonth') ?></a></li>
-        <li class="navbar-right"><a href="#"><?= Lang::t('main', 'listTabWeek') ?></a></li>
-        <li class="active navbar-right"><a href="#"><?= Lang::t('main', 'listTabCurrent') ?></a></li>
-    </ul>
-</div>
 <div class="site-index">
     <div class="body-content">
 
-        <?= \frontend\widgets\ItemList::widget([]) ?>
+        <?= ItemList::widget(['orderBy' => ItemList::ORDER_BY_ID]) ?>
 
     </div>
 </div>

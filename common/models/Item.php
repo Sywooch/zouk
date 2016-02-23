@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
 /**
@@ -16,6 +17,7 @@ use yii\web\IdentityInterface;
  * @property string  $description
  * @property int     $like_count
  * @property int     $show_count
+ * @property string  $alias
  * @property integer $date_update
  * @property integer $date_create
  */
@@ -56,7 +58,7 @@ class Item extends VoteModel
         return [
             [['title', 'description'], 'default', 'value' => ''],
             [['date_update', 'date_create'], 'integer'],
-            [['title'], 'string', 'max' => 255],
+            [['title', 'alias'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 2048],
         ];
     }
@@ -74,6 +76,7 @@ class Item extends VoteModel
             'description' => 'Описание',
             'likeCount'   => 'Голосов',
             'showCount'   => 'Показов',
+            'alias'       => 'Алиас',
             'date_update' => 'Date Update',
             'date_create' => 'Date Create',
         ];
@@ -144,5 +147,38 @@ class Item extends VoteModel
     {
         $this->show_count++;
         $this->save();
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->alias == "") {
+                $title = $this->encodestring($this->title);
+                $alias = $this->toAscii($title);
+                $baseAlias = substr($alias, 0, 250);
+                $alias = $baseAlias;
+                $i = 1;
+                while ($findItem = Item::find()->where(['alias' => $alias])->andWhere('id <> :id', [':id' => $this->id])->all()) {
+                    $alias = $baseAlias . '-' . $i;
+                    $i++;
+                    if ($i > 30) {
+                        $alias = '';
+                        break;
+                    }
+                }
+                $this->alias = $alias;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public function getUrl()
+    {
+        if ($this->alias) {
+            return Url::to(['list/view', 'alias' => $this->alias]);
+        } else {
+            return Url::to(['list/view', 'id' => $this->id]);
+        }
     }
 }
