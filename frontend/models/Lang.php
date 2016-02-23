@@ -94,7 +94,8 @@ class Lang extends \yii\db\ActiveRecord
                 $language = self::getLangByUrl($cookiesRequest->get('language'));
             }
         }
-        self::$current = empty($language) ? self::getDefaultLang() : $language;
+        $language = empty($language) ? self::getDefaultLang() : $language;
+        self::$current = $language;
         \Yii::$app->response->cookies->add(new \yii\web\Cookie([
             'name'  => 'language',
             'value' => $language->url,

@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $(document).on('click', '.vote-up-link, .vote-down-link', function() {
         var $this = $(this);
-        var $voteBlock = $this.closest('.vote-block');
+        var $voteBlock = $('.vote-block');
         var url = $this.data('href');
         var data = {
             entity: $this.data('entity'),
