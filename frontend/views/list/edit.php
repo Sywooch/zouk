@@ -40,7 +40,7 @@ $tagValue = join(',', $tagValues);
 
     <div class="row">
         <div class="col-lg-9">
-            <?php $form = ActiveForm::begin(['id' => 'list-add-form']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'list-edit-form']); ?>
 
             <?= $form->field($item, 'title')->label(Lang::t('page/listEdit', 'fieldTitle')) ?>
 
