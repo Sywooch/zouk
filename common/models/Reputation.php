@@ -28,6 +28,7 @@ class Reputation extends ActiveRecord
     const ENTITY_VOTE_DISLIKE_SELF_ITEM_CANCEL  = 'voteDislikeSelfItemCancel';
     const ENTITY_VOTE_DISLIKE_OTHER_ITEM        = 'voteDislikeOtherItem';
     const ENTITY_VOTE_DISLIKE_OTHER_ITEM_CANCEL = 'voteDislikeOtherItemCancel';
+    const ENTITY_VOTE_LIKE_OTHER_ITEM           = 'voteLikeOtherItem';
 
     public static function notSelfChange()
     {
@@ -135,6 +136,9 @@ class Reputation extends ActiveRecord
             $params['value'] = -1;
         } else if ($entity == self::ENTITY_VOTE_DISLIKE_OTHER_ITEM_CANCEL) {
             $params['msg'] = "Отмена: Не понравилась запись {$pItemId}.";
+            $params['value'] = 1;
+        } else if ($entity == self::ENTITY_VOTE_LIKE_OTHER_ITEM) {
+            $params['msg'] = "Понравилась запись {$pItemId}.";
             $params['value'] = 1;
         }
 

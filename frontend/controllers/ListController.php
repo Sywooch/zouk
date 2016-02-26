@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Alarm;
 use common\models\Item;
 use common\models\ItemVideo;
 use common\models\TagEntity;
@@ -8,6 +9,7 @@ use common\models\Tags;
 use common\models\User;
 use common\models\Video;
 use common\models\Vote;
+use frontend\models\Lang;
 use frontend\widgets\ItemList;
 use Yii;
 use common\models\LoginForm;
@@ -36,10 +38,10 @@ class ListController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['add', 'edit'],
+                'only'  => ['add', 'edit', 'delete', 'alarm'],
                 'rules' => [
                     [
-                        'actions' => ['add', 'edit'],
+                        'actions' => ['add', 'edit', 'delete', 'alarm'],
                         'allow'   => true,
                         'roles'   => ['@'],
                     ],
@@ -51,6 +53,9 @@ class ListController extends Controller
 
     public function actionAdd()
     {
+        if (User::thisUser()->reputation < Item::MIN_REPUTATION_ITEM_CREATE) {
+            return Yii::$app->getResponse()->redirect(Url::home());
+        }
         $item = new Item();
         if ($item->load(Yii::$app->request->post())) {
             $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
@@ -70,7 +75,7 @@ class ListController extends Controller
                 }
 
 
-                return Yii::$app->getResponse()->redirect(Url::to(['list/view', 'id' => $item->id]));
+                return Yii::$app->getResponse()->redirect($item->getUrl());
             }
         }
         Yii::$app->params['jsZoukVar']['tagsAll'] = Tags::getTags(Tags::TAG_GROUP_ALL);
@@ -86,9 +91,15 @@ class ListController extends Controller
         $item = null;
         if ($id = Yii::$app->request->get('index', null)) {
             $item = Item::findOne((int)$id);
+        } elseif ($id = Yii::$app->request->get('id', null)) {
+            $item = Item::findOne((int)$id);
         } else {
             $alias = Yii::$app->request->get('alias', null);
             $item = Item::findOne(['alias' => $alias]);
+        }
+
+        if ($item->deleted) {
+            return $this->render('viewDeleted');
         }
 
         $item->addShowCount();
@@ -108,6 +119,9 @@ class ListController extends Controller
     {
         /** @var Item $item */
         $item = Item::findOne($id);
+        if ($item->user_id != User::thisUser()->id || $item->deleted) {
+            return Yii::$app->getResponse()->redirect($item->getUrl());
+        }
         if ($item && $item->load(Yii::$app->request->post())) {
             $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
             if ($item->save()) {
@@ -136,6 +150,20 @@ class ListController extends Controller
         );
     }
 
+    public function actionDelete($id)
+    {
+        /** @var Item $item */
+        $item = Item::findOne($id);
+        if ($item && $item->user_id == User::thisUser()->id) {
+            $item->deleted = 1;
+            if ($item->save()) {
+                return Yii::$app->getResponse()->redirect(Url::home());
+            };
+        }
+
+        return Yii::$app->getResponse()->redirect($item->getUrl());
+    }
+
     public function actionItems()
     {
         $lastId = Yii::$app->request->post('lastId', 0);
@@ -151,6 +179,21 @@ class ListController extends Controller
     public function actionMonth()
     {
         return $this->render('listMonth', []);
+    }
+
+    public function actionAlarm()
+    {
+        $id = Yii::$app->request->post('id');
+        $msg = Yii::$app->request->post('msg');
+        $item = Item::findOne($id);
+        if ($item && !empty($msg)) {
+            if (Alarm::addAlarm(Alarm::ENTITY_ITEM, $item->id, $msg)) {
+                $resultMsg = Lang::t('page/listView', 'msgAlarmResultTrue');
+            } else {
+                $resultMsg = Lang::t('page/listView', 'msgAlarmResultFalse');
+            }
+            return json_encode(['msg' => $resultMsg]);
+        }
     }
     
 }

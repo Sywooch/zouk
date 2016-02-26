@@ -44,9 +44,7 @@ class ItemList extends \yii\bootstrap\Widget
 
     public function getAllItems($lastId = 0, $orderBy = self::ORDER_BY_ID, $dateCreateType = self::DATE_CREATE_LAST)
     {
-        $query = Item::find()->from(["t" => Item::tableName()]);
-        $condition = [];
-        $params = [];
+        $query = Item::find()->from(["t" => Item::tableName()])->andWhere('t.deleted = 0');
         if ($lastId != 0) {
             $query = $query->andWhere('t.id < :id', [':id' => $lastId]);
         }

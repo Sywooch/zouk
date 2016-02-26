@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use frontend\models\Lang;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -99,6 +100,16 @@ class Vote extends ActiveRecord
         $model = null;
         if ($entity == self::ENTITY_ITEM) {
             $model = Item::findOne($id);
+            if ($user->reputation < Item::MIN_REPUTATION_ITEM_VOTE) {
+                // Если только пользователь не отменяет свои дизлайки
+                if (!($vote->vote == self::VOTE_DOWN && $voteAdd == self::VOTE_DOWN)) {
+                    return [
+                        'vote' => 0,
+                        'count' => $model->getVoteCount(),
+                        'error' => Lang::t('ajax', 'noReputationVote'),
+                    ];
+                }
+            }
         }
 
 
@@ -149,6 +160,13 @@ class Vote extends ActiveRecord
                     $vote->vote = self::VOTE_UP;
                     $model->addVote(1);
                     Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_LIKE_SELF_ITEM, $paramsSelf); // + хозяину записи за лайк
+                    // Если раньше не было оценки, пользователь ставит лайк и его репутация маленькая, тогда добавим ему репутации
+                    if ($user->reputation < Item::MAX_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE &&
+                        $user->reputation > Item::MIN_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE
+                    ) {
+                        Reputation::addReputation($user->id, Reputation::ENTITY_VOTE_LIKE_OTHER_ITEM, $paramsOther); // + текущему пользователю за лайк
+                    }
+                    
                 } else {
                     // ставим down
                     $vote->vote = self::VOTE_DOWN;

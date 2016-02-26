@@ -3,6 +3,7 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use common\models\User;
 use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
@@ -41,16 +42,16 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
         ],
     ]);
     $menuItems = [
-        ['label' => Lang::t('main', 'about'), 'url' => ['/site/about']],
+        ['label' => Lang::t('main', 'about'), 'url' => ['site/about']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => Lang::t('main', 'signup'), 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => Lang::t('main', 'login'), 'url' => ['/site/login']];
+        $menuItems[] = ['label' => Lang::t('main', 'signup'), 'url' => ['site/signup']];
+        $menuItems[] = ['label' => Lang::t('main', 'login'), 'url' => ['site/login']];
     } else {
-        $menuItems[] = ['label' => Lang::t('main', 'profile'), 'url' => ['/site/profile']];
+        $menuItems[] = ['label' => Lang::t('main', 'profile', [User::thisUser()->reputation]), 'url' => ['account/profile']];
         $menuItems[] = [
-            'label'       => Lang::t('main', 'logout', [Yii::$app->user->identity->username]),
-            'url'         => ['/site/logout'],
+            'label'       => Lang::t('main', 'logout', [User::thisUser()->username]),
+            'url'         => ['site/logout'],
             'linkOptions' => ['data-method' => 'post'],
         ];
     }
@@ -77,13 +78,11 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
                     //                    echo Html::button(Lang::t('main', 'mainButtonTags'), ['class' => 'btn btn-default']), " ";
                     //                    echo Html::button(Lang::t('main', 'mainButtonEvents'), ['class' => 'btn btn-default']), " ";
                     //                    echo Html::button(Lang::t('main', 'mainButtonSchools'), ['class' => 'btn btn-default']), " ";
-                    if (!Yii::$app->user->isGuest) {
-                        echo Html::a(
-                            Lang::t('main', 'mainButtonAddRecord'),
-                            ['/list/add'],
-                            ['class' => 'btn btn-default']
-                        ), " ";
-                    }
+                    echo Html::a(
+                        Lang::t('main', 'mainButtonAddRecord'),
+                        ['/list/add'],
+                        ['class' => 'btn btn-default']
+                    ), " ";
                     ?>
                 </div>
             </div>

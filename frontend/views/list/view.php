@@ -96,7 +96,7 @@ $url = $item->getUrl();
         }
         ?>
         <br/>
-        <div>
+        <div class="margin-bottom">
             <?php
             $tags = $item->tagEntity;
             $tagValues = [];
@@ -104,6 +104,30 @@ $url = $item->getUrl();
                 $tagItem = $tag->tags;
                 echo Html::tag('span', $tagItem->name, ['class' => 'label label-primary']), " ";
             }
+            ?>
+        </div>
+        <div>
+            <?php
+            if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $item->user_id) {
+                echo Html::a(
+                    Lang::t('page/listView', 'delete'),
+                    Url::to(['list/delete', 'id' => $item->id]),
+                    [
+                        'id'               => 'delete-item',
+                        'data-msg-confirm' => Lang::t('page/listView', 'deleteConfirm'),
+                    ]
+                ), ' ';
+            }
+            echo Html::a(
+                Lang::t('page/listView', 'alarm'),
+                Url::to(['list/alarm']),
+                [
+                    'id'             => 'alarm-item',
+                    'data-href'      => Url::to(['list/alarm']),
+                    'data-msg-alarm' => Lang::t('page/listView', 'msgAlarm'),
+                    'data-id'        => $item->id,
+                ]
+            ), ' ';
             ?>
         </div>
     </div>

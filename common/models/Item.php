@@ -18,6 +18,7 @@ use yii\web\IdentityInterface;
  * @property int     $like_count
  * @property int     $show_count
  * @property string  $alias
+ * @property int     $deleted
  * @property integer $date_update
  * @property integer $date_create
  */
@@ -25,6 +26,11 @@ class Item extends VoteModel
 {
 
     const MAX_VIDEO_ITEM = 5;
+
+    const MIN_REPUTATION_ITEM_CREATE  = -4;
+    const MIN_REPUTATION_ITEM_VOTE    = -4;
+    const MIN_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE = -3;
+    const MAX_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE = 10;
 
     /**
      * @inheritdoc
@@ -89,7 +95,7 @@ class Item extends VoteModel
 
     public function getTagEntity()
     {
-        return $this->hasMany(TagEntity::className(), ['entity_id' => 'id'])->andOnCondition([TagEntity::tableName() .  '.entity' => TagEntity::ENTITY_ITEM]);
+        return $this->hasMany(TagEntity::className(), ['entity_id' => 'id'])->andOnCondition([TagEntity::tableName() . '.entity' => TagEntity::ENTITY_ITEM]);
     }
 
     public function addVote($changeVote)

@@ -1,5 +1,9 @@
 $(document).ready(function() {
+    var voteSending = false;
     $(document).on('click', '.vote-up-link, .vote-down-link', function() {
+        if (voteSending) {
+            return;
+        }
         var $this = $(this);
         var $voteBlock = $('.vote-block');
         var url = $this.data('href');
@@ -8,12 +12,17 @@ $(document).ready(function() {
             id: $this.data('id'),
             vote: $this.data('vote')
         };
-
+        voteSending = true;
         $.ajax({
             type: "POST",
             url: url,
             data: data,
             success: function($data) {
+                voteSending = false;
+                if (typeof $data['error'] != "undefined") {
+                    alert($data['error']);
+                    return;
+                }
                 var newVote = $data['vote'];
                 var newCount = $data['count'];
                 $voteBlock.find('.vote-up-link, .vote-down-link').removeClass('voted');
@@ -27,4 +36,38 @@ $(document).ready(function() {
             dataType: 'json'
         });
     });
+
+    $(document).on('click', '#delete-item', function(event) {
+        var $this = $(this);
+        if (confirm($this.data('msg-confirm'))) {
+            return true;
+        } else {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    $(document).on('click', '#alarm-item', function(event) {
+        var $this = $(this);
+        var msg = prompt($this.data('msg-alarm'), '');
+        var url = $this.data('href');
+        event.preventDefault();
+        if (msg != '') {
+            console.log(url);
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    id: $this.data('id'),
+                    msg: msg
+                },
+                success: function(data) {
+                    alert(data['msg']);
+                },
+                dataType: 'json'
+            })
+        }
+        return false;
+    });
+
 });
