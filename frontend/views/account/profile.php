@@ -19,14 +19,16 @@ if (empty($userAvatarUrl)) {
 ?>
 <div class="site-index">
     <div class="body-content">
-        <h1><?php
-            echo $userDisplayName;
-            echo Html::a(
-                Lang::t('page/accountProfile', 'edit'),
-                Url::to(['account/edit', 'id' => $user->id]),
-                ['class' => 'btn btn-success pull-right']
-            );
-            ?></h1>
+        <div class="col-md-12">
+            <h1><?php
+                echo $userDisplayName;
+                echo Html::a(
+                    Lang::t('page/accountProfile', 'edit'),
+                    Url::to(['account/edit', 'id' => $user->id]),
+                    ['class' => 'btn btn-success pull-right']
+                );
+                ?></h1>
+        </div>
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
                 <img src="<?= $userAvatarUrl ?>">
