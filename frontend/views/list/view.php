@@ -114,10 +114,8 @@ $url = $item->getUrl();
                     [
                         'id'               => 'delete-item',
                         'class'            => 'btn btn-link',
-                        'data-msg-confirm' => Lang::t('page/listView', 'deleteConfirm'),
                         'data-toggle'      => "modal",
                         'data-target'      => ".modal-delere-confirm",
-                        'data-href'        => Url::to(['list/delete', 'id' => $item->id]),
 
                     ]
                 ), ' ';
@@ -138,7 +136,7 @@ $url = $item->getUrl();
 </div>
 
 
-<div class="modal fade modal-delere-confirm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div class="modal fade modal-delere-confirm bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
