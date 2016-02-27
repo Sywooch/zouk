@@ -109,12 +109,16 @@ $url = $item->getUrl();
         <div>
             <?php
             if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $item->user_id) {
-                echo Html::a(
+                echo Html::button(
                     Lang::t('page/listView', 'delete'),
-                    Url::to(['list/delete', 'id' => $item->id]),
                     [
                         'id'               => 'delete-item',
+                        'class'            => 'btn btn-link',
                         'data-msg-confirm' => Lang::t('page/listView', 'deleteConfirm'),
+                        'data-toggle'      => "modal",
+                        'data-target'      => ".modal-delere-confirm",
+                        'data-href'        => Url::to(['list/delete', 'id' => $item->id]),
+
                     ]
                 ), ' ';
             }
@@ -129,6 +133,26 @@ $url = $item->getUrl();
                 ]
             ), ' ';
             ?>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade modal-delere-confirm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><?= Lang::t('page/listView', 'deleteConfirmTitle') ?></h4>
+            </div>
+            <div class="modal-body">
+                <?= Lang::t('page/listView', 'deleteConfirm') ?>
+            </div>
+            <div class="modal-footer">
+                <a href="<?= Url::to(['list/delete', 'id' => $item->id]) ?>" type="button" class="btn btn-danger"><?= Lang::t('page/listView', 'delete') ?></a>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
+            </div>
         </div>
     </div>
 </div>

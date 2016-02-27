@@ -39,12 +39,16 @@ $(document).ready(function() {
 
     $(document).on('click', '#delete-item', function(event) {
         var $this = $(this);
-        if (confirm($this.data('msg-confirm'))) {
-            return true;
-        } else {
-            event.preventDefault();
-            return false;
-        }
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        })
+        return false;
+        // if (confirm($this.data('msg-confirm'))) {
+        //     return true;
+        // } else {
+        //     event.preventDefault();
+        //     return false;
+        // }
     });
 
     $(document).on('click', '#alarm-item', function(event) {
