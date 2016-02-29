@@ -7,6 +7,7 @@ return [
     'cancel'              => 'Отмена',
     'deleteConfirmTitle'  => 'Удалить запись?',
     'deleteConfirm'       => 'Вы уверены, что хотите удалить?',
+    'modalAlarmTitle'     => '',
     'alarm'               => 'Пожаловаться',
     'msgAlarm'            => 'Напишите суть вашей жалобы',
     'msgAlarmResultTrue'  => 'Ваша жалоба отправлена.',

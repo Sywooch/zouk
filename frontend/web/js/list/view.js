@@ -37,27 +37,12 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('click', '#delete-item', function(event) {
-        var $this = $(this);
-        $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').focus()
-        })
-        return false;
-        // if (confirm($this.data('msg-confirm'))) {
-        //     return true;
-        // } else {
-        //     event.preventDefault();
-        //     return false;
-        // }
-    });
-
     $(document).on('click', '#alarm-item', function(event) {
         var $this = $(this);
-        var msg = prompt($this.data('msg-alarm'), '');
-        var url = $this.data('href');
+        var msg = $this.closest('.modal-content').find('input').val();
         event.preventDefault();
+        var url = $this.data('href');
         if (msg != '') {
-            console.log(url);
             $.ajax({
                 type: "POST",
                 url: url,
@@ -66,7 +51,7 @@ $(document).ready(function() {
                     msg: msg
                 },
                 success: function(data) {
-                    alert(data['msg']);
+                    window.location.reload();
                 },
                 dataType: 'json'
             })

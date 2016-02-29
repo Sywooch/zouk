@@ -189,8 +189,10 @@ class ListController extends Controller
         if ($item && !empty($msg)) {
             if (Alarm::addAlarm(Alarm::ENTITY_ITEM, $item->id, $msg)) {
                 $resultMsg = Lang::t('page/listView', 'msgAlarmResultTrue');
+                Yii::$app->session->setFlash('success', Lang::t('page/listView', 'msgAlarmResultTrue'));
             } else {
                 $resultMsg = Lang::t('page/listView', 'msgAlarmResultFalse');
+                Yii::$app->session->setFlash('success', Lang::t('page/listView', 'msgAlarmResultFalse'));
             }
             return json_encode(['msg' => $resultMsg]);
         }

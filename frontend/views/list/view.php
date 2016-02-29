@@ -112,22 +112,19 @@ $url = $item->getUrl();
                 echo Html::button(
                     Lang::t('page/listView', 'delete'),
                     [
-                        'id'               => 'delete-item',
-                        'class'            => 'btn btn-link',
-                        'data-toggle'      => "modal",
-                        'data-target'      => ".modal-delere-confirm",
+                        'class'       => 'btn btn-link',
+                        'data-toggle' => "modal",
+                        'data-target' => ".modal-delete-confirm",
 
                     ]
                 ), ' ';
             }
-            echo Html::a(
+            echo Html::button(
                 Lang::t('page/listView', 'alarm'),
-                Url::to(['list/alarm']),
                 [
-                    'id'             => 'alarm-item',
-                    'data-href'      => Url::to(['list/alarm']),
-                    'data-msg-alarm' => Lang::t('page/listView', 'msgAlarm'),
-                    'data-id'        => $item->id,
+                    'class'       => 'btn btn-link',
+                    'data-toggle' => "modal",
+                    'data-target' => ".modal-alarm",
                 ]
             ), ' ';
             ?>
@@ -136,20 +133,55 @@ $url = $item->getUrl();
 </div>
 
 
-<div class="modal fade modal-delere-confirm bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div class="modal fade modal-delete-confirm bs-example-modal-sm" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel"><?= Lang::t('page/listView', 'deleteConfirmTitle') ?></h4>
+                <h4 class="modal-title"><?= Lang::t('page/listView', 'deleteConfirmTitle') ?></h4>
             </div>
             <div class="modal-body">
                 <?= Lang::t('page/listView', 'deleteConfirm') ?>
             </div>
             <div class="modal-footer">
-                <a href="<?= Url::to(['list/delete', 'id' => $item->id]) ?>" type="button" class="btn btn-danger"><?= Lang::t('page/listView', 'delete') ?></a>
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
+                <a href="<?= Url::to(['list/delete', 'id' => $item->id]) ?>" type="button"
+                   class="btn btn-danger"><?= Lang::t('page/listView', 'delete') ?></a>
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-alarm bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><?= Lang::t('page/listView', 'modalAlarmTitle') ?></h4>
+            </div>
+            <div class="modal-body">
+                <?= Lang::t('page/listView', 'msgAlarm') ?>
+                <?= Html::input('text', 'alarmMsg', '', ['class' => 'form-control']) ?>
+            </div>
+            <div class="modal-footer">
+                <?= Html::a(
+                    Lang::t('page/listView', 'alarm'),
+                    Url::to(['list/alarm']),
+                    [
+                        'id'             => 'alarm-item',
+                        'class'          => 'btn btn-danger',
+                        'data-href'      => Url::to(['list/alarm']),
+                        'data-msg-alarm' => Lang::t('page/listView', 'msgAlarm'),
+                        'data-id'        => $item->id,
+                    ]
+                ), ' ';
+                ?>
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
             </div>
         </div>
     </div>
