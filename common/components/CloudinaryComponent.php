@@ -3,9 +3,9 @@ namespace common\components;
 
 use Cloudinary\Api;
 
-require_once __DIR__ . '\cloudinary\Cloudinary.php';
-require_once __DIR__ . '\cloudinary\Uploader.php';
-require_once __DIR__ . '\cloudinary\Api.php';
+require_once __DIR__ . '/cloudinary/Cloudinary.php';
+require_once __DIR__ . '/cloudinary/Uploader.php';
+require_once __DIR__ . '/cloudinary/Api.php';
 
 /*
  * Array
