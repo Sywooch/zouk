@@ -12,9 +12,9 @@ return [
     'listTabMonth'   => 'Месяц',
 
     'about'   => 'О сайте',
-    'profile' => 'Профиль ({0})',
+    'profile' => 'Профиль',
     'signup'  => 'Регистрация',
     'login'   => 'Войти',
-    'logout'  => 'Выйти ({0})',
+    'logout'  => 'Выйти',
 
 ];

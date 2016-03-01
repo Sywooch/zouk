@@ -27,25 +27,29 @@ require_once 'cloudinary\Api.php';
 
 class CloudinaryComponent
 {
-    public function __construct()
+
+    public function init()
     {
         \Cloudinary::config($this->params);
     }
 
     public function uploadFromUrl($url)
     {
+        $this->init();
         return \Cloudinary\Uploader::upload($url);
     }
 
-    public function uploadFromFile()
+    public function uploadFromFile($tmpName, $public_id = "test", $tags = ["special"])
     {
+        $this->init();
         return \Cloudinary\Uploader::upload(
-            $_FILES["file"]["tmp_name"],
+            $tmpName,
             array(
-                "public_id" => "sample_id",
+                "public_id" => $public_id,
                 "crop"      => "limit",
-                "width"     => "2000",
-                "height"    => "2000",
+                "width"     => "300",
+                "height"    => "300",
+                "overwrite" => true,
                 "eager"     => [
                     ["width"  => 200, "height" => 200,
                      "crop"   => "thumb", "gravity" => "face",
@@ -53,7 +57,7 @@ class CloudinaryComponent
                     ["width" => 100, "height" => 150,
                      "crop"  => "fit", "format" => "png"],
                 ],
-                "tags"      => ["special", "for_homepage"],
+                "tags"      => $tags,
             )
         );
     }

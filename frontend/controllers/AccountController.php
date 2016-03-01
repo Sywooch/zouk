@@ -15,6 +15,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -53,6 +54,17 @@ class AccountController extends Controller
         $user = User::thisUser();
         if (Yii::$app->request->isPost) {
             $userPost = Yii::$app->request->post('User');
+
+            $user->imageFile = UploadedFile::getInstance($user, 'imageFile');
+            if ($user->imageFile instanceof UploadedFile && $user->validate('imageFile')) {
+                $uploadInfo = Yii::$app->cloudinary->uploadFromFile(
+                    $user->imageFile->tempName,
+                    md5("avatar_" . $user->id),
+                    ["avatar"]
+                );
+                $user->avatar_pic = $uploadInfo['url'];
+            }
+
             $user->display_name = isset($userPost['display_name']) ? $userPost['display_name'] : $user->display_name;
             $user->firstname = isset($userPost['firstname']) ? $userPost['firstname'] : $user->firstname;
             $user->lastname = isset($userPost['lastname']) ? $userPost['lastname'] : $user->lastname;

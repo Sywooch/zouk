@@ -1,35 +1,43 @@
 <?php
 namespace common\models;
 
+use frontend\models\Lang;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\web\UploadedFile;
 
 /**
  * User model
  *
- * @property integer $id
- * @property string  $username
- * @property string  $firstname
- * @property string  $lastname
- * @property string  $display_name
- * @property string  $avatar_pic
- * @property string  $password_hash
- * @property string  $password_reset_token
- * @property string  $email
- * @property string  $auth_key
- * @property integer $status
- * @property integer $reputation
- * @property integer $created_at
- * @property integer $updated_at
- * @property string  $password write-only password
+ * @property integer      $id
+ * @property string       $username
+ * @property string       $firstname
+ * @property string       $lastname
+ * @property string       $display_name
+ * @property UploadedFile $imageFile
+ * @property string       $avatar_pic
+ * @property string       $password_hash
+ * @property string       $password_reset_token
+ * @property string       $email
+ * @property string       $auth_key
+ * @property integer      $status
+ * @property integer      $reputation
+ * @property integer      $created_at
+ * @property integer      $updated_at
+ * @property string       $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE  = 10;
+
+    /**
+     * @var UploadedFile
+     */
+    public $imageFile;
 
     /**
      * @inheritdoc
@@ -57,6 +65,14 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            [
+                ['imageFile'],
+                'file',
+                'skipOnEmpty' => true,
+                'extensions' => 'png, jpg',
+                'maxSize' => 2*1024*1024,
+                'tooBig' => Lang::t('page/accountProfile', 'limitSize')
+            ],
         ];
     }
 
@@ -213,4 +229,15 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return Yii::$app->user->isGuest ? null : Yii::$app->user->identity;
     }
+
+    public function getAvatarPic()
+    {
+        $imgUrl = $this->avatar_pic;
+        if (empty($imgUrl)) {
+            $imgUrl = Yii::$app->UrlManager->to('img/no_avatar.png');
+        }
+
+        return $imgUrl;
+    }
+    
 }

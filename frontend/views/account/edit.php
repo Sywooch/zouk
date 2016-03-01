@@ -24,8 +24,9 @@ if (empty($userAvatarUrl)) {
 <div>
     <div class="row">
         <div class="col-lg-9">
-            <?php $form = ActiveForm::begin(['id' => 'profile-edit-form']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'profile-edit-form', 'options' => ['enctype' => 'multipart/form-data']]); ?>
 
+            <?= $form->field($user, 'imageFile')->label(Lang::t('page/accountProfile', 'avatar_pic'))->fileInput() ?>
             <?= $form->field($user, 'display_name')->label(Lang::t('page/accountProfile', 'display_name')) ?>
             <?= $form->field($user, 'firstname')->label(Lang::t('page/accountProfile', 'firstname')) ?>
             <?= $form->field($user, 'lastname')->label(Lang::t('page/accountProfile', 'lastname')) ?>

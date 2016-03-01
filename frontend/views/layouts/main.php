@@ -48,15 +48,22 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
         $menuItems[] = ['label' => Lang::t('main', 'signup'), 'url' => ['site/signup']];
         $menuItems[] = ['label' => Lang::t('main', 'login'), 'url' => ['site/login']];
     } else {
-        $menuItems[] = ['label' => Lang::t('main', 'profile', [User::thisUser()->reputation]), 'url' => ['account/profile']];
+        $displayProfile =  Html::img(User::thisUser()->getAvatarPic(), ['height' => 24]) . " " .
+           (empty(User::thisUser()->display_name) ? Lang::t('main', 'profile') : User::thisUser()->display_name) . ' ' .
+           '<span class="badge">' . User::thisUser()->reputation . '</span>';
         $menuItems[] = [
-            'label'       => Lang::t('main', 'logout', [User::thisUser()->username]),
+            'encode' => false,
+            'label'  => $displayProfile,
+            'url'    => ['account/profile'],
+        ];
+        $menuItems[] = [
+            'label'       => Lang::t('main', 'logout'),
             'url'         => ['site/logout'],
             'linkOptions' => ['data-method' => 'post'],
         ];
     }
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'navbar-nav navbar-right', 'encodeLabels' => false,],
         'items'   => $menuItems,
     ]);
     NavBar::end();

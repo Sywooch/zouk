@@ -12,10 +12,6 @@ $userDisplayName = $user->display_name;
 if (empty($userDisplayName)) {
     $userDisplayName = "user" . $user->id;
 }
-$userAvatarUrl = $user->avatar_pic;
-if (empty($userAvatarUrl)) {
-    $userAvatarUrl = Yii::$app->UrlManager->to('img/no_avatar.png');
-}
 ?>
 <div class="site-index">
     <div class="body-content">
@@ -31,7 +27,7 @@ if (empty($userAvatarUrl)) {
         </div>
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
-                <img src="<?= $userAvatarUrl ?>">
+                <img src="<?= $user->getAvatarPic() ?>">
             </div>
         </div>
         <div class="col-md-8">
