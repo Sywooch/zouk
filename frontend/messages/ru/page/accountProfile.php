@@ -6,7 +6,7 @@ return [
     'firstname'    => 'Имя',
     'lastname'     => 'Фамилия',
     'display_name' => 'Отображаемое имя',
-    'avatar_pic'   => 'Автварка',
+    'avatar_pic'   => 'Аватарка',
     'buttonSave'   => 'Сохранить',
     'limitSize'    => 'Файл «{file}» слишком большой. Размер не должен превышать 2 MB.',
 ];

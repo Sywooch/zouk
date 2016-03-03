@@ -46,7 +46,7 @@ $tagValue = join(',', $tagValues);
 
             <?= $form->field($item, 'description')->textarea()->label(Lang::t('page/listEdit', 'fieldDescription')) ?>
 
-            <h4>Видео:</h4>
+            <label style="width: 100%" class="control-label">Видео <a id="addVideoButton" class="btn btn-success btn-sm pull-right">добавить</a></label>
             <div id="blockVideos">
                 <?php
                 foreach ($videos as $video) {
@@ -59,7 +59,6 @@ $tagValue = join(',', $tagValues);
                 }
                 ?>
             </div>
-            <a id="addVideoButton" class="btn btn-success margin-bottom">+</a>
 
             <div class="input-group margin-bottom">
                 <span class="input-group-addon" id="basic-addon1">Метки</span>

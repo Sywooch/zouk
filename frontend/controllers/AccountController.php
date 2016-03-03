@@ -59,7 +59,7 @@ class AccountController extends Controller
             if ($user->imageFile instanceof UploadedFile && $user->validate('imageFile')) {
                 $uploadInfo = Yii::$app->cloudinary->uploadFromFile(
                     $user->imageFile->tempName,
-                    md5("avatar_" . $user->id),
+                    'a' . md5("avatar_" . $user->id),
                     ["avatar"]
                 );
                 $user->avatar_pic = $uploadInfo['url'];

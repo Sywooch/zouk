@@ -73,14 +73,13 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
         <?= Alert::widget() ?>
         <div class="row">
             <div class="col-md-12">
-                <a href="<?= Url::home() ?>"><img src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>"
-                                                  height="100px"/></a>
+                <a href="<?= Url::home() ?>"><img src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>" height="100px"/></a>
                 <div class="main-button-block">
                     <?php
                     echo Html::a(
                         Lang::t('main', 'mainButtonList'),
                         Url::home(),
-                        ['class' => 'btn btn-default']
+                        ['class' => 'btn btn-info']
                     ), " ";
                     //                    echo Html::button(Lang::t('main', 'mainButtonTags'), ['class' => 'btn btn-default']), " ";
                     //                    echo Html::button(Lang::t('main', 'mainButtonEvents'), ['class' => 'btn btn-default']), " ";
@@ -88,7 +87,7 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
                     echo Html::a(
                         Lang::t('main', 'mainButtonAddRecord'),
                         ['/list/add'],
-                        ['class' => 'btn btn-default']
+                        ['class' => 'btn btn-info']
                     ), " ";
                     ?>
                 </div>

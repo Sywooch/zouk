@@ -53,7 +53,7 @@ $tags = $item->tagEntity;
             foreach ($tags as $tag) {
                 /** @var Tags $tagItem */
                 $tagItem = $tag->tags;
-                echo Html::tag('span', $tagItem->name, ['class' => 'label label-primary']), " ";
+                echo Html::tag('a', $tagItem->name, ['class' => 'label label-tag-element']), " ";
             }
             ?>
         </div>

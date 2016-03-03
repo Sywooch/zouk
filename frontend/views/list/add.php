@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($item, 'description')->textarea()->label(Lang::t('page/listAdd', 'fieldDescription')) ?>
 
-            <h4>Видео: <a id="addVideoButton" class="btn btn-success margin-bottom">Добавить <i class="glyphicon glyphicon-facetime-video"></i></a></h4>
+            <label style="width: 100%" class="control-label">Видео <a id="addVideoButton" class="btn btn-success btn-sm pull-right">добавить</a></label>
             <div id="blockVideos">
 
             </div>

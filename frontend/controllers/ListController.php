@@ -173,12 +173,14 @@ class ListController extends Controller
 
     public function actionWeek()
     {
-        return $this->render('listWeek', []);
+        $searchTag = Yii::$app->request->get('tag', '');
+        return $this->render('listWeek', ['searchTag' => $searchTag]);
     }
 
     public function actionMonth()
     {
-        return $this->render('listMonth', []);
+        $searchTag = Yii::$app->request->get('tag', '');
+        return $this->render('listMonth', ['searchTag' => $searchTag]);
     }
 
     public function actionAlarm()

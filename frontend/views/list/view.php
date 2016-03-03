@@ -12,6 +12,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/view.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/findTagElement.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $this->title = $item->title;
 
@@ -102,7 +103,7 @@ $url = $item->getUrl();
             $tagValues = [];
             foreach ($tags as $tag) {
                 $tagItem = $tag->tags;
-                echo Html::tag('span', $tagItem->name, ['class' => 'label label-primary']), " ";
+                echo Html::tag('span', $tagItem->name, ['class' => 'label label-tag-element']), " ";
             }
             ?>
         </div>

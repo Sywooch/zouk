@@ -201,3 +201,30 @@ a.desc:after {
 .margin-bottom {
     margin-bottom: 10px;
 }
+
+.label-tag-element:focus,
+.label-tag-element:hover{
+    color: white;
+    background-color: #39739d;
+    border: 1px solid #35648b;
+}
+
+.label-tag-element {
+    color: #39739d;
+    cursor: pointer;
+    background-color: #dae7f1;
+    border: 1px solid #dae7f1;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+
+.btn-add-video:hover {
+    text-decoration: none;
+}
+
+.btn-add-video {
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+}
