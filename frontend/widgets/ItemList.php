@@ -17,6 +17,7 @@ class ItemList extends \yii\bootstrap\Widget
     const DATE_CREATE_LAST  = 'last';
     const DATE_CREATE_WEEK  = 'week';
     const DATE_CREATE_MONTH = 'month';
+    const DATE_CREATE_ALL   = 'popular';
 
     public $lastId = 0;
 
@@ -34,7 +35,6 @@ class ItemList extends \yii\bootstrap\Widget
 
     public function run()
     {
-
         $items = $this->getAllItems($this->lastId, $this->orderBy, $this->dateCreateType, $this->searchTag);
         return $this->render(
             'itemList/list',
@@ -42,6 +42,7 @@ class ItemList extends \yii\bootstrap\Widget
                 'items'          => $items,
                 'onlyItem'       => $this->onlyItem,
                 'dateCreateType' => $this->dateCreateType,
+                'searchTag'      => $this->searchTag,
             ]
         );
     }
@@ -65,12 +66,13 @@ class ItemList extends \yii\bootstrap\Widget
         // Определяем за какой период будем показывать
         if ($dateCreateType == self::DATE_CREATE_LAST) {
             $query = $query->limit(10);
+        } elseif ($dateCreateType == self::DATE_CREATE_ALL) {
+            $query = $query->limit(50);
         } elseif ($dateCreateType == self::DATE_CREATE_WEEK) {
             $query = $query->andWhere('t.date_create >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 WEEK))');
         } elseif ($dateCreateType == self::DATE_CREATE_MONTH) {
             $query = $query->andWhere('t.date_create >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 MONTH))');
         }
-
 
 
         if ($searchTag != "") {

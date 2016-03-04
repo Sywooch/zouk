@@ -1,9 +1,12 @@
 <?php
 /**
- * @var Item $item
+ * @var Item   $item
+ * @var string $dateCreateType
  */
 use common\models\Item;
 use common\models\Tags;
+use frontend\models\Lang;
+use frontend\widgets\ItemList;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -53,13 +56,18 @@ $tags = $item->tagEntity;
             foreach ($tags as $tag) {
                 /** @var Tags $tagItem */
                 $tagItem = $tag->tags;
-                echo Html::tag('a', $tagItem->name, ['class' => 'label label-tag-element']), " ";
+                if ($dateCreateType == ItemList::DATE_CREATE_LAST) {
+                    $urlTag = Url::to(['/', 'tag' => $tagItem->name]);
+                } else {
+                    $urlTag = Url::to(['list/' . $dateCreateType, 'tag' => $tagItem->name]);
+                }
+                echo Html::a($tagItem->name, $urlTag, ['class' => 'label label-tag-element']), " ";
             }
             ?>
         </div>
 
         <div class="started">
-            <?= Html::a("Создан " . date("d.m.Y", $item->date_create), $url, ['class' => 'started-link']) ?>
+            <?= Html::a(Lang::t("main", "created") . ": " . date("d.m.Y", $item->date_create), $url, ['class' => 'started-link']) ?>
         </div>
     </div>
 </div>

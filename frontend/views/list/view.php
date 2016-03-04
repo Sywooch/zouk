@@ -103,7 +103,8 @@ $url = $item->getUrl();
             $tagValues = [];
             foreach ($tags as $tag) {
                 $tagItem = $tag->tags;
-                echo Html::tag('span', $tagItem->name, ['class' => 'label label-tag-element']), " ";
+                $urlTag = Url::to(['/', 'tag' => $tagItem->name]);
+                echo Html::a($tagItem->name, $urlTag, ['class' => 'label label-tag-element']), " ";
             }
             ?>
         </div>
@@ -128,7 +129,16 @@ $url = $item->getUrl();
                     'data-target' => ".modal-alarm",
                 ]
             ), ' ';
+            /** @var User $author */
+            $author = $item->user;
             ?>
+            <div class="pull-right user-info">
+                <div class="user-action-time"><?= Lang::t("main", "created") ?>: <?= date("d.m.Y", $item->date_create) ?> в <?= date("H:m", $item->date_create) ?></div>
+                <div class="user-gravatar32"><img src="<?= $author->getAvatarPic() ?>"></div>
+                <div class="user-details">
+                    <?= $author->getDisplayName() ?> (<b><?= $author->reputation ?></b>)
+                </div>
+            </div>
         </div>
     </div>
 </div>

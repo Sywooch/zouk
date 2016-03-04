@@ -12,10 +12,12 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#loadMore', function () {
+        var searchTag = $(this).data('tag');
         $.ajax({
             url: 'list/items',
             data: {
-                lastId: minItemId
+                lastId: minItemId,
+                tag: searchTag
             },
             method: 'post',
             success: function (data) {

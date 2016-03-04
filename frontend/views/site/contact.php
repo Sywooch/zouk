@@ -4,25 +4,24 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\ContactForm */
 
+use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
-$this->title = 'Contact';
+$this->title = Lang::t('page/contact', 'title');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-contact">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
-    </p>
+    <p><?= Lang::t('page/contact', 'labelContact') ?></p>
 
     <div class="row">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
-                <?= $form->field($model, 'name') ?>
+                <?= $form->field($model, 'name')->label(Lang::t('page/contact', 'name')) ?>
 
                 <?= $form->field($model, 'email') ?>
 

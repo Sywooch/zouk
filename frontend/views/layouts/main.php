@@ -35,7 +35,7 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Brazilian Zouk',
+        'brandLabel' => 'Brazilian Zouk'  ,
         'brandUrl'   => Yii::$app->homeUrl,
         'options'    => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -43,6 +43,7 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
     ]);
     $menuItems = [
         ['label' => Lang::t('main', 'about'), 'url' => ['site/about']],
+        ['label' => Lang::t('main', 'feedback'), 'url' => ['site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => Lang::t('main', 'signup'), 'url' => ['site/signup']];
@@ -73,7 +74,7 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
         <?= Alert::widget() ?>
         <div class="row">
             <div class="col-md-12">
-                <a href="<?= Url::home() ?>"><img src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>" height="100px"/></a>
+                <a class="pull-left visible-md-block visible-lg-block visible-sm-block" href="<?= Url::home() ?>"><img src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>" height="100px"/></a>
                 <div class="main-button-block">
                     <?php
                     echo Html::a(

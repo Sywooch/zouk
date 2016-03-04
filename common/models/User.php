@@ -239,5 +239,12 @@ class User extends ActiveRecord implements IdentityInterface
 
         return $imgUrl;
     }
-    
+
+    public function getDisplayName()
+    {
+        if (empty($this->display_name)) {
+            return $this->username;
+        }
+        return $this->display_name;
+    }
 }

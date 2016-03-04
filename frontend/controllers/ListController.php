@@ -168,7 +168,8 @@ class ListController extends Controller
     {
         $lastId = Yii::$app->request->post('lastId', 0);
         $order = Yii::$app->request->post('order', ItemList::ORDER_BY_ID);
-        return ItemList::widget(['lastId' => $lastId, 'onlyItem' => true, 'orderBy' => $order]);
+        $searchTag = Yii::$app->request->post('tag', '');
+        return ItemList::widget(['lastId' => $lastId, 'onlyItem' => true, 'orderBy' => $order, 'searchTag' => $searchTag]);
     }
 
     public function actionWeek()
@@ -181,6 +182,12 @@ class ListController extends Controller
     {
         $searchTag = Yii::$app->request->get('tag', '');
         return $this->render('listMonth', ['searchTag' => $searchTag]);
+    }
+
+    public function actionPopular()
+    {
+        $searchTag = Yii::$app->request->get('tag', '');
+        return $this->render('listPopular', ['searchTag' => $searchTag]);
     }
 
     public function actionAlarm()

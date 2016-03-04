@@ -62,7 +62,8 @@ class Item extends VoteModel
     public function rules()
     {
         return [
-            [['title', 'description'], 'default', 'value' => ''],
+            [['description'], 'default', 'value' => ''],
+            [['title'], 'required'],
             [['date_update', 'date_create'], 'integer'],
             [['title', 'alias'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 2048],

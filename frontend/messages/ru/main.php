@@ -10,11 +10,14 @@ return [
     'listTabCurrent' => 'Текущие',
     'listTabWeek'    => 'Неделя',
     'listTabMonth'   => 'Месяц',
+    'listTabPopular' => 'Лучшие',
 
-    'about'   => 'О сайте',
-    'profile' => 'Профиль',
-    'signup'  => 'Регистрация',
-    'login'   => 'Войти',
-    'logout'  => 'Выйти',
+    'about'    => 'О сайте',
+    'feedback' => 'Обратная связь',
+    'profile'  => 'Профиль',
+    'signup'   => 'Регистрация',
+    'login'    => 'Войти',
+    'logout'   => 'Выйти',
 
+    'created' => 'Создан',
 ];
