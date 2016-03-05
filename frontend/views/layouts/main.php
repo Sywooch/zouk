@@ -35,7 +35,7 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Brazilian Zouk'  ,
+        'brandLabel' => 'ProZouk'  ,
         'brandUrl'   => Yii::$app->homeUrl,
         'options'    => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -101,7 +101,7 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
 
 <footer class="footer ">
     <div class="container">
-        <p class="pull-left">&copy; Brazilian Zouk <?= date('Y') ?></p>
+        <p class="pull-left">&copy; ProZouk <?= date('Y') ?></p>
         <p class="pull-right"><?= Yii::powered() ?></p>
         <?php if (!YII_DEBUG) { ?>
         <p class="pull-right" style="margin-right: 10px">
