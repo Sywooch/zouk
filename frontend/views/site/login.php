@@ -7,6 +7,7 @@
 use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 
 $this->title = Lang::t('page/siteLogin', 'title');
 $this->params['breadcrumbs'][] = $this->title;
@@ -35,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
             <?php ActiveForm::end(); ?>
+            <?= Lang::t('page/siteLogin', 'toSignup') ?> <?= Html::a(Lang::t('main', 'signup'), Url::to(['site/signup']), ['class' => 'btn btn-label']) ?>
         </div>
     </div>
 </div>
