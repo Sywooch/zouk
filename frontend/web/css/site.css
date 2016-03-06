@@ -198,6 +198,10 @@ a.desc:after {
     float: right;
 }
 
+.main-button-block a.btn {
+    font-weight: bold;
+}
+
 .margin-bottom {
     margin-bottom: 10px;
 }
