@@ -59,4 +59,9 @@ $(document).ready(function() {
         return false;
     });
 
+    $(document).on('click', '#btnShare', function() {
+        console.log('d');
+        $('.pluso').show();
+    });
+    
 });

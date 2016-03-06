@@ -5,6 +5,7 @@ return [
     'edit'                => 'Изменить',
     'delete'              => 'Удалить',
     'cancel'              => 'Отмена',
+    'share'               => 'Поделиться',
     'deleteConfirmTitle'  => 'Удалить запись?',
     'deleteConfirm'       => 'Вы уверены, что хотите удалить?',
     'modalAlarmTitle'     => 'Пожаловаться',

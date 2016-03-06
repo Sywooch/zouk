@@ -141,6 +141,30 @@ class Lang extends \yii\db\ActiveRecord
         }
     }
 
+    static function tn($category, $message, $number, $params = [], $language = null)
+    {
+        if (Yii::$app !== null) {
+            if (!is_array($language)) {
+                $language = [$language ?: Yii::$app->language];
+            }
+            //ключи массива suffix
+            $keys = array(2, 0, 1, 1, 1, 2);
+            //берем 2 последние цифры
+            $mod = abs($number) % 100;
+            //определяем ключ окончания
+            $suffixKey = $mod > 4 && $mod < 21 ? 2 : $keys[min($mod%10, 5)];
+            $message = $message . $suffixKey;
+            return Yii::$app->translate->translateO($category, $message, $params, $language);
+        } else {
+            $p = [];
+            foreach ((array) $params as $name => $value) {
+                $p['{' . $name . '}'] = $value;
+            }
+
+            return ($p === []) ? $message : strtr($message, $p);
+        }
+    }
+
     static function tinymcSrcLang($language = null)
     {
         if (Yii::$app !== null) {

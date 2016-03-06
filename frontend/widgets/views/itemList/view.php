@@ -21,13 +21,17 @@ $tags = $item->tagEntity;
                 <div class="mini-counts">
                     <?= Html::tag('span', $item->like_count, ['title' => $item->like_count]) ?>
                 </div>
-                <div>Голосов</div>
+                <div>
+                    <?= Lang::tn('main', 'vote', $item->like_count) ?>
+                </div>
             </div>
             <div class="views">
                 <div class="mini-counts">
                     <?= $item->show_count ?>
                 </div>
-                <div>Показов</div>
+                <div>
+                    <?= Lang::tn('main', 'showCount', $item->show_count) ?>
+                </div>
             </div>
         </div>
     </div>
