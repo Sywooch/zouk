@@ -102,7 +102,6 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
 <footer class="footer ">
     <div class="container">
         <p class="pull-left">&copy; ProZouk <?= date('Y') ?></p>
-        <p class="pull-right"><?= Yii::powered() ?></p>
         <?php if (!YII_DEBUG) { ?>
         <p class="pull-right" style="margin-right: 10px">
             <!--LiveInternet counter--><script type="text/javascript"><!--
