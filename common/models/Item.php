@@ -165,8 +165,16 @@ class Item extends VoteModel
                 $baseAlias = substr($alias, 0, 250);
                 $alias = $baseAlias;
                 $i = 1;
-                while ($findItem = Item::find()->where(['alias' => $alias])->andWhere('id <> :id', [':id' => $this->id])->all()) {
+                $wheres = ['alias = :alias'];
+                $params[':alias'] = $alias;
+                if (!is_null($this->id)) {
+                    $wheres[] = 'id <> :id';
+                    $params = [':id' => $this->id];
+                }
+                $where = join(' AND ', $wheres);
+                while ($findItem = Item::find()->where($where, $params)->one()) {
                     $alias = $baseAlias . '-' . $i;
+                    $params[':alias'] = $alias;
                     $i++;
                     if ($i > 30) {
                         $alias = '';

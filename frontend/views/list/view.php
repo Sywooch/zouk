@@ -146,7 +146,7 @@ $url = $item->getUrl();
             ?>
             <div class="pull-right user-info">
                 <div class="user-action-time"><?= Lang::t("main", "created") ?>
-                    : <?= date("d.m.Y", $item->date_create) ?> в <?= date("H:m", $item->date_create) ?></div>
+                    : <?= date("d.m.Y", $item->date_create) ?></div>
                 <div class="user-gravatar32"><img src="<?= $author->getAvatarPic() ?>"></div>
                 <div class="user-details">
                     <?= $author->getDisplayName() ?> (<b><?= $author->reputation ?></b>)
