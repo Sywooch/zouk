@@ -6,5 +6,12 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on('click', '.icon-x', function() {
+        if ($(this).data('href') != "") {
+            window.location = $(this).data('href');
+            return false;
+        }
+    });
+
 });
 

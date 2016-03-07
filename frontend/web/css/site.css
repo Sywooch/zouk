@@ -47,6 +47,12 @@ body.mce-fullscreen div.mce-fullscreen {
     color: black;
 }
 
+.icon-x {
+    cursor: pointer;
+    color: #263552;
+    content: '&times;';
+}
+
 .btn.btn-link.no-focus:focus {
     outline: none;
     text-decoration: none;
