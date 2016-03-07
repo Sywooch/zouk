@@ -17,8 +17,8 @@ Yii::$app->params['jsZoukVar']['selectedTab'] = $selectTab;
         <li class="<?= $selectTab == 3 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabMonth'), ['list/month']) ?></a></li>
         <li class="<?= $selectTab == 4 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabPopular'), ['list/popular']) ?></li>
     </ul>
-    <br/>
     <?php if (!empty($searchTag)) { ?>
+        <br/>
         Поиск по тегу: <span class="label label-tag-element"><?= $searchTag ?></span>
     <?php } ?>
 </div>
