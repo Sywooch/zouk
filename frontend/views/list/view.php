@@ -114,7 +114,7 @@ $url = $item->getUrl();
                 echo Html::button(
                     Lang::t('page/listView', 'delete'),
                     [
-                        'class'       => 'btn btn-link',
+                        'class'       => 'btn btn-link no-focus',
                         'data-toggle' => "modal",
                         'data-target' => ".modal-delete-confirm",
 
@@ -123,20 +123,20 @@ $url = $item->getUrl();
                 echo Html::a(
                     Lang::t('page/listView', 'edit'),
                     Url::to(['list/edit', 'id' => $item->id]),
-                    ['class' => 'btn btn-link']
+                    ['class' => 'btn btn-link no-focus']
                 ), ' ';
             }
             echo Html::button(
                 Lang::t('page/listView', 'share'),
                 [
                     'id'    => 'btnShare',
-                    'class' => 'btn btn-link',
+                    'class' => 'btn btn-link no-focus',
                 ]
             ), ' ';
             echo Html::button(
                 Lang::t('page/listView', 'alarm'),
                 [
-                    'class'       => 'btn btn-link',
+                    'class'       => 'btn btn-link no-focus',
                     'data-toggle' => "modal",
                     'data-target' => ".modal-alarm",
                 ]
@@ -145,8 +145,7 @@ $url = $item->getUrl();
             $author = $item->user;
             ?>
             <div class="pull-right user-info">
-                <div class="user-action-time"><?= Lang::t("main", "created") ?>
-                    : <?= date("d.m.Y", $item->date_create) ?></div>
+                <div class="user-action-time"><?= Lang::t("main", "created") ?> <?= date("d.m.Y", $item->date_create) ?></div>
                 <div class="user-gravatar32"><img src="<?= $author->getAvatarPic() ?>"></div>
                 <div class="user-details">
                     <?= $author->getDisplayName() ?> (<b><?= $author->reputation ?></b>)
@@ -181,7 +180,7 @@ $url = $item->getUrl();
             </div>
             <div class="modal-footer">
                 <a href="<?= Url::to(['list/delete', 'id' => $item->id]) ?>" type="button"
-                   class="btn btn-danger"><?= Lang::t('page/listView', 'delete') ?></a>
+                   class="btn btn-danger"><?= Lang::t('page/listView', 'deleteBtn') ?></a>
                 <button type="button" class="btn btn-default"
                         data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
             </div>
@@ -203,7 +202,7 @@ $url = $item->getUrl();
             </div>
             <div class="modal-footer">
                 <?= Html::a(
-                    Lang::t('page/listView', 'alarm'),
+                    Lang::t('page/listView', 'alarmBtn'),
                     Url::to(['list/alarm']),
                     [
                         'id'             => 'alarm-item',

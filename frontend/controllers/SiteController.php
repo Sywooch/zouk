@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Item;
 use frontend\models\Lang;
 use Yii;
 use common\models\LoginForm;
@@ -27,22 +28,22 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only'  => ['logout', 'signup'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
+                        'allow'   => true,
+                        'roles'   => ['?'],
                     ],
                     [
                         'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
+                        'allow'   => true,
+                        'roles'   => ['@'],
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
+            'verbs'  => [
+                'class'   => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -56,11 +57,11 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-            'error' => [
+            'error'   => [
                 'class' => 'yii\web\ErrorAction',
             ],
             'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
+                'class'           => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
@@ -120,9 +121,9 @@ class SiteController extends Controller
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success',  Lang::t('page/contact', 'sendSuccess'));
+                Yii::$app->session->setFlash('success', Lang::t('page/contact', 'sendSuccess'));
             } else {
-                Yii::$app->session->setFlash('error',  Lang::t('page/contact', 'sendError'));
+                Yii::$app->session->setFlash('error', Lang::t('page/contact', 'sendError'));
             }
 
             return $this->refresh();
@@ -191,6 +192,7 @@ class SiteController extends Controller
      * Resets password.
      *
      * @param string $token
+     *
      * @return mixed
      * @throws BadRequestHttpException
      */
@@ -211,5 +213,32 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionSitemap()
+    {
+        // проверяем есть ли закэшированная версия sitemap
+        $urls = array();
+
+        $items = Item::find()->where(['deleted' => 0])->all();
+
+        foreach ($items as $item) {
+            /** @var Item $item */
+            $urls[] = $item->getUrl();
+        }
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_XML;
+        echo '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
+        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+        foreach ($urls as $url) {
+            echo '<url>';
+            echo '<loc>' . $url . '</loc>';
+            echo '<changefreq>daily</changefreq>';
+            echo '<priority>0.5</priority>';
+            echo '</url>';
+        }
+        echo '</urlset>';
+
+        Yii::$app->end();
     }
 }

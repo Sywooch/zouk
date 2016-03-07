@@ -41,6 +41,21 @@ body.mce-fullscreen div.mce-fullscreen {
     padding: 14px 24px;
 }
 
+.btn.btn-link.no-focus:hover {
+    outline: none;
+    text-decoration: none;
+    color: black;
+}
+
+.btn.btn-link.no-focus:focus {
+    outline: none;
+    text-decoration: none;
+}
+
+.btn.btn-link {
+    color: #263552;
+}
+
 .not-set {
     color: #c55;
     font-style: italic;
@@ -198,7 +213,61 @@ a.desc:after {
     float: right;
 }
 
-.main-button-block a.btn {
+.main-button-block a {
+    margin-right: 20px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.main-button-block a.btn-label-main:hover {
+    color: #242f4a;
+}
+
+.main-button-block a.btn-label-main {
+    color: #263552;
+}
+
+.main-button-block a.btn-label-main.youarehere:hover {
+    color: #ff5053;
+}
+
+.main-button-block a.btn-label-main.youarehere {
+    font-weight: bold;
+    color: #F35D5F;
+}
+
+.main-button-block a.btn-label-main.add-item {
+    font-weight: bold;
+    color: black;
+}
+
+.nav-main-tabs li a:hover,
+.nav-main-tabs li a:focus{
+    border: 0;
+    padding: 11px 0 12px 0;
+    margin: 0 20px 0 0;
+    background-color: inherit;
+    color: #f35d5f;
+}
+
+.nav-main-tabs li a {
+    border: 0;
+    padding: 11px 0 12px 0;
+    margin: 0 20px 0 0;
+    color: #263552;
+}
+
+ul.nav-main-tabs li.active a:hover {
+    border: 0;
+    color: #f35d5f;
+    border-bottom: 2px solid #f35d5f;
+    font-weight: bold;
+}
+
+ul.nav-main-tabs li.active a {
+    border: 0;
+    color: #f35d5f;
+    border-bottom: 2px solid #f35d5f;
     font-weight: bold;
 }
 

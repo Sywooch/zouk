@@ -80,7 +80,7 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
                     echo Html::a(
                         Lang::t('main', 'mainButtonList'),
                         Url::home(),
-                        ['class' => 'btn btn-info']
+                        ['class' => 'btn-label-main youarehere']
                     ), " ";
                     //                    echo Html::button(Lang::t('main', 'mainButtonTags'), ['class' => 'btn btn-default']), " ";
                     //                    echo Html::button(Lang::t('main', 'mainButtonEvents'), ['class' => 'btn btn-default']), " ";
@@ -88,7 +88,7 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
                     echo Html::a(
                         Lang::t('main', 'mainButtonAddRecord'),
                         ['/list/add'],
-                        ['class' => 'btn btn-info']
+                        ['class' => 'btn-label-main add-item']
                     ), " ";
                     ?>
                 </div>

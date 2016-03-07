@@ -7,10 +7,10 @@ return [
     'mainButtonSchools'   => 'Школы',
     'mainButtonAddRecord' => 'Добавить запись',
 
-    'listTabCurrent' => 'Текущие',
-    'listTabWeek'    => 'Неделя',
-    'listTabMonth'   => 'Месяц',
-    'listTabPopular' => 'Лучшие',
+    'listTabCurrent' => 'текущие',
+    'listTabWeek'    => 'неделя',
+    'listTabMonth'   => 'месяц',
+    'listTabPopular' => 'лучшие',
 
     'about'    => 'О сайте',
     'feedback' => 'Обратная связь',
@@ -20,6 +20,7 @@ return [
     'logout'   => 'Выйти',
 
     'created' => 'Создан',
+    'at'      => 'в',
 
     'vote0' => 'голос',
     'vote1' => 'голоса',

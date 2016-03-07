@@ -70,8 +70,18 @@ $tags = $item->tagEntity;
             ?>
         </div>
 
-        <div class="started">
-            <?= Html::a(Lang::t("main", "created") . ": " . date("d.m.Y", $item->date_create), $url, ['class' => 'started-link']) ?>
+        <?php
+        /** @var User $author */
+        $author = $item->user;
+        ?>
+        <div class="pull-right user-info">
+            <div class="user-action-time">
+                <?= Lang::t("main", "created") . " " . date("d.m.Y", $item->date_create) . " " . Lang::t("main", "at") . " " . date("H:i", $item->date_create) ?>
+            </div>
+            <div class="user-gravatar32"><img src="<?= $author->getAvatarPic() ?>"></div>
+            <div class="user-details">
+                <?= $author->getDisplayName() ?> (<b><?= $author->reputation ?></b>)
+            </div>
         </div>
     </div>
 </div>
