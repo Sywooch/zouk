@@ -224,7 +224,7 @@ class SiteController extends Controller
 
         foreach ($items as $item) {
             /** @var Item $item */
-            $urls[] = $item->getUrl();
+            $urls[] =  $item->getUrl(true);
         }
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_XML;

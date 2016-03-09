@@ -188,12 +188,12 @@ class Item extends VoteModel
         return false;
     }
 
-    public function getUrl()
+    public function getUrl($scheme = false)
     {
         if ($this->alias) {
-            return Url::to(['list/view', 'alias' => $this->alias]);
+            return Url::to(['list/view', 'alias' => $this->alias], $scheme);
         } else {
-            return Url::to(['list/view', 'index' => $this->id]);
+            return Url::to(['list/view', 'index' => $this->id], $scheme);
         }
     }
 }
