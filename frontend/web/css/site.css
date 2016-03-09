@@ -1,10 +1,15 @@
 html,
 body {
     height: 100%;
-    background-image: url("../img/background/background.jpg");
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: left, right;
+}
+
+@media (min-width: 768px) {
+    html, body {
+        background-image: url("../img/background/background.jpg");
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: left, right;
+    }
 }
 
 body.mce-fullscreen div.mce-fullscreen {
