@@ -15,7 +15,7 @@ $videos = $item->videos;
 $tags = $item->tagEntity;
 ?>
 <div id="item-<?= $item->id ?>" data-id="<?= $item->id ?>" class="row block-item-summary margin-bottom">
-    <div class="col-lg-1">
+    <div class="col-sm-1">
         <div class="cp" onclick="window.location.href='<?= $url ?>'">
             <div class="votes">
                 <div class="mini-counts">
@@ -35,7 +35,7 @@ $tags = $item->tagEntity;
             </div>
         </div>
     </div>
-    <div class="col-lg-11">
+    <div class="col-sm-11">
         <div class="summary">
             <h3><?= Html::a($item->title, $url, ['class' => 'item-hyperlink']) ?></h3>
         </div>

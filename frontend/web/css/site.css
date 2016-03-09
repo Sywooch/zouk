@@ -1,6 +1,7 @@
 html,
 body {
     height: 100%;
+    background-image: url("../img/background.png");
 }
 
 body.mce-fullscreen div.mce-fullscreen {
@@ -21,6 +22,7 @@ body.mce-fullscreen div.mce-fullscreen {
 
 .wrap > .container {
     padding: 70px 15px 20px;
+    background-color: white;
 }
 
 .footer {
