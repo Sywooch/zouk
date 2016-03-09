@@ -1,7 +1,10 @@
 html,
 body {
     height: 100%;
-    background-image: url("../img/background.png");
+    background-image: url("../img/background/background.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: left, right;
 }
 
 body.mce-fullscreen div.mce-fullscreen {
@@ -29,7 +32,7 @@ body.mce-fullscreen div.mce-fullscreen {
     height: 60px;
     color: #9d9d9d;
     background-color: #222;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #444;
     padding-top: 15px;
 }
 
