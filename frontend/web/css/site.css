@@ -216,11 +216,11 @@ a.desc:after {
 
 .vote-down-link,
 .vote-up-link {
-    color: #737373;
+    color: #777;
 }
 
 .voted {
-    color: #FF5400;
+    color: #F35D5F;
 }
 
 .main-button-block {
@@ -351,4 +351,8 @@ ul.nav-main-tabs li.active a {
 
 .site-about {
     font-size: 1.5em;
+}
+
+.mini-like-show {
+    margin-right: 10px;
 }

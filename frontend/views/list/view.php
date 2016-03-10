@@ -47,11 +47,15 @@ $tags = $item->tagEntity;
 
 $keywords = [];
 $description = $this->title;
+$urlVideo = '';
 foreach ($tags as $tag) {
     $keywords[] = $tag->tags->name;
 }
 foreach ($videos as $video) {
     $description .= ". Видео: " . $video->video_title;
+    if (empty($urlVideo)) {
+        $urlVideo = $video->getThumbnailUrl();
+    }
 }
 preg_match_all('/[^\W\d][\w]*/', $this->title, $wordArr);
 $this->registerMetaTag([
@@ -63,6 +67,18 @@ $this->registerMetaTag([
     'name'    => 'description',
     'content' => $description,
 ], 'description');
+
+if (!empty($urlVideo)) {
+    $this->registerLinkTag([
+        'rel'  => 'image_src',
+        'href' => $urlVideo,
+    ], 'linkImageSrc');
+
+    $this->registerMetaTag([
+        'property' => 'og:image',
+        'content'  => $urlVideo,
+    ], 'propertyImage');
+}
 ?>
 <div id="item-header">
     <h1>
@@ -165,13 +181,32 @@ $this->registerMetaTag([
             /** @var User $author */
             $author = $item->user;
             ?>
-            <div class="pull-right user-info">
-                <div
-                    class="user-action-time"><?= Lang::t("main", "created") ?> <?= date("d.m.Y", $item->date_create) ?></div>
-                <div class="user-gravatar32"><img src="<?= $author->getAvatarPic() ?>"></div>
-                <div class="user-details">
-                    <?= $author->getDisplayName() ?> (<b><?= $author->reputation ?></b>)
-                </div>
+            <div class="pull-right">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="mini-like-show">
+                                <?php
+                                $likeTitle = $item->like_count . " " .Lang::tn('main', 'vote', $item->like_count);
+                                $showTitle = $item->show_count . " " .Lang::tn('main', 'showCount', $item->show_count);
+                                ?>
+                                <span title="<?= $likeTitle ?>"><i class="glyphicon glyphicon-thumbs-up"></i> <?= $item->like_count ?></span><br/>
+                                <span title="<?= $showTitle ?>"><i class="glyphicon glyphicon-eye-open"></i> <?= $item->show_count ?></span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="pull-right user-info">
+                                <div class="user-action-time">
+                                    <?= Lang::t("main", "created") . " " . date("d.m.Y", $item->date_create) . " " . Lang::t("main", "at") . " " . date("H:i", $item->date_create) ?>
+                                </div>
+                                <div class="user-gravatar32"><img src="<?= $author->getAvatarPic() ?>"></div>
+                                <div class="user-details">
+                                    <?= $author->getDisplayName() ?> (<b><?= $author->reputation ?></b>)
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <script type="text/javascript">(function () {
