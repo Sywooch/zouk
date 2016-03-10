@@ -11,6 +11,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $url = $item->getUrl();
+/** @var \common\models\Video[] $videos */
 $videos = $item->videos;
 $tags = $item->tagEntity;
 ?>
@@ -41,7 +42,6 @@ $tags = $item->tagEntity;
         </div>
         <div>
             <?php
-            /** @var \common\models\Video[] $videos */
             foreach ($videos as $video) {
                 ?>
                 <div>
@@ -55,7 +55,22 @@ $tags = $item->tagEntity;
             }
             ?>
         </div>
-        <div>
+        <div class="margin-bottom block-item-list-img">
+            <?php
+            foreach ($videos as $video) {
+                ?>
+                <span>
+                    <?= Html::a(
+                        Html::img($video->getThumbnailUrl()),
+                        $video->original_url,
+                        ['target' => '_blank']
+                    ) ?>
+                </span>
+                <?php
+            }
+            ?>
+        </div>
+        <div class="margin-bottom">
             <?php
             foreach ($tags as $tag) {
                 /** @var Tags $tagItem */

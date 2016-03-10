@@ -40,6 +40,29 @@ if (!empty($voteItem) && $voteItem->vote == Vote::VOTE_DOWN) {
 $divDislikeClass = join(' ', $divDislikeClass);
 
 $url = $item->getUrl();
+/** @var Video[] $videos */
+$videos = $item->videos;
+/** @var \common\models\TagEntity[] $tags */
+$tags = $item->tagEntity;
+
+$keywords = [];
+$description = $this->title;
+foreach ($tags as $tag) {
+    $keywords[] = $tag->tags->name;
+}
+foreach ($videos as $video) {
+    $description .= ". Видео: " . $video->video_title;
+}
+preg_match_all('/[^\W\d][\w]*/', $this->title, $wordArr);
+$this->registerMetaTag([
+    'name'    => 'keywords',
+    'content' => join(', ', $keywords),
+], 'keywords');
+
+$this->registerMetaTag([
+    'name'    => 'description',
+    'content' => $description,
+], 'description');
 ?>
 <div id="item-header">
     <h1>
@@ -88,7 +111,6 @@ $url = $item->getUrl();
             ?>
         </div>
         <?php
-        $videos = $item->videos;
         if (count($videos) > 0) {
             ?>
             <h3>Видео:</h3>
@@ -99,7 +121,6 @@ $url = $item->getUrl();
         <br/>
         <div class="margin-bottom">
             <?php
-            $tags = $item->tagEntity;
             $tagValues = [];
             foreach ($tags as $tag) {
                 $tagItem = $tag->tags;
@@ -145,23 +166,30 @@ $url = $item->getUrl();
             $author = $item->user;
             ?>
             <div class="pull-right user-info">
-                <div class="user-action-time"><?= Lang::t("main", "created") ?> <?= date("d.m.Y", $item->date_create) ?></div>
+                <div
+                    class="user-action-time"><?= Lang::t("main", "created") ?> <?= date("d.m.Y", $item->date_create) ?></div>
                 <div class="user-gravatar32"><img src="<?= $author->getAvatarPic() ?>"></div>
                 <div class="user-details">
                     <?= $author->getDisplayName() ?> (<b><?= $author->reputation ?></b>)
                 </div>
             </div>
         </div>
-        <script type="text/javascript">(function() {
+        <script type="text/javascript">(function () {
                 if (window.pluso)if (typeof window.pluso.start == "function") return;
-                if (window.ifpluso==undefined) { window.ifpluso = 1;
+                if (window.ifpluso == undefined) {
+                    window.ifpluso = 1;
                     var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
-                    s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
-                    s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
-                    var h=d[g]('body')[0];
+                    s.type = 'text/javascript';
+                    s.charset = 'UTF-8';
+                    s.async = true;
+                    s.src = ('https:' == window.location.protocol ? 'https' : 'http') + '://share.pluso.ru/pluso-like.js';
+                    var h = d[g]('body')[0];
                     h.appendChild(s);
-                }})();</script>
-        <div class="pluso" style="display: none;" data-background="transparent" data-options="medium,round,line,horizontal,nocounter,theme=04" data-services="vkontakte,facebook,odnoklassniki,twitter,google"></div>
+                }
+            })();</script>
+        <div class="pluso" style="display: none;" data-background="transparent"
+             data-options="medium,round,line,horizontal,nocounter,theme=04"
+             data-services="vkontakte,facebook,odnoklassniki,twitter,google"></div>
     </div>
 </div>
 

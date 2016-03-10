@@ -127,11 +127,18 @@ class Item extends VoteModel
                 }
                 $video = new Video();
                 $video = $video->parseUrlToModel($url);
+                $needSave = false;
                 if ($video->isNewRecord) {
                     $video->user_id = $user_id;
+                    $needSave = true;
+                }
+                if ($video->video_title == "") {
+                    $video->updateTitle();
+                    $needSave = true;
+
                 }
                 if (!isset($videos[$video->entity][$video->entity_id]) &&
-                    (!$video->isNewRecord || $video->save())
+                    (!$needSave || $video->save())
                 ) {
                     $videos[$video->entity][$video->entity_id] = $video;
                     $itemVideo = new ItemVideo();
