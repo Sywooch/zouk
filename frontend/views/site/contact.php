@@ -13,7 +13,9 @@ $this->title = Lang::t('page/contact', 'title');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div id="item-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
 
     <p><?= Lang::t('page/contact', 'labelContact') ?></p>
 

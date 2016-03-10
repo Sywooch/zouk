@@ -13,7 +13,9 @@ $this->title = Lang::t('page/siteLogin', 'title');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div id="item-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
 
     <p><?= Lang::t('page/siteLogin', 'labelLogin') ?></p>
 
