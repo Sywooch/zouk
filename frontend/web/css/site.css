@@ -59,7 +59,7 @@ body.mce-fullscreen div.mce-fullscreen {
 
 .icon-x {
     cursor: pointer;
-    color: #263552;
+    color: #777;
     content: '&times;';
 }
 
@@ -69,7 +69,7 @@ body.mce-fullscreen div.mce-fullscreen {
 }
 
 .btn.btn-link {
-    color: #263552;
+    color: #777;
 }
 
 .not-set {
