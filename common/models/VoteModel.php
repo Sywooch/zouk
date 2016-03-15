@@ -13,12 +13,23 @@ use yii\web\IdentityInterface;
 class VoteModel extends ActiveRecord
 {
 
+    const ADD_REPUTATION_CANCEL_UP   = 'cancel_up';
+    const ADD_REPUTATION_UP          = 'up';
+    const ADD_REPUTATION_CANCEL_DOWN = 'cancel_down';
+    const ADD_REPUTATION_DOWN        = 'down';
+
+
     public function getVoteCount()
     {
         return 0;
     }
 
     public function addVote($changeVote)
+    {
+
+    }
+
+    public function addReputation($addReputation)
     {
 
     }
@@ -31,9 +42,10 @@ class VoteModel extends ActiveRecord
         return str_replace($rus, $lat, $str);
     }
 
-    function toAscii($str, $replace=array(), $delimiter='-') {
+    function toAscii($str, $replace = array(), $delimiter = '-')
+    {
         $str = trim($str);
-        if( !empty($replace) ) {
+        if (!empty($replace)) {
             $str = str_replace((array)$replace, ' ', $str);
         }
 

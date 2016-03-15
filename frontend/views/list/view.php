@@ -4,6 +4,7 @@
  * @var \common\models\Item $item
  * @var Vote                $vote
  */
+use common\models\Comment;
 use common\models\User;
 use common\models\Video;
 use common\models\Vote;
@@ -129,13 +130,13 @@ if (!empty($urlVideo)) {
         <?php
         if (count($videos) > 0) {
             ?>
-            <h3>Видео:</h3>
+            <h3><?= Lang::t('page/listView', 'titleVideo') ?>:</h3>
             <?php
             echo \frontend\widgets\VideosWidget::widget(['videos' => $videos]);
         }
         ?>
         <br/>
-        <div class="margin-bottom">
+        <div class="margin-bottom tag-line-height">
             <?php
             $tagValues = [];
             foreach ($tags as $tag) {
@@ -225,6 +226,21 @@ if (!empty($urlVideo)) {
         <div class="pluso" style="display: none;" data-background="transparent"
              data-options="medium,round,line,horizontal,nocounter,theme=04"
              data-services="vkontakte,facebook,odnoklassniki,twitter,google"></div>
+
+
+
+    </div>
+</div>
+<div class="row">
+    <hr/>
+    <div class="col-md-12">
+        <div>
+            <h3><?= Lang::t('page/listView', 'titleComment') ?></h3>
+            <div>
+                <?= \frontend\widgets\CommentsWidget::widget(['entity' => Comment::ENTITY_ITEM, 'entity_id' => $item->id]); ?>
+            </div>
+        </div>
+
     </div>
 </div>
 

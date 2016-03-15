@@ -102,6 +102,10 @@ class ListController extends Controller
             return $this->render('viewDeleted');
         }
 
+        if ($anchor = Yii::$app->request->get('comment', null)) {
+            Yii::$app->params['jsZoukVar']['anchor'] = $anchor;
+        }
+
         $item->addShowCount();
         $thisUser = User::thisUser();
         $vote = !empty($thisUser) ? $thisUser->getVoteByEntity(Vote::ENTITY_ITEM, $id) : null;

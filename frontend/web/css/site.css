@@ -63,13 +63,15 @@ body.mce-fullscreen div.mce-fullscreen {
     content: '&times;';
 }
 
-.btn.btn-link.no-focus:focus {
+.btn-link.no-focus:focus {
     outline: none;
     text-decoration: none;
 }
 
-.btn.btn-link {
+.btn.btn-link,
+.btn-link.no-focus {
     color: #777;
+    padding-left: 0;
 }
 
 .not-set {
@@ -213,10 +215,17 @@ a.desc:after {
     font-size: 2em;
 }
 
-
 .vote-down-link,
 .vote-up-link {
     color: #777;
+}
+
+.comment-vote-up.voted {
+    color: #00BB00;
+}
+
+.comment-vote-down.voted {
+    color: red;
 }
 
 .voted {
@@ -291,11 +300,16 @@ ul.nav-main-tabs li.active a {
     margin-bottom: 10px;
 }
 
+.tag-line-height {
+    line-height: 2;
+}
+
 .label-tag-element:focus,
 .label-tag-element:hover{
     color: white;
     background-color: #39739d;
     border: 1px solid #35648b;
+    margin-bottom: 5px;
 }
 
 .label-tag-element {
@@ -355,4 +369,24 @@ ul.nav-main-tabs li.active a {
 
 .mini-like-show {
     margin-right: 10px;
+}
+
+#blockComments .comment-content {
+    margin-left: 60px;
+    margin-bottom: 10px;
+}
+
+#blockComments .comment-reply-block {
+    margin-left: 60px;
+}
+
+#blockComments .block-user-avatar {
+    margin-right: 10px;
+    width: 48px;
+    height: 48px;
+}
+
+#blockComments .user-avatar {
+    max-height: 48px;
+    max-width: 48px;
 }

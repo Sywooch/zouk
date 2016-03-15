@@ -22,7 +22,8 @@ use yii\web\IdentityInterface;
 class Alarm extends ActiveRecord
 {
 
-    const ENTITY_ITEM = 'item';
+    const ENTITY_ITEM    = 'item';
+    const ENTITY_COMMENT = 'comment';
 
 
     /**

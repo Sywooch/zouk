@@ -223,6 +223,17 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @param $entity
+     * @param $entityIds
+     *
+     * @return Vote[]
+     */
+    public function getVotesByEntity($entity, $entityIds)
+    {
+        return Vote::findAll(['user_id' => $this->id, 'entity' => $entity, 'entity_id' => $entityIds]);
+    }
+
+    /**
      * @return null|User
      */
     public static function thisUser()

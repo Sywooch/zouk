@@ -16,4 +16,19 @@ return [
     'msgAlarmResultTrue'  => 'Ваша жалоба отправлена.',
     'msgAlarmResultFalse' => 'Жалоба не отправлена. Возможно вы слишком часто жалуетесь.',
     'viewDeleted'         => 'Страница удалена',
+
+    'titleVideo'   => 'Видео',
+    'titleComment' => 'Комментарии',
+
+    'addCommentDescription'     => 'Оставьте комментарий',
+    'buttonAddComment'          => 'Отправить',
+    'buttonCancelComment'       => 'Отмена',
+    'replyComment'              => 'ответить',
+    'deleteComment'             => 'удалить',
+    'alarmComment'              => 'пожаловаться',
+    'deleteCommentConfirmTitle' => 'Удалить комментарий?',
+    'deleteCommentConfirm'      => 'Вы уверены, что хотите удалить комментарий?',
+    'modalCommentAlarmTitle'    => 'Пожаловаться на комментарий',
+    'msgCommentAlarm'           => 'Напишите суть вашей жалобы',
+
 ];

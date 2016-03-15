@@ -22,7 +22,8 @@ use yii\web\IdentityInterface;
 class Vote extends ActiveRecord
 {
 
-    const ENTITY_ITEM = 'item';
+    const ENTITY_ITEM    = Item::THIS_ENTITY;
+    const ENTITY_COMMENT = Comment::THIS_ENTITY;
 
     const VOTE_NONE = 0;
     const VOTE_DOWN = 1;
@@ -104,7 +105,19 @@ class Vote extends ActiveRecord
                 // Если только пользователь не отменяет свои дизлайки
                 if (!($vote->vote == self::VOTE_DOWN && $voteAdd == self::VOTE_DOWN)) {
                     return [
-                        'vote' => 0,
+                        'vote'  => 0,
+                        'count' => $model->getVoteCount(),
+                        'error' => Lang::t('ajax', 'noReputationVote'),
+                    ];
+                }
+            }
+        } else if ($entity == self::ENTITY_COMMENT) {
+            $model = Comment::findOne($id);
+            if ($user->reputation < Comment::MIN_REPUTATION_COMMENT_VOTE) {
+                // Если только пользователь не отменяет свои дизлайки
+                if (!($vote->vote == self::VOTE_DOWN && $voteAdd == self::VOTE_DOWN)) {
+                    return [
+                        'vote'  => 0,
                         'count' => $model->getVoteCount(),
                         'error' => Lang::t('ajax', 'noReputationVote'),
                     ];
@@ -114,65 +127,43 @@ class Vote extends ActiveRecord
 
 
         if (!empty($model)) {
-            $modelUserId = $model->user_id;
-            $paramsSelf = [
-                'entity' => $entity,
-                'itemId' => $id,
-                'userId' => $user->id,
-            ];
-            $paramsOther = [
-                'entity' => $entity,
-                'itemId' => $id,
-                'userId' => $modelUserId,
-            ];
             if ($vote->vote == self::VOTE_UP) {
                 if ($voteAdd == self::VOTE_UP) {
                     // убираем up
                     $vote->vote = self::VOTE_NONE;
                     $model->addVote(-1);
-                    Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_LIKE_SELF_ITEM_CANCEL, $paramsSelf); // - хозяину записи за отмену лайка
+                    $model->addReputation(VoteModel::ADD_REPUTATION_CANCEL_UP);
                 } else {
                     // ставим down
                     $vote->vote = self::VOTE_DOWN;
                     $model->addVote(-2);
-                    Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_LIKE_SELF_ITEM_CANCEL, $paramsSelf); // - хозяину записи за отмену лайка
-                    Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_DISLIKE_SELF_ITEM, $paramsSelf); // - хозяину записи за дизлайк
-                    Reputation::addReputation($user->id, Reputation::ENTITY_VOTE_DISLIKE_OTHER_ITEM, $paramsOther); // - текущему пользователю за дизлайк
+                    $model->addReputation(VoteModel::ADD_REPUTATION_CANCEL_UP);
+                    $model->addReputation(VoteModel::ADD_REPUTATION_DOWN);
                 }
             } elseif ($vote->vote == self::VOTE_DOWN) {
                 if ($voteAdd == self::VOTE_UP) {
                     // ставим up
                     $vote->vote = self::VOTE_UP;
                     $model->addVote(2);
-                    Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_DISLIKE_SELF_ITEM_CANCEL, $paramsSelf); // + хозяину записи за отмену дизлайка
-                    Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_LIKE_SELF_ITEM, $paramsSelf); // + хозяину записи за лайк
-                    Reputation::addReputation($user->id, Reputation::ENTITY_VOTE_DISLIKE_OTHER_ITEM_CANCEL, $paramsOther); // + текущему пользователю за отмену дизлайка
+                    $model->addReputation(VoteModel::ADD_REPUTATION_CANCEL_DOWN);
+                    $model->addReputation(VoteModel::ADD_REPUTATION_UP);
                 } else {
                     // убираем down
                     $vote->vote = self::VOTE_NONE;
                     $model->addVote(1);
-                    Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_DISLIKE_SELF_ITEM_CANCEL, $paramsSelf); // + хозяину записи за отмену дизлайка
-                    Reputation::addReputation($user->id, Reputation::ENTITY_VOTE_DISLIKE_OTHER_ITEM_CANCEL, $paramsOther); // + текущему пользователю за отмену дизлайка
+                    $model->addReputation(VoteModel::ADD_REPUTATION_CANCEL_DOWN);
                 }
             } else {
                 if ($voteAdd == self::VOTE_UP) {
                     // ставим up
                     $vote->vote = self::VOTE_UP;
                     $model->addVote(1);
-                    Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_LIKE_SELF_ITEM, $paramsSelf); // + хозяину записи за лайк
-                    // Если раньше не было оценки, пользователь ставит лайк и его репутация маленькая, тогда добавим ему репутации
-                    if ($user->reputation < Item::MAX_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE &&
-                        $user->reputation > Item::MIN_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE
-                    ) {
-                        Reputation::addReputation($user->id, Reputation::ENTITY_VOTE_LIKE_OTHER_ITEM, $paramsOther); // + текущему пользователю за лайк
-                    }
-                    
+                    $model->addReputation(VoteModel::ADD_REPUTATION_UP);
                 } else {
                     // ставим down
                     $vote->vote = self::VOTE_DOWN;
                     $model->addVote(-1);
-                    Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_DISLIKE_SELF_ITEM, $paramsSelf); // - хозяину записи за дизлайк
-                    Reputation::addReputation($user->id, Reputation::ENTITY_VOTE_DISLIKE_OTHER_ITEM, $paramsOther); // - текущему пользователю за дизлайк
+                    $model->addReputation(VoteModel::ADD_REPUTATION_DOWN);
                 }
             }
         }

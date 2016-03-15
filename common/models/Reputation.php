@@ -30,6 +30,11 @@ class Reputation extends ActiveRecord
     const ENTITY_VOTE_DISLIKE_OTHER_ITEM_CANCEL = 'voteDislikeOtherItemCancel';
     const ENTITY_VOTE_LIKE_OTHER_ITEM           = 'voteLikeOtherItem';
 
+    const ENTITY_VOTE_LIKE_SELF_COMMENT            = 'voteLikeSelfComment';
+    const ENTITY_VOTE_LIKE_SELF_COMMENT_CANCEL     = 'voteLikeSelfCommentCancel';
+    const ENTITY_VOTE_DISLIKE_SELF_COMMENT         = 'voteDislikeSelfComment';
+    const ENTITY_VOTE_DISLIKE_SELF_COMMENT_CANCEL  = 'voteDislikeSelfCommentCancel';
+
     public static function notSelfChange()
     {
         return [
@@ -39,6 +44,11 @@ class Reputation extends ActiveRecord
             self::ENTITY_VOTE_DISLIKE_SELF_ITEM_CANCEL,
             self::ENTITY_VOTE_DISLIKE_OTHER_ITEM,
             self::ENTITY_VOTE_DISLIKE_OTHER_ITEM_CANCEL,
+
+            self::ENTITY_VOTE_LIKE_SELF_COMMENT,
+            self::ENTITY_VOTE_LIKE_SELF_COMMENT_CANCEL,
+            self::ENTITY_VOTE_DISLIKE_SELF_COMMENT,
+            self::ENTITY_VOTE_DISLIKE_SELF_COMMENT_CANCEL,
         ];
     }
 
@@ -140,6 +150,20 @@ class Reputation extends ActiveRecord
         } else if ($entity == self::ENTITY_VOTE_LIKE_OTHER_ITEM) {
             $params['msg'] = "Понравилась запись {$pItemId}.";
             $params['value'] = 1;
+        } else
+
+        if ($entity == self::ENTITY_VOTE_LIKE_SELF_COMMENT) {
+            $params['msg'] = "Комментарий {$pItemId} понравился пользователю {$pUserId}.";
+            $params['value'] = 1;
+        } else if ($entity == self::ENTITY_VOTE_LIKE_SELF_COMMENT_CANCEL) {
+            $params['msg'] = "Отмена: Комментарий {$pItemId} понравился пользователю {$pUserId}.";
+            $params['value'] = -1;
+        } else if ($entity == self::ENTITY_VOTE_DISLIKE_SELF_COMMENT) {
+            $params['msg'] = "Комментарий {$pItemId} не понравился пользователю {$pUserId}.";
+            $params['value'] = -1;
+        } else if ($entity == self::ENTITY_VOTE_DISLIKE_SELF_COMMENT_CANCEL) {
+            $params['msg'] = "Отмена: Комментарий {$pItemId} не понравился пользователю {$pUserId}.";
+            $params['value'] = 1;
         }
 
 
@@ -147,6 +171,7 @@ class Reputation extends ActiveRecord
         $reputation->user_id = $userId;
         $reputation->msg = isset($params['msg']) ? $params['msg'] : '';
         $reputation->value = isset($params['value']) ? $params['value'] : 0;
+        $reputation->entity = $params['entity'];
         $reputation->save();
         $findUser->reputation += $reputation->value;
         $findUser->save();

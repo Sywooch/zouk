@@ -15,7 +15,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
-$var = isset(Yii::$app->params['jsZoukVar']) ? Yii::$app->params['jsZoukVar'] : ["hello"];
+$var = isset(Yii::$app->params['jsZoukVar']) ? Yii::$app->params['jsZoukVar'] : [];
 $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
 ?>
 <?php $this->beginPage() ?>

@@ -25,6 +25,8 @@ use yii\web\IdentityInterface;
 class Item extends VoteModel
 {
 
+    const THIS_ENTITY = 'item';
+
     const MAX_VIDEO_ITEM = 5;
 
     const MIN_REPUTATION_ITEM_CREATE  = -4;
@@ -195,12 +197,58 @@ class Item extends VoteModel
         return false;
     }
 
-    public function getUrl($scheme = false)
+    public function getUrl($scheme = false, $addParams = [])
     {
         if ($this->alias) {
-            return Url::to(['list/view', 'alias' => $this->alias], $scheme);
+            $params = ['list/view', 'alias' => $this->alias];
+            $params = array_merge($params, $addParams);
+            return Url::to($params, $scheme);
         } else {
-            return Url::to(['list/view', 'index' => $this->id], $scheme);
+            $params = ['list/view', 'index' => $this->id];
+            $params = array_merge($params, $addParams);
+            return Url::to($params, $scheme);
+        }
+    }
+
+
+    public function addReputation($addReputation)
+    {
+        $user = User::thisUser();
+        $modelUserId = $this->user_id;
+        $paramsSelf = [
+            'entity' => self::THIS_ENTITY,
+            'itemId' => $this->id,
+            'userId' => $user->id,
+        ];
+        $paramsOther = [
+            'entity' => self::THIS_ENTITY,
+            'itemId' => $this->id,
+            'userId' => $modelUserId,
+        ];
+
+        if ($addReputation == VoteModel::ADD_REPUTATION_CANCEL_UP) {
+            // - хозяину записи за отмену лайка
+            Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_LIKE_SELF_ITEM_CANCEL, $paramsSelf);
+        } elseif ($addReputation == VoteModel::ADD_REPUTATION_UP) {
+            // + хозяину записи за лайк
+            Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_LIKE_SELF_ITEM, $paramsSelf);
+            // Если раньше не было оценки, пользователь ставит лайк и его репутация маленькая, тогда добавим ему репутации
+            if ($user->reputation < Item::MAX_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE &&
+                $user->reputation > Item::MIN_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE
+            ) {
+                // + текущему пользователю за лайк
+                Reputation::addReputation($user->id, Reputation::ENTITY_VOTE_LIKE_OTHER_ITEM, $paramsOther);
+            }
+        } elseif ($addReputation == VoteModel::ADD_REPUTATION_CANCEL_DOWN) {
+            // + хозяину записи за отмену дизлайка
+            Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_DISLIKE_SELF_ITEM_CANCEL, $paramsSelf);
+            // + текущему пользователю за отмену дизлайка
+            Reputation::addReputation($user->id, Reputation::ENTITY_VOTE_DISLIKE_OTHER_ITEM_CANCEL, $paramsOther);
+        } elseif ($addReputation == VoteModel::ADD_REPUTATION_DOWN) {
+            // - хозяину записи за дизлайк
+            Reputation::addReputation($modelUserId, Reputation::ENTITY_VOTE_DISLIKE_SELF_ITEM, $paramsSelf);
+            // - текущему пользователю за дизлайк
+            Reputation::addReputation($user->id, Reputation::ENTITY_VOTE_DISLIKE_OTHER_ITEM, $paramsOther);
         }
     }
 }
