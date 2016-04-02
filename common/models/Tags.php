@@ -31,7 +31,7 @@ class Tags extends ActiveRecord
 
     public function getName()
     {
-        return htmlspecialchars($this->name);
+        return strip_tags($this->name);
     }
 
     /**
