@@ -102,6 +102,9 @@ class ListController extends Controller
             $alias = Yii::$app->request->get('alias', null);
             $item = Item::findOne(['alias' => $alias]);
         }
+        if (empty($item)) {
+            return;
+        }
 
         if ($item->deleted) {
             return $this->render('viewDeleted');
