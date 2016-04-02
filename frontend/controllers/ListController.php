@@ -71,7 +71,9 @@ class ListController extends Controller
                 // Добавляем аудиозаписи к записи
                 $sounds = Yii::$app->request->post('sounds');
                 if (!empty($sounds) && is_array($sounds)) {
-                    $item->saveSounds($sounds, $item->user_id);
+                    $item->saveSounds($sounds);
+                } else {
+                    $item->saveSounds([]);
                 }
                 // Добавляем теги
                 $tags = explode(',', Yii::$app->request->post('tags'));
@@ -146,7 +148,9 @@ class ListController extends Controller
                 // Добавляем аудиозаписи к записи
                 $sounds = Yii::$app->request->post('sounds');
                 if (!empty($sounds) && is_array($sounds)) {
-                    $item->saveSounds($sounds, $item->user_id);
+                    $item->saveSounds($sounds);
+                } else {
+                    $item->saveSounds([]);
                 }
 
                 TagEntity::deleteAll(['entity' => TagEntity::ENTITY_ITEM, 'entity_id' => $item->id]);

@@ -173,7 +173,7 @@ class Item extends VoteModel
         }
     }
 
-    public function saveSounds($sounds, $user_id)
+    public function saveSounds($sounds)
     {
         if (count($sounds) > 0) {
             $sounds = array_map('intval', $sounds);
