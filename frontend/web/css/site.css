@@ -445,3 +445,17 @@ table.audio-list td .btn-music-add {
 .block-video-link span.glyphicon {
     margin-right: 5px;
 }
+
+table.audio-list-item tr :first-child {
+    width: 100%;
+}
+
+table.audio-list-item tr :last-child {
+    width: 0;
+    white-space: nowrap;
+}
+
+#blockSounds {
+    width: 100%;
+    max-width: 600px;
+}
