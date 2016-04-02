@@ -203,6 +203,9 @@ class YandexDiskComponent
             return null;
         }
         try {
+            if (strpos($body, "not authorized") > 0) {
+                return [];
+            }
             switch ($type) {
                 case self::DECODE_TYPE_XML:
                     return simplexml_load_string((string)$body);

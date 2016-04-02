@@ -85,10 +85,6 @@ return [
             'class' => 'common\components\YandexDiskComponent',
             'key'   => 'yandexDiskMain',
             'keys'  => [
-                'yandexDiskMain' => [
-                    'user' => 'BrazilianZouk',
-                    'psw'  => 'Brazilianzouk1',
-                ],
             ],
         ],
         'google'       => [
