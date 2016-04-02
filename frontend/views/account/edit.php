@@ -9,10 +9,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-$userDisplayName = $user->display_name;
-if (empty($userDisplayName)) {
-    $userDisplayName = "user" . $user->id;
-}
+$userDisplayName = $user->getDisplayName();
 $userAvatarUrl = $user->avatar_pic;
 if (empty($userAvatarUrl)) {
     $userAvatarUrl = Yii::$app->UrlManager->to('img/no_avatar.png');

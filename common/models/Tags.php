@@ -29,6 +29,11 @@ class Tags extends ActiveRecord
         return 'tags';
     }
 
+    public function getName()
+    {
+        return htmlspecialchars($this->name);
+    }
+
     /**
      * @inheritdoc
      */
@@ -76,7 +81,7 @@ class Tags extends ActiveRecord
         $tags = Tags::findAll(['tag_group' => $tagGroup]);
         $result = [];
         foreach ($tags as $tag) {
-            $result[] = $tag->name;
+            $result[] = $tag->getName();
         }
         return $result;
     }

@@ -70,11 +70,22 @@ class User extends ActiveRecord implements IdentityInterface
                 'file',
                 'skipOnEmpty' => true,
                 'extensions' => 'png, jpg',
-                'maxSize' => 2*1024*1024,
+                'maxSize' => 5*1024*1024,
                 'tooBig' => Lang::t('page/accountProfile', 'limitSize')
             ],
         ];
     }
+
+    public function getFirstname()
+    {
+        return htmlspecialchars($this->firstname);
+    }
+
+    public function getLastname()
+    {
+        return htmlspecialchars($this->lastname);
+    }
+
 
     /**
      * @inheritdoc
@@ -254,8 +265,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function getDisplayName()
     {
         if (empty($this->display_name)) {
-            return $this->username;
+            return htmlspecialchars($this->username);
         }
-        return $this->display_name;
+        return htmlspecialchars($this->display_name);
+    }
+
+    public function getLastAudio()
+    {
+        return Music::getMusic(['userId' => $this->id]);
     }
 }

@@ -1,0 +1,248 @@
+.audio-pr {
+    margin-top: 8px;
+}
+
+.audio-volume-white-line,
+.audio-white-line {
+    width: 100%;
+    height: 15px;
+    position: relative;
+    display: block;
+    top: -5px;
+    cursor: pointer;
+    -webkit-user-select: none;
+}
+
+.audio-volume-back-line,
+.audio-back-line {
+    width: 100%;
+    height: 4px;
+    margin: 0;
+    position: relative;
+    display: block;
+    top: -15px;
+    background-color: #ccc;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.audio-volume-load-line,
+.audio-load-line {
+    width: 0;
+    height: 4px;
+    margin: 0;
+    position: relative;
+    display: block;
+    top: -19px;
+    background-color: #bbb;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.audio-volume-progress-line,
+.audio-progress-line {
+    width: 0;
+    height: 4px;
+    margin: -12px 0 0 0;
+    position: relative;
+    display: block;
+    top: -11px;
+    background-color: #31708f;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.audio-volume-progress-line:before,
+.audio-progress-line:before {
+    position: absolute;
+    right: -5px;
+    top: -2px;
+    width: 8px;
+    height: 8px;
+    content: "";
+    background-color:#31708f;
+    border-radius:4px;
+    display:inline-block;
+    cursor:pointer;
+}
+
+.sound-item {
+    max-width: 600px;
+    cursor: pointer;
+    height: 40px;
+}
+
+.sound-item b {
+    color: #31708f;
+}
+
+.sound-item table {
+    font-size: 14px;
+}
+
+.sound-item .table-progress {
+    margin-top: -3px;
+}
+
+.sound-item .glyphicon-volume-off,
+.sound-item .glyphicon-volume-down {
+    margin-left: 7px;
+    color: #bbb
+}
+
+.sound-item .glyphicon-volume-off:hover,
+.sound-item .glyphicon-volume-down:hover {
+    color: #31708f;
+}
+
+.sound-item .sound-artist-title {
+    padding-right: 10px;
+    margin-top: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 20px;
+}
+
+.sound-item .time-info {
+    float: right;
+    line-height: 25px;
+    font-size: 12px;
+    color: #a0a0a0;
+    font-family: 'Open Sans',sans-serif;
+}
+
+.sound-item .time-info .time-play {
+    margin-top: 7px;
+    line-height: 20px;
+}
+
+/* ++ Кнопки ++ */
+.sound-item .background:hover{
+    background-color:#31708f;
+}
+
+.sound-item .background{
+    top: 5px;
+    width:20px;
+    height:20px;
+    background-color:#dae7f1;
+    position:relative;
+    border-radius:10px;
+    display:inline-block;
+    cursor:pointer;
+    margin-right: 5px;
+}
+.sound-item .play,
+.sound-item .stop,
+.sound-item .pause,
+.sound-item .forward,
+.sound-item .back{
+    position:absolute;
+    top:5px;
+}
+
+
+.sound-item .background:hover .play{
+    border-left:7px solid #fff;
+}
+
+.sound-item .play{
+    border-top:5px solid transparent;
+    border-bottom:5px solid transparent;
+    border-left:7px solid #31708f;
+    left:8px;
+}
+
+.sound-item .background:hover .stop{
+    background-color:#fff;
+}
+
+.sound-item .stop{
+    width:50px;
+    height:50px;
+    border-radius:10px;
+    left:25px;
+    background-color:#31708f;
+}
+
+.sound-item .background:hover .pause{
+    background-color:#fff;
+}
+
+.sound-item .pause{
+    top: 5px;
+    width: 3px;
+    height:10px;
+    border-radius:1px;
+    background-color:#31708f;
+}
+.sound-item .firsthalf{
+    left:6px;
+}
+
+.sound-item .secondhalf{
+    left:11px;
+}
+
+.sound-item .forward.pause.secondhalf{
+    left:12px;
+}
+
+.sound-item .forward.play{
+    left:7px;
+}
+
+.sound-item .back.play{
+    -moz-transform:rotate(180deg);
+    -o-transform:rotate(180deg);
+    -webkit-transform:rotate(180deg);
+    -ms-transform:rotate(180deg);
+    transform:rotate(180deg);
+    left:8px;
+}
+
+.sound-item .back.pause.firsthalf{
+    right:12px;
+}
+
+.sound-item .dynamicleft{
+    background-color:#fff;
+    position:absolute;
+}
+.sound-item .dynamicleft{
+    width:15px;
+    height:30px;
+    left:20px;
+    top:35px;
+}
+.sound-item .dynamicright{
+    height:29px;
+    border-right:17px solid #FFF;
+    border-top:17px solid rgba(0, 0, 0, 0);
+    border-bottom:17px solid rgba(0, 0, 0, 0);
+    position:absolute;
+    left:36px;
+    top:18px;
+}
+.sound-item .sound{
+    width:50px;
+    height:50px;
+    border-right:1px solid #fff;
+    border-radius:25px;
+    position:absolute;
+    left:24px;
+    top:24px;
+}
+/* -- Кнопки -- */

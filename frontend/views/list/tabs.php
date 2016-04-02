@@ -23,6 +23,8 @@ $urlNoTag = Url::to([$urls[$selectTab]]);
     </ul>
     <?php if (!empty($searchTag)) { ?>
         <br/>
-        Поиск по тегу: <span class="label label-tag-element"><?= $searchTag ?></span> <span class="icon-x" data-href="<?= $urlNoTag ?>">&times;</span>
+        <div class="">
+            Поиск по тегу: <span class="label label-tag-element"><?= $searchTag ?></span> <span class="icon-x" data-href="<?= $urlNoTag ?>">&times;</span>
+        </div>
     <?php } ?>
 </div>

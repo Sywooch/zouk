@@ -4,7 +4,6 @@ namespace frontend\controllers;
 use common\models\Alarm;
 use common\models\Comment;
 use common\models\Item;
-use common\models\ItemVideo;
 use common\models\TagEntity;
 use common\models\Tags;
 use common\models\User;

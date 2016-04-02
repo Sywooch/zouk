@@ -238,7 +238,5 @@ class SiteController extends Controller
             echo '</url>';
         }
         echo '</urlset>';
-
-        Yii::$app->end();
     }
 }

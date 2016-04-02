@@ -9,15 +9,16 @@ return [
     'share'               => 'поделиться',
     'deleteConfirmTitle'  => 'Удалить запись?',
     'deleteConfirm'       => 'Вы уверены, что хотите удалить?',
-    'modalAlarmTitle'     => 'Пожаловаться',
+    'modalAlarmTitle'     => 'Пожаловаться', // dialogs
     'alarm'               => 'пожаловаться',
-    'alarmBtn'            => 'Пожаловаться',
-    'msgAlarm'            => 'Напишите суть вашей жалобы',
+    'alarmBtn'            => 'Пожаловаться', // dialogs
+    'msgAlarm'            => 'Напишите суть вашей жалобы', // dialogs
     'msgAlarmResultTrue'  => 'Ваша жалоба отправлена.',
     'msgAlarmResultFalse' => 'Жалоба не отправлена. Возможно вы слишком часто жалуетесь.',
     'viewDeleted'         => 'Страница удалена',
 
-    'titleVideo'   => 'Видео',
+    'titleVideo'   => 'Видеозаписи',
+    'titleSound'   => 'Аудиозаписи',
     'titleComment' => 'Комментарии',
 
     'addCommentDescription'     => 'Оставьте комментарий',

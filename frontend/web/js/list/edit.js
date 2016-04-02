@@ -16,8 +16,7 @@ $(document).ready(function () {
         templates: [
             { title: 'Test template 1', content: 'Test 1' },
             { title: 'Test template 2', content: 'Test 2' }
-        ],
-
+        ]
     });
     
     tags = [];
@@ -30,5 +29,6 @@ $(document).ready(function () {
             delay: 100
         },
         showAutocompleteOnFocus: true
-    })
+    });
+
 });

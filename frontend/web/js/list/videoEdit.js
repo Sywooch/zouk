@@ -3,7 +3,7 @@ $(document).ready(function() {
         var $blockVideos = $('#blockVideos');
         var $blockVideo = $('<div class="input-group margin-bottom"></div>').append([
             $('<input type="text" name="videos[]" class="form-control" />'),
-            $('<span type="submit" class=" input-group-addon btn btn-default">X</span>')
+            $('<span class="input-group-addon btn btn-default"><i class="glyphicon glyphicon-remove"></i></span>')
         ]);
 
         $blockVideos.append($blockVideo);

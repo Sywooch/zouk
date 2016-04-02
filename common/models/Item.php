@@ -11,16 +11,20 @@ use yii\web\IdentityInterface;
 /**
  * User model
  *
- * @property integer $id
- * @property integer $user_id
- * @property string  $title
- * @property string  $description
- * @property int     $like_count
- * @property int     $show_count
- * @property string  $alias
- * @property int     $deleted
- * @property integer $date_update
- * @property integer $date_create
+ * @property integer     $id
+ * @property integer     $user_id
+ * @property string      $title
+ * @property string      $description
+ * @property int         $like_count
+ * @property int         $show_count
+ * @property string      $alias
+ * @property int         $deleted
+ * @property integer     $date_update
+ * @property integer     $date_create
+ *
+ * @property Video[]     $videos
+ * @property Music[]     $sounds
+ * @property TagEntity[] $tagEntity
  */
 class Item extends VoteModel
 {
@@ -28,9 +32,10 @@ class Item extends VoteModel
     const THIS_ENTITY = 'item';
 
     const MAX_VIDEO_ITEM = 5;
+    const MAX_SOUND_ITEM = 10;
 
-    const MIN_REPUTATION_ITEM_CREATE  = -4;
-    const MIN_REPUTATION_ITEM_VOTE    = -4;
+    const MIN_REPUTATION_ITEM_CREATE                       = -4;
+    const MIN_REPUTATION_ITEM_VOTE                         = -4;
     const MIN_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE = -3;
     const MAX_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE = 10;
 
@@ -40,6 +45,11 @@ class Item extends VoteModel
     public static function tableName()
     {
         return 'item';
+    }
+
+    public function getTitle()
+    {
+        return htmlspecialchars($this->title);
     }
 
     /**
@@ -113,8 +123,18 @@ class Item extends VoteModel
 
     public function getVideos()
     {
-        return $this->hasMany(Video::className(), ['id' => 'video_id'])
-            ->viaTable(ItemVideo::tableName(), ['item_id' => 'id']);
+        return $this->hasMany(Video::className(), ['id' => 'entity_2_id'])
+            ->viaTable(EntityLink::tableName(), ['entity_1_id' => 'id'], function ($query) {
+                $query->onCondition(['entity_1' => Item::THIS_ENTITY, 'entity_2' => Video::THIS_ENTITY]);
+            });
+    }
+
+    public function getSounds()
+    {
+        return $this->hasMany(Music::className(), ['id' => 'entity_2_id'])
+            ->viaTable(EntityLink::tableName(), ['entity_1_id' => 'id'], function ($query) {
+                $query->onCondition(['entity_1' => Item::THIS_ENTITY, 'entity_2' => Music::THIS_ENTITY]);
+            });
     }
 
     public function saveVideos($videosUrl, $user_id)
@@ -134,21 +154,62 @@ class Item extends VoteModel
                     $video->user_id = $user_id;
                     $needSave = true;
                 }
-                if ($video->video_title == "") {
-                    $video->updateTitle();
+                if ($video->video_title == "" || $video->duration == 0) {
+                    $video->updateProperties();
                     $needSave = true;
-
                 }
                 if (!isset($videos[$video->entity][$video->entity_id]) &&
                     (!$needSave || $video->save())
                 ) {
                     $videos[$video->entity][$video->entity_id] = $video;
-                    $itemVideo = new ItemVideo();
-                    $itemVideo->item_id = $this->id;
-                    $itemVideo->video_id = $video->id;
+                    $itemVideo = new EntityLink();
+                    $itemVideo->entity_1 = Item::THIS_ENTITY;
+                    $itemVideo->entity_1_id = $this->id;
+                    $itemVideo->entity_2 = Video::THIS_ENTITY;
+                    $itemVideo->entity_2_id = $video->id;
                     $itemVideo->save();
                 }
             }
+        }
+    }
+
+    public function saveSounds($sounds, $user_id)
+    {
+        if (count($sounds) > 0) {
+            $sounds = array_map('intval', $sounds);
+            $sounds = array_unique($sounds);
+            $sounds = array_slice($sounds, 0, self::MAX_SOUND_ITEM);
+            EntityLink::deleteAll(
+                [
+                    'AND',
+                    'entity_1 = :entity_1',
+                    'entity_1_id = :entity_1_id',
+                    'entity_2 = :entity_2',
+                    ['NOT IN', 'entity_2_id', $sounds],
+                ],
+                [
+                    ':entity_1'    => Item::THIS_ENTITY,
+                    ':entity_1_id' => $this->id,
+                    ':entity_2'    => Music::THIS_ENTITY,
+                ]
+            );
+            $soundObjs = $this->sounds;
+            $soundsId = [];
+            foreach ($soundObjs as $sound) {
+                $soundsId[] = $sound->id;
+            }
+            foreach ($sounds as $soundId) {
+                if (!in_array($soundId, $soundsId)) {
+                    $entityLink = new EntityLink();
+                    $entityLink->entity_1 = Item::THIS_ENTITY;
+                    $entityLink->entity_1_id = $this->id;
+                    $entityLink->entity_2 = Music::THIS_ENTITY;
+                    $entityLink->entity_2_id = $soundId;
+                    $entityLink->save();
+                }
+            }
+        } else {
+            EntityLink::deleteAll(['entity_1' => Item::THIS_ENTITY, 'entity_1_id' => $this->id, 'entity_2' => Music::THIS_ENTITY]);
         }
     }
 

@@ -9,13 +9,16 @@ use common\models\User;
 use common\models\Video;
 use common\models\Vote;
 use frontend\models\Lang;
+use frontend\widgets\ModalDialogsWidget;
+use frontend\widgets\SoundWidget;
 use yii\helpers\Html;
+use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
 
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/view.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/findTagElement.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
-$this->title = $item->title;
+$this->title = $item->getTitle();
 
 $this->params['breadcrumbs'][] = Lang::t('page/listView', 'title');
 
@@ -43,6 +46,8 @@ $divDislikeClass = join(' ', $divDislikeClass);
 $url = $item->getUrl();
 /** @var Video[] $videos */
 $videos = $item->videos;
+/** @var Music[] $sounds */
+$sounds = $item->sounds;
 /** @var \common\models\TagEntity[] $tags */
 $tags = $item->tagEntity;
 
@@ -50,7 +55,7 @@ $keywords = [];
 $description = $this->title;
 $urlVideo = '';
 foreach ($tags as $tag) {
-    $keywords[] = $tag->tags->name;
+    $keywords[] = $tag->tags->getName();
 }
 foreach ($videos as $video) {
     $description .= ". Видео: " . $video->video_title;
@@ -83,7 +88,7 @@ if (!empty($urlVideo)) {
 ?>
 <div id="item-header">
     <h1>
-        <?= Html::a($item->title, $url, ['class' => 'item-hyperlink']) ?>
+        <?= Html::a($item->getTitle(), $url, ['class' => 'item-hyperlink']) ?>
         <?php
         if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $item->user_id) {
             echo Html::a(
@@ -121,10 +126,10 @@ if (!empty($urlVideo)) {
     </div>
 
 
-    <div class="col-lg-11">
+    <div class="col-lg-11 block-item-view">
         <div class="item-text">
             <?php
-            echo \yii\helpers\HtmlPurifier::process($item->description, []);
+            echo HtmlPurifier::process($item->description, []);
             ?>
         </div>
         <?php
@@ -134,6 +139,14 @@ if (!empty($urlVideo)) {
             <?php
             echo \frontend\widgets\VideosWidget::widget(['videos' => $videos]);
         }
+        if (count($sounds) > 0) {
+            ?>
+            <h3><?= Lang::t('page/listView', 'titleSound') ?>:</h3>
+            <?php
+            foreach ($sounds as $sound) {
+                echo SoundWidget::widget(['music' => $sound]);
+            }
+        }
         ?>
         <br/>
         <div class="margin-bottom tag-line-height">
@@ -141,8 +154,8 @@ if (!empty($urlVideo)) {
             $tagValues = [];
             foreach ($tags as $tag) {
                 $tagItem = $tag->tags;
-                $urlTag = Url::to(['/', 'tag' => $tagItem->name]);
-                echo Html::a($tagItem->name, $urlTag, ['class' => 'label label-tag-element']), " ";
+                $urlTag = Url::to(['/', 'tag' => $tagItem->getName()]);
+                echo Html::a($tagItem->getName(), $urlTag, ['class' => 'label label-tag-element']), " ";
             }
             ?>
         </div>
@@ -267,34 +280,4 @@ if (!empty($urlVideo)) {
     </div>
 </div>
 
-<div class="modal fade modal-alarm bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?= Lang::t('page/listView', 'modalAlarmTitle') ?></h4>
-            </div>
-            <div class="modal-body">
-                <?= Lang::t('page/listView', 'msgAlarm') ?>
-                <?= Html::input('text', 'alarmMsg', '', ['class' => 'form-control']) ?>
-            </div>
-            <div class="modal-footer">
-                <?= Html::a(
-                    Lang::t('page/listView', 'alarmBtn'),
-                    Url::to(['list/alarm']),
-                    [
-                        'id'             => 'alarm-item',
-                        'class'          => 'btn btn-danger',
-                        'data-href'      => Url::to(['list/alarm']),
-                        'data-msg-alarm' => Lang::t('page/listView', 'msgAlarm'),
-                        'data-id'        => $item->id,
-                    ]
-                ), ' ';
-                ?>
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
-            </div>
-        </div>
-    </div>
-</div>
+<?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_ALARM, 'id' => $item->id]) ?>

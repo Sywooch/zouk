@@ -17,6 +17,12 @@ use common\widgets\Alert;
 AppAsset::register($this);
 $var = isset(Yii::$app->params['jsZoukVar']) ? Yii::$app->params['jsZoukVar'] : [];
 $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
+
+// Musics Player
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/soundmanager/soundmanager2-nodebug-jsmin.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/soundmanager/music.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -49,8 +55,9 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
         $menuItems[] = ['label' => Lang::t('main', 'signup'), 'url' => ['site/signup']];
         $menuItems[] = ['label' => Lang::t('main', 'login'), 'url' => ['site/login']];
     } else {
+        $displayName = User::thisUser()->getDisplayName();
         $displayProfile =  Html::img(User::thisUser()->getAvatarPic(), ['height' => 24]) . " " .
-           (empty(User::thisUser()->display_name) ? Lang::t('main', 'profile') : User::thisUser()->display_name) . ' ' .
+           (empty($displayName) ? Lang::t('main', 'profile') : $displayName) . ' ' .
            '<span class="badge">' . User::thisUser()->reputation . '</span>';
         $menuItems[] = [
             'encode' => false,

@@ -74,16 +74,18 @@ class ItemList extends \yii\bootstrap\Widget
             $query = $query->andWhere('t.date_create >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 MONTH))');
         }
 
-
         if ($searchTag != "") {
             $tags = Tags::findAll(['name' => $searchTag]);
+
             $tagsId = [];
             foreach ($tags as $tag) {
                 $tagsId[] = (int)$tag->id;
             }
 
-            $query = $query
-                ->andWhere('(SELECT COUNT(*) as tagCount FROM `' . TagEntity::tableName() . '` te WHERE te.entity = "' . TagEntity::ENTITY_ITEM . '" AND te.entity_id = t.id  AND te.tag_id IN (' . join(',', $tagsId) . ')) > 0');
+            if (count($tagsId) > 0) {
+                $query = $query
+                    ->andWhere('(SELECT COUNT(*) as tagCount FROM `' . TagEntity::tableName() . '` te WHERE te.entity = "' . TagEntity::ENTITY_ITEM . '" AND te.entity_id = t.id  AND te.tag_id IN (' . join(',', $tagsId) . ')) > 0');
+            }
         }
         $query = $query->with(['videos', 'tagEntity', 'tagEntity.tags']);
 

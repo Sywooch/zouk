@@ -20,7 +20,7 @@ $thisUser = User::thisUser();
     echo Html::tag('span', Html::img($userComment->getAvatarPic(), ['class' => 'user-avatar']), ['class' => 'block-user-avatar pull-left']);
     ?>
     <div class="comment-content">
-        <div class="comment-header"><b><?= $userComment->display_name ?></b> <?=
+        <div class="comment-header"><b><?= $userComment->getDisplayName() ?></b> <?=
             Html::a(
                 date("d.m.Y", $comment->date_create) . " " . Lang::t('main', 'at') . " " . date("H:i", $comment->date_create),
                 $comment->getUrl(),

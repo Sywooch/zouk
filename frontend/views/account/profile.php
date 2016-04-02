@@ -8,10 +8,7 @@ use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$userDisplayName = $user->display_name;
-if (empty($userDisplayName)) {
-    $userDisplayName = "user" . $user->id;
-}
+$userDisplayName = $user->getDisplayName();
 ?>
 <div class="site-index">
     <div class="body-content">
@@ -31,8 +28,8 @@ if (empty($userDisplayName)) {
             </div>
         </div>
         <div class="col-md-8">
-            <div><b><?= Lang::t('page/accountProfile', 'firstname') ?>:</b> <?= $user->firstname ?></div>
-            <div><b><?= Lang::t('page/accountProfile', 'lastname') ?>:</b> <?= $user->lastname ?></div>
+            <div><b><?= Lang::t('page/accountProfile', 'firstname') ?>:</b> <?= $user->getFirstname() ?></div>
+            <div><b><?= Lang::t('page/accountProfile', 'lastname') ?>:</b> <?= $user->getLastname() ?></div>
         </div>
     </div>
 </div>

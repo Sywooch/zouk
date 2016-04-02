@@ -3,7 +3,7 @@ namespace frontend\controllers;
 
 use common\models\Alarm;
 use common\models\Item;
-use common\models\ItemVideo;
+use common\models\EntityLink;
 use common\models\TagEntity;
 use common\models\Tags;
 use common\models\User;
@@ -68,6 +68,11 @@ class ListController extends Controller
                 if (!empty($videosUrl) && is_array($videosUrl)) {
                     $item->saveVideos($videosUrl, $item->user_id);
                 }
+                // Добавляем аудиозаписи к записи
+                $sounds = Yii::$app->request->post('sounds');
+                if (!empty($sounds) && is_array($sounds)) {
+                    $item->saveSounds($sounds, $item->user_id);
+                }
                 // Добавляем теги
                 $tags = explode(',', Yii::$app->request->post('tags'));
                 if (is_array($tags)) {
@@ -129,11 +134,16 @@ class ListController extends Controller
         if ($item && $item->load(Yii::$app->request->post())) {
             $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
             if ($item->save()) {
-                ItemVideo::deleteAll(['item_id' => $item->id]);
+                EntityLink::deleteAll(['entity_1' => Item::THIS_ENTITY, 'entity_1_id' => $item->id, 'entity_2' => Video::THIS_ENTITY]);
                 // Добавление видео к записи
                 $videosUrl = Yii::$app->request->post('videos');
                 if (!empty($videosUrl) && is_array($videosUrl)) {
                     $item->saveVideos($videosUrl, $item->user_id);
+                }
+                // Добавляем аудиозаписи к записи
+                $sounds = Yii::$app->request->post('sounds');
+                if (!empty($sounds) && is_array($sounds)) {
+                    $item->saveSounds($sounds, $item->user_id);
                 }
 
                 TagEntity::deleteAll(['entity' => TagEntity::ENTITY_ITEM, 'entity_id' => $item->id]);

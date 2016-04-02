@@ -11,12 +11,14 @@ use yii\web\IdentityInterface;
  * User model
  *
  * @property integer $id
- * @property integer $item_id
- * @property string  $video_id
+ * @property string  $entity_1
+ * @property integer $entity_1_id
+ * @property string  $entity_2
+ * @property integer $entity_2_id
  * @property integer $date_update
  * @property integer $date_create
  */
-class ItemVideo extends ActiveRecord
+class EntityLink extends ActiveRecord
 {
 
     /**
@@ -24,7 +26,7 @@ class ItemVideo extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'item_video';
+        return 'entity_link';
     }
 
     /**
@@ -61,8 +63,10 @@ class ItemVideo extends ActiveRecord
     {
         return [
             'id'          => 'ID',
-            'item_id'     => 'ID записи',
-            'video_id'    => 'ID видео',
+            'entity_1'    => 'Сущность 1',
+            'entity_1_id' => 'ID сущности 1',
+            'entity_2'    => 'Сущность 2',
+            'entity_2_id' => 'ID сущности 2',
             'date_update' => 'Date Update',
             'date_create' => 'Date Create',
         ];

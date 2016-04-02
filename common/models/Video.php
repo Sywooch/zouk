@@ -1,6 +1,8 @@
 <?php
 namespace common\models;
 
+use DateInterval;
+use DateTime;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -16,11 +18,14 @@ use yii\web\IdentityInterface;
  * @property string  $entity_id
  * @property string  $original_url
  * @property string  $video_title
+ * @property integer $duration
  * @property integer $date_update
  * @property integer $date_create
  */
 class Video extends ActiveRecord
 {
+
+    const THIS_ENTITY = 'video';
 
     const ENTITY_NONE    = 'none';
     const ENTITY_YOUTUBE = 'youtube';
@@ -66,14 +71,15 @@ class Video extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => 'ID',
-            'userId'      => 'Пользователь',
-            'entity'      => 'Сущность',
-            'entity_id'   => 'ID сущности',
+            'id'           => 'ID',
+            'userId'       => 'Пользователь',
+            'entity'       => 'Сущность',
+            'entity_id'    => 'ID сущности',
             'original_url' => 'url',
-            'video_title' => 'Заголовок видео',
-            'date_update' => 'Date Update',
-            'date_create' => 'Date Create',
+            'video_title'  => 'Заголовок видео',
+            'duration'     => 'Продолжительность',
+            'date_update'  => 'Date Update',
+            'date_create'  => 'Date Create',
         ];
     }
 
@@ -126,11 +132,9 @@ class Video extends ActiveRecord
                 return $findModel;
             }
 
-            $key = Yii::$app->params['youtubeApiKey'];
-            $content = file_get_contents("https://www.googleapis.com/youtube/v3/videos?id=" . $entity_id . "&key=" . $key . "&fields=items(id,snippet(title),statistics)&part=snippet,statistics");
-            $content = json_decode($content, true);
-            $title = isset($content['items'][0]['snippet']['title']) ? $content['items'][0]['snippet']['title'] : '';
-            $this->video_title = $title;
+            $properties = Yii::$app->google->getVideoProperties($entity_id);
+            $this->video_title = $properties['title'];
+            $this->duration = $properties['duration'];
         }
 
         $this->entity = $entity;
@@ -139,12 +143,16 @@ class Video extends ActiveRecord
         return $this;
     }
 
-    public function updateTitle()
+    public function updateProperties()
     {
-        $key = Yii::$app->params['youtubeApiKey'];
-        $content = file_get_contents("https://www.googleapis.com/youtube/v3/videos?id=" . $this->entity_id . "&key=" . $key . "&fields=items(id,snippet(title),statistics)&part=snippet,statistics");
-        $content = json_decode($content, true);
-        $title = isset($content['items'][0]['snippet']['title']) ? $content['items'][0]['snippet']['title'] : '';
+        $title = "";
+        $duration = 0;
+        if ($this->entity == self::ENTITY_YOUTUBE) {
+            $properties = Yii::$app->google->getVideoProperties($this->entity_id);
+            $title = $properties['title'];
+            $duration = $properties['duration'];
+        }
         $this->video_title = $title;
+        $this->duration = $duration;
     }
 }

@@ -60,7 +60,7 @@ body.mce-fullscreen div.mce-fullscreen {
 .icon-x {
     cursor: pointer;
     color: #777;
-    content: '&times;';
+    font-size: 18px;
 }
 
 .btn-link.no-focus:focus {
@@ -300,6 +300,10 @@ ul.nav-main-tabs li.active a {
     margin-bottom: 10px;
 }
 
+.margin-right-10 {
+    margin-right: 10px;
+}
+
 .tag-line-height {
     line-height: 2;
 }
@@ -338,7 +342,7 @@ ul.nav-main-tabs li.active a {
     padding: 5px 6px 7px 7px;
     width: 200px;
     color: #52575c;
-    background-color: #E0EAF1;
+    background-color: #dae7f1;
 }
 .user-info .user-action-time {
     margin-top: 1px;
@@ -389,4 +393,55 @@ ul.nav-main-tabs li.active a {
 #blockComments .user-avatar {
     max-height: 48px;
     max-width: 48px;
+}
+
+table.audio-list td {
+    vertical-align: top;
+}
+
+.btn.btn-link.btn-add-from-list {
+    color: #31708f;
+}
+
+table.audio-list td .btn-music-add {
+    margin-left: 10px;
+    padding-top: 4px;
+    padding-right: 0;
+    color: #31708f;
+}
+
+#musicAddForm {
+    text-align: center;
+}
+
+.btn-edit-sound-link,
+.btn-delete-sound-link {
+    padding-top: 0;
+    padding-right: 0;
+    margin-top: -3px;
+    margin-left: 10px;
+}
+
+.block-video-link {
+    width: 120px;
+    height: 90px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.block-video-duration {
+    background: rgba(0, 0, 0, 0.45);
+    color: #FFF;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 1px 3px 1px;
+    z-index: 10;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.block-video-link span.glyphicon {
+    margin-right: 5px;
 }

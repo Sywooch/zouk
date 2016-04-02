@@ -81,6 +81,23 @@ return [
                 "api_secret" => "gkCIstEVyTmxPngwCwz9bEtYiQk",
             ],
         ],
+        'yandexDisk'   => [
+            'class' => 'common\components\YandexDiskComponent',
+            'key'   => 'yandexDiskMain',
+            'keys'  => [
+                'yandexDiskMain' => [
+                    'user' => 'BrazilianZouk',
+                    'psw'  => 'Brazilianzouk1',
+                ],
+            ],
+        ],
+        'google'       => [
+            'class'        => 'common\components\GoogleComponent',
+            'googleApiKey' => 'AIzaSyDCS1tWgpmOSfalYsWpLHbIy_YVDXu0l5A',
+        ],
+        'audioInfo'        => [
+            'class' => 'common\components\GetidComponent',
+        ],
     ],
     'params'              => $params,
 ];
