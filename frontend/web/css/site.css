@@ -446,11 +446,11 @@ table.audio-list td .btn-music-add {
     margin-right: 5px;
 }
 
-tr.audio-list-item :first-child {
+tr.audio-list-item>td:first-child {
     width: 100%;
 }
 
-tr.audio-list-item :last-child {
+tr.audio-list-item>td:last-child {
     width: 0;
     white-space: nowrap;
 }
