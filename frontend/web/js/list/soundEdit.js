@@ -44,6 +44,7 @@ $(document).ready(function() {
                     $('<td></td>').append(data),
                     $('<td></td>').append([
                         $('<input type="hidden" name="sounds[]" class="form-control" value="' + musicId + '" />'),
+                        $('<span class="btn btn-link btn-edit-sound-link glyphicon glyphicon-pencil" data-toggle="modal" data-target=".modal-edit-music"></span>'),
                         $('<span class="btn btn-link btn-delete-sound-link glyphicon glyphicon-remove"></span>')
                     ])
                 ]);
