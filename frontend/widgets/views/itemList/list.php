@@ -7,6 +7,7 @@
  */
 
 use common\models\Item;
+use frontend\models\Lang;
 use frontend\widgets\ItemList;
 use yii\bootstrap\Html;
 
