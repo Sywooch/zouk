@@ -10,9 +10,6 @@ return [
     'fieldDescription' => 'Описание',
     'buttonAdd'        => 'Сохранить запись',
 
-    'btnAdd' => 'добавить',
-
-    'musicTabUser' => 'Загруженные',
-    'musicTabAll'  => 'Все',
-    'musicTabAdd'  => 'Загрузить',
+    'btnAdd'      => 'Добавить',
+    'btnAddVideo' => 'Добавить',
 ];

@@ -26,7 +26,7 @@ $form = ActiveForm::begin([
     'action'  => Url::to(['music/add'], true),
 ]);
 echo $form->field($music, 'musicFile')->label(false)->fileInput(['id' => 'soundUpload', 'class' => 'hide']);
-echo Html::button('Выберите файл', ['id' => 'btnSoundUpload', 'class' => 'btn btn-primary']);
+echo Html::button(Lang::t('main/music', 'musicFileField'), ['id' => 'btnSoundUpload', 'class' => 'btn btn-primary']);
 ?>
 <div class="alert alert-info loading-info hide" role="alert"><?= Lang::t('main/music', 'loading') ?></div>
 

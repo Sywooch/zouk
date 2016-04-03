@@ -1,20 +1,32 @@
 <?php
 
 return [
-    'mainButtonList'      => 'Лента',
-    'mainButtonTags'      => 'Метки',
-    'mainButtonEvents'    => 'События',
-    'mainButtonSchools'   => 'Школы',
-    'mainButtonAddRecord' => 'Добавить запись',
+    'mainButtonList'      => 'List',
+    'mainButtonTags'      => 'Tags',
+    'mainButtonEvents'    => 'Events',
+    'mainButtonSchools'   => 'Schools',
+    'mainButtonAddRecord' => 'Add record',
 
-    'listTabCurrent' => 'Текущие',
-    'listTabWeek'    => 'Week',
-    'listTabMonth'   => 'Month',
+    'listTabCurrent' => 'actual',
+    'listTabWeek'    => 'week',
+    'listTabMonth'   => 'month',
+    'listTabPopular' => 'popular',
 
-    'about'   => 'О сайте',
-    'profile' => 'Профиль',
-    'signup'  => 'Регистрация',
-    'login'   => 'Войти',
-    'logout'  => 'Выйти ({0})',
+    'about'   => 'About',
+    'feedback' => 'Feedback',
+    'profile' => 'Profile',
+    'signup'  => 'Sign up',
+    'login'   => 'Log in',
+    'logout'  => 'Log out',
 
+    'created' => 'Created',
+    'at'      => 'at',
+
+    'vote0' => 'vote',
+    'vote1' => 'votes',
+    'vote2' => 'votes',
+
+    'showCount0' => 'count',
+    'showCount1' => 'counts',
+    'showCount2' => 'counts',
 ];

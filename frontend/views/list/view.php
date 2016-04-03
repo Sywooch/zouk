@@ -172,7 +172,7 @@ if (!empty($urlVideo)) {
                     ]
                 ), ' ';
                 echo Html::a(
-                    Lang::t('page/listView', 'edit'),
+                    Lang::t('page/listView', 'edit2'),
                     Url::to(['list/edit', 'id' => $item->id]),
                     ['class' => 'btn btn-link no-focus']
                 ), ' ';

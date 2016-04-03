@@ -47,6 +47,23 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
+    $menuLangItems = [];
+    $menuLangItems[] = [
+        'encode' => false,
+        'label'  => Html::img(Yii::$app->UrlManager->to('img/lang/ru.png'), ['height' => '10px']),
+        'url'    => ['en'],
+    ];
+    $menuLangItems[] = [
+        'encode' => false,
+        'label'  => Html::img(Yii::$app->UrlManager->to('img/lang/en.png'), ['height' => '10px']),
+        'url'    => ['ru'],
+    ];
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-left', 'encodeLabels' => false,],
+        'items'   => [],
+    ]);
+
     $menuItems = [
         ['label' => Lang::t('main', 'about'), 'url' => ['site/about']],
         ['label' => Lang::t('main', 'feedback'), 'url' => ['site/contact']],

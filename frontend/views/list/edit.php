@@ -61,7 +61,7 @@ $musics = $thisUser->getLastAudio();
 
             <label style="width: 100%" class="control-label">
                 <?= Lang::t('page/listEdit', 'titleVideo') ?>
-                <a id="addVideoButton" class="btn btn-success btn-sm pull-right"><?= Lang::t('page/listEdit', 'btnAdd') ?></a>
+                <a id="addVideoButton" class="btn btn-success btn-sm pull-right"><?= Lang::t('page/listEdit', 'btnAddVideo') ?></a>
             </label>
             <div id="blockVideos">
                 <?php

@@ -6,9 +6,10 @@ return [
     'limitMaxSize'   => 'Аудиофайл не должен превышать 15 МБ и должен быть в формате MP3;',
     'limitCopyright' => 'Аудиофайл не должен нарушать авторские и смежные права.',
 
-    'btnAdd'             => 'добавить',
-    'btnAdd2'            => 'Добавить',
+    'btnAdd'             => 'Добавить',
     'modalAddMusicTitle' => 'Добавить аудиозапись',
+    'modalAddMusic_searchAudio' => 'Найти из списка',
+    'modalAddMusic_addFromList' => 'Добавить из списка',
     'musicFileField'     => 'Выберите аудиозапись',
     'artistField'        => 'Исполнитель',
     'titleField'         => 'Название',
