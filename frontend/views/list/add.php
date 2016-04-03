@@ -91,5 +91,6 @@ $musics = $thisUser->getLastAudio();
 
 
     <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_ADD_MUSIC, 'musics' => $musics]) ?>
+    <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_EDIT_MUSIC]) ?>
 
 </div>
