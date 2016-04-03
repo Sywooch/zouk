@@ -22,6 +22,6 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/list.js', ['depend
 
 <?php
 if (!$onlyItem && $dateCreateType == ItemList::DATE_CREATE_LAST) {
-    echo Html::button('Показать еще...', ['class' => 'btn btn-primary', 'id' => 'loadMore', 'data-tag' => $searchTag]);
+    echo Html::button(Lang::t("main", "showMore"), ['class' => 'btn btn-primary', 'id' => 'loadMore', 'data-tag' => $searchTag]);
 }
 ?>

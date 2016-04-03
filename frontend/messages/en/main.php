@@ -29,4 +29,6 @@ return [
     'showCount0' => 'count',
     'showCount1' => 'counts',
     'showCount2' => 'counts',
+
+    'showMore' => 'Show more...',
 ];

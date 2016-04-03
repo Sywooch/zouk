@@ -28,7 +28,7 @@ $thisUser = User::thisUser();
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
                                     </span>
-                                    <input type="text" class="form-control " placeholder="Найти из списка">
+                                    <input type="text" class="form-control " placeholder="<?= Lang::t('main/music', 'modalAddMusic_searchAudio') ?>">
                                 </div>
                             </td>
                             <td>
@@ -45,7 +45,7 @@ $thisUser = User::thisUser();
                             <tr class="audio-list-item">
                                 <td><?= \frontend\widgets\SoundWidget::widget(['music' => $music]) ?></td>
                                 <td><?= Html::button(
-                                        Lang::t('main/music', 'btnAdd2'),
+                                        Lang::t('main/music', 'btnAdd'),
                                         [
                                             'class'         => 'btn btn-link btn-music-add no-focus',
                                             'data-music-id' => $music->id,
@@ -63,7 +63,7 @@ $thisUser = User::thisUser();
                 </div>
             </div>
             <div class="modal-footer">
-                <?= Html::button('Добавить из списка', ['class' => 'btn btn-link btn-add-from-list pull-left no-focus hide']) ?>
+                <?= Html::button(Lang::t('main/music', 'modalAddMusic_addFromList'), ['class' => 'btn btn-link btn-add-from-list pull-left no-focus hide']) ?>
                 <button type="button" class="btn btn-default"
                         data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
             </div>
