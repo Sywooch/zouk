@@ -48,21 +48,36 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
         ],
     ]);
 
-    $menuLangItems = [];
-    $menuLangItems[] = [
-        'encode' => false,
-        'label'  => Html::img(Yii::$app->UrlManager->to('img/lang/ru.png'), ['height' => '10px']),
-        'url'    => ['en'],
-    ];
-    $menuLangItems[] = [
-        'encode' => false,
-        'label'  => Html::img(Yii::$app->UrlManager->to('img/lang/en.png'), ['height' => '10px']),
-        'url'    => ['ru'],
-    ];
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-left', 'encodeLabels' => false,],
-        'items'   => [],
-    ]);
+    $thisLang = Lang::getCurrent();
+
+    ?>
+    <ul id="w1" class="navbar-nav navbar-left nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <?= Html::img($thisLang->getImg(), ['height' => '10px']) ?> <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <?php
+                $langs = Lang::find()->where('id != :current_id', [':current_id' => Lang::getCurrent()->id])->all();
+                foreach ($langs as $lang) {
+                    echo Html::tag(
+                        'li',
+                        Html::a(
+                            Html::img($lang->getImg(), ['height' => '10px']) . ' ' . $lang->name,
+                            Yii::$app->UrlManager->toLang($lang)
+                        )
+                    );
+                }
+                ?>
+            </ul>
+        </li>
+    </ul>
+    <?php
+
+//    echo Nav::widget([
+//        'options' => ['class' => 'navbar-nav', 'encodeLabels' => false,],
+//        'items'   => $menuLangItems,
+//    ]);
 
     $menuItems = [
         ['label' => Lang::t('main', 'about'), 'url' => ['site/about']],

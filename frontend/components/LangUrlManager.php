@@ -1,6 +1,7 @@
 <?php
 namespace frontend\components;
 
+use Yii;
 use yii\helpers\Url;
 use yii\web\UrlManager;
 use frontend\models\Lang;
@@ -29,10 +30,29 @@ class LangUrlManager extends UrlManager
         if ($url == '/') {
             return '/' . $lang->url;
         } else {
-            if (YII_DEBUG && !empty(\Yii::$app->params['mainPathCount'])) {
+            if (YII_DEBUG && !empty(Yii::$app->params['mainPathCount'])) {
                 $url_list = explode('/', $url);
                 $mainPath = [];
-                for ($i = 0; $i <= \Yii::$app->params['mainPathCount']; $i++) {
+                for ($i = 0; $i <= Yii::$app->params['mainPathCount']; $i++) {
+                    $mainPath[] = array_shift($url_list);
+                }
+                $url_list = array_merge($mainPath, [$lang->url], $url_list);
+                return join('/', $url_list);
+            }
+            return '/' . $lang->url . $url;
+        }
+    }
+
+    public function toLang($lang)
+    {
+        $url = Yii::$app->getRequest()->getLangUrl();
+        if ($url == '/') {
+            return '/' . $lang->url;
+        } else {
+            if (YII_DEBUG && !empty(Yii::$app->params['mainPathCount'])) {
+                $url_list = explode('/', $url);
+                $mainPath = [];
+                for ($i = 0; $i <= Yii::$app->params['mainPathCount']; $i++) {
                     $mainPath[] = array_shift($url_list);
                 }
                 $url_list = array_merge($mainPath, [$lang->url], $url_list);

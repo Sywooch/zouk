@@ -173,4 +173,8 @@ class Lang extends \yii\db\ActiveRecord
         }
     }
 
+    public function getImg()
+    {
+        return Yii::$app->UrlManager->to('img/lang/' . $this->url . '.png');
+    }
 }
