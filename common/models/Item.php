@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use common\models\User;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -25,6 +26,7 @@ use yii\web\IdentityInterface;
  * @property Video[]     $videos
  * @property Music[]     $sounds
  * @property TagEntity[] $tagEntity
+ * @property User        $user
  */
 class Item extends VoteModel
 {
@@ -50,6 +52,24 @@ class Item extends VoteModel
     public function getTitle()
     {
         return htmlspecialchars($this->title);
+    }
+
+    public function getShortDescription($length = 500, $end = '...')
+    {
+        $charset = 'UTF-8';
+        $token = '~';
+        $str = strip_tags($this->description);
+        $str = str_replace("\n", ' ' ,$str);
+        $str = str_replace("\r", ' ' ,$str);
+        $str = preg_replace ('/\s+/', ' ', $str);
+        if (mb_strlen($str, $charset) >= $length) {
+            $wrap = wordwrap($str, $length, $token);
+            $str_cut = mb_substr($wrap, 0, mb_strpos($wrap, $token, 0, $charset), $charset);
+            $str_cut .= $end;
+            return $str_cut;
+        } else {
+            return $str;
+        }
     }
 
     /**
@@ -78,7 +98,7 @@ class Item extends VoteModel
             [['title'], 'required'],
             [['date_update', 'date_create'], 'integer'],
             [['title', 'alias'], 'string', 'max' => 255],
-            [['description'], 'string', 'max' => 2048],
+            [['description'], 'string', 'max' => 20000],
         ];
     }
 

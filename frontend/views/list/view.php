@@ -5,6 +5,8 @@
  * @var Vote                $vote
  */
 use common\models\Comment;
+use common\models\Music;
+use common\models\TagEntity;
 use common\models\User;
 use common\models\Video;
 use common\models\Vote;
@@ -48,20 +50,24 @@ $url = $item->getUrl();
 $videos = $item->videos;
 /** @var Music[] $sounds */
 $sounds = $item->sounds;
-/** @var \common\models\TagEntity[] $tags */
+/** @var TagEntity[] $tags */
 $tags = $item->tagEntity;
 
 $keywords = [];
 $description = $this->title;
+$description .= ". " . $item->getShortDescription(100, '');
 $urlVideo = '';
 foreach ($tags as $tag) {
     $keywords[] = $tag->tags->getName();
 }
 foreach ($videos as $video) {
-    $description .= ". Видео: " . $video->video_title;
+    $description .= ". " . $video->video_title . "; ";
     if (empty($urlVideo)) {
         $urlVideo = $video->getThumbnailUrl();
     }
+}
+foreach ($sounds as $sound) {
+    $description .= ". " . $sound->getArtist() . " - " . $sound->getTitle() . "; ";
 }
 preg_match_all('/[^\W\d][\w]*/', $this->title, $wordArr);
 $this->registerMetaTag([

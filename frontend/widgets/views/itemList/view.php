@@ -5,6 +5,7 @@
  */
 use common\models\Item;
 use common\models\Tags;
+use common\models\User;
 use frontend\models\Lang;
 use frontend\widgets\ItemList;
 use yii\helpers\Html;
@@ -41,6 +42,9 @@ $tags = $item->tagEntity;
     <div class="col-sm-11">
         <div class="summary">
             <h3><?= Html::a($item->getTitle(), $url, ['class' => 'item-hyperlink']) ?></h3>
+        </div>
+        <div class="item-short-description">
+            <?= $item->getShortDescription() ?>
         </div>
         <div class="margin-bottom block-item-list-img">
             <?php
@@ -91,7 +95,6 @@ $tags = $item->tagEntity;
         </div>
 
         <?php
-        /** @var User $author */
         $author = $item->user;
         ?>
         <div class="pull-right">
