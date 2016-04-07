@@ -11,6 +11,7 @@ use Yii;
 class SignupForm extends Model
 {
     public $username;
+    public $displayName;
     public $email;
     public $password;
 
@@ -46,7 +47,7 @@ class SignupForm extends Model
         if ($this->validate()) {
             $user = new User();
             $user->username = $this->username;
-            $user->display_name = $this->username;
+            $user->display_name = !empty($this->displayName) ? $this->displayName : $this->username;
             $user->email = $this->email;
             $user->setPassword($this->password);
             $user->generateAuthKey();

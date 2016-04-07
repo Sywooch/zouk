@@ -7,9 +7,13 @@
 use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 
 $this->title = Lang::t('page/siteLogin', 'titleSignup');
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerJsFile('//ulogin.ru/js/ulogin.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
 ?>
 <div class="site-signup">
     <div id="item-header">
@@ -31,6 +35,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
             <?php ActiveForm::end(); ?>
+            <label>Войти через:</label>
+            <div id="uLogin" data-ulogin="display=panel;fields=first_name,last_name,email;optional=nickname;providers=facebook,google,vkontakte,twitter,odnoklassniki,mailru;hidden=other;redirect_uri=;callback=connect"></div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function connect(tok) {
+        jQuery.ajax({
+            url: '<?= Url::to(['site/ulogin']);?>',
+            type: "POST",
+            data: {login_ulogin: tok},
+            success: function(data) {
+                data = JSON.parse(data);
+                if (typeof(data.url) != "undefined") {
+                    window.location = data.url;
+                }
+            }
+        });
+    }
+</script>

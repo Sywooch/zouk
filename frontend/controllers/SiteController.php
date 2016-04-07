@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Item;
+use common\models\Ulogin;
 use frontend\models\Lang;
 use Yii;
 use common\models\LoginForm;
@@ -10,10 +11,12 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
+use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\User;
 
 /**
  * Site controller
@@ -28,7 +31,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['logout', 'signup'],
+                'only'  => ['logout', 'signup', 'uloginbind', 'uloginunbind'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -36,7 +39,7 @@ class SiteController extends Controller
                         'roles'   => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'uloginbind', 'uloginunbind'],
                         'allow'   => true,
                         'roles'   => ['@'],
                     ],
@@ -224,7 +227,7 @@ class SiteController extends Controller
 
         foreach ($items as $item) {
             /** @var Item $item */
-            $urls[] =  $item->getUrl(true);
+            $urls[] = $item->getUrl(true);
         }
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_XML;
@@ -239,4 +242,91 @@ class SiteController extends Controller
         }
         echo '</urlset>';
     }
+
+
+    public function actionUloginunbind()
+    {
+        $thisUser = \common\models\User::thisUser();
+        $socialId = Yii::$app->request->post('social');
+        $ulogin = Ulogin::findOne(['id' => $socialId, 'user_id' => $thisUser->id]);
+        if ($ulogin) {
+            $ulogin->user_id = 0;
+            $ulogin->save();
+            $this->redirect(Url::to(['account/profile']));
+        }
+    }
+
+    public function actionUloginbind()
+    {
+        $thisUser = \common\models\User::thisUser();
+        $loginUlogin = Yii::$app->request->post('login_ulogin');
+        if (!empty($loginUlogin)) {
+            $ulogin = new Ulogin();
+            if ($ulogin->loadAuthData($loginUlogin)) {
+                $modelInBase = Ulogin::findUlogin($ulogin->identity, $ulogin->network);
+                if (!empty($modelInBase)) {
+                    $modelInBase->user_id = $thisUser->id;
+                    $modelInBase->save();
+                } else {
+                    $ulogin->user_id = $thisUser->id;
+                    $ulogin->save();
+                }
+                $this->redirect(Url::to(['account/profile']));
+            }
+        }
+    }
+
+    public function actionUlogin()
+    {
+        $loginUlogin = Yii::$app->request->post('login_ulogin');
+        if (!empty($loginUlogin)) {
+            $ulogin = new Ulogin();
+            if ($ulogin->loadAuthData($loginUlogin)) {
+                $modelInBase = Ulogin::findUlogin($ulogin->identity, $ulogin->network);
+                if (!empty($modelInBase)) {
+                    // войти под пользователем $modelInBase
+                    $user = \common\models\User::findOne($modelInBase->user_id);
+                    if (!empty($user)) {
+                        if (Yii::$app->getUser()->login($user)) {
+                            return $this->goHome();
+                        }
+                    }
+                } else {
+                    if ($user = \common\models\User::findOne(['email' => $ulogin->email])) {
+                        // Прикрепляем к существующему
+                        if (empty($user->firstname) || empty($user->lastname)) {
+                            $user->firstname = empty($user->firstname) ? $user->firstname : $ulogin->firstname;
+                            $user->lastname = empty($user->lastname) ? $user->lastname : $ulogin->lastname;
+                            $user->save();
+                        }
+                    } elseif ($user = \common\models\User::findOne(['username' => $ulogin->network . '_' . md5($ulogin->identity)])) {
+
+                    } else {
+                        // зарегистрировать нового пользователя
+                        $signupForm = new SignupForm();
+                        $signupForm->username = $ulogin->network . '_' . md5($ulogin->identity);
+                        $signupForm->displayName = $ulogin->nickname;
+                        $signupForm->password = $ulogin->randomPassword();
+                        $signupForm->email = $ulogin->email;
+                        $user = $signupForm->signup();
+                        if (!empty($user)) {
+                            $user->firstname = $ulogin->firstname;
+                            $user->lastname = $ulogin->lastname;
+                            $user->save();
+                        }
+                    }
+
+                    if (!empty($user)) {
+                        $ulogin->user_id = $user->id;
+                        $ulogin->user_start_id = $user->id;
+                        $ulogin->save();
+                        if (Yii::$app->getUser()->login($user)) {
+                            return $this->goHome();
+                        }
+                    }
+                }
+            };
+        }
+    }
+
 }

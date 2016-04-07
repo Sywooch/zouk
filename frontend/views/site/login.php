@@ -11,6 +11,9 @@ use yii\helpers\Url;
 
 $this->title = Lang::t('page/siteLogin', 'title');
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerJsFile('//ulogin.ru/js/ulogin.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
 ?>
 <div class="site-login">
     <div id="item-header">
@@ -36,7 +39,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
             <?php ActiveForm::end(); ?>
+            <label>Войти через:</label>
+            <div id="uLogin" data-ulogin="display=panel;fields=first_name,last_name,email;optional=nickname;providers=facebook,google,vkontakte,twitter,odnoklassniki,mailru;hidden=other;redirect_uri=;callback=connect"></div>
             <?= Lang::t('page/siteLogin', 'toSignup') ?> <?= Html::a(Lang::t('main', 'signup'), Url::to(['site/signup']), ['class' => 'btn btn-label']) ?>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function connect(tok) {
+        jQuery.ajax({
+            url: '<?= Url::to(['site/ulogin']);?>',
+            type: "POST",
+            data: {login_ulogin: tok},
+            success: function(data) {
+                data = JSON.parse(data);
+                if (typeof(data.url) != "undefined") {
+                    window.location = data.url;
+                }
+            }
+        });
+    }
+</script>
