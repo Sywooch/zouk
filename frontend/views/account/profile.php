@@ -46,8 +46,8 @@ $ulogins = \common\models\Ulogin::findAll(['user_id' => $user->id]);
                     }
                     ?>
                 </ul>
-                Привязать:
-                <div id="uLogin" data-ulogin="display=panel;fields=first_name,last_name,email;optional=nickname;providers=facebook,google,vkontakte,twitter,odnoklassniki,mailru;hidden=other;redirect_uri=;callback=connect"></div>
+                <label>Привязать:</label>
+                <div id="uLogin" data-ulogin="display=panel;fields=first_name,last_name,email;optional=nickname;providers=facebook,google,vkontakte,twitter,odnoklassniki,mailru;hidden=other;redirect_uri=;callback=socialUnbind"></div>
             </div>
         </div>
     </div>
@@ -74,5 +74,4 @@ $ulogins = \common\models\Ulogin::findAll(['user_id' => $user->id]);
             }
         });
     }
-    ;
 </script>
