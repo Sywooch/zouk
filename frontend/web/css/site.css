@@ -459,3 +459,40 @@ tr.audio-list-item>td:last-child {
     width: 100%;
     max-width: 600px;
 }
+
+/* Блок информации */
+.block-info-about {
+    background-color: #EEE;
+    padding: 15px;
+}
+
+.block-info-about table.info-about {
+    width: 100%;
+    text-align: center;
+    color: #777;
+}
+
+.block-info-about table.info-about td{
+    vertical-align: top;
+}
+
+.block-info-about table.info-about td img {
+    width: 100px;
+}
+
+.block-info-about table.info-about td p {
+    margin: 4px;
+}
+
+.block-info-about table tr:first-child td:first-child p {
+    width: 350px;
+    text-align: left;
+    font-size: 16px;
+    color: black;
+}
+
+.block-info-about .info-about-mini {
+    text-align: left;
+    font-size: 16px;
+    color: black;
+}
