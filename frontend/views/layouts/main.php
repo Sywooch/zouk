@@ -54,7 +54,7 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
     <ul id="w1" class="navbar-nav navbar-left nav">
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <?= Html::img($thisLang->getImg(), ['height' => '10px']) ?> <span class="caret"></span>
+                <?= Html::img($thisLang->getImg(), ['height' => '16px']) ?> <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
                 <?php
@@ -63,7 +63,7 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
                     echo Html::tag(
                         'li',
                         Html::a(
-                            Html::img($lang->getImg(), ['height' => '10px']) . ' ' . $lang->name,
+                            Html::img($lang->getImg(), ['height' => '16px']) . ' ' . $lang->name,
                             Yii::$app->UrlManager->toLang($lang)
                         )
                     );
