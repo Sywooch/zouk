@@ -84,8 +84,7 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
         ['label' => Lang::t('main', 'feedback'), 'url' => ['site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => Lang::t('main', 'signup'), 'url' => ['site/signup']];
-        $menuItems[] = ['label' => Lang::t('main', 'login'), 'url' => ['site/login']];
+        $menuItems[] = ['label' => Lang::t('main', 'loginSignup'), 'url' => ['site/login']];
     } else {
         $displayName = User::thisUser()->getDisplayName();
         $displayProfile =  Html::img(User::thisUser()->getAvatarPic(), ['height' => 24]) . " " .

@@ -21,7 +21,7 @@ $this->registerJsFile('//ulogin.ru/js/ulogin.js', ['depends' => [\yii\web\Jquery
     </div>
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-6">
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
                 <?= $form->field($model, 'username')->label(Lang::t('page/siteLogin', 'username')) ?>
@@ -41,8 +41,12 @@ $this->registerJsFile('//ulogin.ru/js/ulogin.js', ['depends' => [\yii\web\Jquery
             <?php ActiveForm::end(); ?>
             <label>Войти через:</label>
             <div id="uLogin" data-ulogin="display=panel;fields=first_name,last_name,email;optional=nickname;providers=facebook,google,vkontakte,twitter,odnoklassniki,mailru;hidden=other;redirect_uri=;callback=connect"></div>
-            <?= Lang::t('page/siteLogin', 'toSignup') ?> <?= Html::a(Lang::t('main', 'signup'), Url::to(['site/signup']), ['class' => 'btn btn-label']) ?>
         </div>
+    </div>
+    <div id="item-header">
+    </div>
+    <div>
+        <h4><?= Lang::t('page/siteLogin', 'toSignup') ?> <?= Html::a(Lang::t('main', 'signup'), Url::to(['site/signup']), ['class' => 'btn btn-label', 'style' => 'font-size: 18px;']) ?></h4>
     </div>
 </div>
 
