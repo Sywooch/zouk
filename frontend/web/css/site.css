@@ -430,6 +430,19 @@ table.audio-list td .btn-music-add {
     overflow: hidden;
 }
 
+.block-img-link {
+    max-width: 120px;
+    max-height: 90px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.block-img-link img.small-size {
+    max-width: 120px;
+    max-height: 90px;
+}
+
 .block-video-duration {
     background: rgba(0, 0, 0, 0.45);
     color: #FFF;
@@ -495,4 +508,85 @@ tr.audio-list-item>td:last-child {
     text-align: left;
     font-size: 16px;
     color: black;
+}
+
+#blockImgs {
+    list-style-type: none;
+}
+
+.block-imgs .img-input-group,
+#blockImgs .img-input-group {
+    display: inline-block;
+    margin: 3px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    height: 100px;
+}
+
+.block-imgs .img-input-group,
+#blockImgs .img-input-group {
+    width: 120px;
+    height: 90px;
+}
+
+.block-imgs .img-input-group img,
+#blockImgs .img-input-group img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.block-imgs img.medium-size {
+    display: inline-block;
+    margin: 3px;
+    max-width: 200px;
+    max-height: 200px;
+}
+
+#blockImgs .img-input-group .block-img-delete {
+    background: rgba(0, 0, 0, 0.45);
+    color: #FFF;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 1px;
+    z-index: 10;
+    white-space: nowrap;
+    font-size: 12px;
+    width: 17px;
+    height: 17px;
+    text-align: center;
+}
+
+#blockImgs .img-input-group .block-img-delete:hover {
+    color: indianred;
+}
+
+.block-imgs .img-input-group .background-img,
+#blockImgs .img-input-group .background-img {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    background-position: center 30%;
+    background-size: cover;
+}
+
+#imgAddForm {
+    text-align: center;
+}
+
+.block-item-summary .main-image-item {
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 300px;
+    max-height: 400px;
+    cursor: pointer;
+}
+
+.item-text {
+    margin-right: 10px;
+}
+
+.modal-show-img img {
+    width: 100%;
 }

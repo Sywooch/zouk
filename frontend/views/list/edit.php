@@ -1,9 +1,11 @@
 <?php
 /**
  * @var yii\web\View        $this
- * @var \common\models\Item $item
+ * @var Item $item
  */
 
+use common\models\Img;
+use common\models\Item;
 use common\models\Music;
 use common\models\Tags;
 use common\models\Video;
@@ -19,20 +21,25 @@ $this->registerJsFile('//cdn.tinymce.com/4/tinymce.min.js');
 $this->registerJsFile(Yii::$app->request->baseUrl . Lang::tinymcSrcLang(), ['depends' => [\yii\web\JqueryAsset::className()]]);
 // Tags
 $this->registerJsFile(Yii::$app->request->baseUrl . '/component/bootstrap-tokenfield/bootstrap-tokenfield.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerCssFile(Yii::$app->request->baseUrl . '/component/bootstrap-tokenfield/bootstrap-tokenfield.min.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerCssFile(Yii::$app->request->baseUrl . '/component/bootstrap-tokenfield/bootstrap-tokenfield.min.css');
+// Sortable
+$this->registerCssFile('//code.jquery.com/ui/1.11.4/jquery-ui.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerCss('//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
+
 
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/videoEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/soundEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/imgEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/edit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $this->title = Lang::t('page/listEdit', 'title');
 
 $this->params['breadcrumbs'][] = $this->title;
 
-/** @var Video[] $videos */
 $videos = $item->videos;
-/** @var Music[] $soundsItem */
 $soundsItem = $item->sounds;
+$imgsItem = $item->getImgsSort();
+
 $tags = $item->tagEntity;
 $tagValues = [];
 foreach ($tags as $tag) {
@@ -45,6 +52,7 @@ $tagValue = join(',', $tagValues);
 $thisUser = \common\models\User::thisUser();
 /** @var Music[] $musics */
 $musics = $thisUser->getLastAudio();
+$userImgs = $thisUser->getUserImgs();
 ?>
 <div id="item-header">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -58,10 +66,10 @@ $musics = $thisUser->getLastAudio();
             <?= $form->field($item, 'title')->label(Lang::t('page/listEdit', 'fieldTitle')) ?>
 
             <?= $form->field($item, 'description')->textarea()->label(Lang::t('page/listEdit', 'fieldDescription')) ?>
-
+            
             <label style="width: 100%" class="control-label">
                 <?= Lang::t('page/listEdit', 'titleVideo') ?>
-                <a id="addVideoButton" class="btn btn-success btn-sm pull-right" data-max-video="<?= \common\models\Item::MAX_VIDEO_ITEM ?>"><?= Lang::t('page/listEdit', 'btnAddVideo') ?></a>
+                <a id="addVideoButton" class="btn btn-success btn-sm pull-right" data-max-video="<?= Item::MAX_VIDEO_ITEM ?>"><?= Lang::t('page/listEdit', 'btnAddVideo') ?></a>
             </label>
             <div id="blockVideos">
                 <?php
@@ -75,10 +83,32 @@ $musics = $thisUser->getLastAudio();
                 }
                 ?>
             </div>
+
+            <label style="width: 100%" class="control-label">
+                <?= Lang::t('page/listEdit', 'titleImg') ?>
+                <a class="btn btn-success btn-sm btn-show-add-img pull-right" data-max-img="<?= Item::MAX_IMG_ITEM ?>"><?= Lang::t('main/img', 'btnAdd') ?></a>
+            </label>
+            <div class="hide">
+                <?php
+                ?>
+            </div>
+            <div id="blockImgs">
+                <?php
+                foreach ($imgsItem as $img) {
+                    ?>
+                    <div class="img-input-group pull-left">
+                        <div class="block-img-delete"><i class="glyphicon glyphicon-remove"></i></div>
+                        <input type="hidden" name="imgs[]" class="form-control" value="<?= $img->id ?>" />
+                        <div style="background-image: url('<?= $img->short_url ?>')" class="background-img"></div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+
             <label style="width: 100%" class="control-label">
                 <?= Lang::t('page/listEdit', 'titleAudio') ?>
-                <button
-                    class="btn btn-success btn-sm btn-show-add-music pull-right"><?= Lang::t('main/music', 'btnAdd') ?></button>
+                <a class="btn btn-success btn-sm btn-show-add-music pull-right"><?= Lang::t('main/music', 'btnAdd') ?></a>
             </label>
             <table id="blockSounds" class="margin-bottom">
                 <?php
@@ -111,6 +141,7 @@ $musics = $thisUser->getLastAudio();
     </div>
 
     <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_ADD_MUSIC, 'musics' => $musics]) ?>
+    <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_ADD_IMG, 'imgs' => $userImgs]) ?>
     <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_EDIT_MUSIC]) ?>
     
 </div>

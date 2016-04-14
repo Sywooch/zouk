@@ -5,7 +5,9 @@ use common\models\User;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\db\Query;
 use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
@@ -25,6 +27,7 @@ use yii\web\IdentityInterface;
  *
  * @property Video[]     $videos
  * @property Music[]     $sounds
+ * @property Img[]       $imgs
  * @property TagEntity[] $tagEntity
  * @property User        $user
  */
@@ -33,6 +36,7 @@ class Item extends VoteModel
 
     const THIS_ENTITY = 'item';
 
+    const MAX_IMG_ITEM   = 5;
     const MAX_VIDEO_ITEM = 5;
     const MAX_SOUND_ITEM = 10;
 
@@ -59,9 +63,9 @@ class Item extends VoteModel
         $charset = 'UTF-8';
         $token = '~';
         $str = strip_tags($this->description);
-        $str = str_replace("\n", ' ' ,$str);
-        $str = str_replace("\r", ' ' ,$str);
-        $str = preg_replace ('/\s+/', ' ', $str);
+        $str = str_replace("\n", ' ', $str);
+        $str = str_replace("\r", ' ', $str);
+        $str = preg_replace('/\s+/', ' ', $str);
         if (mb_strlen($str, $charset) >= $length) {
             $wrap = wordwrap($str, $length, $token);
             $str_cut = mb_substr($wrap, 0, mb_strpos($wrap, $token, 0, $charset), $charset);
@@ -157,6 +161,28 @@ class Item extends VoteModel
             });
     }
 
+    public function getImgs()
+    {
+        return $this->hasMany(Img::className(), ['id' => 'entity_2_id'])
+            ->viaTable(EntityLink::tableName(), ['entity_1_id' => 'id'], function ($query) {
+                /** @var ActiveQuery $query */
+                $query->onCondition(['entity_1' => Item::THIS_ENTITY, 'entity_2' => Img::THIS_ENTITY])
+                    ->orderBy(['sort' => SORT_DESC]);
+            });
+    }
+
+    /**
+     * @return Img[]
+     */
+    public function getImgsSort()
+    {
+        $query = Img::find()
+            ->innerJoin(EntityLink::tableName(), Img::tableName() . '.id = `' . EntityLink::tableName() . '`.entity_2_id')
+            ->andWhere(['entity_1' => Item::THIS_ENTITY, 'entity_2' => Img::THIS_ENTITY, 'entity_1_id' => $this->id])
+            ->orderBy(['sort' => SORT_ASC]);
+        return $query->all();
+    }
+
     public function saveVideos($videosUrl, $user_id)
     {
         $itemVideoCount = 0;
@@ -230,6 +256,72 @@ class Item extends VoteModel
             }
         } else {
             EntityLink::deleteAll(['entity_1' => Item::THIS_ENTITY, 'entity_1_id' => $this->id, 'entity_2' => Music::THIS_ENTITY]);
+        }
+    }
+
+    public function saveImgs($imgs)
+    {
+        if (count($imgs) > 0) {
+            $imgs = array_map('intval', $imgs);
+            $imgs = array_unique($imgs);
+            $imgs = array_slice($imgs, 0, self::MAX_IMG_ITEM);
+            EntityLink::deleteAll(
+                [
+                    'AND',
+                    'entity_1 = :entity_1',
+                    'entity_1_id = :entity_1_id',
+                    'entity_2 = :entity_2',
+                    ['NOT IN', 'entity_2_id', $imgs],
+                ],
+                [
+                    ':entity_1'    => Item::THIS_ENTITY,
+                    ':entity_1_id' => $this->id,
+                    ':entity_2'    => Img::THIS_ENTITY,
+                ]
+            );
+            $entityLinksObj = EntityLink::find()->andWhere(
+                [
+                    'AND',
+                    'entity_1 = :entity_1',
+                    'entity_1_id = :entity_1_id',
+                    'entity_2 = :entity_2',
+                    ['IN', 'entity_2_id', $imgs],
+                ],
+                [
+                    ':entity_1'    => Item::THIS_ENTITY,
+                    ':entity_1_id' => $this->id,
+                    ':entity_2'    => Img::THIS_ENTITY,
+                ]
+            )->all();
+            $entityLinks = [];
+            foreach ($entityLinksObj as $entityLink) {
+                $entityLinks[$entityLink->entity_2_id] = $entityLink;
+            }
+            $imgsObjs = $this->imgs;
+            $imgsId = [];
+            foreach ($imgsObjs as $key => $img) {
+                $imgsId[$key] = $img->id;
+            }
+            $index = 0;
+            foreach ($imgs as $key => $imgId) {
+                if (!in_array($imgId, $imgsId)) {
+                    $entityLink = new EntityLink();
+                    $entityLink->entity_1 = Item::THIS_ENTITY;
+                    $entityLink->entity_1_id = $this->id;
+                    $entityLink->entity_2 = Img::THIS_ENTITY;
+                    $entityLink->entity_2_id = $imgId;
+                    $entityLink->sort = $index++;
+                    $entityLink->save();
+                } else {
+                    if (!empty($entityLinks[$imgId])) {
+                        $entityLink = $entityLinks[$imgId];
+                        $entityLink->sort = $index++;
+                        $entityLink->save();
+                    }
+                }
+            }
+        } else {
+            EntityLink::deleteAll(['entity_1' => Item::THIS_ENTITY, 'entity_1_id' => $this->id, 'entity_2' => Img::THIS_ENTITY]);
         }
     }
 

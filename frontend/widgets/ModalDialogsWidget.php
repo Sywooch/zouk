@@ -1,6 +1,7 @@
 <?php
 namespace frontend\widgets;
 
+use common\models\Img;
 use common\models\Music;
 use common\models\Video;
 use yii\data\Pagination;
@@ -14,12 +15,17 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     /** @var Music[] $musics */
     public $musics;
 
+    /** @var Img[] $imgs */
+    public $imgs;
+
     /** @var int $id */
     public $id;
 
-    const ACTION_MODAL_ALARM = 'ModalAlarm';
-    const ACTION_MODAL_ADD_MUSIC = 'ModalAddMusic';
+    const ACTION_MODAL_ALARM      = 'ModalAlarm';
+    const ACTION_MODAL_ADD_MUSIC  = 'ModalAddMusic';
     const ACTION_MODAL_EDIT_MUSIC = 'ModalEditMusic';
+    const ACTION_MODAL_ADD_IMG    = 'ModalAddImg';
+    const ACTION_MODAL_SHOW_IMG   = 'ModalShowImg';
 
     private function getActionList()
     {
@@ -27,6 +33,8 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
             self::ACTION_MODAL_ALARM,
             self::ACTION_MODAL_ADD_MUSIC,
             self::ACTION_MODAL_EDIT_MUSIC,
+            self::ACTION_MODAL_ADD_IMG,
+            self::ACTION_MODAL_SHOW_IMG,
         ];
     }
 
@@ -63,6 +71,22 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
         return $this->render(
             'modalDialogsWidget/modalAlarm',
             ['itemId' => $this->id]
+        );
+    }
+
+    public function dialogModalAddImg()
+    {
+        return $this->render(
+            'modalDialogsWidget/modalAddImg',
+            ['imgs' => $this->imgs]
+        );
+    }
+
+    public function dialogModalShowImg()
+    {
+        return $this->render(
+            'modalDialogsWidget/modalShowImg',
+            []
         );
     }
 }

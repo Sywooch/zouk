@@ -82,16 +82,17 @@ return [
             ],
         ],
         'yandexDisk'   => [
-            'class' => 'common\components\YandexDiskComponent',
-            'key'   => 'yandexDiskMain',
-            'keys'  => [
+            'class'  => 'common\components\YandexDiskComponent',
+            'key'    => 'yandexDiskMain',
+            'keyImg' => 'yandexDisKProzouk',
+            'keys'   => [
             ],
         ],
         'google'       => [
             'class'        => 'common\components\GoogleComponent',
             'googleApiKey' => 'AIzaSyDCS1tWgpmOSfalYsWpLHbIy_YVDXu0l5A',
         ],
-        'audioInfo'        => [
+        'audioInfo'    => [
             'class' => 'common\components\GetidComponent',
         ],
     ],

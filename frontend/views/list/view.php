@@ -46,11 +46,9 @@ if (!empty($voteItem) && $voteItem->vote == Vote::VOTE_DOWN) {
 $divDislikeClass = join(' ', $divDislikeClass);
 
 $url = $item->getUrl();
-/** @var Video[] $videos */
 $videos = $item->videos;
-/** @var Music[] $sounds */
+$imgsItem = $item->getImgsSort();
 $sounds = $item->sounds;
-/** @var TagEntity[] $tags */
 $tags = $item->tagEntity;
 
 $keywords = [];
@@ -110,7 +108,7 @@ if (!empty($urlVideo)) {
 
 
 <div class="row">
-    <div class="col-lg-1 text-center vote-block visible-md-block visible-lg-block">
+    <div class="col-sm-1 text-center vote-block visible-md-block visible-lg-block visible-sm-block">
         <div>
             <?= Html::tag("div", $voteUpHtml, ['data-href' => $urlUp, 'class' => $divLikeClass, 'data-id' => $item->id, 'data-vote' => Vote::VOTE_UP, 'data-entity' => Vote::ENTITY_ITEM]) ?>
         </div>
@@ -123,7 +121,7 @@ if (!empty($urlVideo)) {
             <?= Html::tag("div", $voteDownHtml, ['data-href' => $urlDown, 'class' => $divDislikeClass, 'data-id' => $item->id, 'data-vote' => Vote::VOTE_DOWN, 'data-entity' => Vote::ENTITY_ITEM]) ?>
         </div>
     </div>
-    <div class="col-lg-1 text-center vote-block visible-xs-block visible-sm-block">
+    <div class="col-sm-1 text-center vote-block visible-xs-block">
         <?= Html::tag("i", $voteLeftHtml, ['data-href' => $urlDown, 'class' => $divDislikeClass, 'data-id' => $item->id, 'data-vote' => Vote::VOTE_DOWN, 'data-entity' => Vote::ENTITY_ITEM]) ?>
         <span class="vote-count-item">
             <?= $item->like_count ?>
@@ -132,7 +130,7 @@ if (!empty($urlVideo)) {
     </div>
 
 
-    <div class="col-lg-11 block-item-view">
+    <div class="col-sm-11 block-item-view">
         <div class="item-text">
             <?php
             echo HtmlPurifier::process($item->description, []);
@@ -144,6 +142,20 @@ if (!empty($urlVideo)) {
             <h3><?= Lang::t('page/listView', 'titleVideo') ?>:</h3>
             <?php
             echo \frontend\widgets\VideosWidget::widget(['videos' => $videos]);
+        }
+        if (count($imgsItem) > 0) {
+            ?>
+            <h3><?= Lang::t('page/listView', 'titleImg') ?>:</h3>
+            <?php
+            echo "<div class='block-imgs'>";
+            foreach ($imgsItem as $img) {
+                echo Html::tag(
+                    'div',
+                    Html::tag('div', '', ['style' => "background-image:url('{$img->short_url}')", 'class' => 'background-img', 'data-img-url' => $img->short_url]),
+                    ['class' => 'img-input-group']
+                );
+            }
+            echo '</div>';
         }
         if (count($sounds) > 0) {
             ?>
@@ -287,3 +299,4 @@ if (!empty($urlVideo)) {
 </div>
 
 <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_ALARM, 'id' => $item->id]) ?>
+<?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]) ?>

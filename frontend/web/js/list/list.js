@@ -39,4 +39,10 @@ $(document).ready(function () {
             }
         });
     });
+
+    $(document).on('click', '.block-imgs .background-img, .main-image-item', function() {
+        var $modalShowImg = $('.modal-show-img');
+        $modalShowImg.find('img').attr('src', $(this).data('img-url'));
+        $modalShowImg.modal('show');
+    });
 });

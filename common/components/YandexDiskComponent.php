@@ -7,6 +7,8 @@ class YandexDiskComponent
 
     public $key;
 
+    public $keyImg;
+
     public $keys;
 
     private $user;
@@ -24,11 +26,19 @@ class YandexDiskComponent
 
     public function setClientInfo($key = null)
     {
-        if (empty($key)) {
-            $key = $this->key;
+        if (empty($this->user) || empty($this->psw) || !empty($key)) {
+            if (empty($key)) {
+                $key = $this->key;
+            }
+            $this->user = $this->keys[$key]['user'];
+            $this->psw = $this->keys[$key]['psw'];
         }
-        $this->user = $this->keys[$key]['user'];
-        $this->psw = $this->keys[$key]['psw'];
+    }
+
+    public function setClientInfoImgDefault()
+    {
+        $key = $this->keyImg;
+        $this->setClientInfo($key);
     }
 
     public function getDiskSpaceInfo($key = null)

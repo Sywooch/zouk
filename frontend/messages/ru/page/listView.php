@@ -21,6 +21,7 @@ return [
     'titleVideo'   => 'Видеозаписи',
     'titleSound'   => 'Аудиозаписи',
     'titleComment' => 'Комментарии',
+    'titleImg'     => 'Изображения',
 
     'addCommentDescription'     => 'Оставьте комментарий',
     'buttonAddComment'          => 'Отправить',

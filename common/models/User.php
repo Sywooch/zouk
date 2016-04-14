@@ -274,4 +274,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return Music::getMusic(['userId' => $this->id]);
     }
+
+    public function getUserImgs()
+    {
+        return Img::getImgs(['userId' => $this->id]);
+    }
 }

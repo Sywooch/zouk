@@ -17,7 +17,7 @@ use yii\web\IdentityInterface;
  * @property integer $date_update
  * @property integer $date_create
  *
- * @property Tags[] $tags
+ * @property Tags $tags
  */
 class TagEntity extends ActiveRecord
 {

@@ -80,6 +80,13 @@ class ListController extends Controller
                 if (is_array($tags)) {
                     $item->saveTags($tags);
                 }
+                // Добавляем картинки к записи
+                $imgs = Yii::$app->request->post('imgs');
+                if (!empty($imgs) && is_array($imgs)) {
+                    $item->saveImgs($imgs);
+                } else {
+                    $item->saveImgs([]);
+                }
 
 
                 return Yii::$app->getResponse()->redirect($item->getUrl());
@@ -151,6 +158,13 @@ class ListController extends Controller
                     $item->saveSounds($sounds);
                 } else {
                     $item->saveSounds([]);
+                }
+                // Добавляем картинки к записи
+                $imgs = Yii::$app->request->post('imgs');
+                if (!empty($imgs) && is_array($imgs)) {
+                    $item->saveImgs($imgs);
+                } else {
+                    $item->saveImgs([]);
                 }
 
                 TagEntity::deleteAll(['entity' => TagEntity::ENTITY_ITEM, 'entity_id' => $item->id]);

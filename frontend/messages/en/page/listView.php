@@ -21,6 +21,7 @@ return [
     'titleVideo'   => 'Videos',
     'titleSound'   => 'Audios',
     'titleComment' => 'Comments',
+    'titleImg'     => 'Images',
 
     'addCommentDescription'     => 'Write a comment',
     'buttonAddComment'          => 'Send',

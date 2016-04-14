@@ -60,8 +60,13 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#btnShare', function() {
-        console.log('d');
         $('.pluso').show();
+    });
+
+    $(document).on('click', '.block-imgs .background-img', function() {
+        var $modalShowImg = $('.modal-show-img');
+        $modalShowImg.find('img').attr('src', $(this).data('img-url'));
+        $modalShowImg.modal('show');
     });
     
 });

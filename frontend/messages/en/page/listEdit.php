@@ -3,6 +3,7 @@
 return [
     'title'      => 'Edit item',
     'titleVideo' => 'Videos',
+    'titleImg'   => 'Images',
     'titleAudio' => 'Audios',
 
 

@@ -12,14 +12,17 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $url = $item->getUrl();
-/** @var \common\models\Video[] $videos */
 $videos = $item->videos;
-/** @var \common\models\Music[] $sounds */
 $sounds = $item->sounds;
+$imgs = $item->getImgsSort();
+$mainImg = null;
+if (!empty($imgs)) {
+    $mainImg = array_shift($imgs);
+}
 $tags = $item->tagEntity;
 ?>
 <div id="item-<?= $item->id ?>" data-id="<?= $item->id ?>" class="row block-item-summary margin-bottom">
-    <div class="col-sm-1 visible-md-block visible-lg-block">
+    <div class="col-sm-1 visible-sm-block visible-md-block visible-lg-block">
         <div class="cp" onclick="window.location.href='<?= $url ?>'">
             <div class="votes">
                 <div class="mini-counts">
@@ -46,7 +49,12 @@ $tags = $item->tagEntity;
         <div class="item-short-description">
             <?= $item->getShortDescription() ?>
         </div>
-        <div class="margin-bottom block-item-list-img">
+        <?php if (!empty($mainImg)) { ?>
+            <div class="margin-bottom">
+                <?= Html::img($mainImg->short_url, ['class' => 'main-image-item', 'data-img-url' => $mainImg->short_url]) ?>
+            </div>
+        <?php } ?>
+        <div class="margin-bottom block-item-list-img block-imgs">
             <?php
             foreach ($videos as $video) {
                 if (empty($video->duration)) {
@@ -69,6 +77,15 @@ $tags = $item->tagEntity;
                     $video->original_url,
                     ['target' => '_blank', 'class' => 'block-video-link margin-right-10']
                 );
+            }
+            if (!empty($imgs)) {
+                foreach ($imgs as $img) {
+                    echo Html::tag(
+                        'div',
+                        Html::tag('div', '', ['style' => "background-image:url('{$img->short_url}')", 'class' => 'background-img', 'data-img-url' => $img->short_url]),
+                        ['class' => 'img-input-group']
+                    );
+                }
             }
             ?>
         </div>

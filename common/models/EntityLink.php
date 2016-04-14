@@ -15,6 +15,7 @@ use yii\web\IdentityInterface;
  * @property integer $entity_1_id
  * @property string  $entity_2
  * @property integer $entity_2_id
+ * @property integer $sort
  * @property integer $date_update
  * @property integer $date_create
  */
@@ -67,6 +68,7 @@ class EntityLink extends ActiveRecord
             'entity_1_id' => 'ID сущности 1',
             'entity_2'    => 'Сущность 2',
             'entity_2_id' => 'ID сущности 2',
+            'sort'        => 'Сортировка',
             'date_update' => 'Date Update',
             'date_create' => 'Date Create',
         ];
