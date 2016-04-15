@@ -164,6 +164,7 @@ if (!empty($image_src)) {
                     Html::tag('div', '', ['style' => "background-image:url('{$img->short_url}')", 'class' => 'background-img', 'data-img-url' => $img->short_url]),
                     ['class' => 'img-input-group']
                 );
+                echo Html::img($img->short_url, ['class' => 'hide']);
             }
             echo '</div>';
         }
