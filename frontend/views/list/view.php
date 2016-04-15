@@ -48,6 +48,12 @@ $divDislikeClass = join(' ', $divDislikeClass);
 $url = $item->getUrl();
 $videos = $item->videos;
 $imgsItem = $item->getImgsSort();
+$mainImage = null;
+$image_src = '';
+if (!empty($imgsItem)) {
+    $mainImage = current($imgsItem);
+    $image_src = $mainImage->short_name;
+}
 $sounds = $item->sounds;
 $tags = $item->tagEntity;
 
@@ -78,15 +84,18 @@ $this->registerMetaTag([
     'content' => $description,
 ], 'description');
 
-if (!empty($urlVideo)) {
+if (empty($image_src) && !empty($urlVideo)) {
+    $image_src = $urlVideo;
+}
+if (!empty($image_src)) {
     $this->registerLinkTag([
         'rel'  => 'image_src',
-        'href' => $urlVideo,
+        'href' => $image_src,
     ], 'linkImageSrc');
 
     $this->registerMetaTag([
         'property' => 'og:image',
-        'content'  => $urlVideo,
+        'content'  => $image_src,
     ], 'propertyImage');
 }
 ?>
