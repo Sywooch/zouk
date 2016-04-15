@@ -51,8 +51,9 @@ $imgsItem = $item->getImgsSort();
 $mainImage = null;
 $image_src = '';
 if (!empty($imgsItem)) {
+    reset($imgsItem);
     $mainImage = current($imgsItem);
-    $image_src = $mainImage->short_name;
+    $image_src = $mainImage->short_url;
 }
 $sounds = $item->sounds;
 $tags = $item->tagEntity;
