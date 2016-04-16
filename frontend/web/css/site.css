@@ -428,6 +428,7 @@ table.audio-list td .btn-music-add {
     display: inline-block;
     position: relative;
     overflow: hidden;
+    margin-bottom: 5px;
 }
 
 .block-main-video-link {
