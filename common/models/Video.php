@@ -96,12 +96,17 @@ class Video extends ActiveRecord
         return "";
     }
 
-    public function getThumbnailUrl()
+    public function getThumbnailUrl($param = 1)
     {
         $url = '';
 
         if ($this->entity == self::ENTITY_YOUTUBE) {
-            $url = 'http://img.youtube.com/vi/' . $this->entity_id . '/1.jpg';
+            $name = "1.jpg";
+            if ($param == 2) {
+                $name = "hqdefault.jpg";
+            }
+
+            $url = 'http://img.youtube.com/vi/' . $this->entity_id . '/' . $name;
         }
 
         return $url;
@@ -154,5 +159,21 @@ class Video extends ActiveRecord
         }
         $this->video_title = $title;
         $this->duration = $duration;
+    }
+
+
+    public function getDuration()
+    {
+        if (empty($this->duration)) {
+            $duration = "";
+        } else {
+            $durationS = ($this->duration % 60);
+            $durationM = ($this->duration - $durationS) / 60;
+            if ($durationS < 10) {
+                $durationS = '0' . $durationS;
+            }
+            $duration = $durationM . ':' . $durationS;
+        }
+        return $duration;
     }
 }

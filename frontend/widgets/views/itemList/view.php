@@ -53,30 +53,39 @@ $tags = $item->tagEntity;
             <div class="margin-bottom">
                 <?= Html::img($mainImg->short_url, ['class' => 'main-image-item', 'data-img-url' => $mainImg->short_url]) ?>
             </div>
-        <?php } ?>
-        <div class="margin-bottom block-item-list-img block-imgs">
-            <?php
-            foreach ($videos as $video) {
-                if (empty($video->duration)) {
-                    $duration = "";
-                } else {
-                    $durationS = ($video->duration % 60);
-                    $durationM = ($video->duration - $durationS) / 60;
-                    if ($durationS < 10) {
-                        $durationS = '0' . $durationS;
-                    }
-                    $duration = $durationM . ':' . $durationS;
-                }
+        <?php } else {
+            $mainVideo = array_shift($videos);
+            if (!empty($mainVideo)) {
+                $duration = $mainVideo->getDuration();
 
                 echo Html::a(
                     Html::tag(
                         'div',
                         Html::tag('span', '', ['class' => 'glyphicon glyphicon-film']) . Html::tag('span', $duration),
                         ['class' => 'block-video-duration']
-                    ) . Html::img($video->getThumbnailUrl()),
-                    $video->original_url,
-                    ['target' => '_blank', 'class' => 'block-video-link margin-right-10']
+                    ) . Html::img($mainVideo->getThumbnailUrl(2),  ['class' => 'main-video-image-item']),
+                    $mainVideo->original_url,
+                    ['target' => '_blank', 'class' => 'block-main-video-link margin-right-10']
                 );
+            }
+        }
+        ?>
+        <div class="margin-bottom block-item-list-img block-imgs">
+            <?php
+            if (!empty($videos)) {
+                foreach ($videos as $video) {
+                    $duration = $video->getDuration();
+
+                    echo Html::a(
+                        Html::tag(
+                            'div',
+                            Html::tag('span', '', ['class' => 'glyphicon glyphicon-film']) . Html::tag('span', $duration),
+                            ['class' => 'block-video-duration']
+                        ) . Html::img($video->getThumbnailUrl()),
+                        $video->original_url,
+                        ['target' => '_blank', 'class' => 'block-video-link margin-right-10']
+                    );
+                }
             }
             if (!empty($imgs)) {
                 foreach ($imgs as $img) {

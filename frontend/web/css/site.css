@@ -430,6 +430,13 @@ table.audio-list td .btn-music-add {
     overflow: hidden;
 }
 
+.block-main-video-link {
+    width: 250px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
 .block-img-link {
     max-width: 120px;
     max-height: 90px;
@@ -455,6 +462,7 @@ table.audio-list td .btn-music-add {
     font-size: 12px;
 }
 
+.block-main-video-link span.glyphicon,
 .block-video-link span.glyphicon {
     margin-right: 5px;
 }
@@ -517,7 +525,8 @@ tr.audio-list-item>td:last-child {
 .block-imgs .img-input-group,
 #blockImgs .img-input-group {
     display: inline-block;
-    margin: 3px;
+    margin-right: 10px;
+    margin-bottom: 5px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -576,10 +585,13 @@ tr.audio-list-item>td:last-child {
 }
 
 .block-item-summary .main-image-item {
-    min-width: 200px;
-    min-height: 200px;
-    max-width: 300px;
-    max-height: 400px;
+    width: 250px;
+    cursor: pointer;
+}
+
+
+.block-item-summary .main-video-image-item {
+    width: 250px;
     cursor: pointer;
 }
 
