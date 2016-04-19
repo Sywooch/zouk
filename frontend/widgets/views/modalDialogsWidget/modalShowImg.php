@@ -9,7 +9,7 @@ use yii\helpers\Html;
     <div class="modal-dialog modal-xs">
         <div class="modal-content">
             <div class="modal-body">
-                <?= Html::img('') ?>
+                <?= Html::img(Yii::$app->UrlManager->to('img/logo.png')) ?>
             </div>
         </div>
     </div>
