@@ -123,7 +123,10 @@ class ListController extends Controller
             Yii::$app->params['jsZoukVar']['anchor'] = $anchor;
         }
 
-        $item->addShowCount();
+        $thisUser = User::thisUser();
+        if (!$thisUser->isBot($botName = '')) {
+            $item->addShowCount();
+        }
         $thisUser = User::thisUser();
         $vote = !empty($thisUser) ? $thisUser->getVoteByEntity(Vote::ENTITY_ITEM, $id) : null;
 
