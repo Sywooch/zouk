@@ -45,7 +45,7 @@ $thisUser = User::thisUser();
                             <tr class="audio-list-item">
                                 <td><?= \frontend\widgets\SoundWidget::widget(['music' => $music]) ?></td>
                                 <td><?= Html::button(
-                                        Lang::t('main/music', 'btnAdd'),
+                                        Lang::t('main/music', 'btnAdd2'),
                                         [
                                             'class'         => 'btn btn-link btn-music-add no-focus',
                                             'data-music-id' => $music->id,
