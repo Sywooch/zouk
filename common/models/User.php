@@ -280,7 +280,7 @@ class User extends ActiveRecord implements IdentityInterface
         return Img::getImgs(['userId' => $this->id]);
     }
 
-    public function isBot(&$botname = '')
+    public function isBot()
     {
         $bots = [
             'rambler','googlebot','aport','yahoo','msnbot','turtle','mail.ru','omsktele',
@@ -295,7 +295,6 @@ class User extends ActiveRecord implements IdentityInterface
         ];
         foreach($bots as $bot)
             if(stripos($_SERVER['HTTP_USER_AGENT'], $bot) !== false){
-                $botname = $bot;
                 return true;
             }
         return false;

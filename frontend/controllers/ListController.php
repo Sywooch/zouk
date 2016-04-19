@@ -124,7 +124,7 @@ class ListController extends Controller
         }
 
         $thisUser = User::thisUser();
-        if (!$thisUser->isBot($botName = '')) {
+        if (!$thisUser->isBot()) {
             $item->addShowCount();
         }
         $vote = !empty($thisUser) ? $thisUser->getVoteByEntity(Vote::ENTITY_ITEM, $id) : null;
