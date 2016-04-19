@@ -280,7 +280,7 @@ class User extends ActiveRecord implements IdentityInterface
         return Img::getImgs(['userId' => $this->id]);
     }
 
-    public function isBot()
+    public static function isBot()
     {
         $bots = [
             'rambler','googlebot','aport','yahoo','msnbot','turtle','mail.ru','omsktele',
