@@ -20,7 +20,7 @@ use yii\helpers\Url;
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/view.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/findTagElement.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
-$this->title = $item->getTitle();
+$this->title = $item->getTitle2();
 
 $this->params['breadcrumbs'][] = Lang::t('page/listView', 'title');
 
@@ -60,7 +60,7 @@ $tags = $item->tagEntity;
 
 $keywords = [];
 $description = $this->title;
-$description .= ". " . $item->getShortDescription(100, '');
+$description .= ". " . $item->getShortDescription(100, '') . "..";
 $urlVideo = '';
 foreach ($tags as $tag) {
     $keywords[] = $tag->tags->getName();
@@ -242,7 +242,9 @@ if (!empty($image_src)) {
                                 <div class="user-action-time">
                                     <?= Lang::t("main", "created") . " " . date("d.m.Y", $item->date_create) . " " . Lang::t("main", "at") . " " . date("H:i", $item->date_create) ?>
                                 </div>
-                                <div class="user-gravatar32"><img src="<?= $author->getAvatarPic() ?>"></div>
+                                <div class="user-gravatar32">
+                                    <div class="background-img" style="background-image: url('<?= $author->getAvatarPic() ?>')"></div>
+                                </div>
                                 <div class="user-details">
                                     <?= $author->getDisplayName() ?> (<b><?= $author->reputation ?></b>)
                                 </div>

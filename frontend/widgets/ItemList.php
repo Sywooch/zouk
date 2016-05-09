@@ -9,6 +9,9 @@ use yii\data\Pagination;
 class ItemList extends \yii\bootstrap\Widget
 {
 
+    const ITEM_LIST_DISPLAY_MAIN = 'main';
+    const ITEM_LIST_DISPLAY_MINI = 'mini';
+
     const ORDER_BY_ID        = 'order_by_id';
     const ORDER_BY_LIKE      = 'order_by_like';
     const ORDER_BY_SHOW      = 'order_by_show';
@@ -29,13 +32,19 @@ class ItemList extends \yii\bootstrap\Widget
 
     public $searchTag = "";
 
+    public $userId = false;
+
+    public $display = self::ITEM_LIST_DISPLAY_MAIN;
+
+    public $limit = false;
+
     public function init()
     {
     }
 
     public function run()
     {
-        $items = $this->getAllItems($this->lastId, $this->orderBy, $this->dateCreateType, $this->searchTag);
+        $items = $this->getAllItems($this->lastId, $this->orderBy, $this->dateCreateType, $this->searchTag, $this->userId, $this->limit);
         return $this->render(
             'itemList/list',
             [
@@ -43,11 +52,12 @@ class ItemList extends \yii\bootstrap\Widget
                 'onlyItem'       => $this->onlyItem,
                 'dateCreateType' => $this->dateCreateType,
                 'searchTag'      => $this->searchTag,
+                'display'        => $this->display,
             ]
         );
     }
 
-    public function getAllItems($lastId = 0, $orderBy = self::ORDER_BY_ID, $dateCreateType = self::DATE_CREATE_LAST, $searchTag = "")
+    public function getAllItems($lastId = 0, $orderBy = self::ORDER_BY_ID, $dateCreateType = self::DATE_CREATE_LAST, $searchTag = "", $userId = false, $limit = false)
     {
         $query = Item::find()->from(["t" => Item::tableName()])->andWhere('t.deleted = 0')->addSelect('*');
         if ($lastId != 0) {
@@ -64,7 +74,9 @@ class ItemList extends \yii\bootstrap\Widget
             $query = $query->addSelect(['(like_count * 15 + show_count) as like_show_count'])->orderBy('like_show_count DESC');
         }
         // Определяем за какой период будем показывать
-        if ($dateCreateType == self::DATE_CREATE_LAST) {
+        if (!empty($limit)) {
+            $query = $query->limit((int)$limit);
+        } elseif ($dateCreateType == self::DATE_CREATE_LAST) {
             $query = $query->limit(10);
         } elseif ($dateCreateType == self::DATE_CREATE_ALL) {
             $query = $query->limit(50);
@@ -72,6 +84,10 @@ class ItemList extends \yii\bootstrap\Widget
             $query = $query->andWhere('t.date_create >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 WEEK))');
         } elseif ($dateCreateType == self::DATE_CREATE_MONTH) {
             $query = $query->andWhere('t.date_create >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 MONTH))');
+        }
+
+        if (!empty($userId)) {
+            $query = $query->andWhere('user_id = :userId', [':userId' => $userId]);
         }
 
         if ($searchTag != "") {

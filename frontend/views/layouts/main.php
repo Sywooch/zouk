@@ -41,7 +41,7 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'ProZouk'  ,
+        'brandLabel' => 'ProZouk',
         'brandUrl'   => Yii::$app->homeUrl,
         'options'    => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -53,7 +53,8 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
     ?>
     <ul id="w1" class="navbar-nav navbar-left nav">
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+               aria-expanded="false">
                 <?= Html::img($thisLang->getImg(), ['height' => '16px']) ?> <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
@@ -74,10 +75,10 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
     </ul>
     <?php
 
-//    echo Nav::widget([
-//        'options' => ['class' => 'navbar-nav', 'encodeLabels' => false,],
-//        'items'   => $menuLangItems,
-//    ]);
+    //    echo Nav::widget([
+    //        'options' => ['class' => 'navbar-nav', 'encodeLabels' => false,],
+    //        'items'   => $menuLangItems,
+    //    ]);
 
     $menuItems = [
         ['label' => Lang::t('main', 'about'), 'url' => ['site/about']],
@@ -87,9 +88,9 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
         $menuItems[] = ['label' => Lang::t('main', 'loginSignup'), 'url' => ['site/login']];
     } else {
         $displayName = User::thisUser()->getDisplayName();
-        $displayProfile =  Html::img(User::thisUser()->getAvatarPic(), ['height' => 24]) . " " .
-           (empty($displayName) ? Lang::t('main', 'profile') : $displayName) . ' ' .
-           '<span class="badge">' . User::thisUser()->reputation . '</span>';
+        $displayProfile = Html::tag('div', '', ['style' => "background-image: url('" . User::thisUser()->getAvatarPic() . "');", 'class' => 'background-img nav-profile-img']) . " " .
+                (empty($displayName) ? Lang::t('main', 'profile') : $displayName) . ' ' .
+                '<span class="badge">' . User::thisUser()->reputation . '</span>';
         $menuItems[] = [
             'encode' => false,
             'label'  => $displayProfile,
@@ -112,7 +113,8 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
         <?= Alert::widget() ?>
         <div class="row">
             <div class="col-md-12">
-                <a class="pull-left visible-md-block visible-lg-block visible-sm-block" href="<?= Url::home() ?>"><img src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>" height="100px"/></a>
+                <a class="pull-left visible-md-block visible-lg-block visible-sm-block" href="<?= Url::home() ?>"><img
+                        src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>" height="100px"/></a>
                 <div class="main-button-block">
                     <?php
                     echo Html::a(
@@ -141,52 +143,65 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
     <div class="container">
         <p class="pull-left">&copy; ProZouk <?= date('Y') ?></p>
         <?php if (!YII_DEBUG) { ?>
-        <p class="pull-right" style="margin-right: 10px">
-            <!--LiveInternet counter--><script type="text/javascript"><!--
-                document.write("<a href='http://www.liveinternet.ru/click' "+
-                    "target=_blank><img src='//counter.yadro.ru/hit?t14.7;r"+
-                    escape(document.referrer)+((typeof(screen)=="undefined")?"":
-                    ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
-                        screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
-                    ";"+Math.random()+
-                    "' alt='' title='LiveInternet: показано число просмотров за 24"+
-                    " часа, посетителей за 24 часа и за сегодня' "+
-                    "border='0' width='88' height='31'><\/a>")
-                //--></script><!--/LiveInternet-->
+            <p class="pull-right" style="margin-right: 10px">
+                <!--LiveInternet counter-->
+                <script type="text/javascript"><!--
+                    document.write("<a href='http://www.liveinternet.ru/click' " +
+                        "target=_blank><img src='//counter.yadro.ru/hit?t14.7;r" +
+                        escape(document.referrer) + ((typeof(screen) == "undefined") ? "" :
+                        ";s" + screen.width + "*" + screen.height + "*" + (screen.colorDepth ?
+                            screen.colorDepth : screen.pixelDepth)) + ";u" + escape(document.URL) +
+                        ";" + Math.random() +
+                        "' alt='' title='LiveInternet: показано число просмотров за 24" +
+                        " часа, посетителей за 24 часа и за сегодня' " +
+                        "border='0' width='88' height='31'><\/a>")
+                    //--></script><!--/LiveInternet-->
 
-            <!-- Yandex.Metrika informer -->
-            <a href="https://metrika.yandex.ru/stat/?id=25259342&amp;from=informer"
-               target="_blank" rel="nofollow"><img src="//bs.yandex.ru/informer/25259342/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
-                                                   style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:25259342,lang:'ru'});return false}catch(e){}"/></a>
-            <!-- /Yandex.Metrika informer -->
+                <!-- Yandex.Metrika informer -->
+                <a href="https://metrika.yandex.ru/stat/?id=25259342&amp;from=informer"
+                   target="_blank" rel="nofollow"><img
+                        src="//bs.yandex.ru/informer/25259342/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
+                        style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика"
+                        title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)"
+                        onclick="try{Ya.Metrika.informer({i:this,id:25259342,lang:'ru'});return false}catch(e){}"/></a>
+                <!-- /Yandex.Metrika informer -->
 
-            <!-- Yandex.Metrika counter -->
-            <script type="text/javascript">
-                (function (d, w, c) {
-                    (w[c] = w[c] || []).push(function() {
-                        try {
-                            w.yaCounter25259342 = new Ya.Metrika({id:25259342,
-                                clickmap:true,
-                                trackLinks:true,
-                                accurateTrackBounce:true});
-                        } catch(e) { }
-                    });
+                <!-- Yandex.Metrika counter -->
+                <script type="text/javascript">
+                    (function (d, w, c) {
+                        (w[c] = w[c] || []).push(function () {
+                            try {
+                                w.yaCounter25259342 = new Ya.Metrika({
+                                    id: 25259342,
+                                    clickmap: true,
+                                    trackLinks: true,
+                                    accurateTrackBounce: true
+                                });
+                            } catch (e) {
+                            }
+                        });
 
-                    var n = d.getElementsByTagName("script")[0],
-                        s = d.createElement("script"),
-                        f = function () { n.parentNode.insertBefore(s, n); };
-                    s.type = "text/javascript";
-                    s.async = true;
-                    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+                        var n = d.getElementsByTagName("script")[0],
+                            s = d.createElement("script"),
+                            f = function () {
+                                n.parentNode.insertBefore(s, n);
+                            };
+                        s.type = "text/javascript";
+                        s.async = true;
+                        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
 
-                    if (w.opera == "[object Opera]") {
-                        d.addEventListener("DOMContentLoaded", f, false);
-                    } else { f(); }
-                })(document, window, "yandex_metrika_callbacks");
-            </script>
-            <noscript><div><img src="//mc.yandex.ru/watch/25259342" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+                        if (w.opera == "[object Opera]") {
+                            d.addEventListener("DOMContentLoaded", f, false);
+                        } else {
+                            f();
+                        }
+                    })(document, window, "yandex_metrika_callbacks");
+                </script>
+            <noscript>
+                <div><img src="//mc.yandex.ru/watch/25259342" style="position:absolute; left:-9999px;" alt=""/></div>
+            </noscript>
             <!-- /Yandex.Metrika counter -->
-        </p>
+            </p>
         <?php } ?>
     </div>
 </footer>

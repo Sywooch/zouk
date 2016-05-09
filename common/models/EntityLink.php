@@ -8,7 +8,7 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
- * User model
+ * EntityLink model
  *
  * @property integer $id
  * @property string  $entity_1

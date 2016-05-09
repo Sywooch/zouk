@@ -252,7 +252,7 @@ class SiteController extends Controller
         if ($ulogin) {
             $ulogin->user_id = 0;
             $ulogin->save();
-            $this->redirect(Url::to(['account/profile']));
+            $this->redirect(Url::to(['account/settings']));
         }
     }
 
@@ -271,7 +271,7 @@ class SiteController extends Controller
                     $ulogin->user_id = $thisUser->id;
                     $ulogin->save();
                 }
-                $this->redirect(Url::to(['account/profile']));
+                $this->redirect(Url::to(['account/settings']));
             }
         }
     }

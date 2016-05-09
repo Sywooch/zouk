@@ -44,9 +44,7 @@ $thisUser = User::thisUser();
                 </div>
             </div>
             <div class="modal-footer">
-                <?= Html::button(Lang::t('main/img', 'modalAddImg_addFromList'), ['class' => 'btn btn-link btn-add-from-list pull-left no-focus hide']) ?>
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
             </div>
         </div>
     </div>

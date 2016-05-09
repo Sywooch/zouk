@@ -14,7 +14,7 @@ $(document).ready(function() {
         var url = $form.attr('action');
         var data = new FormData();
         $.each($('#imgUpload')[0].files, function(i, file) {
-            data.append('Img[imgFile]', file);
+            data.append($('#imgUpload').attr('name'), file);
         });
         $.ajax({
             type: "POST",

@@ -26,6 +26,7 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     const ACTION_MODAL_EDIT_MUSIC = 'ModalEditMusic';
     const ACTION_MODAL_ADD_IMG    = 'ModalAddImg';
     const ACTION_MODAL_SHOW_IMG   = 'ModalShowImg';
+    const ACTION_MODAL_ADD_AVATAR = 'ModalAddAvatar';
 
     private function getActionList()
     {
@@ -35,6 +36,7 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
             self::ACTION_MODAL_EDIT_MUSIC,
             self::ACTION_MODAL_ADD_IMG,
             self::ACTION_MODAL_SHOW_IMG,
+            self::ACTION_MODAL_ADD_AVATAR,
         ];
     }
 
@@ -86,6 +88,14 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     {
         return $this->render(
             'modalDialogsWidget/modalShowImg',
+            []
+        );
+    }
+
+    public function dialogModalAddAvatar()
+    {
+        return $this->render(
+            'modalDialogsWidget/modalAddAvatar',
             []
         );
     }

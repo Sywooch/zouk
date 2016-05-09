@@ -7,10 +7,10 @@ return [
     'mainButtonSchools'   => 'Schools',
     'mainButtonAddRecord' => 'Add record',
 
-    'listTabCurrent' => 'actual',
-    'listTabWeek'    => 'week',
-    'listTabMonth'   => 'month',
-    'listTabPopular' => 'popular',
+    'listTabCurrent' => 'Actual',
+    'listTabWeek'    => 'Week',
+    'listTabMonth'   => 'Month',
+    'listTabPopular' => 'Popular',
 
     'about'       => 'About',
     'feedback'    => 'Feedback',
@@ -32,7 +32,6 @@ return [
     'showCount2' => 'counts',
 
     'showMore' => 'Show more...',
-
 
     'infoBlockMain'  => 'У Вас есть, что рассказать друзьям? В курсе последних событий в мире Зука? Или просто есть любимые видео и аудио? Тогда жми "<b>Добавить запись</b>" и делись с друзьями со всего мира интересной информацией!',
     'infoBlockStep1' => 'Любой пользователь может поделиться интересными новостями о Зуке.',

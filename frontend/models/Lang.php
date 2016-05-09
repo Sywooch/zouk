@@ -18,7 +18,7 @@ use Yii;
 class Lang extends \yii\db\ActiveRecord
 {
 
-    //Переменная, для хранения текущего объекта языка
+    /** @var Lang Переменная, для хранения текущего объекта языка */
     static $current = null;
 
     /**
@@ -162,6 +162,19 @@ class Lang extends \yii\db\ActiveRecord
             }
 
             return ($p === []) ? $message : strtr($message, $p);
+        }
+    }
+
+    static function tdate($date, $language = null)
+    {
+        if (Yii::$app !== null) {
+            $d = date("d", $date);
+            $m = "monthB" . date("m", $date);
+            $y = date("Y", $date);
+
+            return $d . " " . self::t('month', $m, [], $language) . " " . $y;
+        } else {
+            return date("d.m.Y", $date);
         }
     }
 

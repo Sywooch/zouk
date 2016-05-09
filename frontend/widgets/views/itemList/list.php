@@ -4,6 +4,7 @@
  * @var bool   $onlyItem
  * @var string $dateCreateType
  * @var string $searchTag
+ * @var string $display
  */
 
 use common\models\Item;
@@ -17,7 +18,11 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/list.js', ['depend
     <div id="blockList">
         <?php
         foreach ($items as $item) {
-            echo $this->render('view', ['item' => $item, 'dateCreateType' => $dateCreateType]);
+            if ($display == ItemList::ITEM_LIST_DISPLAY_MAIN) {
+                echo $this->render('view', ['item' => $item, 'dateCreateType' => $dateCreateType]);
+            } else if ($display == ItemList::ITEM_LIST_DISPLAY_MINI) {
+                echo $this->render('viewMini', ['item' => $item, 'dateCreateType' => $dateCreateType]);
+            }
         }
         ?>
     </div>

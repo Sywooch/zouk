@@ -143,9 +143,11 @@ $tags = $item->tagEntity;
                             <div class="user-action-time">
                                 <?= Lang::t("main", "created") . " " . date("d.m.Y", $item->date_create) . " " . Lang::t("main", "at") . " " . date("H:i", $item->date_create) ?>
                             </div>
-                            <div class="user-gravatar32"><img src="<?= $author->getAvatarPic() ?>"></div>
+                            <div class="user-gravatar32">
+                                <?= Html::a('<div class="background-img" style="background-image: url(\''. $author->getAvatarPic() . '\')"></div>', ['user/' . $author->display_name]) ?>
+                            </div>
                             <div class="user-details">
-                                <?= $author->getDisplayName() ?> (<b><?= $author->reputation ?></b>)
+                                <?= Html::a($author->getDisplayName() . ' (<b>' . $author->reputation . '</b>)', ['user/' . $author->display_name]) ?>
                             </div>
                         </div>
                     </td>

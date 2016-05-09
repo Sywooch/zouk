@@ -12,7 +12,7 @@ use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
 /**
- * User model
+ * Item model
  *
  * @property integer     $id
  * @property integer     $user_id
@@ -58,11 +58,18 @@ class Item extends VoteModel
         return htmlspecialchars($this->title);
     }
 
+    public function getTitle2()
+    {
+        return strip_tags($this->title);
+    }
+
     public function getShortDescription($length = 500, $end = '...')
     {
         $charset = 'UTF-8';
         $token = '~';
-        $str = strip_tags($this->description);
+        $description = $this->description;
+        $description = preg_replace("'<blockquote[^>]*?>.*?</blockquote>'si"," ",$description);
+        $str = strip_tags($description);
         $str = str_replace("\n", ' ', $str);
         $str = str_replace("\r", ' ', $str);
         $str = preg_replace('/\s+/', ' ', $str);

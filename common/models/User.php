@@ -27,7 +27,8 @@ use yii\web\UploadedFile;
  * @property integer      $reputation
  * @property integer      $created_at
  * @property integer      $updated_at
- * @property string       $password write-only password
+ * @property string       $password  write-only password
+ * @property string       $new_password
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -64,14 +65,16 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['display_name', 'unique', 'message' => Lang::t('page/accountProfile', 'display_name_error')],
+            ['display_name', 'required', 'message' => Lang::t('page/accountProfile', 'display_name_error2')],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             [
                 ['imageFile'],
                 'file',
                 'skipOnEmpty' => true,
-                'extensions' => 'png, jpg',
-                'maxSize' => 5*1024*1024,
-                'tooBig' => Lang::t('page/accountProfile', 'limitSize')
+                'extensions'  => 'jpg, png, jpeg',
+                'maxSize'     => 5 * 1024 * 1024,
+                'tooBig'      => Lang::t('page/accountProfile', 'limitSize'),
             ],
         ];
     }
@@ -283,20 +286,34 @@ class User extends ActiveRecord implements IdentityInterface
     public static function isBot()
     {
         $bots = [
-            'rambler','googlebot','aport','yahoo','msnbot','turtle','mail.ru','omsktele',
-            'yetibot','picsearch','sape.bot','sape_context','gigabot','snapbot','alexa.com',
-            'megadownload.net','askpeter.info','igde.ru','ask.com','qwartabot','yanga.co.uk',
-            'scoutjet','similarpages','oozbot','shrinktheweb.com','aboutusbot','followsite.com',
-            'dataparksearch','google-sitemaps','appEngine-google','feedfetcher-google',
-            'liveinternet.ru','xml-sitemaps.com','agama','metadatalabs.com','h1.hrn.ru',
-            'googlealert.com','seo-rus.com','yaDirectBot','yandeG','yandex',
-            'yandexSomething','Copyscape.com','AdsBot-Google','domaintools.com',
-            'Nigma.ru','bing.com','dotnetdotcom','tweetmemebot','twitterbot'
+            'rambler', 'googlebot', 'aport', 'yahoo', 'msnbot', 'turtle', 'mail.ru', 'omsktele',
+            'yetibot', 'picsearch', 'sape.bot', 'sape_context', 'gigabot', 'snapbot', 'alexa.com',
+            'megadownload.net', 'askpeter.info', 'igde.ru', 'ask.com', 'qwartabot', 'yanga.co.uk',
+            'scoutjet', 'similarpages', 'oozbot', 'shrinktheweb.com', 'aboutusbot', 'followsite.com',
+            'dataparksearch', 'google-sitemaps', 'appEngine-google', 'feedfetcher-google',
+            'liveinternet.ru', 'xml-sitemaps.com', 'agama', 'metadatalabs.com', 'h1.hrn.ru',
+            'googlealert.com', 'seo-rus.com', 'yaDirectBot', 'yandeG', 'yandex',
+            'yandexSomething', 'Copyscape.com', 'AdsBot-Google', 'domaintools.com',
+            'Nigma.ru', 'bing.com', 'dotnetdotcom', 'tweetmemebot', 'twitterbot',
         ];
-        foreach($bots as $bot)
-            if(stripos($_SERVER['HTTP_USER_AGENT'], $bot) !== false){
+        foreach ($bots as $bot)
+            if (stripos($_SERVER['HTTP_USER_AGENT'], $bot) !== false) {
                 return true;
             }
         return false;
+    }
+
+    /**
+     * @return Userinfo
+     */
+    public function getUerinfo()
+    {
+        $userinfo = Userinfo::findOne(['user_id' => $this->id]);
+        if (empty($userinfo)) {
+            $userinfo = new Userinfo();
+            $userinfo->user_id = $this->id;
+            $userinfo->save();
+        }
+        return $userinfo;
     }
 }

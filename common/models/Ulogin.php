@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
- * User model
+ * Ulogin model
  *
  * @property integer $id
  * @property integer $user_id
