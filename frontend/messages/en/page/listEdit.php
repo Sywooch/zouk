@@ -10,6 +10,7 @@ return [
     'fieldTitle'       => 'Title',
     'fieldDescription' => 'Description',
     'buttonAdd'        => 'Save',
+    'buttonCancel'     => 'Cancel',
 
     'btnAdd'      => 'Add',
     'btnAddVideo' => 'Add video',

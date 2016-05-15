@@ -18,9 +18,11 @@ $this->registerJsFile('//ulogin.ru/js/ulogin.js', ['depends' => [\yii\web\Jquery
 
 Yii::$app->params['jsZoukVar']['bindSocialUrl'] = Url::to(['site/uloginbind']);
 Yii::$app->params['jsZoukVar']['unbindSocialUrl'] = Url::to(['site/uloginunbind']);
+
+$userDisplayName = $user->getDisplayName();
 ?>
 <div id="item-header">
-    <h1><?= Lang::t('page/accountProfile', 'titleSettings') ?></h1>
+    <h1><?= Html::a($userDisplayName, ['account/profile']) ?> / <?= Lang::t('page/accountProfile', 'titleSettings') ?></h1>
 </div>
 
 <div>
@@ -51,7 +53,7 @@ Yii::$app->params['jsZoukVar']['unbindSocialUrl'] = Url::to(['site/uloginunbind'
                         echo Html::tag(
                             'td',
                             Html::a(
-                                "<span class='glyphicon glyphicon-remove'></span>",
+                                "<span class='glyphicon glyphicon-remove btn btn-link'></span>",
                                 Url::to(['account/settings']),
                                 ['data-social' => $ulogin->id, 'class' => 'social-unbind', 'target' => '_blank']
                             )
@@ -61,7 +63,7 @@ Yii::$app->params['jsZoukVar']['unbindSocialUrl'] = Url::to(['site/uloginunbind'
                 }
                 ?>
             </table>
-            <label>Привязать:</label>
+            <label><?= Lang::t('page/accountProfile', 'socialConnect') ?></label>
             <div id="uLogin"
                  data-ulogin="display=panel;fields=first_name,last_name,email;optional=nickname;providers=facebook,google,vkontakte,twitter,odnoklassniki,mailru;hidden=other;redirect_uri=;callback=bindSocial"></div>
 

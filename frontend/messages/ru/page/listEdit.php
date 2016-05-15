@@ -10,6 +10,7 @@ return [
     'fieldTitle'       => 'Заголовок',
     'fieldDescription' => 'Описание',
     'buttonAdd'        => 'Сохранить запись',
+    'buttonCancel'     => 'Отмена',
 
     'btnAdd'      => 'Добавить',
     'btnAddVideo' => 'Добавить',

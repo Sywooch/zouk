@@ -72,7 +72,7 @@ $userinfo = $user->getUerinfo();
                     </div>
                     <div class="user-birthday">
                         <span class="glyphicon glyphicon-gift"></span>
-                        <?= empty($userinfo->birthday) ? " - " : Lang::tdate(time()) ?>
+                        <?= empty($userinfo->birthday) ? " - " : Lang::tdate($userinfo->birthday) ?>
                     </div>
                 </td>
             </tr>

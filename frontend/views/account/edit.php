@@ -55,6 +55,7 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
 
             <div class="form-group">
                 <?= Html::submitButton(Lang::t('page/accountProfile', 'buttonSave'), ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>
+                <?= Html::a(Lang::t('page/accountProfile', 'buttonCancel'), ['account/profile'], ['class' => 'btn btn-default pull-right']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>

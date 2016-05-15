@@ -20,6 +20,7 @@ return [
     'display_name' => 'Display name',
     'avatar_pic'   => 'Picture',
     'buttonSave'   => 'Save',
+    'buttonCancel' => 'Cancel',
     'limitSize'    => 'Файл «{file}» слишком большой. Размер не должен превышать 5 MB.',
 
     'accountTabProfile' => 'Profile',
@@ -42,6 +43,7 @@ return [
 
     'titleUloginLink' => 'Social networks',
 
+    'socialConnect'       => 'Connect:',
     'display_name_error'  => 'A person with this name already exists.',
     'display_name_error2' => 'Enter a display name.',
 ];

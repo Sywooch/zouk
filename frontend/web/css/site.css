@@ -156,6 +156,14 @@ a.desc:after {
     float: right;
 }
 
+.bad-item .summary h3 a {
+    color: #CCC;
+}
+
+.bad-item .summary h3 a:hover {
+    color: #777;
+}
+
 .summary h3 {
     margin-top: 0;
     margin-bottom: .35em;

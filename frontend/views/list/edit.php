@@ -134,6 +134,7 @@ $userImgs = $thisUser->getUserImgs();
 
             <div class="form-group">
                 <?= Html::submitButton(Lang::t('page/listEdit', 'buttonAdd'), ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>
+                <?= Html::a(Lang::t('page/listEdit', 'buttonCancel'), $item->getUrl(), ['class' => 'btn btn-default pull-right']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>

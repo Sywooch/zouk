@@ -20,6 +20,7 @@ return [
     'display_name' => 'Отображаемое имя',
     'avatar_pic'   => 'Аватарка',
     'buttonSave'   => 'Сохранить',
+    'buttonCancel' => 'Отмена',
     'limitSize'    => 'Файл «{file}» слишком большой. Размер не должен превышать 5 MB.',
 
     'accountTabProfile' => 'Профиль',
@@ -42,6 +43,7 @@ return [
 
     'titleUloginLink' => 'Социальные сети',
 
+    'socialConnect'       => 'Связать:',
     'display_name_error'  => 'Пользователь с таким именем уже существует.',
     'display_name_error2' => 'Введите отображаемое имя.',
 ];
