@@ -30,6 +30,14 @@ class Reputation extends ActiveRecord
     const ENTITY_VOTE_DISLIKE_OTHER_ITEM_CANCEL = 'voteDislikeOtherItemCancel';
     const ENTITY_VOTE_LIKE_OTHER_ITEM           = 'voteLikeOtherItem';
 
+    const ENTITY_VOTE_LIKE_SELF_EVENT            = 'voteLikeSelfEvent';
+    const ENTITY_VOTE_LIKE_SELF_EVENT_CANCEL     = 'voteLikeSelfEventCancel';
+    const ENTITY_VOTE_DISLIKE_SELF_EVENT         = 'voteDislikeSelfEvent';
+    const ENTITY_VOTE_DISLIKE_SELF_EVENT_CANCEL  = 'voteDislikeSelfEventCancel';
+    const ENTITY_VOTE_DISLIKE_OTHER_EVENT        = 'voteDislikeOtherEvent';
+    const ENTITY_VOTE_DISLIKE_OTHER_EVENT_CANCEL = 'voteDislikeOtherEventCancel';
+    const ENTITY_VOTE_LIKE_OTHER_EVENT           = 'voteLikeOtherEvent';
+
     const ENTITY_VOTE_LIKE_SELF_COMMENT            = 'voteLikeSelfComment';
     const ENTITY_VOTE_LIKE_SELF_COMMENT_CANCEL     = 'voteLikeSelfCommentCancel';
     const ENTITY_VOTE_DISLIKE_SELF_COMMENT         = 'voteDislikeSelfComment';
@@ -44,6 +52,14 @@ class Reputation extends ActiveRecord
             self::ENTITY_VOTE_DISLIKE_SELF_ITEM_CANCEL,
             self::ENTITY_VOTE_DISLIKE_OTHER_ITEM,
             self::ENTITY_VOTE_DISLIKE_OTHER_ITEM_CANCEL,
+
+            self::ENTITY_VOTE_LIKE_SELF_EVENT,
+            self::ENTITY_VOTE_LIKE_SELF_EVENT_CANCEL,
+            self::ENTITY_VOTE_DISLIKE_SELF_EVENT,
+            self::ENTITY_VOTE_DISLIKE_SELF_EVENT_CANCEL,
+            self::ENTITY_VOTE_DISLIKE_OTHER_EVENT,
+            self::ENTITY_VOTE_DISLIKE_OTHER_EVENT_CANCEL,
+            self::ENTITY_VOTE_LIKE_OTHER_EVENT,
 
             self::ENTITY_VOTE_LIKE_SELF_COMMENT,
             self::ENTITY_VOTE_LIKE_SELF_COMMENT_CANCEL,
@@ -149,6 +165,30 @@ class Reputation extends ActiveRecord
             $params['value'] = 1;
         } else if ($entity == self::ENTITY_VOTE_LIKE_OTHER_ITEM) {
             $params['msg'] = "Понравилась запись {$pItemId}.";
+            $params['value'] = 1;
+        } else
+
+
+        if ($entity == self::ENTITY_VOTE_LIKE_SELF_EVENT) {
+            $params['msg'] = "Событие {$pItemId} понравилась пользователю {$pUserId}.";
+            $params['value'] = 5;
+        } else if ($entity == self::ENTITY_VOTE_LIKE_SELF_EVENT_CANCEL) {
+            $params['msg'] = "Отмена: Событие {$pItemId} понравилась пользователю {$pUserId}.";
+            $params['value'] = -5;
+        } else if ($entity == self::ENTITY_VOTE_DISLIKE_SELF_EVENT) {
+            $params['msg'] = "Событие {$pItemId} не понравилась пользователю {$pUserId}.";
+            $params['value'] = -5;
+        } else if ($entity == self::ENTITY_VOTE_DISLIKE_SELF_EVENT_CANCEL) {
+            $params['msg'] = "Отмена: Событие {$pItemId} не понравилась пользователю {$pUserId}.";
+            $params['value'] = 5;
+        } else if ($entity == self::ENTITY_VOTE_DISLIKE_OTHER_EVENT) {
+            $params['msg'] = "Не понравилось событие {$pItemId}.";
+            $params['value'] = -1;
+        } else if ($entity == self::ENTITY_VOTE_DISLIKE_OTHER_EVENT_CANCEL) {
+            $params['msg'] = "Отмена: Не понравилось событие {$pItemId}.";
+            $params['value'] = 1;
+        } else if ($entity == self::ENTITY_VOTE_LIKE_OTHER_EVENT) {
+            $params['msg'] = "Понравилась событие {$pItemId}.";
             $params['value'] = 1;
         } else
 

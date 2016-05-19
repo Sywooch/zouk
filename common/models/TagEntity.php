@@ -23,6 +23,7 @@ class TagEntity extends ActiveRecord
 {
 
     const ENTITY_ITEM = 'item';
+    const ENTITY_EVENT = 'event';
 
     /**
      * @inheritdoc
