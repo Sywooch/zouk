@@ -23,6 +23,7 @@ class Vote extends ActiveRecord
 {
 
     const ENTITY_ITEM    = Item::THIS_ENTITY;
+    const ENTITY_EVENT   = Event::THIS_ENTITY;
     const ENTITY_COMMENT = Comment::THIS_ENTITY;
 
     const VOTE_NONE = 0;

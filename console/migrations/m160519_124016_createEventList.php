@@ -21,8 +21,6 @@ class m160519_124016_createEventList extends Migration
             'date'        => Schema::TYPE_INTEGER,
             'country'     => Schema::TYPE_INTEGER . '(11)',
             'city'        => Schema::TYPE_STRING . '(60)',
-            'telephone'   => Schema::TYPE_STRING . '(60)',
-            'skype'       => Schema::TYPE_STRING . '(40)',
             'vk'          => Schema::TYPE_STRING . '(60)',
             'fb'          => Schema::TYPE_STRING . '(60)',
             'alias'       =>  Schema::TYPE_STRING . ' NOT NULL',

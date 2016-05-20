@@ -21,8 +21,6 @@ use yii\web\IdentityInterface;
  * @property integer     $date
  * @property integer     $country
  * @property string      $city
- * @property string      $telephone
- * @property string      $skype
  * @property string      $vk
  * @property string      $fb
  * @property int         $like_count
