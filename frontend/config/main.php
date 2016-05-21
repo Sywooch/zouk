@@ -37,6 +37,7 @@ return [
                 '/'                                                            => 'site/index',
                 'sitemap.xml'                                                  => 'site/sitemap',
                 'user/<account:[\w-]+>'                                        => 'account/view',
+                'event/<alias:[\w-]+>'                                         => 'event/view',
                 'list/view/<alias:[\w-]+>'                                     => 'list/view',
                 'list/view/<alias:[\w-]+>/<comment:[\w-]+>'                    => 'list/view',
                 'POST vote/add'                                                => 'vote/add',
