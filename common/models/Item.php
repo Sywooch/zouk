@@ -40,10 +40,12 @@ class Item extends VoteModel
     const MAX_VIDEO_ITEM = 5;
     const MAX_SOUND_ITEM = 10;
 
+    const MIN_REPUTAION_BAD_ITEM_DELETE                    = 10;
     const MIN_REPUTATION_ITEM_CREATE                       = -4;
     const MIN_REPUTATION_ITEM_VOTE                         = -4;
     const MIN_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE = -3;
-    const MAX_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE = 10;
+    const MAX_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE = 100;
+
 
     /**
      * @inheritdoc
@@ -68,7 +70,7 @@ class Item extends VoteModel
         $charset = 'UTF-8';
         $token = '~';
         $description = $this->description;
-        $description = preg_replace("'<blockquote[^>]*?>.*?</blockquote>'si"," ",$description);
+        $description = preg_replace("'<blockquote[^>]*?>.*?</blockquote>'si", " ", $description);
         $str = strip_tags($description);
         $str = str_replace("\n", ' ', $str);
         $str = str_replace("\r", ' ', $str);

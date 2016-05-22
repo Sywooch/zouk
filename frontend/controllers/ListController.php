@@ -191,7 +191,13 @@ class ListController extends Controller
     {
         /** @var Item $item */
         $item = Item::findOne($id);
-        if ($item && $item->user_id == User::thisUser()->id) {
+        $thisUser = User::thisUser();
+        if ($item &&
+            (
+                $item->user_id == $thisUser->id ||
+                $thisUser->reputation > Item::MIN_REPUTAION_BAD_ITEM_DELETE && $item->like_count < 0
+            )
+        ) {
             $item->deleted = 1;
             if ($item->save()) {
                 return Yii::$app->getResponse()->redirect(Url::home());

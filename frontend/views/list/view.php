@@ -1,10 +1,11 @@
 <?php
 /**
  * @var yii\web\View        $this
- * @var \common\models\Item $item
+ * @var Item $item
  * @var Vote                $vote
  */
 use common\models\Comment;
+use common\models\Item;
 use common\models\Music;
 use common\models\TagEntity;
 use common\models\User;
@@ -190,7 +191,12 @@ if (!empty($image_src)) {
         </div>
         <div>
             <?php
-            if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $item->user_id) {
+            if (!Yii::$app->user->isGuest &&
+                (
+                    Yii::$app->user->identity->id == $item->user_id ||
+                    $thisUser->reputation > Item::MIN_REPUTAION_BAD_ITEM_DELETE && $item->like_count < 0
+                )
+            ) {
                 echo Html::button(
                     Lang::t('page/listView', 'delete'),
                     [
@@ -200,6 +206,8 @@ if (!empty($image_src)) {
 
                     ]
                 ), ' ';
+            }
+            if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $item->user_id) {
                 echo Html::a(
                     Lang::t('page/listView', 'edit2'),
                     Url::to(['list/edit', 'id' => $item->id]),
