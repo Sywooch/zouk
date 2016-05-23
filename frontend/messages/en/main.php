@@ -6,11 +6,16 @@ return [
     'mainButtonEvents'    => 'Events',
     'mainButtonSchools'   => 'Schools',
     'mainButtonAddRecord' => 'Add record',
+    'mainButtonAddEvent'  => 'Add event',
 
     'listTabCurrent' => 'Actual',
     'listTabWeek'    => 'Week',
     'listTabMonth'   => 'Month',
     'listTabPopular' => 'Popular',
+
+    'eventTabAll'    => 'All',
+    'eventTabAfter'  => 'After',
+    'eventTabBefore' => 'Before',
 
     'about'       => 'About',
     'feedback'    => 'Feedback',

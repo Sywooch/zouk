@@ -23,6 +23,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/soundmanager/soundmanag
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/soundmanager/music.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
+$thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->thisPage : 'list';
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -120,16 +121,29 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['
                     echo Html::a(
                         Lang::t('main', 'mainButtonList'),
                         Url::home(),
-                        ['class' => 'btn-label-main youarehere']
+                        ['class' => 'btn-label-main' . ($thisPage == 'list' ? ' youarehere' : '')]
+                    ), " ";
+
+                    echo Html::a(
+                        Lang::t('main', 'mainButtonEvents'),
+                        ['/events/all'],
+                        ['class' => 'btn-label-main' . ($thisPage == 'event' ? ' youarehere' : '')]
                     ), " ";
                     //                    echo Html::button(Lang::t('main', 'mainButtonTags'), ['class' => 'btn btn-default']), " ";
-                    //                    echo Html::button(Lang::t('main', 'mainButtonEvents'), ['class' => 'btn btn-default']), " ";
                     //                    echo Html::button(Lang::t('main', 'mainButtonSchools'), ['class' => 'btn btn-default']), " ";
-                    echo Html::a(
-                        Lang::t('main', 'mainButtonAddRecord'),
-                        ['/list/add'],
-                        ['class' => 'btn-label-main add-item']
-                    ), " ";
+                    if ($thisPage == 'list') {
+                        echo Html::a(
+                            Lang::t('main', 'mainButtonAddRecord'),
+                            ['/list/add'],
+                            ['class' => 'btn-label-main add-item']
+                        ), " ";
+                    } else if ($thisPage == 'event') {
+                        echo Html::a(
+                            Lang::t('main', 'mainButtonAddEvent'),
+                            ['/events/add'],
+                            ['class' => 'btn-label-main add-item']
+                        ), " ";
+                    }
                     ?>
                 </div>
             </div>

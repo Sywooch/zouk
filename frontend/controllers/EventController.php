@@ -20,6 +20,8 @@ use yii\helpers\Url;
 class EventController extends Controller
 {
 
+    public $thisPage = 'event';
+
     /**
      * @inheritdoc
      */
