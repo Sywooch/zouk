@@ -30,8 +30,6 @@ use yii\web\IdentityInterface;
  * @property integer     $date_update
  * @property integer     $date_create
  *
- * @property Video[]     $videos
- * @property Music[]     $sounds
  * @property Img[]       $imgs
  * @property TagEntity   $tagEntity
  * @property User        $user
@@ -113,6 +111,7 @@ class Event extends VoteModel
             [['date_update', 'date_create'], 'integer'],
             [['title', 'alias'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 20000],
+            [['city', 'vk', 'fb'], 'string', 'max' => 60],
         ];
     }
 

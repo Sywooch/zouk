@@ -45,13 +45,15 @@ class EventController extends Controller
 
     public function actionAdd()
     {
-        if (User::thisUser()->reputation < Event::MIN_REPUTATION_Event_CREATE) {
+        if (User::thisUser()->reputation < Event::MIN_REPUTATION_EVENT_CREATE) {
             return Yii::$app->getResponse()->redirect(Url::home());
         }
         $event = new Event();
         if ($event->load(Yii::$app->request->post())) {
+            $eventPost = Yii::$app->request->post('Event');
             $event->description = \yii\helpers\HtmlPurifier::process($event->description, []);
             $event->user_id = Yii::$app->user->identity->getId();
+            $event->date = strtotime($eventPost['date']);
             $event->like_count = 0;
             $event->show_count = 0;
             if ($event->save()) {
