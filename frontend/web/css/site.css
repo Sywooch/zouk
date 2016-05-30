@@ -133,6 +133,7 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
+.block-event-summary,
 .block-item-summary {
     padding: 12px 0 10px 0;
     border-bottom: 1px solid #ECEAEB;

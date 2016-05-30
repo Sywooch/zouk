@@ -170,10 +170,17 @@ class EventController extends Controller
 
     public function actionEvents()
     {
-        $lastId = Yii::$app->request->post('lastId', 0);
+        $lastDate = Yii::$app->request->post('lastDate', 0);
+        $lastIds = Yii::$app->request->post('loadEventId', []);
         $order = Yii::$app->request->post('order', EventList::ORDER_BY_DATE);
-        $searchTag = Yii::$app->request->post('tag', '');
-        return EventList::widget(['lastId' => $lastId, 'onlyEvent' => true, 'orderBy' => $order, 'searchTag' => $searchTag]);
+        $dateCreateType = Yii::$app->request->post('dateCreateType', EventList::DATE_CREATE_ALL);
+        return EventList::widget([
+            'lastIds'        => $lastIds,
+            'lastDate'       => $lastDate,
+            'onlyEvent'      => true,
+            'orderBy'        => $order,
+            'dateCreateType' => $dateCreateType,
+        ]);
     }
 
     public function actionAll()
@@ -210,5 +217,5 @@ class EventController extends Controller
             return json_encode(['msg' => $resultMsg]);
         }
     }
-    
+
 }

@@ -19,7 +19,7 @@ if (!empty($imgs)) {
 }
 $tags = $event->tagEntity;
 ?>
-<div id="event-<?= $event->id ?>" data-id="<?= $event->id ?>" class="row block-event-summary margin-bottom <?= $event->like_count < 0 ? 'bad-event' : '' ?>"">
+<div id="event-<?= $event->id ?>" data-date="<?= $event->date ?>" data-id="<?= $event->id ?>" class="row block-event-summary margin-bottom <?= $event->like_count < 0 ? 'bad-event' : '' ?>"">
     <div class="col-sm-1 visible-sm-block visible-md-block visible-lg-block">
         <div class="cp" onclick="window.location.href='<?= $url ?>'">
             <div class="votes">
@@ -74,7 +74,7 @@ $tags = $event->tagEntity;
                 foreach ($tags as $tag) {
                     /** @var Tags $tagEvent */
                     $tagEvent = $tag->tags;
-                    if ($dateCreateType == eventList::DATE_CREATE_LAST) {
+                    if ($dateCreateType == eventList::DATE_CREATE_ALL) {
                         $urlTag = Url::to(['/', 'tag' => $tagEvent->getName()]);
                     } else {
                         $urlTag = Url::to(['list/' . $dateCreateType, 'tag' => $tagEvent->getName()]);
