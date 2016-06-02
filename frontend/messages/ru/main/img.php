@@ -7,8 +7,6 @@ return [
     'limitCopyright' => 'Изображение не должно нарушать авторские и смежные права.',
 
     'btnAdd'              => 'Добавить',
-    'modalAddImgTitle'    => 'Добавить изображение',
-    'modalAddAvatarTitle' => 'Изменить фотографию',
     'imgFileField'        => 'Загрузить изображение',
     'avatarFileField'     => 'Загрузить фотографию',
 

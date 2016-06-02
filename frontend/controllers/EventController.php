@@ -142,7 +142,6 @@ class EventController extends Controller
                     $event->saveTags($tags);
                 }
 
-
                 return Yii::$app->getResponse()->redirect($event->getUrl());
             }
         }
@@ -208,11 +207,11 @@ class EventController extends Controller
         $event = Event::findOne($id);
         if ($event && !empty($msg)) {
             if (Alarm::addAlarm(Alarm::ENTITY_EVENT, $event->id, $msg)) {
-                $resultMsg = Lang::t('page/listView', 'msgAlarmResultTrue');
-                Yii::$app->session->setFlash('success', Lang::t('page/listView', 'msgAlarmResultTrue'));
+                $resultMsg = Lang::t('main/dialogs', 'modalAlarm_msgAlarmResultTrue');
+                Yii::$app->session->setFlash('success', Lang::t('main/dialogs', 'modalAlarm_msgAlarmResultTrue'));
             } else {
-                $resultMsg = Lang::t('page/listView', 'msgAlarmResultFalse');
-                Yii::$app->session->setFlash('success', Lang::t('page/listView', 'msgAlarmResultFalse'));
+                $resultMsg = Lang::t('main/dialogs', 'modalAlarm_msgAlarmResultFalse');
+                Yii::$app->session->setFlash('success', Lang::t('main/dialogs', 'modalAlarm_msgAlarmResultFalse'));
             }
             return json_encode(['msg' => $resultMsg]);
         }

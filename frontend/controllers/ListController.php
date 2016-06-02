@@ -234,11 +234,11 @@ class ListController extends Controller
         $item = Item::findOne($id);
         if ($item && !empty($msg)) {
             if (Alarm::addAlarm(Alarm::ENTITY_ITEM, $item->id, $msg)) {
-                $resultMsg = Lang::t('page/listView', 'msgAlarmResultTrue');
-                Yii::$app->session->setFlash('success', Lang::t('page/listView', 'msgAlarmResultTrue'));
+                $resultMsg = Lang::t('main/dialogs', 'modalAlarm_msgAlarmResultTrue');
+                Yii::$app->session->setFlash('success', $resultMsg);
             } else {
-                $resultMsg = Lang::t('page/listView', 'msgAlarmResultFalse');
-                Yii::$app->session->setFlash('success', Lang::t('page/listView', 'msgAlarmResultFalse'));
+                $resultMsg = Lang::t('main/dialogs', 'modalAlarm_msgAlarmResultFalse');
+                Yii::$app->session->setFlash('success', $resultMsg);
             }
             return json_encode(['msg' => $resultMsg]);
         }

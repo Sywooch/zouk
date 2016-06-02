@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'titleAdd' => 'Add event',
+    'titleAdd'  => 'Add event',
+    'titleEdit' => 'Edit event',
 
     'fieldTitle'       => 'Title',
     'fieldDescription' => 'Description',
@@ -11,6 +12,9 @@ return [
     'fieldVk'          => 'Vkontakte',
     'fieldFb'          => 'Facebook',
     'fieldImg'         => 'Images',
+    'mainTag'          => 'Event tag',
 
-    'buttonAdd' => 'Add event',
+    'buttonAdd'    => 'Add event',
+    'buttonSave' => 'Save event',
+    'buttonCancel' => 'Cancel',
 ];

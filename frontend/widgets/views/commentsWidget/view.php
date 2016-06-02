@@ -36,7 +36,7 @@ $thisUser = User::thisUser();
             <?php
             if (!Yii::$app->user->isGuest && $thisUser->reputation >= Comment::MIN_REPUTATION_COMMENT_CREATE) {
                 echo Html::button(
-                    Lang::t('page/listView', 'replyComment'),
+                    Lang::t('main/comments', 'replyComment'),
                     [
                         'class'          => 'btn-link no-focus reply-comment',
                         'data-parent-id' => $comment->id,
@@ -72,7 +72,7 @@ $thisUser = User::thisUser();
                     [
                         'class'   => 'btn-link no-focus btn-show-alarm-comment',
                         'data-id' => $comment->id,
-                        'title'   => Lang::t('page/listView', 'alarmComment'),
+                        'title'   => Lang::t('main/comments', 'alarmComment'),
                     ]
                 );
             }
@@ -82,7 +82,7 @@ $thisUser = User::thisUser();
                     [
                         'class'    => 'btn-link no-focus btn-show-delete-comment',
                         'data-url' => Url::to(['comment/delete', 'id' => $comment->id]),
-                        'title'    => Lang::t('page/listView', 'deleteComment'),
+                        'title'    => Lang::t('main/comments', 'deleteComment'),
                     ]
                 ), ' ';
             }

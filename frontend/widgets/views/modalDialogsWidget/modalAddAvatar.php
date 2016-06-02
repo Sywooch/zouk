@@ -14,7 +14,7 @@ $thisUser = User::thisUser();
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?= Lang::t('main/img', 'modalAddAvatarTitle') ?></h4>
+                <h4 class="modal-title"><?= Lang::t('main/dialogs', 'modalAddAvatar_title') ?></h4>
             </div>
             <div class="modal-body">
                 <div class="block-img-user-list">
@@ -24,7 +24,7 @@ $thisUser = User::thisUser();
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= Lang::t('main/dialogs', 'cancel') ?></button>
             </div>
         </div>
     </div>

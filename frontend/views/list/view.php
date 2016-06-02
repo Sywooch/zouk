@@ -214,7 +214,7 @@ if (!empty($image_src)) {
                 ]
             ), ' ';
             echo Html::button(
-                Lang::t('page/listView', 'alarm'),
+                Lang::t('main/dialogs', 'modalAlarm_alarm'),
                 [
                     'class'       => 'btn btn-link no-focus',
                     'data-toggle' => "modal",

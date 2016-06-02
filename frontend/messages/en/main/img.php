@@ -7,8 +7,6 @@ return [
     'limitCopyright' => 'Your image file must not violate copyright laws.',
 
     'btnAdd'              => 'Add image',
-    'modalAddImgTitle'    => 'Add image',
-    'modalAddAvatarTitle' => 'Add photo',
     'imgFileField'        => 'Upload image',
     'avatarFileField'     => 'Upload photo',
 

@@ -139,28 +139,35 @@ a.desc:after {
     border-bottom: 1px solid #ECEAEB;
 }
 
+.block-event-summary.block-event-summary-mini,
 .block-item-summary.block-item-summary-mini {
     font-size: 16px;
 }
 
+.block-event-summary.block-event-summary-mini div,
 .block-item-summary.block-item-summary-mini div {
     display: inline-block;
 }
 
+.block-event-summary-mini .mini-block-event-show,
+.block-event-summary-mini .mini-block-event-vote,
 .block-item-summary-mini .mini-block-item-show,
 .block-item-summary-mini .mini-block-item-vote {
     width: 50px;
 }
 
+.block-event-summary-mini .mini-block-event-date,
 .block-item-summary-mini .mini-block-item-date {
     width: 150px;
     float: right;
 }
 
+.bad-event .summary h3 a,
 .bad-item .summary h3 a {
     color: #CCC;
 }
 
+.bad-event .summary h3 a:hover,
 .bad-item .summary h3 a:hover {
     color: #777;
 }
@@ -204,16 +211,19 @@ a.desc:after {
     color: #999;
 }
 
+.event-hyperlink,
 .item-hyperlink {
     color: #0077CC;
     line-height: 1.3;
     margin-bottom: 1.2em;
 }
 
+.event-hyperlink:visited,
 .item-hyperlink:visited {
     color: #005999;
 }
 
+#event-header,
 #item-header {
     clear: both;
     padding: 5px 0;
@@ -221,19 +231,21 @@ a.desc:after {
     margin-bottom: 1em;
 }
 
+#event-header h1,
 #item-header h1 {
     font-size: 28px;
     line-height: 1.3;
     margin-bottom: 0.35em;
 }
 
-
+#event-header h1 .header-pencil,
 #item-header h1 .header-pencil {
     font-size: 20px;
     margin-left: 10px;
     color: #777;
 }
 
+#event-header h1 .header-pencil:hover,
 #item-header h1 .header-pencil:hover {
     color: #005999;
 }
@@ -327,6 +339,7 @@ table.display-user-info .user-img:hover .block-user-img-edit {
     font-size: 1.5em;
 }
 
+.vote-count-event,
 .vote-count-item {
     font-size: 2em;
 }
@@ -708,17 +721,19 @@ tr.audio-list-item>td:last-child {
     text-align: center;
 }
 
+.block-event-summary .main-image-event,
 .block-item-summary .main-image-item {
     width: 250px;
     cursor: pointer;
 }
 
-
+.block-event-summary .main-video-image-event,
 .block-item-summary .main-video-image-item {
     width: 250px;
     cursor: pointer;
 }
 
+.event-text,
 .item-text {
     margin-right: 10px;
 }

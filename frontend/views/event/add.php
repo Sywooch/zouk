@@ -20,6 +20,9 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/component/bootstrap-token
 // Calendar
 $this->registerJsFile('//code.jquery.com/ui/1.11.4/jquery-ui.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerCssFile('//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
+// Sortable
+$this->registerCssFile('//code.jquery.com/ui/1.11.4/jquery-ui.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerCss('//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css');
 
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/imgEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/event/add.js', ['depends' => [\yii\web\JqueryAsset::className()]]);

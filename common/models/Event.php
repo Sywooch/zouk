@@ -31,7 +31,7 @@ use yii\web\IdentityInterface;
  * @property integer     $date_create
  *
  * @property Img[]       $imgs
- * @property TagEntity   $tagEntity
+ * @property TagEntity[] $tagEntity
  * @property User        $user
  */
 class Event extends VoteModel

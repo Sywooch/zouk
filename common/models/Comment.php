@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use frontend\widgets\EventList;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -27,6 +28,7 @@ class Comment extends VoteModel
     const THIS_ENTITY = 'comment';
 
     const ENTITY_ITEM = Item::THIS_ENTITY;
+    const ENTITY_EVENT = Event::THIS_ENTITY;
 
     const MAX_VIDEO_ITEM = 5;
 
