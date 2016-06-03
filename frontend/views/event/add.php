@@ -87,8 +87,13 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
             </div>
 
             <div class="input-group margin-bottom">
-                <span class="input-group-addon" id="basic-addon1">Метки</span>
-                <?= Html::textInput('tags', '', array('id' => 'tokenfield', 'data-tokens' => '', 'class' => 'form-control')) ?>
+                <span class="input-group-addon"><?= Lang::t('page/eventEdit', 'mainTag') ?></span>
+                <?= Html::textInput('main_tags', $tagValue, ['id' => 'main_tokenfield', 'data-tokens' => $tagValue, 'class' => 'form-control']) ?>
+            </div>
+
+            <div class="input-group margin-bottom">
+                <span class="input-group-addon"><?= Lang::t('page/eventEdit', 'tags') ?></span>
+                <?= Html::textInput('tags', $tagValue, ['id' => 'tokenfield', 'data-tokens' => $tagValue, 'class' => 'form-control']) ?>
             </div>
 
             <div class="form-group">

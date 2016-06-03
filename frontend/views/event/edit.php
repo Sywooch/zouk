@@ -42,7 +42,9 @@ foreach ($tags as $tag) {
     $tagEvent = $tag->tags;
     $tagValues[] = $tagEvent->getName();
 }
+$mainTagValues = array_shift($tagValues);
 $tagValue = join(',', $tagValues);
+$mainTagValue = $mainTagValues;
 
 $thisUser = User::thisUser();
 $userImgs = $thisUser->getUserImgs();
@@ -98,7 +100,12 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
             </div>
 
             <div class="input-group margin-bottom">
-                <span class="input-group-addon" id="basic-addon1"><?= Lang::t('page/eventEdit', 'mainTag') ?></span>
+                <span class="input-group-addon"><?= Lang::t('page/eventEdit', 'mainTag') ?></span>
+                <?= Html::textInput('main_tags', $mainTagValue, ['id' => 'main_tokenfield', 'data-tokens' => $mainTagValue, 'class' => 'form-control']) ?>
+            </div>
+
+            <div class="input-group margin-bottom">
+                <span class="input-group-addon"><?= Lang::t('page/eventEdit', 'tags') ?></span>
                 <?= Html::textInput('tags', $tagValue, ['id' => 'tokenfield', 'data-tokens' => $tagValue, 'class' => 'form-control']) ?>
             </div>
 

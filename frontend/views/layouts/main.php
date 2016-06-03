@@ -51,6 +51,11 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
 
     $thisLang = Lang::getCurrent();
 
+    if ($thisPage == 'list') {
+        $mainUrl = Url::home();
+    } else if ($thisPage == 'event') {
+        $mainUrl = ['events/all'];
+    }
     ?>
     <ul id="w1" class="navbar-nav navbar-left nav">
         <li class="dropdown">
@@ -114,8 +119,7 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
         <?= Alert::widget() ?>
         <div class="row">
             <div class="col-md-12">
-                <a class="pull-left visible-md-block visible-lg-block visible-sm-block" href="<?= Url::home() ?>"><img
-                        src="<?= Yii::$app->UrlManager->to('img/logo.png') ?>" height="100px"/></a>
+                <?= Html::a(Html::img(Yii::$app->UrlManager->to('img/logo.png'), ['height' => '100px']), $mainUrl, ['class' => 'pull-left visible-md-block visible-lg-block visible-sm-block']) ?>
                 <div class="main-button-block">
                     <?php
                     echo Html::a(

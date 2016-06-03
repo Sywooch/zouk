@@ -232,12 +232,11 @@ class Event extends VoteModel
         }
     }
 
-    public function saveTags($tag)
+    public function saveTags($tags)
     {
-        if (is_array($tag)) {
-            $tag = array_shift($tag);
+        foreach ($tags as $tag) {
+            TagEntity::addTag(trim($tag), Tags::TAG_GROUP_ALL, self::THIS_ENTITY, $this->id);
         }
-        TagEntity::addTag(trim($tag), Tags::TAG_GROUP_ALL, self::THIS_ENTITY, $this->id);
     }
 
     public function addShowCount()

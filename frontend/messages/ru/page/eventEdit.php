@@ -13,6 +13,7 @@ return [
     'fieldFb'          => 'Facebook',
     'fieldImg'         => 'Изображения',
     'mainTag'          => 'Метка события',
+    'tags'             => 'Метки',
 
     'buttonAdd' => 'Добавить событие',
     'buttonSave' => 'Сохранить событие',

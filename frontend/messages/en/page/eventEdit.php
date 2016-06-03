@@ -13,6 +13,7 @@ return [
     'fieldFb'          => 'Facebook',
     'fieldImg'         => 'Images',
     'mainTag'          => 'Event tag',
+    'tags'             => 'Tags',
 
     'buttonAdd'    => 'Add event',
     'buttonSave' => 'Save event',
