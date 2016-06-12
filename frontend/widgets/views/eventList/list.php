@@ -29,7 +29,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/event/list.js', ['depen
 
 <?php
 if (!$onlyEvent) {
-    echo Html::button(Lang::t("main", "showMore"), ['class' => 'btn btn-primary', 'id' => 'loadMore']);
+    if (count($events) >= 20) {
+        echo Html::button(Lang::t("main", "showMore"), ['class' => 'btn btn-primary', 'id' => 'loadMore']);
+    }
     echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]);
 }
 ?>
