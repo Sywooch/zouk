@@ -36,6 +36,8 @@ $imgsEvent = $event->getImgsSort();
 $thisUser = \common\models\User::thisUser();
 $userImgs = $thisUser->getUserImgs();
 
+$tagValue = '';
+
 $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent()));
 ?>
 <div id="event-header">
@@ -58,9 +60,7 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
 
             echo $form->field($event, 'city')->label(Lang::t('page/eventEdit', 'fieldCity'));
 
-            echo $form->field($event, 'vk')->label(Lang::t('page/eventEdit', 'fieldVk'))->textInput(['maxlength' => 60]);
-
-            echo $form->field($event, 'fb')->label(Lang::t('page/eventEdit', 'fieldFb'))->textInput(['maxlength' => 60]);
+            echo $form->field($event, 'site')->label(Lang::t('page/eventEdit', 'fieldSite'))->textInput(['maxlength' => 120]);
 
             ?>
 
@@ -84,11 +84,6 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
                     <?php
                 }
                 ?>
-            </div>
-
-            <div class="input-group margin-bottom">
-                <span class="input-group-addon"><?= Lang::t('page/eventEdit', 'mainTag') ?></span>
-                <?= Html::textInput('main_tags', $tagValue, ['id' => 'main_tokenfield', 'data-tokens' => $tagValue, 'class' => 'form-control']) ?>
             </div>
 
             <div class="input-group margin-bottom">

@@ -58,10 +58,7 @@ class EventController extends Controller
             $event->show_count = 0;
             if ($event->save()) {
                 // Добавляем теги
-                $tags = array_merge(
-                    explode(',', Yii::$app->request->post('main_tags')),
-                    explode(',', Yii::$app->request->post('tags'))
-                );
+                $tags = array_shift(explode(',', Yii::$app->request->post('tags')));
                 $event->saveTags($tags);
                 // Добавляем картинки к записи
                 $imgs = Yii::$app->request->post('imgs');
@@ -129,7 +126,10 @@ class EventController extends Controller
             return Yii::$app->getResponse()->redirect($event->getUrl());
         }
         if ($event && $event->load(Yii::$app->request->post())) {
+            $eventPost = Yii::$app->request->post('Event');
+            $event->country = $eventPost['country'];
             $event->description = \yii\helpers\HtmlPurifier::process($event->description, []);
+            $event->date = strtotime($eventPost['date']);
             if ($event->save()) {
                 // Добавляем картинки к записи
                 $imgs = Yii::$app->request->post('imgs');
@@ -140,14 +140,8 @@ class EventController extends Controller
                 }
 
                 TagEntity::deleteAll(['entity' => TagEntity::ENTITY_EVENT, 'entity_id' => $event->id]);
-                $tags = array_merge(
-                    explode(',', Yii::$app->request->post('main_tags')),
-                    explode(',', Yii::$app->request->post('tags'))
-                );
-                
-                if (is_array($tags)) {
-                    $event->saveTags($tags);
-                }
+                $tags = array_shift(explode(',', Yii::$app->request->post('tags')));
+                $event->saveTags($tags);
 
                 return Yii::$app->getResponse()->redirect($event->getUrl());
             }

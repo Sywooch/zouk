@@ -42,9 +42,7 @@ foreach ($tags as $tag) {
     $tagEvent = $tag->tags;
     $tagValues[] = $tagEvent->getName();
 }
-$mainTagValues = array_shift($tagValues);
 $tagValue = join(',', $tagValues);
-$mainTagValue = $mainTagValues;
 
 $thisUser = User::thisUser();
 $userImgs = $thisUser->getUserImgs();
@@ -64,15 +62,13 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
 
             echo $form->field($event, 'description')->textarea()->label(Lang::t('page/eventEdit', 'fieldDescription'));
 
-            echo $form->field($event, 'date')->label(Lang::t('page/eventEdit', 'fieldDate'))->textInput(['id' => 'datepicker', 'value' => date('d.m.Y')]);
+            echo $form->field($event, 'date')->label(Lang::t('page/eventEdit', 'fieldDate'))->textInput(['id' => 'datepicker', 'value' => date('d.m.Y', $event->date)]);
 
             echo $form->field($event, 'country')->label(Lang::t('page/eventEdit', 'fieldCountry'))->dropDownList($countries, ['id' => 'selectCountry']);
 
             echo $form->field($event, 'city')->label(Lang::t('page/eventEdit', 'fieldCity'));
 
-            echo $form->field($event, 'vk')->label(Lang::t('page/eventEdit', 'fieldVk'))->textInput(['maxlength' => 60]);
-
-            echo $form->field($event, 'fb')->label(Lang::t('page/eventEdit', 'fieldFb'))->textInput(['maxlength' => 60]);
+            echo $form->field($event, 'site')->label(Lang::t('page/eventEdit', 'fieldSite'))->textInput(['maxlength' => 120]);
 
             ?>
 
@@ -97,11 +93,6 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
                     <?php
                 }
                 ?>
-            </div>
-
-            <div class="input-group margin-bottom">
-                <span class="input-group-addon"><?= Lang::t('page/eventEdit', 'mainTag') ?></span>
-                <?= Html::textInput('main_tags', $mainTagValue, ['id' => 'main_tokenfield', 'data-tokens' => $mainTagValue, 'class' => 'form-control']) ?>
             </div>
 
             <div class="input-group margin-bottom">

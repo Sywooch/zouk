@@ -147,6 +147,10 @@ if (!empty($image_src)) {
             }
             ?>
             <br/>
+            <b><?= Lang::t("page/eventView", "date") ?></b> <?= date("d.m.Y", $event->date) ?><br>
+            <b><?= Lang::t("page/eventView", "location") ?></b> <span class="glyphicon glyphicon-map-marker"></span> <?= $event->getCountryCityText() ?><br/>
+            <b><?= Lang::t("page/eventView", "site") ?></b> <?= Html::a($event->site, $event->site) ?><br/>
+            <br/>
             <div class="margin-bottom tag-line-height">
                 <?php
                 $tagValues = [];

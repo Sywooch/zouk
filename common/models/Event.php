@@ -2,6 +2,7 @@
 namespace common\models;
 
 use common\models\User;
+use frontend\models\Lang;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -21,8 +22,7 @@ use yii\web\IdentityInterface;
  * @property integer     $date
  * @property integer     $country
  * @property string      $city
- * @property string      $vk
- * @property string      $fb
+ * @property string      $site
  * @property int         $like_count
  * @property int         $show_count
  * @property string      $alias
@@ -111,7 +111,8 @@ class Event extends VoteModel
             [['date_update', 'date_create'], 'integer'],
             [['title', 'alias'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 20000],
-            [['city', 'vk', 'fb'], 'string', 'max' => 60],
+            [['city'], 'string', 'max' => 60],
+            [['site'], 'string', 'max' => 120],
         ];
     }
 
@@ -234,8 +235,13 @@ class Event extends VoteModel
 
     public function saveTags($tags)
     {
-        foreach ($tags as $tag) {
-            TagEntity::addTag(trim($tag), Tags::TAG_GROUP_ALL, self::THIS_ENTITY, $this->id);
+        if (!is_array($tags)) {
+            $tags = [$tags];
+        }
+        if (!empty($tags)) {
+            foreach ($tags as $tag) {
+                TagEntity::addTag(trim($tag), Tags::TAG_GROUP_ALL, self::THIS_ENTITY, $this->id);
+            }
         }
     }
 
@@ -330,5 +336,44 @@ class Event extends VoteModel
             // - текущему пользователю за дизлайк
             Reputation::addReputation($user->id, Reputation::ENTITY_VOTE_DISLIKE_OTHER_EVENT, $paramsOther);
         }
+    }
+
+    public function getCountry()
+    {
+        $country = null;
+        if (!empty($this->country)) {
+            $country = Countries::findOne(['id' => $this->country]);
+        }
+        return $country;
+    }
+
+    public function getCountryText()
+    {
+        $country = $this->getCountry();
+        if (!empty($country)) {
+            $lang = Lang::$current->url;
+            return $country->getLangCountries($lang);
+        }
+        return "";
+    }
+
+    public function getCity()
+    {
+        return htmlspecialchars($this->city);
+    }
+
+    public function getCountryCityText()
+    {
+        $countryText = $this->getCountryText();
+        $city = $this->getCity();
+        $countryCityText = $countryText;
+        if (!empty($countryText) && !empty($city)) {
+            $countryCityText .= ", ";
+        }
+        $countryCityText .= $city;
+        if (empty($countryCityText)) {
+            $countryCityText = " - ";
+        }
+        return $countryCityText;
     }
 }

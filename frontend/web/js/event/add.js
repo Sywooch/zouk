@@ -24,21 +24,13 @@ $(document).ready(function () {
     if (typeof jsZoukVar['tagsAll'] != "undefined") {
         tags = jsZoukVar['tagsAll'];
     }
-    $('#main_tokenfield').tokenfield({
-        autocomplete: {
-            limit: 5,
-            source: tags,
-            delay: 100
-        },
-        limit: 1,
-        showAutocompleteOnFocus: true
-    });
     $('#tokenfield').tokenfield({
         autocomplete: {
             limit: 5,
             source: tags,
             delay: 100
         },
+        limit: 1,
         showAutocompleteOnFocus: true
     });
 

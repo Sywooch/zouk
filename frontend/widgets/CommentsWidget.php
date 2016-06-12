@@ -26,7 +26,7 @@ class CommentsWidget extends \yii\bootstrap\Widget
     {
 
         $query = Comment::find();
-        if ($this->entity == Comment::ENTITY_ITEM) {
+        if ($this->entity == Comment::ENTITY_ITEM || $this->entity == Comment::ENTITY_EVENT) {
             $query = $query->andWhere(['entity' => $this->entity, 'entity_id' => $this->entity_id])->orderBy('date_create DESC');
         }
         $commentsAll = $query->all();
