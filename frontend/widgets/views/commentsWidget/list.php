@@ -38,12 +38,12 @@ $thisUser = User::thisUser();
                 echo $form->field($newComment, 'description', [
                     'inputOptions' => [
                         'class'       => 'form-control',
-                        'placeholder' => Lang::t('page/listView', 'addCommentDescription'),
+                        'placeholder' => Lang::t('main/comments', 'addCommentDescription'),
                     ],
                 ])->textarea()->label(false);
 
-                echo Html::submitButton(Lang::t('page/listView', 'buttonAddComment'), ['class' => 'btn btn-primary pull-right', 'name' => 'list-add-button']);
-                echo Html::resetButton(Lang::t('page/listView', 'buttonCancelComment'), ['class' => 'btn btn-default pull-right btn-cancel-comment', 'style' => 'margin-right: 10px;']);
+                echo Html::submitButton(Lang::t('main/comments', 'buttonAddComment'), ['class' => 'btn btn-primary pull-right', 'name' => 'list-add-button']);
+                echo Html::resetButton(Lang::t('main/comments', 'buttonCancelComment'), ['class' => 'btn btn-default pull-right btn-cancel-comment', 'style' => 'margin-right: 10px;']);
 
                 ActiveForm::end();
             }
@@ -88,14 +88,14 @@ $thisUser = User::thisUser();
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?= Lang::t('page/listView', 'deleteCommentConfirmTitle') ?></h4>
+                <h4 class="modal-title"><?= Lang::t('main/comments', 'deleteCommentConfirmTitle') ?></h4>
             </div>
             <div class="modal-body">
-                <?= Lang::t('page/listView', 'deleteCommentConfirm') ?>
+                <?= Lang::t('main/comments', 'deleteCommentConfirm') ?>
             </div>
             <div class="modal-footer">
-                <a href="" type="button" class="btn btn-danger btn-delete-comment"><?= Lang::t('page/listView', 'deleteBtn') ?></a>
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
+                <a href="" type="button" class="btn btn-danger btn-delete-comment"><?= Lang::t('main/comments', 'deleteBtn') ?></a>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= Lang::t('main/comments', 'buttonCancelComment') ?></button>
             </div>
         </div>
     </div>
@@ -107,27 +107,27 @@ $thisUser = User::thisUser();
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?= Lang::t('page/listView', 'modalCommentAlarmTitle') ?></h4>
+                <h4 class="modal-title"><?= Lang::t('main/comments', 'modalCommentAlarmTitle') ?></h4>
             </div>
             <div class="modal-body">
-                <?= Lang::t('page/listView', 'msgCommentAlarm') ?>
+                <?= Lang::t('main/comments', 'msgCommentAlarm') ?>
                 <?= Html::input('text', 'alarmMsg', '', ['class' => 'form-control']) ?>
             </div>
             <div class="modal-footer">
                 <?= Html::a(
-                    Lang::t('page/listView', 'alarmBtn'),
+                    Lang::t('main/dialogs', 'modalAlarm_alarmBtn'),
                     Url::to(['comment/alarm']),
                     [
                         'id'             => 'alarm-comment',
                         'class'          => 'btn btn-danger',
                         'data-href'      => Url::to(['comment/alarm']),
-                        'data-msg-alarm' => Lang::t('page/listView', 'msgAlarm'),
+                        'data-msg-alarm' => Lang::t('main/dialogs', 'modalAlarm_msg'),
                         'data-id'        => '',
                     ]
                 ), ' ';
                 ?>
                 <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
+                        data-dismiss="modal"><?= Lang::t('main/dialogs', 'cancel') ?></button>
             </div>
         </div>
     </div>

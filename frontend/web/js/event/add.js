@@ -1,6 +1,6 @@
 $(document).ready(function () {
     tinymce.init({
-        selector: '#item-description',
+        selector: '#event-description',
         height: 300,
         min_height: 150,
         menubar: 'edit insert format table tools',
@@ -30,6 +30,11 @@ $(document).ready(function () {
             source: tags,
             delay: 100
         },
+        limit: 1,
         showAutocompleteOnFocus: true
-    })
+    });
+
+    $("#datepicker").datepicker({
+        dateFormat: "dd.mm.yy"
+    });
 });

@@ -6,11 +6,17 @@ return [
     'mainButtonEvents'    => 'События',
     'mainButtonSchools'   => 'Школы',
     'mainButtonAddRecord' => 'Добавить запись',
+    'mainButtonAddEvent'  => 'Добавить событие',
 
     'listTabCurrent' => 'Текущие',
     'listTabWeek'    => 'Неделя',
     'listTabMonth'   => 'Месяц',
     'listTabPopular' => 'Лучшие',
+
+    'eventTabAll'    => 'Все',
+    'eventTabAfter'  => 'Предстоящие',
+    'eventTabBefore' => 'Прошедшие',
+
 
     'about'       => 'О сайте',
     'feedback'    => 'Обратная связь',

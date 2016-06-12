@@ -7,13 +7,9 @@ return [
     'limitCopyright' => 'Your audio file must not violate copyright laws.',
 
     'btnAdd'                    => 'Add audio',
-    'modalAddMusicTitle'        => 'Add audio',
-    'modalAddMusic_searchAudio' => 'Search audio from list',
-    'modalAddMusic_addFromList' => 'Add audio from list',
     'musicFileField'            => 'Select a file',
     'artistField'               => 'Artist',
     'titleField'                => 'Title',
-    'buttonUploadMusic'         => 'Upload audio',
 
     'loading' => 'Loading...',
 ];

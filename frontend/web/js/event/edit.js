@@ -1,6 +1,6 @@
 $(document).ready(function () {
     tinymce.init({
-        selector: '#item-description',
+        selector: '#event-description',
         height: 300,
         min_height: 150,
         menubar: 'edit insert format table tools',
@@ -16,10 +16,9 @@ $(document).ready(function () {
         templates: [
             { title: 'Test template 1', content: 'Test 1' },
             { title: 'Test template 2', content: 'Test 2' }
-        ],
-
+        ]
     });
-
+    
     tags = [];
     if (typeof jsZoukVar['tagsAll'] != "undefined") {
         tags = jsZoukVar['tagsAll'];
@@ -30,6 +29,12 @@ $(document).ready(function () {
             source: tags,
             delay: 100
         },
+        limit: 1,
         showAutocompleteOnFocus: true
-    })
+    });
+
+    $("#datepicker").datepicker({
+        dateFormat: "dd.mm.yy"
+    });
+
 });

@@ -7,13 +7,9 @@ return [
     'limitCopyright' => 'Аудиофайл не должен нарушать авторские и смежные права.',
 
     'btnAdd'                    => 'Добавить',
-    'modalAddMusicTitle'        => 'Добавить аудиозапись',
-    'modalAddMusic_searchAudio' => 'Найти из списка',
-    'modalAddMusic_addFromList' => 'Добавить из списка',
     'musicFileField'            => 'Выберите файл',
     'artistField'               => 'Исполнитель',
     'titleField'                => 'Название',
-    'buttonUploadMusic'         => 'Загрузить аудиозапись',
 
     'loading' => 'Идёт загрузка файла...',
 ];

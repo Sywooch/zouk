@@ -29,7 +29,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/list.js', ['depend
 
 <?php
 if (!$onlyItem && $dateCreateType == ItemList::DATE_CREATE_LAST) {
-    echo Html::button(Lang::t("main", "showMore"), ['class' => 'btn btn-primary', 'id' => 'loadMore', 'data-tag' => $searchTag]);
+    if (count($items) >= 10) {
+        echo Html::button(Lang::t("main", "showMore"), ['class' => 'btn btn-primary', 'id' => 'loadMore', 'data-tag' => $searchTag]);
+    }
     echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]);
 }
 ?>
