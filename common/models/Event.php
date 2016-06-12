@@ -64,7 +64,7 @@ class Event extends VoteModel
         return strip_tags($this->title);
     }
 
-    public function getShortDescription($length = 500, $end = '...')
+    public function getShortDescription($length = 1500, $end = '...')
     {
         $charset = 'UTF-8';
         $token = '~';

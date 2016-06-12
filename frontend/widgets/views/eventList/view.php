@@ -48,6 +48,11 @@ $tags = $event->tagEntity;
         <?php
         if ($event->like_count >= 0) {
             ?>
+            <?php if (empty($mainImg)) { ?>
+                <div class="event-short-description">
+                    <?= $event->getShortDescription() ?>
+                </div>
+            <?php } ?>
             <b><?= Lang::t("page/eventView", "date") ?></b> <?= date("d.m.Y", $event->date) ?><br>
             <b><?= Lang::t("page/eventView", "location") ?></b> <span class="glyphicon glyphicon-map-marker"></span> <?= $event->getCountryCityText() ?><br/>
             <b><?= Lang::t("page/eventView", "site") ?></b> <?= Html::a($event->site, $event->site) ?><br/>
