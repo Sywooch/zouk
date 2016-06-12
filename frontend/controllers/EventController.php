@@ -161,7 +161,7 @@ class EventController extends Controller
         if ($event && $event->user_id == User::thisUser()->id) {
             $event->deleted = 1;
             if ($event->save()) {
-                return Yii::$app->getResponse()->redirect(Url::home());
+                return Yii::$app->getResponse()->redirect(['events/all']);
             };
         }
 
