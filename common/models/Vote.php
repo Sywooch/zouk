@@ -112,6 +112,18 @@ class Vote extends ActiveRecord
                     ];
                 }
             }
+        } else if ($entity == self::ENTITY_EVENT) {
+            $model = Event::findOne($id);
+            if ($user->reputation < Event::MIN_REPUTATION_EVENT_VOTE) {
+                // Если только пользователь не отменяет свои дизлайки
+                if (!($vote->vote == self::VOTE_DOWN && $voteAdd == self::VOTE_DOWN)) {
+                    return [
+                        'vote'  => 0,
+                        'count' => $model->getVoteCount(),
+                        'error' => Lang::t('ajax', 'noReputationVote'),
+                    ];
+                }
+            }
         } else if ($entity == self::ENTITY_COMMENT) {
             $model = Comment::findOne($id);
             if ($user->reputation < Comment::MIN_REPUTATION_COMMENT_VOTE) {

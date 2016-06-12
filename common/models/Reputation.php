@@ -138,7 +138,7 @@ class Reputation extends ActiveRecord
         if (empty($findUser)) {
             return false;
         }
-        $pItemId = $params['itemId'] ? $params['itemId'] : '?';
+        $pItemId = isset($params['itemId']) ? $params['itemId'] : (isset($params['id']) ? $params['id'] : '?');
         $pUserId = $params['userId'] ? $params['userId'] : '?';
 
         if ($pUserId == $userId && in_array($entity, self::notSelfChange())) {
