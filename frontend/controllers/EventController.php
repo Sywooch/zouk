@@ -58,7 +58,8 @@ class EventController extends Controller
             $event->show_count = 0;
             if ($event->save()) {
                 // Добавляем теги
-                $tags = array_shift(explode(',', Yii::$app->request->post('tags')));
+                $tagsArr = explode(',', Yii::$app->request->post('tags'));
+                $tags = array_shift($tagsArr);
                 $event->saveTags($tags);
                 // Добавляем картинки к записи
                 $imgs = Yii::$app->request->post('imgs');
@@ -140,7 +141,8 @@ class EventController extends Controller
                 }
 
                 TagEntity::deleteAll(['entity' => TagEntity::ENTITY_EVENT, 'entity_id' => $event->id]);
-                $tags = array_shift(explode(',', Yii::$app->request->post('tags')));
+                $tagsArr = explode(',', Yii::$app->request->post('tags'));
+                $tags = array_shift($tagsArr);
                 $event->saveTags($tags);
 
                 return Yii::$app->getResponse()->redirect($event->getUrl());
