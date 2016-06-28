@@ -32,6 +32,7 @@ use yii\web\IdentityInterface;
  *
  * @property Img[]       $imgs
  * @property TagEntity[] $tagEntity
+ * @property Location[]  $locations
  * @property User        $user
  */
 class Event extends VoteModel
@@ -39,7 +40,8 @@ class Event extends VoteModel
 
     const THIS_ENTITY = 'event';
 
-    const MAX_IMG_EVENT   = 5;
+    const MAX_IMG_EVENT      = 5;
+    const MAX_LOCATION_EVENT = 5;
 
     const MIN_REPUTATION_EVENT_CREATE                       = -4;
     const MIN_REPUTATION_EVENT_VOTE                         = -4;
@@ -155,6 +157,11 @@ class Event extends VoteModel
             });
     }
 
+    public function getLocations()
+    {
+        return $this->hasMany(Location::className(), ['entity_id' => 'id'])->andOnCondition([Location::tableName() . '.entity' => Event::THIS_ENTITY]);
+    }
+
     /**
      * @return Img[]
      */
@@ -241,6 +248,28 @@ class Event extends VoteModel
         if (!empty($tags)) {
             foreach ($tags as $tag) {
                 TagEntity::addTag(trim($tag), Tags::TAG_GROUP_ALL, self::THIS_ENTITY, $this->id);
+            }
+        }
+    }
+
+    public function saveLocations($locations)
+    {
+        $user = User::thisUser();
+        Location::deleteAll(['entity' => Event::THIS_ENTITY, 'entity_id' => $this->id]);
+        if (is_array($locations)) {
+            $locations = array_slice($locations, 0, Event::MAX_LOCATION_EVENT);
+            foreach ($locations as $location) {
+                $newLocation = new Location();
+                $newLocation->user_id = $user->id;
+                $newLocation->entity = Event::THIS_ENTITY;
+                $newLocation->entity_id = $this->id;
+                $newLocation->title = $location['title'];
+                $newLocation->description = $location['description'];
+                $newLocation->lat = $location['lat'];
+                $newLocation->lng = $location['lng'];
+                $newLocation->zoom = $location['zoom'];
+                $newLocation->type = $location['type'];
+                $newLocation->save();
             }
         }
     }

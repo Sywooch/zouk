@@ -80,4 +80,9 @@ class GoogleComponent
 
         return $answer;
     }
+
+    public function getMapsGoogleJsFile()
+    {
+        return 'https://maps.googleapis.com/maps/api/js?key=' . $this->googleApiKey . '&libraries=places&signed_in=true';
+    }
 }

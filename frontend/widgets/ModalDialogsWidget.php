@@ -21,12 +21,14 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     /** @var int $id */
     public $id;
 
-    const ACTION_MODAL_ALARM      = 'ModalAlarm';
-    const ACTION_MODAL_ADD_MUSIC  = 'ModalAddMusic';
-    const ACTION_MODAL_EDIT_MUSIC = 'ModalEditMusic';
-    const ACTION_MODAL_ADD_IMG    = 'ModalAddImg';
-    const ACTION_MODAL_SHOW_IMG   = 'ModalShowImg';
-    const ACTION_MODAL_ADD_AVATAR = 'ModalAddAvatar';
+    const ACTION_MODAL_ALARM         = 'ModalAlarm';
+    const ACTION_MODAL_ADD_MUSIC     = 'ModalAddMusic';
+    const ACTION_MODAL_EDIT_MUSIC    = 'ModalEditMusic';
+    const ACTION_MODAL_ADD_IMG       = 'ModalAddImg';
+    const ACTION_MODAL_SHOW_IMG      = 'ModalShowImg';
+    const ACTION_MODAL_ADD_AVATAR    = 'ModalAddAvatar';
+    const ACTION_MODAL_ADD_LOCATION  = 'ModalAddLocation';
+    const ACTION_MODAL_SHOW_LOCATION = 'ModalShowLocation';
 
     private function getActionList()
     {
@@ -37,6 +39,8 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
             self::ACTION_MODAL_ADD_IMG,
             self::ACTION_MODAL_SHOW_IMG,
             self::ACTION_MODAL_ADD_AVATAR,
+            self::ACTION_MODAL_ADD_LOCATION,
+            self::ACTION_MODAL_SHOW_LOCATION,
         ];
     }
 
@@ -96,6 +100,22 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     {
         return $this->render(
             'modalDialogsWidget/modalAddAvatar',
+            []
+        );
+    }
+
+    public function dialogModalAddLocation()
+    {
+        return $this->render(
+            'modalDialogsWidget/modalAddLocation',
+            []
+        );
+    }
+
+    public function dialogModalShowLocation()
+    {
+        return $this->render(
+            'modalDialogsWidget/modalShowLocation',
             []
         );
     }

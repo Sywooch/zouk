@@ -6,6 +6,7 @@
 
 use common\models\Countries;
 use common\models\Event;
+use common\models\Location;
 use common\models\Tags;
 use common\models\User;
 use frontend\models\Lang;
@@ -47,6 +48,8 @@ $tagValue = join(',', $tagValues);
 $thisUser = User::thisUser();
 $userImgs = $thisUser->getUserImgs();
 $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent()));
+$locations = $event->locations;
+Yii::$app->params['jsZoukVar']['blockLocationCount'] = count($locations);
 ?>
 <div id="event-header">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -73,14 +76,50 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
             ?>
 
             <label style="width: 100%" class="control-label">
+                <?= Lang::t('page/eventEdit', 'fieldLocation') ?>
+                <a class="btn btn-success btn-sm btn-show-add-location pull-right"
+                   data-max-img="<?= Event::MAX_LOCATION_EVENT ?>"><?= Lang::t('main/img', 'btnAdd') ?></a>
+            </label>
+
+            <div id="blockLocation" class="margin-bottom">
+                <?php
+                $i = 0;
+                $hiddenFields = ['lat', 'lng', 'zoom', 'title', 'description', 'type'];
+                foreach ($locations as $location) {
+                    ?>
+                    <div class="block-location" id="blockLocation<?= $i ?>">
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                        <b><?= $location->getTypeLocal() ?></b>: <?= $location->getTitle() ?>
+                        <i class="btn-edit-location-link btn btn-link glyphicon glyphicon-pencil"></i>
+                        <i class="btn-delete-location-link btn btn-link glyphicon glyphicon-remove"></i>
+                        <?php
+                        foreach ($hiddenFields as $hiddenField) {
+                            echo Html::activeHiddenInput(
+                                $location,
+                                $hiddenField,
+                                [
+                                    'class' => 'field-' . $hiddenField,
+                                    'name'  => 'location[' . $i . '][' . $hiddenField . ']',
+                                    'id'    => false,
+                                ]
+                            );
+                        }
+                        ?>
+
+                    </div>
+                    <?php
+                    $i++;
+                }
+                ?>
+
+            </div>
+
+            <label style="width: 100%" class="control-label">
                 <?= Lang::t('page/eventEdit', 'fieldImg') ?>
                 <a class="btn btn-success btn-sm btn-show-add-img pull-right"
                    data-max-img="<?= Event::MAX_IMG_EVENT ?>"><?= Lang::t('main/img', 'btnAdd') ?></a>
             </label>
-            <div class="hide">
-                <?php
-                ?>
-            </div>
+
             <div id="blockImgs" class="row col-md-12">
                 <?php
                 foreach ($imgsEvent as $img) {
@@ -111,4 +150,5 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
 
     <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_ADD_IMG, 'imgs' => $userImgs]) ?>
 
+    <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_ADD_LOCATION]) ?>
 </div>

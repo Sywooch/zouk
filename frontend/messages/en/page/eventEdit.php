@@ -11,6 +11,7 @@ return [
     'fieldCity'        => 'City',
     'fieldSite'        => 'Web-site',
     'fieldImg'         => 'Images',
+    'fieldLocation'    => 'Locations',
     'mainTag'          => 'Event tag',
     'tags'             => 'Tags',
 

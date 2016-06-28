@@ -38,6 +38,7 @@ $userImgs = $thisUser->getUserImgs();
 
 $tagValue = '';
 
+Yii::$app->params['jsZoukVar']['blockLocationCount'] = 0;
 $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent()));
 ?>
 <div id="event-header">
@@ -65,13 +66,21 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
             ?>
 
             <label style="width: 100%" class="control-label">
-                <?= Lang::t('page/eventEdit', 'fieldImg') ?>
-                <a class="btn btn-success btn-sm btn-show-add-img pull-right" data-max-img="<?= Event::MAX_IMG_EVENT ?>"><?= Lang::t('main/img', 'btnAdd') ?></a>
+                <?= Lang::t('page/eventEdit', 'fieldLocation') ?>
+                <a class="btn btn-success btn-sm btn-show-add-location pull-right"
+                   data-max-img="<?= Event::MAX_LOCATION_EVENT ?>"><?= Lang::t('main/img', 'btnAdd') ?></a>
             </label>
-            <div class="hide">
-                <?php
-                ?>
+
+            <div id="blockLocation" class="margin-bottom">
+
             </div>
+
+            <label style="width: 100%" class="control-label">
+                <?= Lang::t('page/eventEdit', 'fieldImg') ?>
+                <a class="btn btn-success btn-sm btn-show-add-img pull-right"
+                   data-max-img="<?= Event::MAX_IMG_EVENT ?>"><?= Lang::t('main/img', 'btnAdd') ?></a>
+            </label>
+
             <div id="blockImgs">
                 <?php
                 foreach ($imgsEvent as $img) {
@@ -101,4 +110,5 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
 
     <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_ADD_IMG, 'imgs' => $userImgs]) ?>
 
+    <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_ADD_LOCATION]) ?>
 </div>

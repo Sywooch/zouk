@@ -11,6 +11,7 @@ return [
     'fieldCity'        => 'Город',
     'fieldSite'        => 'Веб-сайт',
     'fieldImg'         => 'Изображения',
+    'fieldLocation'    => 'Места',
     'mainTag'          => 'Метка события',
     'tags'             => 'Метки',
 

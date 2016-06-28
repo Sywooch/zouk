@@ -18,6 +18,7 @@ if (!empty($imgs)) {
     $mainImg = array_shift($imgs);
 }
 $tags = $event->tagEntity;
+$locations = $event->locations;
 ?>
 <div id="event-<?= $event->id ?>" data-date="<?= $event->date ?>" data-id="<?= $event->id ?>" class="row block-event-summary margin-bottom <?= $event->like_count < 0 ? 'bad-event' : '' ?>"">
     <div class="col-sm-1 visible-sm-block visible-md-block visible-lg-block">
@@ -54,7 +55,32 @@ $tags = $event->tagEntity;
                 </div>
             <?php } ?>
             <b><?= Lang::t("page/eventView", "date") ?></b> <?= date("d.m.Y", $event->date) ?><br>
-            <b><?= Lang::t("page/eventView", "location") ?></b> <span class="glyphicon glyphicon-map-marker"></span> <?= $event->getCountryCityText() ?><br/>
+            <?php
+            if (count($locations)) {
+                echo '<div id="locations-event-block-' . $event->id . '">';
+                foreach ($locations as $location) {
+                    echo "<b>" . $location->getTypeLocal() . "</b> ";
+                    echo Html::a(
+                        '<span class="glyphicon glyphicon-map-marker"></span> ' . $location->getTitle(),
+                        '',
+                        [
+                            'class'            => 'show-location-link',
+                            'data-lat'         => $location->lat,
+                            'data-lng'         => $location->lng,
+                            'data-zoom'        => $location->zoom,
+                            'data-title'       => $location->title,
+                            'data-type'        => $location->getTypeLocal(),
+                            'data-description' => $location->getDescription(),
+                        ]
+                    );
+                    echo "<br/>";
+                }
+                echo '</div>';
+            } else {
+                echo "<b>" . Lang::t("page/eventView", "location") . '</b> ';
+                echo '<span class="glyphicon glyphicon-map-marker"></span>' . $event->getCountryCityText() . "<br/>";
+            }
+            ?>
             <b><?= Lang::t("page/eventView", "site") ?></b> <?= Html::a($event->site, $event->site) ?><br/>
             <br/>
             <?php if (!empty($mainImg)) { ?>

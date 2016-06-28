@@ -69,6 +69,7 @@ class EventController extends Controller
                     $event->saveImgs([]);
                 }
 
+                $event->saveLocations(Yii::$app->request->post('location'));
 
                 return Yii::$app->getResponse()->redirect($event->getUrl());
             }
@@ -144,6 +145,8 @@ class EventController extends Controller
                 $tagsArr = explode(',', Yii::$app->request->post('tags'));
                 $tags = array_shift($tagsArr);
                 $event->saveTags($tags);
+
+                $event->saveLocations(Yii::$app->request->post('location'));
 
                 return Yii::$app->getResponse()->redirect($event->getUrl());
             }

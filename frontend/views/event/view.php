@@ -6,6 +6,7 @@
  */
 
 use common\models\Comment;
+use common\models\Location;
 use common\models\User;
 use common\models\Vote;
 use frontend\models\Lang;
@@ -82,12 +83,13 @@ if (!empty($image_src)) {
         'content'  => $image_src,
     ], 'propertyImage');
 }
+$locations = $event->locations;
 ?>
     <div id="event-header">
         <h1>
             <?= Html::a($event->getTitle(), $url, ['class' => 'event-hyperlink']) ?>
             <?php
-            if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $event->user_id) {
+            if (!Yii::$app->user->isGuest && $thisUser->id == $event->user_id) {
                 echo Html::a(
                     Lang::t('page/eventView', 'edit'),
                     Url::to(['events/edit', 'id' => $event->id]),
@@ -148,7 +150,32 @@ if (!empty($image_src)) {
             ?>
             <br/>
             <b><?= Lang::t("page/eventView", "date") ?></b> <?= date("d.m.Y", $event->date) ?><br>
-            <b><?= Lang::t("page/eventView", "location") ?></b> <span class="glyphicon glyphicon-map-marker"></span> <?= $event->getCountryCityText() ?><br/>
+            <?php
+            if (count($locations)) {
+                echo '<div id="locations-event-block-' . $event->id . '">';
+                foreach ($locations as $location) {
+                    echo "<b>" . $location->getTypeLocal() . "</b> ";
+                    echo Html::a(
+                        '<span class="glyphicon glyphicon-map-marker"></span> ' . $location->getTitle(),
+                        '',
+                        [
+                            'class'            => 'show-location-link',
+                            'data-lat'         => $location->lat,
+                            'data-lng'         => $location->lng,
+                            'data-zoom'        => $location->zoom,
+                            'data-title'       => $location->title,
+                            'data-type'        => $location->getTypeLocal(),
+                            'data-description' => $location->getDescription(),
+                        ]
+                    );
+                    echo "<br/>";
+                }
+                echo '</div>';
+            } else {
+                echo "<b>" . Lang::t("page/eventView", "location") . '</b> ';
+                echo '<span class="glyphicon glyphicon-map-marker"></span>' . $event->getCountryCityText() . "<br/>";
+            }
+            ?>
             <b><?= Lang::t("page/eventView", "site") ?></b> <?= Html::a($event->site, $event->site) ?><br/>
             <br/>
             <div class="margin-bottom tag-line-height">
@@ -243,7 +270,7 @@ if (!empty($image_src)) {
             <div class="pluso" style="display: none;" data-background="transparent"
                  data-options="medium,round,line,horizontal,nocounter,theme=04"
                  data-services="vkontakte,facebook,odnoklassniki,twitter,google"></div>
-            
+
         </div>
     </div>
     <div class="row">
@@ -284,3 +311,4 @@ if (!empty($image_src)) {
 
 <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_ALARM, 'id' => $event->id]) ?>
 <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]) ?>
+<?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_LOCATION]) ?>
