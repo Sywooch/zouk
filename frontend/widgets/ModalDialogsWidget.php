@@ -59,7 +59,7 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     public function dialogModalAddMusic()
     {
         return $this->render(
-            'modalDialogsWidget1/modalAddMusic',
+            'modalDialogsWidget/modalAddMusic',
             ['musics' => $this->musics]
         );
     }
@@ -67,7 +67,7 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     public function dialogModalEditMusic()
     {
         return $this->render(
-            'modalDialogsWidget1/modalEditMusic',
+            'modalDialogsWidget/modalEditMusic',
             []
         );
     }
@@ -75,7 +75,7 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     public function dialogModalAlarm()
     {
         return $this->render(
-            'modalDialogsWidget1/modalAlarm',
+            'modalDialogsWidget/modalAlarm',
             ['itemId' => $this->id]
         );
     }
@@ -83,7 +83,7 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     public function dialogModalAddImg()
     {
         return $this->render(
-            'modalDialogsWidget1/modalAddImg',
+            'modalDialogsWidget/modalAddImg',
             ['imgs' => $this->imgs]
         );
     }
@@ -91,7 +91,7 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     public function dialogModalShowImg()
     {
         return $this->render(
-            'modalDialogsWidget1/modalShowImg',
+            'modalDialogsWidget/modalShowImg',
             []
         );
     }
@@ -99,7 +99,7 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     public function dialogModalAddAvatar()
     {
         return $this->render(
-            'modalDialogsWidget1/modalAddAvatar',
+            'modalDialogsWidget/modalAddAvatar',
             []
         );
     }
@@ -107,7 +107,7 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     public function dialogModalAddLocation()
     {
         return $this->render(
-            'modalDialogsWidget1/modalAddLocation',
+            'modalDialogsWidget/modalAddLocation',
             []
         );
     }
@@ -115,7 +115,7 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     public function dialogModalShowLocation()
     {
         return $this->render(
-            'modalDialogsWidget1/modalShowLocation',
+            'modalDialogsWidget/modalShowLocation',
             []
         );
     }

@@ -17,7 +17,7 @@ $thisUser = User::thisUser();
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><?= Lang::t('main/dialogs', 'modalAddMusic_title') ?></h4>
+                <h4 class="modal-title"><?= Lang::t('main/music', 'modalAddMusicTitle') ?></h4>
             </div>
             <div class="modal-body">
                 <div class="block-sound-user-list">
@@ -28,16 +28,16 @@ $thisUser = User::thisUser();
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
                                     </span>
-                                    <input type="text" class="form-control " placeholder="<?= Lang::t('main/dialogs', 'modalAddMusic_searchAudio') ?>">
+                                    <input type="text" class="form-control " placeholder="<?= Lang::t('main/music', 'modalAddMusic_searchAudio') ?>">
                                 </div>
                             </td>
                             <td>
-                                <?= Html::button(Lang::t('main/dialogs', 'modalAddMusic_buttonUploadMusic'), ['class' => 'btn btn-primary btn-sm btn-add-sound-form']) ?>
+                                <?= Html::button(Lang::t('main/music', 'buttonUploadMusic'), ['class' => 'btn btn-primary btn-sm btn-add-sound-form']) ?>
                             </td>
                         </tr>
                     </table>
 
-
+                    
                     <table class="audio-list" width="100%">
                         <?php
                         foreach ($musics as $music) {
@@ -63,9 +63,9 @@ $thisUser = User::thisUser();
                 </div>
             </div>
             <div class="modal-footer">
-                <?= Html::button(Lang::t('main/dialogs', 'modalAddMusic_addFromList'), ['class' => 'btn btn-link btn-add-from-list pull-left no-focus hide']) ?>
+                <?= Html::button(Lang::t('main/music', 'modalAddMusic_addFromList'), ['class' => 'btn btn-link btn-add-from-list pull-left no-focus hide']) ?>
                 <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?= Lang::t('page/dialogs', 'cancel') ?></button>
+                        data-dismiss="modal"><?= Lang::t('page/listView', 'cancel') ?></button>
             </div>
         </div>
     </div>
