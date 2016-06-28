@@ -160,6 +160,12 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
 <footer class="footer ">
     <div class="container">
         <p class="pull-left">&copy; ProZouk <?= date('Y') ?></p>
+        <?php
+        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/vk.png'), ['height' => '30px']), 'https://vk.com/prozouk', ['class' => 'margin-right-10']);
+        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/twitter.png'), ['height' => '30px']), 'https://twitter.com/pro_zouk', ['class' => 'margin-right-10']);
+        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/youtube.png'), ['height' => '30px']), 'https://www.youtube.com/channel/UCTDPXDsQqdMEmQ4aidSDomQ', ['class' => 'margin-right-10']);
+        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/googleplus.png'), ['height' => '30px']), 'https://plus.google.com/+BrazilianzoukRuStyle', ['class' => 'margin-right-10']);
+        ?>
         <?php if (!YII_DEBUG) { ?>
             <p class="pull-right" style="margin-right: 10px">
                 <!--LiveInternet counter-->
