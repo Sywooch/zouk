@@ -24,6 +24,9 @@ echo $this->render('/school/tabs', ['selectTab' => 1]);
         <div id="schoolMap">
 
         </div>
+        <br/>
+        <ul class="nav nav-tabs nav-main-tabs">
+        </ul>
         <?= SchoolList::widget(['orderBy' => SchoolList::ORDER_BY_LIKE_SHOW, 'dateCreateType' => SchoolList::DATE_CREATE_ALL]) ?>
     </div>
 </div>
