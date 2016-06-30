@@ -25,20 +25,29 @@ $(document).ready(function() {
 
     $(document).on('click', '.show-location-link', function() {
         var $this = $(this);
+        var countLocationLink = $('#' + $this.data('id')).find('.show-location-link').length;
+        if (countLocationLink <= 1) {
+            $('.btn-show-all-locations').hide();
+        } else {
+            $('.btn-show-all-locations').show();
+        }
         $('.modal-show-location').modal('show');
         markerLocation = {
             lat: $this.data('lat'),
             lng: $this.data('lng'),
-            zoom: $this.data('zoom')
+            zoom: $this.data('zoom'),
+            type: $this.data('type'),
+            title: $this.data('title'),
+            description: $this.data('description')
         };
         $infoBlock = $('.location-info-block');
         $infoBlock.empty().append([getLocationInfo($this.data('title'), $this.data('type'), $this.data('description'), markerLocation)]);
-        $('.btn-show-all-locations').data('id', $this.closest('div').attr('id')).show();
+        $('.btn-show-all-locations').data('id', $this.closest('div').attr('id'));
 
         return false;
     }).on('click', '.btn-show-all-locations', function() {
         var $this = $(this);
-        $infoBlock = $('.location-info-block');
+        var $infoBlock = $('.location-info-block');
         var locationsInfo = [];
         var markerLocations = [];
         $('#' + $this.data('id')).find('.show-location-link').each(function() {

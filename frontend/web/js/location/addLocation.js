@@ -5,12 +5,20 @@ $(document).ready(function() {
         blockLocationCount = jsZoukVar['blockLocationCount'];
     }
 
+    var initingMap = false;
+
     function getBlockLocation() {
         var $form = $('#locationAddForm');
         var locationId = blockLocationCount++;
+        var locationType = $form.find('#location-type option:selected');
+        if (locationType.length > 0) {
+            locationType = locationType.text()
+        } else {
+            locationType = $form.find('#location-type-local').val();
+        }
         return $('<div class="block-location" id="blockLocation' + (locationId) + '"></div>').append([
             '<i class="glyphicon glyphicon-map-marker"></i>',
-            ' <b>' + $form.find('#location-type option:selected').text() + '</b>: ',
+            ' <b>' + locationType + '</b>: ',
             $form.find('#location-title').val(),
             ' <i class="btn-edit-location-link btn btn-link glyphicon glyphicon-pencil"></i>',
             ' <i class="btn-delete-location-link btn btn-link glyphicon glyphicon-remove"></i>',
@@ -25,9 +33,16 @@ $(document).ready(function() {
 
     $(document).on('click', '#btnAddLocation', function() {
         var $blockLocation = $('#blockLocation');
-        var $newLocation = getBlockLocation();
-        $blockLocation.append($newLocation);
 
+        var maxLocation = $('.btn-show-add-location').data('max-location');
+        var countLocation = $('#blockLocation').find('.block-location').length;
+        if (typeof maxLocation == "undefined" || countLocation < maxLocation) {
+            var $newLocation = getBlockLocation();
+            $blockLocation.append($newLocation);
+            if (typeof maxLocation != "undefined" && (countLocation >= maxLocation - 1)) {
+                $('.btn-show-add-location').addClass('hide');
+            }
+        }
         return false;
     }).on('click', '#btnEditLocation', function() {
         var $this = $(this);
@@ -36,18 +51,32 @@ $(document).ready(function() {
         $('#' + id).replaceWith($newLocation);
         return false;
     }).on('click', '.btn-show-add-location', function() {
-        $('.modal-add-location').modal('show');
-        markerLocation = {};
-        $('#location-title').val('');
-        $('#location-type').val('other');
-        $('#location-description').val('');
-        $('#btnAddLocation').show();
-        $('#btnEditLocation').hide();
+        var maxLocation = $(this).data('max-location');
+        var countLocation = $('#blockLocation').find('.block-location').length;
+        if (typeof maxLocation == "undefined" || countLocation < maxLocation) {
+            initingMap = true;
+            $('.modal-add-location').modal('show');
+            markerLocation = {};
+            $('#location-title').val('');
+            var $locationType = $('#location-type');
+            if ($locationType.find('option').length > 0) {
+                $locationType.val('other');
+            }
+            $('#location-description').val('');
+            $('#btnAddLocation').show();
+            $('#btnEditLocation').hide();
+        }
         return false;
     }).on('click', '.btn-delete-location-link', function() {
         $(this).closest('div.block-location').remove();
+        var maxLocation = $('.btn-show-add-location').data('max-location');
+        var countLocation = $('#blockLocation').find('.block-location').length;
+        if (typeof maxLocation == "undefined" || countLocation < maxLocation) {
+            $('.btn-show-add-location').removeClass('hide');
+        }
     }).on('click', '.btn-edit-location-link', function() {
         $('.modal-add-location').modal('show');
+        initingMap = true;
         var $blockLocation = $(this).closest('div.block-location');
         $('#location-lat').val($blockLocation.find('input.field-lat').val());
         $('#location-lng').val($blockLocation.find('input.field-lng').val());
@@ -63,6 +92,7 @@ $(document).ready(function() {
         };
     }).on('shown.bs.modal', function() {
         initMapSearch();
+        initingMap = false;
     });
 
     markerChange = function(marker, fromSearch) {
@@ -71,13 +101,15 @@ $(document).ready(function() {
         if (fromSearch) {
             $('#location-title').val($('#pac-input').val());
         } else {
-            geocoder.geocode({'location': marker.getPosition()}, function(results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                    if (results[0]) {
-                        $('#location-title').val(results[0]['formatted_address']);
+            if (!initingMap) {
+                geocoder.geocode({'location': marker.getPosition()}, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        if (results[0]) {
+                            $('#location-title').val(results[0]['formatted_address']);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     };
 

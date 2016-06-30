@@ -55,6 +55,8 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
         $mainUrl = Url::home();
     } else if ($thisPage == 'event') {
         $mainUrl = ['events/all'];
+    } else if ($thisPage == 'school') {
+        $mainUrl = ['schools/all'];
     }
     ?>
     <ul id="w1" class="navbar-nav navbar-left nav">
@@ -80,11 +82,6 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
         </li>
     </ul>
     <?php
-
-    //    echo Nav::widget([
-    //        'options' => ['class' => 'navbar-nav', 'encodeLabels' => false,],
-    //        'items'   => $menuLangItems,
-    //    ]);
 
     $menuItems = [
         ['label' => Lang::t('main', 'about'), 'url' => ['site/about']],
@@ -133,8 +130,14 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
                         ['/events/all'],
                         ['class' => 'btn-label-main' . ($thisPage == 'event' ? ' youarehere' : '')]
                     ), " ";
+
+                    echo Html::a(
+                        Lang::t('main', 'mainButtonSchools'),
+                        ['/schools/all'],
+                        ['class' => 'btn-label-main' . ($thisPage == 'school' ? ' youarehere' : '')]
+                    ), " ";
                     //                    echo Html::button(Lang::t('main', 'mainButtonTags'), ['class' => 'btn btn-default']), " ";
-                    //                    echo Html::button(Lang::t('main', 'mainButtonSchools'), ['class' => 'btn btn-default']), " ";
+
                     if ($thisPage == 'list') {
                         echo Html::a(
                             Lang::t('main', 'mainButtonAddRecord'),
@@ -145,6 +148,12 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
                         echo Html::a(
                             Lang::t('main', 'mainButtonAddEvent'),
                             ['/events/add'],
+                            ['class' => 'btn-label-main add-item']
+                        ), " ";
+                    } else if ($thisPage == 'school') {
+                        echo Html::a(
+                            Lang::t('main', 'mainButtonAddSchool'),
+                            ['/schools/add'],
                             ['class' => 'btn-label-main add-item']
                         ), " ";
                     }

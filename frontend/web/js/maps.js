@@ -40,11 +40,13 @@ function setMarker(location, fromSearch, draggable, animation, locationMap) {
             map: locationMap,
             animation: animation
         });
-        google.maps.event.addListener(marker, 'dragend', function() {
-            if (typeof markerChange != "undefined") {
-                markerChange(marker, false);
-            }
-        });
+        if (draggable) {
+            google.maps.event.addListener(marker, 'dragend', function() {
+                if (typeof markerChange != "undefined") {
+                    markerChange(marker, false);
+                }
+            });
+        }
     } else {
         marker.setPosition(location);
     }
@@ -194,3 +196,6 @@ function initMapShow() {
     });
 
 }
+
+
+

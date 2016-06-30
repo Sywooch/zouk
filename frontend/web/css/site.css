@@ -133,22 +133,27 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
+.block-school-summary,
 .block-event-summary,
 .block-item-summary {
     padding: 12px 0 10px 0;
     border-bottom: 1px solid #ECEAEB;
 }
 
+.block-school-summary.block-school-summary-mini,
 .block-event-summary.block-event-summary-mini,
 .block-item-summary.block-item-summary-mini {
     font-size: 16px;
 }
 
+.block-school-summary.block-school-summary-mini div,
 .block-event-summary.block-event-summary-mini div,
 .block-item-summary.block-item-summary-mini div {
     display: inline-block;
 }
 
+.block-school-summary-mini .mini-block-school-show,
+.block-school-summary-mini .mini-block-school-vote,
 .block-event-summary-mini .mini-block-event-show,
 .block-event-summary-mini .mini-block-event-vote,
 .block-item-summary-mini .mini-block-item-show,
@@ -156,17 +161,20 @@ a.desc:after {
     width: 50px;
 }
 
+.block-school-summary-mini .mini-block-school-date,
 .block-event-summary-mini .mini-block-event-date,
 .block-item-summary-mini .mini-block-item-date {
     width: 150px;
     float: right;
 }
 
+.bad-school .summary h3 a,
 .bad-event .summary h3 a,
 .bad-item .summary h3 a {
     color: #CCC;
 }
 
+.bad-school .summary h3 a:hover,
 .bad-event .summary h3 a:hover,
 .bad-item .summary h3 a:hover {
     color: #777;
@@ -211,6 +219,7 @@ a.desc:after {
     color: #999;
 }
 
+.school-hyperlink,
 .event-hyperlink,
 .item-hyperlink {
     color: #0077CC;
@@ -218,11 +227,13 @@ a.desc:after {
     margin-bottom: 1.2em;
 }
 
+.school-hyperlink:visited,
 .event-hyperlink:visited,
 .item-hyperlink:visited {
     color: #005999;
 }
 
+#school-header,
 #event-header,
 #item-header {
     clear: both;
@@ -231,6 +242,7 @@ a.desc:after {
     margin-bottom: 1em;
 }
 
+#school-header h1,
 #event-header h1,
 #item-header h1 {
     font-size: 28px;
@@ -238,6 +250,7 @@ a.desc:after {
     margin-bottom: 0.35em;
 }
 
+#school-header h1 .header-pencil,
 #event-header h1 .header-pencil,
 #item-header h1 .header-pencil {
     font-size: 20px;
@@ -245,6 +258,7 @@ a.desc:after {
     color: #777;
 }
 
+#school-header h1 .header-pencil:hover,
 #event-header h1 .header-pencil:hover,
 #item-header h1 .header-pencil:hover {
     color: #005999;
@@ -259,6 +273,7 @@ table.display-user-info .user-name {
 }
 
 table.display-user-info .user-birthday .glyphicon-gift,
+.block-school-summary .glyphicon-map-marker,
 .block-event-summary .glyphicon-map-marker,
 table.display-user-info .user-country .glyphicon-map-marker {
     color: #777;
@@ -340,6 +355,7 @@ table.display-user-info .user-img:hover .block-user-img-edit {
     font-size: 1.5em;
 }
 
+.vote-count-school,
 .vote-count-event,
 .vote-count-item {
     font-size: 2em;
@@ -362,10 +378,12 @@ table.display-user-info .user-img:hover .block-user-img-edit {
     color: #F35D5F;
 }
 
-.main-button-block {
-    vertical-align: middle; !important;
-    line-height: 100px; !important;
-    float: right;
+@media (min-width: 768px) {
+    .main-button-block {
+        vertical-align: middle; !important;
+        line-height: 100px; !important;
+        float: right;
+    }
 }
 
 .main-button-block a {
@@ -723,18 +741,21 @@ tr.audio-list-item>td:last-child {
     text-align: center;
 }
 
+.block-school-summary .main-image-school,
 .block-event-summary .main-image-event,
 .block-item-summary .main-image-item {
     width: 250px;
     cursor: pointer;
 }
 
+.block-school-summary .main-video-image-school,
 .block-event-summary .main-video-image-event,
 .block-item-summary .main-video-image-item {
     width: 250px;
     cursor: pointer;
 }
 
+.school-text,
 .event-text,
 .item-text {
     margin-right: 10px;

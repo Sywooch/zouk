@@ -22,8 +22,9 @@ use yii\web\IdentityInterface;
 class TagEntity extends ActiveRecord
 {
 
-    const ENTITY_ITEM = Item::THIS_ENTITY;
-    const ENTITY_EVENT = Event::THIS_ENTITY;
+    const ENTITY_ITEM   = Item::THIS_ENTITY;
+    const ENTITY_EVENT  = Event::THIS_ENTITY;
+    const ENTITY_SCHOOL = School::THIS_ENTITY;
 
     /**
      * @inheritdoc

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @var string $setLocationType
+ */
+
 use common\models\Event;
 use common\models\Location;
 use common\models\User;
@@ -34,7 +38,13 @@ $location->zoom = 9;
                 echo $form->field($location, 'lat')->label(false)->hiddenInput();
                 echo $form->field($location, 'lng')->label(false)->hiddenInput();
                 echo $form->field($location, 'zoom')->label(false)->hiddenInput();
-                echo $form->field($location, 'type')->dropDownList(Location::getLocationTypeLocal());
+                if (!empty($setLocationType)) {
+                    $location->type = $setLocationType;
+                    echo $form->field($location, 'type')->label(false)->hiddenInput();
+                    echo Html::hiddenInput('type_local', Lang::t('main/location', 'school'), ['id' => 'location-type-local']);
+                } else {
+                    echo $form->field($location, 'type')->dropDownList(Location::getLocationTypeLocal());
+                }
                 echo $form->field($location, 'title')->label(Lang::t('main/dialogs', 'modalAddLocation_fieldTitle'));
                 echo $form->field($location, 'description')->textarea(['maxlength' => 255])->label(Lang::t('main/dialogs', 'modalAddLocation_fieldDescription'));
                 ActiveForm::end();

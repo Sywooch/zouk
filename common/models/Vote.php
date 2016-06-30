@@ -25,6 +25,7 @@ class Vote extends ActiveRecord
     const ENTITY_ITEM    = Item::THIS_ENTITY;
     const ENTITY_EVENT   = Event::THIS_ENTITY;
     const ENTITY_COMMENT = Comment::THIS_ENTITY;
+    const ENTITY_SCHOOL  = School::THIS_ENTITY;
 
     const VOTE_NONE = 0;
     const VOTE_DOWN = 1;
@@ -115,6 +116,18 @@ class Vote extends ActiveRecord
         } else if ($entity == self::ENTITY_EVENT) {
             $model = Event::findOne($id);
             if ($user->reputation < Event::MIN_REPUTATION_EVENT_VOTE) {
+                // Если только пользователь не отменяет свои дизлайки
+                if (!($vote->vote == self::VOTE_DOWN && $voteAdd == self::VOTE_DOWN)) {
+                    return [
+                        'vote'  => 0,
+                        'count' => $model->getVoteCount(),
+                        'error' => Lang::t('ajax', 'noReputationVote'),
+                    ];
+                }
+            }
+        } else if ($entity == self::ENTITY_SCHOOL) {
+            $model = School::findOne($id);
+            if ($user->reputation < School::MIN_REPUTATION_SCHOOL_VOTE) {
                 // Если только пользователь не отменяет свои дизлайки
                 if (!($vote->vote == self::VOTE_DOWN && $voteAdd == self::VOTE_DOWN)) {
                     return [

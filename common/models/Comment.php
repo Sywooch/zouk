@@ -29,6 +29,7 @@ class Comment extends VoteModel
 
     const ENTITY_ITEM = Item::THIS_ENTITY;
     const ENTITY_EVENT = Event::THIS_ENTITY;
+    const ENTITY_SCHOOL = School::THIS_ENTITY;
 
     const MAX_VIDEO_ITEM = 5;
 

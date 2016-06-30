@@ -38,6 +38,14 @@ class Reputation extends ActiveRecord
     const ENTITY_VOTE_DISLIKE_OTHER_EVENT_CANCEL = 'voteDislikeOtherEventCancel';
     const ENTITY_VOTE_LIKE_OTHER_EVENT           = 'voteLikeOtherEvent';
 
+    const ENTITY_VOTE_LIKE_SELF_SCHOOL            = 'voteLikeSelfSchool';
+    const ENTITY_VOTE_LIKE_SELF_SCHOOL_CANCEL     = 'voteLikeSelfSchoolCancel';
+    const ENTITY_VOTE_DISLIKE_SELF_SCHOOL         = 'voteDislikeSelfSchool';
+    const ENTITY_VOTE_DISLIKE_SELF_SCHOOL_CANCEL  = 'voteDislikeSelfSchoolCancel';
+    const ENTITY_VOTE_DISLIKE_OTHER_SCHOOL        = 'voteDislikeOtherSchool';
+    const ENTITY_VOTE_DISLIKE_OTHER_SCHOOL_CANCEL = 'voteDislikeOtherSchoolCancel';
+    const ENTITY_VOTE_LIKE_OTHER_SCHOOL           = 'voteLikeOtherSchool';
+
     const ENTITY_VOTE_LIKE_SELF_COMMENT            = 'voteLikeSelfComment';
     const ENTITY_VOTE_LIKE_SELF_COMMENT_CANCEL     = 'voteLikeSelfCommentCancel';
     const ENTITY_VOTE_DISLIKE_SELF_COMMENT         = 'voteDislikeSelfComment';
@@ -60,6 +68,14 @@ class Reputation extends ActiveRecord
             self::ENTITY_VOTE_DISLIKE_OTHER_EVENT,
             self::ENTITY_VOTE_DISLIKE_OTHER_EVENT_CANCEL,
             self::ENTITY_VOTE_LIKE_OTHER_EVENT,
+
+            self::ENTITY_VOTE_LIKE_SELF_SCHOOL,
+            self::ENTITY_VOTE_LIKE_SELF_SCHOOL_CANCEL,
+            self::ENTITY_VOTE_DISLIKE_SELF_SCHOOL,
+            self::ENTITY_VOTE_DISLIKE_SELF_SCHOOL_CANCEL,
+            self::ENTITY_VOTE_DISLIKE_OTHER_SCHOOL,
+            self::ENTITY_VOTE_DISLIKE_OTHER_SCHOOL_CANCEL,
+            self::ENTITY_VOTE_LIKE_OTHER_SCHOOL,
 
             self::ENTITY_VOTE_LIKE_SELF_COMMENT,
             self::ENTITY_VOTE_LIKE_SELF_COMMENT_CANCEL,
@@ -138,7 +154,14 @@ class Reputation extends ActiveRecord
         if (empty($findUser)) {
             return false;
         }
-        $pItemId = isset($params['itemId']) ? $params['itemId'] : (isset($params['id']) ? $params['id'] : '?');
+        $pItemId = '?';
+        $itemIdKeys = ['itemId', 'eventId', 'schoolId', 'id'];
+        foreach ($itemIdKeys as $itemIdKey) {
+            if (isset($params[$itemIdKey])) {
+                $pItemId = $params[$itemIdKey];
+                break;
+            }
+        }
         $pUserId = $params['userId'] ? $params['userId'] : '?';
 
         if ($pUserId == $userId && in_array($entity, self::notSelfChange())) {
@@ -188,7 +211,31 @@ class Reputation extends ActiveRecord
             $params['msg'] = "Отмена: Не понравилось событие {$pItemId}.";
             $params['value'] = 1;
         } else if ($entity == self::ENTITY_VOTE_LIKE_OTHER_EVENT) {
-            $params['msg'] = "Понравилась событие {$pItemId}.";
+            $params['msg'] = "Понравилось событие {$pItemId}.";
+            $params['value'] = 1;
+        } else
+
+
+        if ($entity == self::ENTITY_VOTE_LIKE_SELF_SCHOOL) {
+            $params['msg'] = "Школа {$pItemId} понравилась пользователю {$pUserId}.";
+            $params['value'] = 5;
+        } else if ($entity == self::ENTITY_VOTE_LIKE_SELF_SCHOOL_CANCEL) {
+            $params['msg'] = "Отмена: Школа {$pItemId} понравилась пользователю {$pUserId}.";
+            $params['value'] = -5;
+        } else if ($entity == self::ENTITY_VOTE_DISLIKE_SELF_SCHOOL) {
+            $params['msg'] = "Школа {$pItemId} не понравилась пользователю {$pUserId}.";
+            $params['value'] = -5;
+        } else if ($entity == self::ENTITY_VOTE_DISLIKE_SELF_SCHOOL_CANCEL) {
+            $params['msg'] = "Отмена: Школа {$pItemId} не понравилась пользователю {$pUserId}.";
+            $params['value'] = 5;
+        } else if ($entity == self::ENTITY_VOTE_DISLIKE_OTHER_SCHOOL) {
+            $params['msg'] = "Не понравилась школа {$pItemId}.";
+            $params['value'] = -1;
+        } else if ($entity == self::ENTITY_VOTE_DISLIKE_OTHER_SCHOOL_CANCEL) {
+            $params['msg'] = "Отмена: Не понравилась школа {$pItemId}.";
+            $params['value'] = 1;
+        } else if ($entity == self::ENTITY_VOTE_LIKE_OTHER_SCHOOL) {
+            $params['msg'] = "Понравилась школа {$pItemId}.";
             $params['value'] = 1;
         } else
 

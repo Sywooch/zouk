@@ -7,6 +7,7 @@ return [
     'mainButtonSchools'   => 'Школы',
     'mainButtonAddRecord' => 'Добавить запись',
     'mainButtonAddEvent'  => 'Добавить событие',
+    'mainButtonAddSchool' => 'Добавить школу',
 
     'listTabCurrent' => 'Текущие',
     'listTabWeek'    => 'Неделя',

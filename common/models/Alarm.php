@@ -25,6 +25,7 @@ class Alarm extends ActiveRecord
     const ENTITY_ITEM    = 'item';
     const ENTITY_EVENT   = Event::THIS_ENTITY;
     const ENTITY_COMMENT = 'comment';
+    const ENTITY_SCHOOL  = School::THIS_ENTITY;
 
 
     /**

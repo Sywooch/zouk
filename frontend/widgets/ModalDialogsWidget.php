@@ -21,6 +21,9 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     /** @var int $id */
     public $id;
 
+    /** @var string $setLocationType */
+    public $setLocationType = null;
+
     const ACTION_MODAL_ALARM         = 'ModalAlarm';
     const ACTION_MODAL_ADD_MUSIC     = 'ModalAddMusic';
     const ACTION_MODAL_EDIT_MUSIC    = 'ModalEditMusic';
@@ -108,7 +111,7 @@ class ModalDialogsWidget extends \yii\bootstrap\Widget
     {
         return $this->render(
             'modalDialogsWidget/modalAddLocation',
-            []
+            ['setLocationType' => $this->setLocationType]
         );
     }
 

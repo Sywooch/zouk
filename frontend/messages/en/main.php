@@ -7,6 +7,7 @@ return [
     'mainButtonSchools'   => 'Schools',
     'mainButtonAddRecord' => 'Add record',
     'mainButtonAddEvent'  => 'Add event',
+    'mainButtonAddSchool' => 'Add school',
 
     'listTabCurrent' => 'Actual',
     'listTabWeek'    => 'Week',
