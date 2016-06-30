@@ -154,7 +154,7 @@ $locations = $school->locations;
             if (count($locations)) {
                 echo '<div id="locations-school-block-' . $school->id . '">';
                 foreach ($locations as $location) {
-                    echo "<b>" . $location->getTypeLocal() . "</b> ";
+                    echo "<b>" . Lang::t("page/schoolView", "location") . "</b> ";
                     echo Html::a(
                         '<span class="glyphicon glyphicon-map-marker"></span> ' . $location->getTitle(),
                         '',

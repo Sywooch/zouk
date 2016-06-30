@@ -59,8 +59,7 @@ class SchoolController extends Controller
             if ($school->save()) {
                 // Добавляем теги
                 $tagsArr = explode(',', Yii::$app->request->post('tags'));
-                $tags = array_shift($tagsArr);
-                $school->saveTags($tags);
+                $school->saveTags($tagsArr);
                 // Добавляем картинки к записи
                 $imgs = Yii::$app->request->post('imgs');
                 if (!empty($imgs) && is_array($imgs)) {
@@ -142,8 +141,7 @@ class SchoolController extends Controller
 
                 TagEntity::deleteAll(['entity' => TagEntity::ENTITY_SCHOOL, 'entity_id' => $school->id]);
                 $tagsArr = explode(',', Yii::$app->request->post('tags'));
-                $tags = array_shift($tagsArr);
-                $school->saveTags($tags);
+                $school->saveTags($tagsArr);
 
                 $school->saveLocations(Yii::$app->request->post('location'));
 

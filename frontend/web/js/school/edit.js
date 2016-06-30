@@ -29,7 +29,6 @@ $(document).ready(function () {
             source: tags,
             delay: 100
         },
-        limit: 1,
         showAutocompleteOnFocus: true
     });
 
