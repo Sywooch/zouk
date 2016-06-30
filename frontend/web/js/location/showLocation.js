@@ -40,7 +40,7 @@ $(document).ready(function() {
             title: $this.data('title'),
             description: $this.data('description')
         };
-        $infoBlock = $('.location-info-block');
+        var $infoBlock = $('.location-info-block');
         $infoBlock.empty().append([getLocationInfo($this.data('title'), $this.data('type'), $this.data('description'), markerLocation)]);
         $('.btn-show-all-locations').data('id', $this.closest('div').attr('id'));
 

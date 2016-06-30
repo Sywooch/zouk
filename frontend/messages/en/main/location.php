@@ -2,7 +2,7 @@
 
 return [
     'other'  => 'Location',
-    'school' => 'school',
+    'school' => 'School',
     'party'  => 'Party',
     'location'  => 'Location',
     'btnAdd' => 'Add location',

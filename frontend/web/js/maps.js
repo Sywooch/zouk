@@ -199,3 +199,104 @@ function initMapShow() {
 
 
 
+function googleMap() {
+    var selfGoogleMap = this;
+
+    this.map;
+
+    this.markerLocation = {};
+    this.markers = [];
+    this.geocoder;
+    this.infowindow;
+    this.maxZoom = 17;
+
+    var listener = {
+        'markerChanged': [],
+        'zoomChanged': []
+    };
+
+    this.addListener = function(event, callback) {
+        listener[event].push(callback);
+    };
+
+    this.initMap = function(elementId, center) {
+        var zoom = (typeof center.zoom == "undefined") ? 9 : center.zoom;
+        var latlng = new google.maps.LatLng(center.lat, center.lng);
+        var mapOptions = {
+            zoom: parseInt(zoom),
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        selfGoogleMap.infowindow = new google.maps.InfoWindow({
+            content: ''
+        });
+
+        selfGoogleMap.map = new google.maps.Map(document.getElementById(elementId), mapOptions);
+        selfGoogleMap.geocoder = new google.maps.Geocoder;
+
+    };
+
+
+    this.clearMarker = function() {
+        for (var i in selfGoogleMap.markers) {
+            selfGoogleMap.markers[i].setMap(null);
+        }
+        selfGoogleMap.markers = [];
+    };
+
+    this.setMarker = function(location, fromSearch, draggable, animation, locationMap) {
+        var marker;
+        if (typeof locationMap == "undefined") {
+            locationMap = selfGoogleMap.map;
+        }
+        if (typeof draggable == "undefined") {
+            draggable = true;
+        }
+        if (typeof animation == "undefined") {
+            animation = google.maps.Animation.DROP;
+        }
+
+        marker = new google.maps.Marker({
+            position: location,
+            draggable: draggable,
+            map: locationMap,
+            animation: animation
+        });
+        if (draggable) {
+            google.maps.event.addListener(marker, 'dragend', function() {
+                $.each(listener['markerChange'], function() {
+                    this(marker, false);
+                });
+            });
+        }
+        $.each(listener['markerChange'], function() {
+            this(marker, fromSearch);
+        });
+        return marker;
+    };
+
+    this.setMarkers = function(locations, draggable, animation) {
+        if (typeof draggable == "undefined") {
+            draggable = true;
+        }
+        if (typeof animation == "undefined") {
+            animation = google.maps.Animation.DROP;
+        }
+        selfGoogleMap.clearMarker();
+        $.each(locations, function() {
+            var location = this;
+            var marker = selfGoogleMap.setMarker(location, false, draggable, animation, null);
+            marker.addListener('click', function() {
+                selfGoogleMap.infowindow.setContent(
+                    '<b>' + location['type'] + '</b><br/>' +
+                    '<span>' + $('<p></p>').html(location['title']).text() + '</span><br/>' +
+                    '<p>' + $('<p></p>').html(location['description']).text() + '</p>');
+                selfGoogleMap.infowindow.open(selfGoogleMap.map, this);
+            });
+            selfGoogleMap.markers.push(marker);
+        });
+        var mcOptions = {gridSize: 20, maxZoom: 15, imagePath: '../../img/location/m'};
+        var markerCluster = new MarkerClusterer(selfGoogleMap.map, selfGoogleMap.markers, mcOptions);
+    }
+}

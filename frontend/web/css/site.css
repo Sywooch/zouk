@@ -794,6 +794,7 @@ span.selection span.select2-selection .select2-selection__arrow {
     margin: 5px 10px 5px 0;
 }
 
+#schoolMap,
 #mapShowLocation,
 #map {
     width: 100%;
