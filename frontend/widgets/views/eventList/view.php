@@ -65,6 +65,7 @@ $locations = $event->locations;
                         '',
                         [
                             'class'            => 'show-location-link',
+                            'data-id'          => 'locations-event-block-' . $event->id,
                             'data-lat'         => $location->lat,
                             'data-lng'         => $location->lng,
                             'data-zoom'        => $location->zoom,

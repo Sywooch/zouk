@@ -1,8 +1,14 @@
 $(document).ready(function() {
+    var schoolAddMap = new googleMap();
+    var markerLocation = {};
 
     var blockLocationCount = 0;
     if (typeof jsZoukVar['blockLocationCount'] != "undefined") {
         blockLocationCount = jsZoukVar['blockLocationCount'];
+    }
+    var searchBoxText = '';
+    if (typeof jsZoukVar['searchBoxText'] != "undefined") {
+        searchBoxText = jsZoukVar['searchBoxText'];
     }
 
     var initingMap = false;
@@ -87,22 +93,25 @@ $(document).ready(function() {
         $('#btnAddLocation').hide();
         $('#btnEditLocation').show().data('id', $blockLocation.attr('id'));
         markerLocation = {
-            'lat': $blockLocation.find('input.field-lat').val(),
-            'lng': $blockLocation.find('input.field-lng').val()
+            'lat': parseInt($blockLocation.find('input.field-lat').val()),
+            'lng': parseInt($blockLocation.find('input.field-lng').val())
         };
     }).on('shown.bs.modal', function() {
-        initMapSearch();
+        schoolAddMap.initMap('map', {'lat': markerLocation.lat, 'lng': markerLocation.lng, 'zoom': markerLocation.zoom});
+        schoolAddMap.addSearchBox(searchBoxText);
+        schoolAddMap.createMarkerOnClick(true, true);
+        schoolAddMap.setMarkers([markerLocation], true, false, false);
         initingMap = false;
     });
 
-    markerChange = function(marker, fromSearch) {
+    schoolAddMap.addListener('markerChanged', function(marker, fromSearch) {
         $('#location-lat').val(marker.getPosition().lat());
         $('#location-lng').val(marker.getPosition().lng());
         if (fromSearch) {
             $('#location-title').val($('#pac-input').val());
         } else {
             if (!initingMap) {
-                geocoder.geocode({'location': marker.getPosition()}, function(results, status) {
+                schoolAddMap.geocoder.geocode({'location': marker.getPosition()}, function(results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
                         if (results[0]) {
                             $('#location-title').val(results[0]['formatted_address']);
@@ -111,9 +120,9 @@ $(document).ready(function() {
                 });
             }
         }
-    };
+    });
 
-    zoomChange = function (zoom) {
+    schoolAddMap.addListener('zoomChanged', function (zoom) {
         $('#location-zoom').val(zoom);
-    }
+    });
 });

@@ -64,6 +64,7 @@ $locations = $school->locations;
                         '',
                         [
                             'class'            => 'show-location-link',
+                            'data-id'          => 'locations-school-block-' . $school->id,
                             'data-lat'         => $location->lat,
                             'data-lng'         => $location->lng,
                             'data-zoom'        => $location->zoom,

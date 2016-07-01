@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    var schoolShowMap = new googleMap();
+    var markerLocation = {};
 
     function getLocationInfo(title, type, description, location)
     {
@@ -26,10 +28,11 @@ $(document).ready(function() {
     $(document).on('click', '.show-location-link', function() {
         var $this = $(this);
         var countLocationLink = $('#' + $this.data('id')).find('.show-location-link').length;
+        var $btnShowAllLocations = $('.btn-show-all-locations');
         if (countLocationLink <= 1) {
-            $('.btn-show-all-locations').hide();
+            $btnShowAllLocations.hide();
         } else {
-            $('.btn-show-all-locations').show();
+            $btnShowAllLocations.show();
         }
         $('.modal-show-location').modal('show');
         markerLocation = {
@@ -42,7 +45,7 @@ $(document).ready(function() {
         };
         var $infoBlock = $('.location-info-block');
         $infoBlock.empty().append([getLocationInfo($this.data('title'), $this.data('type'), $this.data('description'), markerLocation)]);
-        $('.btn-show-all-locations').data('id', $this.closest('div').attr('id'));
+        $btnShowAllLocations.data('id', $this.closest('div').attr('id'));
 
         return false;
     }).on('click', '.btn-show-all-locations', function() {
@@ -64,15 +67,16 @@ $(document).ready(function() {
             markerLocations.push(markerLocationValue);
         });
         $infoBlock.empty().append(locationsInfo);
-        setMarkers(markerLocations, false, false);
+        schoolShowMap.setMarkers(markerLocations, false, false);
         $('.btn-show-all-locations').hide();
     }).on('click', '.location-go-to-coordinate', function() {
         var $this = $(this);
         var latlng = new google.maps.LatLng($this.data('lat'), $this.data('lng'));
-        map.setCenter(latlng);
-        map.setZoom($this.data('zoom'));
+        schoolShowMap.map.setCenter(latlng);
+        schoolShowMap.map.setZoom($this.data('zoom'));
     }).on('shown.bs.modal', function() {
-        initMapShow();
+        schoolShowMap.initMap('mapShowLocation', {'lat': markerLocation.lat, 'lng': markerLocation.lng, 'zoom': markerLocation.zoom});
+        schoolShowMap.setMarkers([markerLocation], false, false);
     });
 
 });
