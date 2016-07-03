@@ -35,7 +35,7 @@ return [
     'modalAddLocation_title'            => 'Добавить место',
     'modalAddLocation_btn'              => 'Добавить место',
     'modalEditLocation_btn'             => 'Изменить место',
-    'modalAddLocation_fieldTitle'       => 'Место',
+    'modalAddLocation_fieldTitle'       => 'Адрес',
     'modalAddLocation_fieldDescription' => 'Описание',
     'modalAddLocation_searchBox'        => 'Найти',
 
