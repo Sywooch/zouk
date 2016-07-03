@@ -97,27 +97,35 @@ $(document).ready(function() {
             'lng': parseInt($blockLocation.find('input.field-lng').val())
         };
     }).on('shown.bs.modal', function() {
-        schoolAddMap.initMap('map', {'lat': markerLocation.lat, 'lng': markerLocation.lng, 'zoom': markerLocation.zoom});
+        var lat = typeof markerLocation.lat != "undefined" ? markerLocation.lat : $('#location-lat').val();
+        var lng = typeof markerLocation.lng != "undefined" ? markerLocation.lng : $('#location-lng').val();
+        var zoom = typeof markerLocation.zoom != "undefinde" ? markerLocation.zoom : 9;
+
+        schoolAddMap.initMap('map', {'lat': lat, 'lng': lng, 'zoom': zoom});
         schoolAddMap.addSearchBox(searchBoxText);
         schoolAddMap.createMarkerOnClick(true, true);
-        schoolAddMap.setMarkers([markerLocation], true, false, false);
+        if (typeof markerLocation.lat != "undefined" && typeof markerLocation.lng != "undefined") {
+            schoolAddMap.setMarkers([markerLocation], true, false, false);
+        }
         initingMap = false;
     });
 
     schoolAddMap.addListener('markerChanged', function(marker, fromSearch) {
-        $('#location-lat').val(marker.getPosition().lat());
-        $('#location-lng').val(marker.getPosition().lng());
-        if (fromSearch) {
-            $('#location-title').val($('#pac-input').val());
-        } else {
-            if (!initingMap) {
-                schoolAddMap.geocoder.geocode({'location': marker.getPosition()}, function(results, status) {
-                    if (status === google.maps.GeocoderStatus.OK) {
-                        if (results[0]) {
-                            $('#location-title').val(results[0]['formatted_address']);
+        if (typeof marker.getPosition() != "undefined") {
+            $('#location-lat').val(marker.getPosition().lat());
+            $('#location-lng').val(marker.getPosition().lng());
+            if (fromSearch) {
+                $('#location-title').val($('#pac-input').val());
+            } else {
+                if (!initingMap) {
+                    schoolAddMap.geocoder.geocode({'location': marker.getPosition()}, function(results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            if (results[0]) {
+                                $('#location-title').val(results[0]['formatted_address']);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
     });
