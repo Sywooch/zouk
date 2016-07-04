@@ -112,6 +112,16 @@ class Video extends ActiveRecord
         return $url;
     }
 
+    public function getVideoUrl($autoplay = true)
+    {
+        $url = '';
+        if ($this->entity == self::ENTITY_YOUTUBE) {
+            $url = 'http://www.youtube.com/embed/' . $this->entity_id . ($autoplay ? '?autoplay=1' : '');
+        }
+
+        return $url;
+    }
+
     public static function getModel($entity, $entity_id)
     {
         static $models = [];

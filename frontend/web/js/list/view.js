@@ -69,4 +69,12 @@ $(document).ready(function() {
         $modalShowImg.modal('show');
     });
     
+    var whileNotPlayerReady = function () {
+        if (playerReady) {
+            showModalVideo($($('.video-link').get(0)));
+        } else {
+            setTimeout(whileNotPlayerReady, 30);
+        }
+    };
+    whileNotPlayerReady();
 });

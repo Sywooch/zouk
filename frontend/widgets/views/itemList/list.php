@@ -33,5 +33,6 @@ if (!$onlyItem && $dateCreateType == ItemList::DATE_CREATE_LAST) {
         echo Html::button(Lang::t("main", "showMore"), ['class' => 'btn btn-primary', 'id' => 'loadMore', 'data-tag' => $searchTag]);
     }
     echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]);
+    echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_VIDEO]);
 }
 ?>

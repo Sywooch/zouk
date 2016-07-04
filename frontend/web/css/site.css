@@ -583,6 +583,17 @@ table.audio-list td .btn-music-add {
     overflow: hidden;
 }
 
+.block-preview-video-link {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.block-preview-video-link img {
+    width: 100%;
+    max-width: 300px;
+}
+
 .block-img-link {
     max-width: 120px;
     max-height: 90px;
@@ -608,6 +619,7 @@ table.audio-list td .btn-music-add {
     font-size: 12px;
 }
 
+.block-preview-video-link span.glyphicon,
 .block-main-video-link span.glyphicon,
 .block-video-link span.glyphicon {
     margin-right: 5px;
@@ -855,4 +867,8 @@ span.selection span.select2-selection .select2-selection__arrow {
     padding-right: 0;
     margin-top: -3px;
     margin-left: 10px;
+}
+
+.block-iframe-video {
+    min-height: 300px;
 }

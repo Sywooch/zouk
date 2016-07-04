@@ -69,7 +69,12 @@ $tags = $item->tagEntity;
                             ['class' => 'block-video-duration']
                         ) . Html::img($mainVideo->getThumbnailUrl(2), ['class' => 'main-video-image-item']),
                         $mainVideo->original_url,
-                        ['target' => '_blank', 'class' => 'block-main-video-link margin-right-10']
+                        [
+                            'target' => '_blank',
+                            'class' => 'block-main-video-link margin-right-10 video-link',
+                            'data-video-id' => $mainVideo->entity_id,
+                            'data-title' => $mainVideo->video_title,
+                        ]
                     );
                 }
             }
@@ -87,7 +92,13 @@ $tags = $item->tagEntity;
                                 ['class' => 'block-video-duration']
                             ) . Html::img($video->getThumbnailUrl()),
                             $video->original_url,
-                            ['target' => '_blank', 'class' => 'block-video-link margin-right-10']
+                            [
+                                'target' => '_blank',
+                                'class' => 'block-video-link margin-right-10 video-link',
+                                'data-video-id' => $video->entity_id,
+                                'data-video-url' => $video->getVideoUrl(true),
+                                'data-title' => $video->video_title,
+                            ]
                         );
                     }
                 }
