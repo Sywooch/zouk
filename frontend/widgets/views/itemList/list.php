@@ -28,9 +28,11 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/list.js', ['depend
     </div>
 
 <?php
-if (!$onlyItem && $dateCreateType == ItemList::DATE_CREATE_LAST) {
-    if (count($items) >= 10) {
-        echo Html::button(Lang::t("main", "showMore"), ['class' => 'btn btn-primary', 'id' => 'loadMore', 'data-tag' => $searchTag]);
+if (!$onlyItem) {
+    if ($dateCreateType == ItemList::DATE_CREATE_LAST) {
+        if (count($items) >= 10) {
+            echo Html::button(Lang::t("main", "showMore"), ['class' => 'btn btn-primary', 'id' => 'loadMore', 'data-tag' => $searchTag]);
+        }
     }
     echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]);
     echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_VIDEO]);
