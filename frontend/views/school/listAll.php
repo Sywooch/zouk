@@ -13,6 +13,20 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/maps.js', ['depends' =>
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/location/markerclusterer.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/location/showAllSchool.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
+$keywords = 'brazilian zouk, zouk, бразильский зук, бразильский танец зук, школа, студия, потанцевать, научиться танцевать';
+$description = 'Зук – это современный, романтичный и ритмичный танец. Найти школу Бразильского зука. Посмотреть расписание школы.';
+
+$this->registerMetaTag([
+    'name'    => 'keywords',
+    'content' => $keywords,
+], 'keywords');
+
+$this->registerMetaTag([
+    'name'    => 'description',
+    'content' => $description,
+], 'description');
+
+
 $this->title = Lang::t('main/index', 'title');
 
 Yii::$app->params['jsZoukVar']['dateCreateType'] = SchoolList::DATE_CREATE_ALL;
