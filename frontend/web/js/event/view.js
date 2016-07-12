@@ -60,7 +60,7 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#btnShare', function() {
-        $('.pluso').show();
+        $('.share42init').show().removeClass('hide');
     });
 
     $(document).on('click', '.block-imgs .background-img', function() {

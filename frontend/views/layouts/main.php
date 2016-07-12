@@ -177,6 +177,17 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
         ?>
         <?php if (!YII_DEBUG) { ?>
             <p class="pull-right" style="margin-right: 10px">
+                <!-- begin of Top100 code -->
+
+                <script id="top100Counter" type="text/javascript" src="http://counter.rambler.ru/top100.jcn?4434208"></script>
+                <noscript>
+                    <a href="http://top100.rambler.ru/navi/4434208/">
+                        <img src="http://counter.rambler.ru/top100.cnt?4434208" alt="Rambler's Top100" border="0" />
+                    </a>
+
+                </noscript>
+                <!-- end of Top100 code -->
+
                 <!--LiveInternet counter-->
                 <script type="text/javascript"><!--
                     document.write("<a href='http://www.liveinternet.ru/click' " +
