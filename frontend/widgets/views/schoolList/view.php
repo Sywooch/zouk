@@ -49,11 +49,9 @@ $locations = $school->locations;
         <?php
         if ($school->like_count >= 0) {
             ?>
-            <?php if (empty($mainImg)) { ?>
-                <div class="school-short-description">
-                    <?= $school->getShortDescription() ?>
-                </div>
-            <?php } ?>
+            <div class="school-short-description">
+                <?= $school->getShortDescription() ?>
+            </div>
             <?php
             if (count($locations)) {
                 echo '<div id="locations-school-block-' . $school->id . '">';
