@@ -68,6 +68,7 @@ Yii::$app->params['jsZoukVar']['blockLocationCount'] = count($locations);
 
             echo $form->field($school, 'site')->label(Lang::t('page/schoolEdit', 'fieldSite'))->textInput(['maxlength' => 120]);
 
+            echo $form->field($school, 'official_editor')->checkbox(['label' => Lang::t('page/schoolEdit', 'fieldOfficialEditor')]);
             ?>
 
             <label style="width: 100%" class="control-label">

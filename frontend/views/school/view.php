@@ -98,6 +98,14 @@ $locations = $school->locations;
         </h1>
 
     </div>
+    <?php if (!$school->official_editor) { ?>
+        <div class="alert alert-warning">
+            <b><?= Lang::t('page/schoolView', 'warning') ?></b>
+            <?= Lang::t('page/schoolView', 'schoolNotEditor') ?><br/>
+            <?= Html::a('vk.com/prozouk', '//vk.com/prozouk', ['class' => 'margin-right-10']) ?>
+            <?= Html::a('prozouk@yandex.ru', 'mailto:prozouk@yandex.ru', ['class' => 'margin-right-10']) ?>
+        </div>
+    <?php } ?>
 
 
     <div class="row">

@@ -60,6 +60,8 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
 
             echo $form->field($school, 'site')->label(Lang::t('page/schoolEdit', 'fieldSite'))->textInput(['maxlength' => 120]);
 
+            echo $form->field($school, 'official_editor')->checkbox([], Lang::t('page/schoolEdit', 'fieldOfficialEditor'));
+
             ?>
 
             <label style="width: 100%" class="control-label">

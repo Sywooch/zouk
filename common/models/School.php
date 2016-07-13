@@ -26,6 +26,7 @@ use yii\web\IdentityInterface;
  * @property int         $like_count
  * @property int         $show_count
  * @property string      $alias
+ * @property integer     $official_editor
  * @property int         $deleted
  * @property integer     $date_update
  * @property integer     $date_create
@@ -109,7 +110,7 @@ class School extends VoteModel
         return [
             [['description'], 'default', 'value' => ''],
             [['title', 'date'], 'required'],
-            [['date_update', 'date_create'], 'integer'],
+            [['date_update', 'date_create', 'official_editor'], 'integer'],
             [['title', 'alias'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 20000],
             [['city'], 'string', 'max' => 60],

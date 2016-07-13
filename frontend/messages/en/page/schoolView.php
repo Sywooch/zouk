@@ -19,4 +19,6 @@ return [
     'location' => 'Address:',
     'site'     => 'Web-site:',
 
+    'warning'         => 'Warning!',
+    'schoolNotEditor' => 'No representative. If you are a manager or a teacher of the school, please contact us.',
 ];
