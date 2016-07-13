@@ -56,4 +56,37 @@ class VoteModel extends ActiveRecord
 
         return $clean;
     }
+
+    public function extractKeywords($str, $minWordLen = 3, $minWordOccurrences = 2, $asArray = false)
+    {
+        $str = preg_replace('/[^\p{L}0-9 ]/u', ' ', $str);
+        $str = trim(preg_replace('/\s+/u', ' ', $str));
+
+        $words = explode(' ', $str);
+        $keywords = array();
+        while(($c_word = array_shift($words)) !== null) {
+            if(mb_strlen($c_word) < $minWordLen) {
+                continue;
+            }
+
+            $c_word = mb_strtolower($c_word);
+            if(array_key_exists($c_word, $keywords)) {
+                $keywords[$c_word][1]++;
+            } else {
+                $keywords[$c_word] = array($c_word, 1);
+            }
+        }
+        usort($keywords, function ($first, $sec) {
+            return $sec[1] - $first[1];
+        });
+
+        $final_keywords = array();
+        foreach($keywords as $keyword_det) {
+            if($keyword_det[1] < $minWordOccurrences) {
+                break;
+            }
+            array_push($final_keywords, $keyword_det[0]);
+        }
+        return $asArray ? $final_keywords : implode(', ', $final_keywords);
+    }
 }

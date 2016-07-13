@@ -404,4 +404,24 @@ class School extends VoteModel
         }
         return $countryCityText;
     }
+
+    public function getKeywords()
+    {
+        $keywords = [];
+        $tags = $this->tagEntity;
+        if (!empty($tags)) {
+            foreach ($tags as $tag) {
+                $name = $tag->tags->getName();
+                if (!empty($name)) {
+                    $keywords[] = $tag->tags->getName();
+                }
+            }
+        }
+
+        $description = strip_tags($this->description);
+        $keywords = array_merge($keywords, $this->extractKeywords($this->getTitle(), 3, 1, true));
+        $minWorkOk = mb_strlen($description) > 400 ? 2 : 1;
+        $keywords = array_merge($keywords, $this->extractKeywords($description, 3, $minWorkOk, true));
+        return $keywords;
+    }
 }

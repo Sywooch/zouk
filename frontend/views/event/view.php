@@ -55,17 +55,13 @@ if (!empty($imgsEvent)) {
 }
 $tags = $event->tagEntity;
 
-$keywords = [];
 $description = $this->title;
-$description .= ". " . $event->getShortDescription(100, '') . "..";
+$description .= ". " . $event->getShortDescription(500, '') . "..";
 $urlVideo = '';
-foreach ($tags as $tag) {
-    $keywords[] = $tag->tags->getName();
-}
 preg_match_all('/[^\W\d][\w]*/', $this->title, $wordArr);
 $this->registerMetaTag([
     'name'    => 'keywords',
-    'content' => join(', ', $keywords),
+    'content' => join(', ', $event->getKeywords()),
 ], 'keywords');
 
 $this->registerMetaTag([

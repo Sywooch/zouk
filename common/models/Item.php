@@ -433,4 +433,36 @@ class Item extends VoteModel
             Reputation::addReputation($user->id, Reputation::ENTITY_VOTE_DISLIKE_OTHER_ITEM, $paramsOther);
         }
     }
+
+    public function getKeywords()
+    {
+        $keywords = [];
+        $tags = $this->tagEntity;
+        if (!empty($tags)) {
+            foreach ($tags as $tag) {
+                $name = $tag->tags->getName();
+                if (!empty($name)) {
+                    $keywords[] = $tag->tags->getName();
+                }
+            }
+        }
+
+        $description = strip_tags($this->description);
+        $videos = $this->videos;
+        if (!empty($videos)) {
+            foreach ($videos as $video) {
+                $description .= " " . $video->video_title;
+            }
+        }
+        $sounds = $this->sounds;
+        if (!empty($sounds)) {
+            foreach ($sounds as $sound) {
+                $description .= " " . $sound->getArtist() . " " . $sound->getTitle() . "; ";
+            }
+        }
+        $keywords = array_merge($keywords, $this->extractKeywords($this->getTitle(), 3, 1, true));
+        $minWorkOk = mb_strlen($description) > 400 ? 2 : 1;
+        $keywords = array_merge($keywords, $this->extractKeywords($description, 3, $minWorkOk, true));
+        return $keywords;
+    }
 }

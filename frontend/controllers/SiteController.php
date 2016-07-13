@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Item;
+use common\models\School;
 use common\models\Ulogin;
 use frontend\models\Lang;
 use Yii;
@@ -10,6 +11,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\base\Event;
 use yii\base\InvalidParamException;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
@@ -224,10 +226,29 @@ class SiteController extends Controller
         $urls = array();
 
         $items = Item::find()->where(['deleted' => 0])->all();
+        $events = \common\models\Event::find()->where(['deleted' => 0])->all();
+        $schools = School::find()->where(['deleted' => 0])->all();
 
         foreach ($items as $item) {
             /** @var Item $item */
-            $urls[] = $item->getUrl(true);
+            $urls[] = [
+                'url'      => $item->getUrl(true),
+                'priority' => 0.5,
+            ];
+        }
+        foreach ($events as $event) {
+            /** @var \common\models\Event $event */
+            $urls[] = [
+                'url'      => $event->getUrl(true),
+                'priority' => 0.5,
+            ];
+        }
+        foreach ($schools as $school) {
+            /** @var School $school */
+            $urls[] = [
+                'url'      => $school->getUrl(true),
+                'priority' => 0.8,
+            ];
         }
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_XML;
@@ -235,9 +256,9 @@ class SiteController extends Controller
         echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
         foreach ($urls as $url) {
             echo '<url>';
-            echo '<loc>' . $url . '</loc>';
-            echo '<changefreq>daily</changefreq>';
-            echo '<priority>0.5</priority>';
+            echo '<loc>' . $url['url'] . '</loc>';
+            echo '<changefreq>weekly</changefreq>';
+            echo '<priority>' . $url['priority'] . '</priority>';
             echo '</url>';
         }
         echo '</urlset>';

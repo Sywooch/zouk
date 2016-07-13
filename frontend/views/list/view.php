@@ -60,13 +60,9 @@ if (!empty($imgsItem)) {
 $sounds = $item->sounds;
 $tags = $item->tagEntity;
 
-$keywords = [];
 $description = $this->title;
 $description .= ". " . $item->getShortDescription(100, '') . "..";
 $urlVideo = '';
-foreach ($tags as $tag) {
-    $keywords[] = $tag->tags->getName();
-}
 foreach ($videos as $video) {
     $description .= ". " . $video->video_title . "; ";
     if (empty($urlVideo)) {
@@ -79,7 +75,7 @@ foreach ($sounds as $sound) {
 preg_match_all('/[^\W\d][\w]*/', $this->title, $wordArr);
 $this->registerMetaTag([
     'name'    => 'keywords',
-    'content' => join(', ', $keywords),
+    'content' => join(', ', $item->getKeywords()),
 ], 'keywords');
 
 $this->registerMetaTag([
