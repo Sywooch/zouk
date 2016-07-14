@@ -11,6 +11,8 @@ return [
     'about'               => 'О сайте',
     'feedback'            => 'Обратная связь',
 
+    'randomVideo' => 'Случайное видео:',
+
     'listTabCurrent' => 'Текущие',
     'listTabWeek'    => 'Неделя',
     'listTabMonth'   => 'Месяц',

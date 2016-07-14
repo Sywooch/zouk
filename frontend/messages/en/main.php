@@ -9,6 +9,8 @@ return [
     'mainButtonAddEvent'  => 'Add event',
     'mainButtonAddSchool' => 'Add school',
 
+    'randomVideo' => 'Random video:',
+
     'listTabCurrent' => 'Actual',
     'listTabWeek'    => 'Week',
     'listTabMonth'   => 'Month',

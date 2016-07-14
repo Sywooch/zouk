@@ -3,6 +3,7 @@
  *
  */
 
+use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -13,7 +14,7 @@ $duration = $video->getDuration();
 ?>
 
 <div class="text-center margin-bottom">
-    <h3>Случайное видео:</h3>
+    <h3><?= Lang::t('main', 'randomVideo') ?></h3>
     <?php
     echo Html::a(
         Html::tag(
