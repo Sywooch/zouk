@@ -93,14 +93,13 @@ $(document).ready(function() {
         $('#btnAddLocation').hide();
         $('#btnEditLocation').show().data('id', $blockLocation.attr('id'));
         markerLocation = {
-            'lat': parseInt($blockLocation.find('input.field-lat').val()),
-            'lng': parseInt($blockLocation.find('input.field-lng').val())
+            'lat': parseFloat($blockLocation.find('input.field-lat').val()),
+            'lng': parseFloat($blockLocation.find('input.field-lng').val())
         };
     }).on('shown.bs.modal', function() {
         var lat = typeof markerLocation.lat != "undefined" ? markerLocation.lat : $('#location-lat').val();
         var lng = typeof markerLocation.lng != "undefined" ? markerLocation.lng : $('#location-lng').val();
         var zoom = typeof markerLocation.zoom != "undefinde" ? markerLocation.zoom : 9;
-
         schoolAddMap.initMap('map', {'lat': lat, 'lng': lng, 'zoom': zoom});
         schoolAddMap.addSearchBox(searchBoxText);
         schoolAddMap.createMarkerOnClick(true, true);

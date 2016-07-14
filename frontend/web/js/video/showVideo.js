@@ -60,6 +60,18 @@ $(document).ready(function () {
         $modalShowVideo.modal('show');
     }
 
+    var $autoPlayVideo = $('.video-link.auto-play-video');
+    if ($autoPlayVideo.length > 0) {
+        var whileNotPlayerReady = function () {
+            if (playerReady) {
+                showModalVideo($($autoPlayVideo.get(0)));
+            } else {
+                setTimeout(whileNotPlayerReady, 30);
+            }
+        };
+        whileNotPlayerReady();
+    }
+
     $(document)
         .on('click', '.video-link', function () {
             showModalVideo($(this));

@@ -1,4 +1,9 @@
 
+var playerReady = false;
+function onYouTubeIframeAPIReady() {
+    playerReady = true;
+}
+
 function videoPlayer() {
     var selfVideoPlayer = this;
 
@@ -7,13 +12,16 @@ function videoPlayer() {
     this.playerList = [];
     this.videoId = '';
 
-
     var onYouTubeIframeAPIReady = function() {
         selfVideoPlayer.playerReady = true;
+        $.each(listener['afterPlayerStateChange'], function() {
+            this();
+        });
     };
 
     var listener = {
-        'afterPlayerStateChange': []
+        'afterPlayerStateChange': [],
+        'onPlayerReady': []
     };
 
     this.addListener = function(event, callback) {

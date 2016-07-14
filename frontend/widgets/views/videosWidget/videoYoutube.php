@@ -14,7 +14,7 @@ echo Html::a(
     $video->original_url,
     [
         'target' => '_blank',
-        'class' => 'block-preview-video-link margin-right-10 video-link',
+        'class' => 'block-preview-video-link margin-right-10 video-link auto-play-video',
         'data-video-id' => $video->entity_id,
         'data-title' => $video->video_title,
     ]

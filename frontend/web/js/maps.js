@@ -66,6 +66,7 @@ function googleMap() {
 
             // For each place, get the icon, name and location.
             var bounds = new google.maps.LatLngBounds();
+            places = [places[0]];
             places.forEach(function(place) {
                 var icon = {
                     url: place.icon,
@@ -76,7 +77,7 @@ function googleMap() {
                 };
 
                 // Create a marker for each place.
-                selfGoogleMap.setMarker(place.geometry.location, true);
+                selfGoogleMap.setMarkers([place.geometry.location], true);
 
                 if (place.geometry.viewport) {
                     // Only geocodes have viewport.
@@ -85,7 +86,7 @@ function googleMap() {
                     bounds.extend(place.geometry.location);
                 }
             });
-            searchBox.map.fitBounds(bounds);
+            selfGoogleMap.map.fitBounds(bounds);
         });
     };
 
