@@ -576,6 +576,19 @@ table.audio-list td .btn-music-add {
     margin-bottom: 5px;
 }
 
+.block-random-video-link {
+    width: 90%;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    margin-right: 0;
+}
+
+.medium-video-image-item {
+    width: 100%;
+    height: 100%;
+}
+
 .block-main-video-link {
     width: 250px;
     display: inline-block;
@@ -619,6 +632,7 @@ table.audio-list td .btn-music-add {
     font-size: 12px;
 }
 
+.block-random-video-link span.glyphicon,
 .block-preview-video-link span.glyphicon,
 .block-main-video-link span.glyphicon,
 .block-video-link span.glyphicon {

@@ -7,6 +7,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 use yii\web\IdentityInterface;
 
 /**
@@ -185,5 +186,17 @@ class Video extends ActiveRecord
             $duration = $durationM . ':' . $durationS;
         }
         return $duration;
+    }
+
+    /**
+     * @return Video
+     */
+    public static function getRandomVideo($exclude = [])
+    {
+        $find = Video::find()->orderBy(new Expression('rand()'));
+        if (!empty($exclude)) {
+            $find = $find->andWhere(['not in', 'entity_id', $exclude]);
+        }
+        return $find->one();
     }
 }

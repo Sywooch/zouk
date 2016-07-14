@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use common\models\Item;
 use common\models\School;
 use common\models\Ulogin;
+use common\models\Video;
 use frontend\models\Lang;
 use Yii;
 use common\models\LoginForm;
@@ -217,6 +218,15 @@ class SiteController extends Controller
 
         return $this->render('resetPassword', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionRandomvideo()
+    {
+        $exclude = Yii::$app->request->post('exclude');
+        $video = Video::getRandomVideo($exclude);
+        return json_encode([
+            'videoId' => $video->entity_id
         ]);
     }
 

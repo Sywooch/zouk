@@ -83,7 +83,14 @@ echo $this->render('/list/tabs', ['selectTab' => 1, 'searchTag' => $searchTag]);
         </div>
         <?php } ?>
 
-        <?= ItemList::widget(['orderBy' => ItemList::ORDER_BY_ID, 'searchTag' => $searchTag]) ?>
+        <div class="row">
+            <div class="col-md-9">
+                <?= ItemList::widget(['orderBy' => ItemList::ORDER_BY_ID, 'searchTag' => $searchTag]) ?>
+            </div>
+            <div class="col-md-3">
+                <?= $this->render('/list/listRightBlock') ?>
+            </div>
+        </div>
 
     </div>
 </div>

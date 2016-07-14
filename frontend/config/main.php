@@ -45,6 +45,7 @@ return [
                 'schools/<action:[\w-]+>/<id:[\d+]>'                           => 'school/<action>',
                 'list/view/<alias:[\w-]+>'                                     => 'list/view',
                 'list/view/<alias:[\w-]+>/<comment:[\w-]+>'                    => 'list/view',
+                'video/random'                                                 => 'site/randomvideo',
                 'POST vote/add'                                                => 'vote/add',
                 'vote/<action:[\w-]+>/<entity:[\w-]+>/<id:[\d+]>/<vote:[\d+]>' => 'vote/<action>',
                 '<controller:[\w-]+>/<action:[\w-]+>/<id:[\d+]>'               => '<controller>/<action>',
