@@ -25,10 +25,23 @@ $this->registerMetaTag([
 
 Yii::$app->params['jsZoukVar']['dateCreateType'] = EventList::DATE_CREATE_BEFORE;
 
-echo $this->render('/event/tabs', ['selectTab' => 3]);
 ?>
 <div class="site-index">
     <div class="body-content">
-        <?= EventList::widget(['orderBy' => EventList::ORDER_BY_DATE, 'dateCreateType' => EventList::DATE_CREATE_BEFORE]) ?>
+        <div class="row">
+            <div class="col-md-8">
+                <?= $this->render('/event/tabs', ['selectTab' => 3]) ?>
+                <?= EventList::widget(['orderBy' => EventList::ORDER_BY_DATE, 'dateCreateType' => EventList::DATE_CREATE_BEFORE]) ?>            </div>
+            <div class="col-md-4">
+                <?php
+                echo Html::a(
+                    Lang::t('main', 'mainButtonAddEvent'),
+                    ['/events/add'],
+                    ['class' => 'btn btn-success btn-label-main add-item']
+                );
+                echo $this->render('/list/listRightBlock');
+                ?>
+            </div>
+        </div>
     </div>
 </div>

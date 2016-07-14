@@ -8,6 +8,8 @@ return [
     'mainButtonAddRecord' => 'Добавить запись',
     'mainButtonAddEvent'  => 'Добавить событие',
     'mainButtonAddSchool' => 'Добавить школу',
+    'about'               => 'О сайте',
+    'feedback'            => 'Обратная связь',
 
     'listTabCurrent' => 'Текущие',
     'listTabWeek'    => 'Неделя',
@@ -19,8 +21,6 @@ return [
     'eventTabBefore' => 'Прошедшие',
 
 
-    'about'       => 'О сайте',
-    'feedback'    => 'Обратная связь',
     'profile'     => 'Профиль',
     'signup'      => 'Регистрация',
     'login'       => 'Войти',

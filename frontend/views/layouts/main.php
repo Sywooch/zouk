@@ -51,6 +51,7 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
 
     $thisLang = Lang::getCurrent();
 
+    $mainUrl = Url::home();
     if ($thisPage == 'list') {
         $mainUrl = Url::home();
     } else if ($thisPage == 'event') {
@@ -83,10 +84,7 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
     </ul>
     <?php
 
-    $menuItems = [
-        ['label' => Lang::t('main', 'about'), 'url' => ['site/about']],
-        ['label' => Lang::t('main', 'feedback'), 'url' => ['site/contact']],
-    ];
+    $menuItems = [];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => Lang::t('main', 'loginSignup'), 'url' => ['site/login']];
     } else {
@@ -114,53 +112,24 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
 
     <div class="container">
         <?= Alert::widget() ?>
-        <div class="row">
+        <div class="row main-header">
             <div class="col-md-12">
                 <?= Html::a(Html::img(Yii::$app->UrlManager->to('img/logo.png'), ['height' => '100px']), $mainUrl, ['class' => 'pull-left visible-md-block visible-lg-block visible-sm-block']) ?>
-                <div class="main-button-block">
+                <div class="main-right-head-block">
                     <?php
-                    echo Html::a(
-                        Lang::t('main', 'mainButtonList'),
-                        Url::home(),
-                        ['class' => 'btn-label-main' . ($thisPage == 'list' ? ' youarehere' : '')]
-                    ), " ";
-
-                    echo Html::a(
-                        Lang::t('main', 'mainButtonEvents'),
-                        ['/events/all'],
-                        ['class' => 'btn-label-main' . ($thisPage == 'event' ? ' youarehere' : '')]
-                    ), " ";
-
-                    echo Html::a(
-                        Lang::t('main', 'mainButtonSchools'),
-                        ['/schools/all'],
-                        ['class' => 'btn-label-main' . ($thisPage == 'school' ? ' youarehere' : '')]
-                    ), " ";
-                    //                    echo Html::button(Lang::t('main', 'mainButtonTags'), ['class' => 'btn btn-default']), " ";
-
-                    if ($thisPage == 'list') {
-                        echo Html::a(
-                            Lang::t('main', 'mainButtonAddRecord'),
-                            ['/list/add'],
-                            ['class' => 'btn-label-main add-item']
-                        ), " ";
-                    } else if ($thisPage == 'event') {
-                        echo Html::a(
-                            Lang::t('main', 'mainButtonAddEvent'),
-                            ['/events/add'],
-                            ['class' => 'btn-label-main add-item']
-                        ), " ";
-                    } else if ($thisPage == 'school') {
-                        echo Html::a(
-                            Lang::t('main', 'mainButtonAddSchool'),
-                            ['/schools/add'],
-                            ['class' => 'btn-label-main add-item']
-                        ), " ";
-                    }
+                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/vk.png'), ['height' => '30px']), 'https://vk.com/prozouk', ['class' => 'margin-right-10']);
+                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/twitter.png'), ['height' => '30px']), 'https://twitter.com/pro_zouk', ['class' => 'margin-right-10']);
+                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/youtube.png'), ['height' => '30px']), 'https://www.youtube.com/channel/UCTDPXDsQqdMEmQ4aidSDomQ', ['class' => 'margin-right-10']);
+                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/googleplus.png'), ['height' => '30px']), 'https://plus.google.com/+BrazilianzoukRuStyle', ['class' => 'margin-right-10']);
                     ?>
                 </div>
             </div>
 
+        </div>
+        <div class="row">
+            <div class="col-md-12 main-menu-block">
+                <?= $this->render('/layouts/menu') ?>
+            </div>
         </div>
         <?= $content ?>
     </div>
@@ -169,12 +138,6 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
 <footer class="footer ">
     <div class="container">
         <p class="pull-left">&copy; ProZouk <?= date('Y') ?></p>
-        <?php
-        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/vk.png'), ['height' => '30px']), 'https://vk.com/prozouk', ['class' => 'margin-right-10']);
-        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/twitter.png'), ['height' => '30px']), 'https://twitter.com/pro_zouk', ['class' => 'margin-right-10']);
-        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/youtube.png'), ['height' => '30px']), 'https://www.youtube.com/channel/UCTDPXDsQqdMEmQ4aidSDomQ', ['class' => 'margin-right-10']);
-        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/googleplus.png'), ['height' => '30px']), 'https://plus.google.com/+BrazilianzoukRuStyle', ['class' => 'margin-right-10']);
-        ?>
         <?php if (!YII_DEBUG) { ?>
             <p class="pull-right" style="margin-right: 10px">
                 <!-- begin of Top100 code -->

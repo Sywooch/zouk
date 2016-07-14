@@ -17,9 +17,10 @@ $urlNoTag = Url::to([$urls[$selectTab]]);
 ?>
 <div>
     <ul class="nav nav-tabs nav-main-tabs">
-        <li class="<?= $selectTab == 1 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabCurrent'), Url::home()) ?></li>
-        <li class="<?= $selectTab == 3 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabMonth'), ['list/month']) ?></a></li>
-        <li class="<?= $selectTab == 4 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabPopular'), ['list/popular']) ?></li>
+        <li class="tab-title"><?= Lang::t('main', 'mainButtonList') ?></li>
+        <li class="pull-right <?= $selectTab == 4 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabPopular'), ['list/popular']) ?></li>
+        <li class="pull-right <?= $selectTab == 3 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabMonth'), ['list/month']) ?></a></li>
+        <li class="pull-right <?= $selectTab == 1 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabCurrent'), Url::home()) ?></li>
     </ul>
     <?php if (!empty($searchTag)) { ?>
         <br/>

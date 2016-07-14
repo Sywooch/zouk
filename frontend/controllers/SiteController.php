@@ -26,6 +26,9 @@ use yii\web\User;
  */
 class SiteController extends Controller
 {
+
+    public $thisPage = 'list';
+
     /**
      * @inheritdoc
      */
@@ -124,6 +127,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+        $this->thisPage = 'contact';
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
@@ -147,6 +151,7 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+        $this->thisPage = 'about';
         return $this->render('aboutLang/about');
     }
 

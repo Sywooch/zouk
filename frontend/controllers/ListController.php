@@ -30,6 +30,8 @@ use yii\helpers\Url;
 class ListController extends Controller
 {
 
+    public $thisPage = 'list';
+
     /**
      * @inheritdoc
      */

@@ -79,6 +79,11 @@ body.mce-fullscreen div.mce-fullscreen {
     font-style: italic;
 }
 
+.main-header {
+    margin-top: -20px;
+    background-color: #eee;
+}
+
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {
     position: relative;
@@ -379,11 +384,21 @@ table.display-user-info .user-img:hover .block-user-img-edit {
 }
 
 @media (min-width: 768px) {
-    .main-button-block {
+    .main-right-head-block {
         vertical-align: middle; !important;
         line-height: 100px; !important;
         float: right;
     }
+}
+
+.main-button-block {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.main-menu-block {
+    background-color: #282828;
+    margin-bottom: 10px;
 }
 
 .main-button-block a {
@@ -393,11 +408,11 @@ table.display-user-info .user-img:hover .block-user-img-edit {
 }
 
 .main-button-block a.btn-label-main:hover {
-    color: #242f4a;
+    color: #c0c0c0;
 }
 
 .main-button-block a.btn-label-main {
-    color: #263552;
+    color: #e0e0e0;
 }
 
 .main-button-block a.btn-label-main.youarehere:hover {
@@ -414,6 +429,14 @@ table.display-user-info .user-img:hover .block-user-img-edit {
     color: black;
 }
 
+.btn-label-main.add-item {
+    margin-top: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+}
+
+
 .nav-main-tabs li a:hover,
 .nav-main-tabs li a:focus{
     border: 0;
@@ -428,6 +451,11 @@ table.display-user-info .user-img:hover .block-user-img-edit {
     padding: 11px 0 12px 0;
     margin: 0 20px 0 0;
     color: #263552;
+}
+
+ul.nav-main-tabs li.tab-title {
+    line-height: 45px;
+    font-size: 24px;
 }
 
 ul.nav-main-tabs li.active a:hover {

@@ -12,7 +12,7 @@ return [
     'fieldSite'           => 'Web-site',
     'fieldImg'            => 'Images',
     'fieldLocation'       => 'Locations',
-    'fieldOfficialEditor' => 'I am a school representative',
+    'fieldOfficialEditor' => 'I\'m a school representative',
     'mainTag'             => 'school tag',
     'tags'                => 'Tags',
 

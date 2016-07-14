@@ -44,7 +44,7 @@ $thisUser = User::thisUser();
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?= Lang::t('page/dialogs', 'cancel') ?></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= Lang::t('main/dialogs', 'cancel') ?></button>
             </div>
         </div>
     </div>
