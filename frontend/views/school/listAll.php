@@ -50,7 +50,7 @@ echo $this->render('/school/tabs', ['selectTab' => 1]);
                 <?php
                 echo Html::a(
                     Lang::t('main', 'mainButtonAddSchool'),
-                    ['/events/add'],
+                    ['/schools/add'],
                     ['class' => 'btn btn-success btn-label-main add-item']
                 );
                 echo $this->render('/list/listRightBlock');
