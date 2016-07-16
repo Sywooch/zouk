@@ -17,3 +17,8 @@ Yii::$app->params['jsZoukVar']['selectedTab'] = $selectTab;
         <li class="pull-right <?= $selectTab == 1 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'eventTabAll'), ['events/all']) ?></li>
     </ul>
 </div>
+<?= Html::a(
+    Lang::t('main', 'mainButtonAddEvent'),
+    ['/events/add'],
+    ['class' => 'btn btn-success btn-label-main add-item visible-sm-block visible-xs-block']
+) ?>

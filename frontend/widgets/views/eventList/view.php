@@ -49,11 +49,9 @@ $locations = $event->locations;
         <?php
         if ($event->like_count >= 0) {
             ?>
-            <?php if (empty($mainImg)) { ?>
-                <div class="event-short-description">
-                    <?= $event->getShortDescription() ?>
-                </div>
-            <?php } ?>
+            <div class="event-short-description margin-bottom">
+                <?= $event->getShortDescription(800) ?>
+            </div>
             <b><?= Lang::t("page/eventView", "date") ?></b> <?= date("d.m.Y", $event->date) ?><br>
             <?php
             if (count($locations)) {

@@ -49,8 +49,8 @@ $locations = $school->locations;
         <?php
         if ($school->like_count >= 0) {
             ?>
-            <div class="school-short-description">
-                <?= $school->getShortDescription() ?>
+            <div class="school-short-description margin-bottom">
+                <?= $school->getShortDescription(800) ?>
             </div>
             <?php
             if (count($locations)) {

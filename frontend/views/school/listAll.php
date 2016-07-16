@@ -44,6 +44,11 @@ echo $this->render('/school/tabs', ['selectTab' => 1]);
                 <ul class="nav nav-tabs nav-main-tabs">
                     <li class="tab-title"><?= Lang::t('main', 'mainButtonSchools') ?></li>
                 </ul>
+                <?= Html::a(
+                    Lang::t('main', 'mainButtonAddSchool'),
+                    ['/schools/add'],
+                    ['class' => 'btn btn-success btn-label-main add-item visible-sm-block visible-xs-block']
+                ) ?>
                 <?= SchoolList::widget(['orderBy' => SchoolList::ORDER_BY_LIKE_SHOW, 'dateCreateType' => SchoolList::DATE_CREATE_ALL]) ?>
             </div>
             <div class="col-md-4">

@@ -73,8 +73,7 @@ class Event extends VoteModel
         $description = $this->description;
         $description = preg_replace("'<blockquote[^>]*?>.*?</blockquote>'si"," ",$description);
         $str = strip_tags($description);
-        $str = str_replace("\n", ' ', $str);
-        $str = str_replace("\r", ' ', $str);
+        $str = nl2br($str);
         $str = preg_replace('/\s+/', ' ', $str);
         if (mb_strlen($str, $charset) >= $length) {
             $wrap = wordwrap($str, $length, $token);
