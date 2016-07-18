@@ -130,10 +130,22 @@ function googleMap() {
             animation: animation
         });
         marker.addListener('click', function() {
+            var title = '<b>' + location['type'] + '</b>';
+            if (typeof location['titleUrl'] != "undefined") {
+                title = $('<a target="_blank"></a>').attr('href', location['titleUrl']).append(title);
+                title = $('<div>').append(title.clone()).remove().html();
+            }
+            var site = '';
+            if (typeof location['siteUrl'] != "undefined") {
+                site = $('<a target="_blank"></a>').attr('href', location['siteUrl']).append(location['siteUrl']);
+                site = $('<div>').append(site.clone()).remove().html();
+            }
             selfGoogleMap.infowindow.setContent(
-                '<b>' + location['type'] + '</b><br/>' +
+                title + '<br/>' +
                 '<span>' + $('<p></p>').html(location['title']).text() + '</span><br/>' +
-                '<p>' + $('<p></p>').html(location['description']).text() + '</p>');
+                '<p>' + $('<p></p>').html(location['description']).text() + '</p>' +
+                site
+            );
             selfGoogleMap.infowindow.open(selfGoogleMap.map, this);
         });
         if (draggable) {

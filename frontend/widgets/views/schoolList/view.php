@@ -67,6 +67,8 @@ $locations = $school->locations;
                             'data-lng'         => $location->lng,
                             'data-zoom'        => $location->zoom,
                             'data-title'       => $location->title,
+                            'data-title-url'   => $school->getUrl(),
+                            'data-site-url'    => $school->site,
                             'data-type'        => $location->getTypeLocal(),
                             'data-description' => $location->getDescription(),
                         ]

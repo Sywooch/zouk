@@ -41,6 +41,8 @@ $(document).ready(function() {
             zoom: $this.data('zoom'),
             type: $this.data('type'),
             title: $this.data('title'),
+            titleUrl: $this.data('title-url'),
+            siteUrl: $this.data('site-url'),
             description: $this.data('description')
         };
         var $infoBlock = $('.location-info-block');

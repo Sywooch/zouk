@@ -12,6 +12,8 @@ $(document).ready(function() {
                 lng: $location.data('lng'),
                 type: $this.find('.summary .school-hyperlink').text(),
                 title: $location.data('title'),
+                titleUrl: $location.data('title-url'),
+                siteUrl: $location.data('site-url'),
                 description: $location.data('description')
             };
             markerLocations.push(markerLocationValue);
