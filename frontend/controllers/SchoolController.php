@@ -51,6 +51,7 @@ class SchoolController extends Controller
         $school = new School();
         if ($school->load(Yii::$app->request->post())) {
             $schoolPost = Yii::$app->request->post('School');
+            $school->country = $schoolPost['country'];
             $school->description = \yii\helpers\HtmlPurifier::process($school->description, []);
             $school->user_id = Yii::$app->user->identity->getId();
             $school->date = strtotime(date('Y-m-d'));
