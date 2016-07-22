@@ -19,6 +19,8 @@ class SchoolList extends \yii\bootstrap\Widget
     const DATE_CREATE_AFTER = 'after';
     const DATE_CREATE_ALL = 'all';
 
+    const DEFAULT_LIMIT = 10;
+
     public $lastDate = 0;
 
     public $lastIds = [];
@@ -59,7 +61,7 @@ class SchoolList extends \yii\bootstrap\Widget
         if ($lastDate != 0) {
             if ($dateCreateType == self::DATE_CREATE_AFTER) {
                 $query = $query->andWhere('t.date >= :date', [':date' => $lastDate]);
-            } else {
+            } elseif ($dateCreateType != self::DATE_CREATE_ALL) {
                 $query = $query->andWhere('t.date <= :date', [':date' => $lastDate]);
             }
             if (!empty($lastIds)) {
@@ -87,11 +89,11 @@ class SchoolList extends \yii\bootstrap\Widget
         if (!empty($limit)) {
             $query = $query->limit((int)$limit);
         } elseif ($dateCreateType == self::DATE_CREATE_ALL) {
-            $query = $query->limit(20);
+            $query = $query->limit(self::DEFAULT_LIMIT);
         } elseif ($dateCreateType == self::DATE_CREATE_BEFORE) {
-            $query = $query->andWhere('t.date <= :date', [':date' => time()])->limit(20);
+            $query = $query->andWhere('t.date <= :date', [':date' => time()])->limit(self::DEFAULT_LIMIT);
         } elseif ($dateCreateType == self::DATE_CREATE_AFTER) {
-            $query = $query->andWhere('t.date >= :date', [':date' => time()])->limit(20);
+            $query = $query->andWhere('t.date >= :date', [':date' => time()])->limit(self::DEFAULT_LIMIT);
         }
 
         if (!empty($userId)) {

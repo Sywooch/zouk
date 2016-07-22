@@ -30,6 +30,7 @@ $(document).ready(function () {
             data: {
                 lastDate: minSchoolDate,
                 loadSchoolId: schoolIdByDate[minSchoolDate],
+                lastIds: $.map(schoolIds, function(element,index) {return index}),
                 tag: searchTag,
                 dateCreateType: pageDateCreateTime
             },

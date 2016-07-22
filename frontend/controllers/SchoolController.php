@@ -175,10 +175,11 @@ class SchoolController extends Controller
     {
         $lastDate = Yii::$app->request->post('lastDate', 0);
         $lastIds = Yii::$app->request->post('loadSchoolId', []);
-        $order = Yii::$app->request->post('order', SchoolList::ORDER_BY_DATE);
+        $schoolIds = Yii::$app->request->post('lastIds', []);
+        $order = Yii::$app->request->post('order', SchoolList::ORDER_BY_LIKE_SHOW);
         $dateCreateType = Yii::$app->request->post('dateCreateType', SchoolList::DATE_CREATE_ALL);
         return SchoolList::widget([
-            'lastIds'        => $lastIds,
+            'lastIds'        => $schoolIds,
             'lastDate'       => $lastDate,
             'onlySchool'     => true,
             'orderBy'        => $order,

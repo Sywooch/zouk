@@ -29,7 +29,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/school/list.js', ['depe
 
 <?php
 if (!$onlySchool) {
-    if (count($schools) >= 20) {
+    if (count($schools) >= SchoolList::DEFAULT_LIMIT) {
         echo Html::button(Lang::t("main", "showMore"), ['class' => 'btn btn-primary', 'id' => 'loadMore']);
     }
     echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]);
