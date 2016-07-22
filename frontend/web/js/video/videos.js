@@ -58,8 +58,10 @@ function videoPlayer() {
     };
 
     this.stopPlay = function() {
-        if (selfVideoPlayer.player) {
+        if (typeof selfVideoPlayer.player.pauseVideo == "function") {
             selfVideoPlayer.player.pauseVideo();
+        } else {
+            return false;
         }
     };
 

@@ -78,7 +78,13 @@ $(document).ready(function () {
             return false;
         })
         .on('hide.bs.modal', function () {
-            modalVideoPlayer.stopPlay();
+            if (playerReady) {
+                if (!modalVideoPlayer.stopPlay()) {
+                    setTimeout(function() {
+                        modalVideoPlayer.stopPlay();
+                    }, 1500);
+                }
+            }
         })
         .on('click', '.video-random-link', function () {
             showModalRandomVideo($(this));

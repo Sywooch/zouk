@@ -68,15 +68,5 @@ $(document).ready(function() {
         $modalShowImg.find('img').attr('src', $(this).data('img-url'));
         $modalShowImg.modal('show');
     });
-
-    if (typeof playerReady === typeof false) {
-        var whileNotPlayerReady = function () {
-            if (playerReady) {
-                showModalVideo($($('.video-link').get(0)));
-            } else {
-                setTimeout(whileNotPlayerReady, 30);
-            }
-        };
-        whileNotPlayerReady();
-    }
+    
 });
