@@ -115,7 +115,7 @@ class SchoolController extends Controller
             'view',
             [
                 'school' => $school,
-                'vote'  => $vote,
+                'vote'   => $vote,
             ]
         );
     }
@@ -184,6 +184,39 @@ class SchoolController extends Controller
             'orderBy'        => $order,
             'dateCreateType' => $dateCreateType,
         ]);
+    }
+
+    public function actionData()
+    {
+        $schools = School::find()->from(["t" => School::tableName()])
+            ->andWhere('t.deleted = 0')
+            ->addSelect('*')
+            ->addSelect(['(like_count * 15 + show_count) as like_show_count'])
+            ->orderBy('like_show_count DESC')
+            ->with(['locations'])
+            ->all();
+
+        $data = [];
+        foreach ($schools as $school) {
+            $locations = $school->locations;
+            foreach ($locations as $location) {
+                $value = [
+                    'lat'          => $location->lat,
+                    'lng'          => $location->lng,
+                    'zoom'         => $location->zoom,
+                    'title'        => $location->title,
+                    'title-url'    => $school->getUrl(),
+                    'site-url'     => $school->site,
+                    'type'         => $location->getTypeLocal(),
+                    'description'  => $location->getDescription(),
+                    'school-title' => $school->getTitle(),
+                ];
+
+                $data[] = $value;
+            }
+        }
+
+        return json_encode($data);
     }
 
     public function actionAll()

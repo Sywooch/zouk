@@ -87,18 +87,18 @@ class SchoolList extends \yii\bootstrap\Widget
         if (!empty($limit)) {
             $query = $query->limit((int)$limit);
         } elseif ($dateCreateType == self::DATE_CREATE_ALL) {
-            $query = $query->limit(100);
+            $query = $query->limit(20);
         } elseif ($dateCreateType == self::DATE_CREATE_BEFORE) {
-            $query = $query->andWhere('t.date <= :date', [':date' => time()])->limit(100);
+            $query = $query->andWhere('t.date <= :date', [':date' => time()])->limit(20);
         } elseif ($dateCreateType == self::DATE_CREATE_AFTER) {
-            $query = $query->andWhere('t.date >= :date', [':date' => time()])->limit(100);
+            $query = $query->andWhere('t.date >= :date', [':date' => time()])->limit(20);
         }
 
         if (!empty($userId)) {
             $query = $query->andWhere('user_id = :userId', [':userId' => $userId]);
         }
 
-        $query = $query->with(['tagEntity', 'tagEntity.tags']);
+        $query = $query->with(['tagEntity', 'tagEntity.tags', 'locations']);
 
         return $query->all();
     }
