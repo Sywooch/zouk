@@ -13,6 +13,7 @@ return [
 
     'titleImg'     => 'Images',
     'titleComment' => 'Comments',
+    'titleList'    => 'Items',
 
     'viewDeleted' => 'Removed',
 

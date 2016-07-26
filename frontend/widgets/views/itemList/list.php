@@ -1,7 +1,7 @@
 <?php
 /**
  * @var Item[] $items
- * @var bool   $onlyItem
+ * @var bool $onlyItem
  * @var string $dateCreateType
  * @var string $searchTag
  * @var string $display
@@ -31,7 +31,15 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/list.js', ['depend
 if (!$onlyItem) {
     if ($dateCreateType == ItemList::DATE_CREATE_LAST) {
         if (count($items) >= 10) {
-            echo Html::button(Lang::t("main", "showMore"), ['class' => 'btn btn-primary', 'id' => 'loadMore', 'data-tag' => $searchTag]);
+            echo Html::button(
+                Lang::t("main", "showMore"),
+                [
+                    'class'    => 'btn btn-primary',
+                    'id'       => 'loadMore',
+                    'data-tag' => $searchTag,
+                    'data-url' => \yii\helpers\Url::to(['list/items']),
+                ]
+            );
         }
     }
     echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]);

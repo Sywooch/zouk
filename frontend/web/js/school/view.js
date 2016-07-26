@@ -68,5 +68,24 @@ $(document).ready(function() {
         $modalShowImg.find('img').attr('src', $(this).data('img-url'));
         $modalShowImg.modal('show');
     });
-    
+
+    $(document).on('click', '.tab-school', function () {
+        var $this = $(this);
+        var $block = $this.closest('.block-footer-school');
+        if ($this.hasClass('tab-school-comment')) {
+            $block.find('.tab-school-list').closest('li').removeClass('active');
+            $block.find('.tab-school-comment').closest('li').addClass('active');
+
+            $block.find('.block-school-list').addClass('hide');
+            $block.find('.block-school-comment').removeClass('hide');
+        } else {
+            $block.find('.tab-school-list').closest('li').addClass('active');
+            $block.find('.tab-school-comment').closest('li').removeClass('active');
+
+            $block.find('.block-school-list').removeClass('hide');
+            $block.find('.block-school-comment').addClass('hide');
+        }
+        return false;
+    });
+
 });

@@ -14,7 +14,7 @@ $(document).ready(function () {
     $(document).on('click', '#loadMore', function () {
         var searchTag = $(this).data('tag');
         $.ajax({
-            url: 'list/items',
+            url: $('#loadMore').data('url'),
             data: {
                 lastId: minItemId,
                 tag: searchTag

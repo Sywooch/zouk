@@ -90,12 +90,17 @@ class ItemList extends \yii\bootstrap\Widget
             $query = $query->andWhere('user_id = :userId', [':userId' => $userId]);
         }
 
-        if ($searchTag != "") {
-            $tags = Tags::findAll(['name' => $searchTag]);
+        if (!empty($searchTag)) {
+            if (is_array($searchTag)) {
+                $tagsId = $searchTag;
+            } else {
 
-            $tagsId = [];
-            foreach ($tags as $tag) {
-                $tagsId[] = (int)$tag->id;
+                $tags = Tags::find()->where(['name' => $searchTag])->all();
+
+                $tagsId = [];
+                foreach ($tags as $tag) {
+                    $tagsId[] = (int)$tag->id;
+                }
             }
 
             if (count($tagsId) > 0) {
