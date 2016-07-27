@@ -53,6 +53,7 @@ class ItemList extends \yii\bootstrap\Widget
                 'dateCreateType' => $this->dateCreateType,
                 'searchTag'      => $this->searchTag,
                 'display'        => $this->display,
+                'limit'          => $this->limit,
             ]
         );
     }

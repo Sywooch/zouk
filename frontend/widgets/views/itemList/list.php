@@ -5,6 +5,7 @@
  * @var string $dateCreateType
  * @var string $searchTag
  * @var string $display
+ * @var int    $limit
  */
 
 use common\models\Item;
@@ -29,8 +30,11 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/list.js', ['depend
 
 <?php
 if (!$onlyItem) {
-    if ($dateCreateType == ItemList::DATE_CREATE_LAST) {
-        if (count($items) >= 10) {
+    if ($dateCreateType == ItemList::DATE_CREATE_LAST || !empty($limit)) {
+        if (empty($limit)) {
+            $limit = 10;
+        }
+        if (count($items) >= $limit) {
             echo Html::button(
                 Lang::t("main", "showMore"),
                 [

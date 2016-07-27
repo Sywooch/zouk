@@ -296,8 +296,6 @@ $locations = $school->locations;
                         ['class' => 'btn btn-success btn-label-main add-item']
                     );
                 }
-
-
             ?>
         </div>
     </div>
