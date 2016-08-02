@@ -15,6 +15,33 @@ $monthA = Lang::t('month', 'month' . date('m', $date));
 $monthB = Lang::t('month', 'monthB' . date('m', $date));
 $monthText = $monthA . ', ' . date('Y');
 
+$this->registerJsFile(Yii::$app->google->getMapsGoogleJsFile());
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/maps.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/location/markerclusterer.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/location/showEvents.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
+$locations = [];
+foreach ($events as $event) {
+    foreach ($event->locations as $location) {
+        $locations[] = [
+            'lat'         => $location->lat,
+            'lng'         => $location->lng,
+            'event-title' => $event->title,
+            'title'       => $location->title,
+            'title-url'   => $event->getUrl(),
+            'site-url'    => $event->site,
+            'type'        => $location->getTypeLocal(),
+            'description' => $location->getDescription(),
+        ];
+    }
+}
+
+Yii::$app->params['jsZoukVar']['locations'] = $locations;
+
+$this->params['breadcrumbs'][] = ['label' => Lang::t('page/eventView', 'events'), 'url' => ['events/all']];
+$this->params['breadcrumbs'][] = ['label' => $year, 'url' => ['events/year', 'year' => $year]];
+$this->params['breadcrumbs'][] = $monthA;
+
 $this->title = Lang::t('page/eventView', 'metaMonthTitle');
 $this->registerMetaTag([
     'name'    => 'description',
@@ -28,6 +55,10 @@ $this->registerMetaTag([
 
 ?>
 <h1><?= Lang::t('main', 'monthEvents') . ' ' . Html::a($monthText, ['event/month', 'year' => $year, 'month' => (int)$month]) ?></h1>
+
+<div id="eventMap">
+
+</div>
 
 <div class="row">
     <div class="col-md-10">

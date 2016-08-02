@@ -1,6 +1,6 @@
 <?php
 /**
- * @var Event   $event
+ * @var Event  $event
  * @var string $dateCreateType
  */
 use common\models\Event;

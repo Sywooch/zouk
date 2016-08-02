@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title'              => 'Title',
+    'title'              => 'Event',
     'edit'               => 'Edit',
     'delete'             => 'delete',
     'edit2'              => 'edit',
@@ -20,6 +20,8 @@ return [
     'date'     => 'Date event:',
     'location' => 'Location:',
     'site'     => 'Web-site:',
+
+    'events' => 'Events',
 
     'metaYearTitle'        => 'Zouk Calendar — Zouk The World',
     'metaYearDescription'  => 'All the major zouk events in {year}',

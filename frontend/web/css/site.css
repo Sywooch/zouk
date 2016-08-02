@@ -876,6 +876,7 @@ span.selection span.select2-selection .select2-selection__arrow {
     margin: 5px 10px 5px 0;
 }
 
+#eventMap,
 #schoolMap,
 #mapShowLocation,
 #map {
@@ -941,4 +942,9 @@ span.selection span.select2-selection .select2-selection__arrow {
 
 .block-iframe-video {
     min-height: 300px;
+}
+
+.container .breadcrumb {
+    background-color: white;
+    margin-bottom: 0;
 }

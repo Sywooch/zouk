@@ -131,6 +131,15 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
                 <?= $this->render('/layouts/menu') ?>
             </div>
         </div>
+        <div class="row">
+        <?php
+        if (!empty($this->params['breadcrumbs']) && count($this->params['breadcrumbs']) > 1) {
+            echo Breadcrumbs::widget([
+                'links' => $this->params['breadcrumbs'],
+            ]);
+        }
+        ?>
+        </div>
         <?= $content ?>
     </div>
 </div>
