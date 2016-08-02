@@ -10,8 +10,10 @@ function googleMap() {
     this.infowindow;
     this.maxZoom = 17;
     this.markerCluster;
-
-    var mcOptions = {gridSize: 20, maxZoom: 15, imagePath: '../../img/location/m'};
+    this.imagePath = '../../img/location/m';
+    if (typeof jsZoukVar['imagePath'] != "undefined") {
+        this.imagePath = jsZoukVar['imagePath'];
+    }
 
     var listener = {
         'markerChanged': [],
@@ -162,6 +164,8 @@ function googleMap() {
     };
 
     this.setMarkers = function(locations, draggable, animation) {
+        var mcOptions = {gridSize: 20, maxZoom: 15, imagePath: this.imagePath};
+
         if (typeof draggable == "undefined") {
             draggable = true;
         }

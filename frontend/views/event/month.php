@@ -20,6 +20,8 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/maps.js', ['depends' =>
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/location/markerclusterer.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/location/showEvents.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
+Yii::$app->params['jsZoukVar']['imagePath'] = '../../../img/location/m';
+
 $locations = [];
 foreach ($events as $event) {
     foreach ($event->locations as $location) {
