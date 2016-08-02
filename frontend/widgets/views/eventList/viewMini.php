@@ -25,7 +25,7 @@ $url = $event->getUrl();
         <?= Html::tag('span', $event->show_count, ['title' => $event->show_count . ' ' . Lang::tn('main', 'showCount', $event->show_count)]) ?>
     </div>
     <div>
-        <b><?= Html::a($event->getTitle(), $url, ['class' => 'event-hyperlink']) ?></b>
+        <b><?= Html::a($title, $url, ['class' => 'event-hyperlink']) ?></b>
     </div>
     <div class="mini-block-event-date">
         <?= date("d.m.Y", $event->date_create) . " " . Lang::t("main", "at") . " " . date("H:i", $event->date_create) ?>
