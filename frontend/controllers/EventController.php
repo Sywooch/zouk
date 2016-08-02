@@ -51,6 +51,7 @@ class EventController extends Controller
         $event = new Event();
         if ($event->load(Yii::$app->request->post())) {
             $eventPost = Yii::$app->request->post('Event');
+            $event->country = $eventPost['country'];
             $event->description = \yii\helpers\HtmlPurifier::process($event->description, []);
             $event->user_id = Yii::$app->user->identity->getId();
             $event->date = strtotime($eventPost['date']);
@@ -221,6 +222,33 @@ class EventController extends Controller
             }
             return json_encode(['msg' => $resultMsg]);
         }
+        return "";
+    }
+
+    public function actionYear($year)
+    {
+        $dateStart = strtotime($year . '-01-01');
+        $dateEnd = strtotime($year . '-12-31');
+
+        $events = Event::find()->andWhere(
+            'date >= :dateStart AND date <= :dateEnd',
+            [':dateStart' => $dateStart, ':dateEnd' => $dateEnd]
+        )->orderBy('date')->all();
+
+        return $this->render('year', ['events' => $events, 'year' => $year]);
+    }
+
+    public function actionMonth($year, $month)
+    {
+        $dateStart = strtotime($year . '-' . $month . '-01');
+        $dateEnd = strtotime(date('Y-m-t', $dateStart));
+
+        $events = Event::find()->andWhere(
+            'date >= :dateStart AND date <= :dateEnd',
+            [':dateStart' => $dateStart, ':dateEnd' => $dateEnd]
+        )->orderBy('date')->all();
+
+        return $this->render('month', ['events' => $events, 'year' => $year, 'month' => $month]);
     }
 
 }

@@ -8,6 +8,11 @@ use frontend\models\Lang;
 use yii\helpers\Html;
 
 
+$title = "";
+if (!empty($event->getCountryText())) {
+    $title .= $event->getCountryText() . ', ';
+}
+$title .= $event->getTitle();
 $url = $event->getUrl();
 ?>
 <div id="event-<?= $event->id ?>" data-id="<?= $event->id ?>" class="block-event-summary block-event-summary-mini margin-bottom">

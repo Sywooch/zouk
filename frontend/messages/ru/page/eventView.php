@@ -21,4 +21,10 @@ return [
     'location' => 'Место проведения:',
     'site'     => 'Веб-сайт:',
 
+    'metaYearTitle'        => 'Зук календарь - Зук в Мире',
+    'metaYearDescription'  => 'Все главные зук события в {year} году',
+    'metaYearKeywords'     => 'Бразильский зук, события, {year} год, zouk, brazilian zouk',
+    'metaMonthTitle'       => 'Зук календарь - Зук в Мире',
+    'metaMonthDescription' => 'Все главные зук события {month} {year} года',
+    'metaMonthKeywords'    => 'Бразильский зук, события, {year} год, {month}, zouk, brazilian zouk',
 ];

@@ -1,9 +1,6 @@
 <?php
-use common\models\Img;
 use common\models\User;
 use frontend\models\Lang;
-use yii\helpers\Html;
-use yii\helpers\Url;
 
 $thisUser = User::thisUser();
 ?>

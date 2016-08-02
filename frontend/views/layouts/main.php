@@ -117,10 +117,10 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
                 <?= Html::a(Html::img(Yii::$app->UrlManager->to('img/logo.png'), ['height' => '100px']), $mainUrl, ['class' => 'pull-left visible-md-block visible-lg-block visible-sm-block']) ?>
                 <div class="main-right-head-block">
                     <?php
-                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/vk.png'), ['height' => '30px']), 'https://vk.com/prozouk', ['class' => 'margin-right-10']);
-                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/twitter.png'), ['height' => '30px']), 'https://twitter.com/pro_zouk', ['class' => 'margin-right-10']);
-                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/youtube.png'), ['height' => '30px']), 'https://www.youtube.com/channel/UCTDPXDsQqdMEmQ4aidSDomQ', ['class' => 'margin-right-10']);
-                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/googleplus.png'), ['height' => '30px']), 'https://plus.google.com/+BrazilianzoukRuStyle', ['class' => 'margin-right-10']);
+                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/vk.png'), ['height' => '30px']), 'https://vk.com/prozouk', ['class' => 'margin-right-10', 'target' => '_blank']);
+                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/twitter.png'), ['height' => '30px']), 'https://twitter.com/pro_zouk', ['class' => 'margin-right-10', 'target' => '_blank']);
+                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/youtube.png'), ['height' => '30px']), 'https://www.youtube.com/channel/UCTDPXDsQqdMEmQ4aidSDomQ', ['class' => 'margin-right-10', 'target' => '_blank']);
+                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/googleplus.png'), ['height' => '30px']), 'https://plus.google.com/+BrazilianzoukRuStyle', ['class' => 'margin-right-10', 'target' => '_blank']);
                     ?>
                 </div>
             </div>

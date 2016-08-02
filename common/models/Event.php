@@ -108,8 +108,10 @@ class Event extends VoteModel
     {
         return [
             [['description'], 'default', 'value' => ''],
+            [['like_count', 'show_count'], 'default', 'value' => 0],
             [['title', 'date'], 'required'],
-            [['date_update', 'date_create'], 'integer'],
+            [['description'], 'string'],
+            [['date_update', 'date_create', 'country', 'user_id', 'like_count', 'show_count'], 'integer'],
             [['title', 'alias'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 20000],
             [['city'], 'string', 'max' => 60],

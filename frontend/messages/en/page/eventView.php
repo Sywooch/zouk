@@ -21,4 +21,10 @@ return [
     'location' => 'Location:',
     'site'     => 'Web-site:',
 
+    'metaYearTitle'        => 'Zouk Calendar — Zouk The World',
+    'metaYearDescription'  => 'All the major zouk events in {year}',
+    'metaYearKeywords'     => 'Brazilian zouk, events, {year}, {month}, zouk',
+    'metaMonthTitle'       => 'Zouk Calendar — Zouk The World',
+    'metaMonthDescription' => 'All the major zouk events in {month} {year}',
+    'metaMonthKeywords'    => 'Brazilian zouk, events, {year}, {month}, zouk',
 ];

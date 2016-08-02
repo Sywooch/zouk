@@ -32,13 +32,19 @@ class EventList extends \yii\bootstrap\Widget
 
     public $limit = false;
 
+    public $events = false;
+
     public function init()
     {
     }
 
     public function run()
     {
-        $events = $this->getAllEvents($this->lastIds, $this->lastDate, $this->orderBy, $this->dateCreateType, $this->userId, $this->limit);
+        if ($this->events === false) {
+            $events = $this->getAllEvents($this->lastIds, $this->lastDate, $this->orderBy, $this->dateCreateType, $this->userId, $this->limit);
+        } else {
+            $events = $this->events;
+        }
         return $this->render(
             'eventList/list',
             [
