@@ -11,9 +11,9 @@ return [
     'about'               => 'О сайте',
     'feedback'            => 'Обратная связь',
 
-    'randomVideo' => 'Случайное видео:',
-    'monthEvents' => 'События месяца:',
-    'yearEvents'  => 'События года:',
+    'randomVideo' => 'Случайное видео',
+    'monthEvents' => 'События месяца',
+    'yearEvents'  => 'События года',
 
     'listTabCurrent' => 'Текущие',
     'listTabWeek'    => 'Неделя',

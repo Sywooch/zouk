@@ -10,13 +10,14 @@ use yii\bootstrap\Html;
 $year = date('Y');
 $month = date('m');
 ?>
-<div>
-    <h3 class="text-center"><?= Lang::t('main', 'monthEvents') ?></h3>
+<div class="right-block cornsilk">
+    <h3><?= Lang::t('main', 'monthEvents') ?></h3>
     <h4 class="text-center"><?=
         Html::a(Lang::t('month', 'month' . $month), ['event/month', 'year' => $year, 'month' => (int)$month]) .
         ', ' .
         Html::a(date('Y'), ['event/year', 'year' => $year]) ?></h4>
-    <div class="text-center">
+    <div class="">
+        <ul>
         <?php
         foreach ($events as $event) {
             $eventText = "";
@@ -25,7 +26,7 @@ $month = date('m');
             }
             $eventText .= $event->getTitle() . ' / ' . date('d.m.Y', $event->date);
             echo Html::tag(
-                'div',
+                'li',
                 Html::a(
                     $eventText,
                     $event->getUrl(),
@@ -34,5 +35,6 @@ $month = date('m');
             );
         }
         ?>
+        </ul>
     </div>
 </div>

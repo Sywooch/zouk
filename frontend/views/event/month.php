@@ -56,7 +56,7 @@ $this->registerMetaTag([
 ], 'keywords');
 
 ?>
-<h1><?= Lang::t('main', 'monthEvents') . ' ' . Html::a($monthText, ['event/month', 'year' => $year, 'month' => (int)$month]) ?></h1>
+<h1><?= Lang::t('main', 'monthEvents') . ': ' . Html::a($monthText, ['event/month', 'year' => $year, 'month' => (int)$month]) ?></h1>
 
 <div id="eventMap">
 

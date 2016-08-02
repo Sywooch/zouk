@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = ['label' => Lang::t('page/eventView', 'events')
 $this->params['breadcrumbs'][] = $year;
 
 ?>
-<h1><?= Lang::t('main', 'yearEvents') . ' ' . Html::a($year, ['event/year', 'year' => $year]) ?></h1>
+<h1><?= Lang::t('main', 'yearEvents') . ': ' . Html::a($year, ['event/year', 'year' => $year]) ?></h1>
 
 <div id="eventMap">
 

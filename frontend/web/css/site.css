@@ -948,3 +948,24 @@ span.selection span.select2-selection .select2-selection__arrow {
     background-color: white;
     margin-bottom: 0;
 }
+
+/* Правые блоки*/
+.right-block {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.right-block h3 {
+    border-bottom: 1px solid #ddd;
+    margin-top: 0;
+}
+
+.right-block.cornsilk {
+    background-color: cornsilk;
+}
+
+.right-block.aliceblue {
+    background-color: aliceblue;
+}
