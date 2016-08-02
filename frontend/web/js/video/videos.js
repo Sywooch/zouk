@@ -58,7 +58,7 @@ function videoPlayer() {
     };
 
     this.stopPlay = function() {
-        if (typeof selfVideoPlayer.player.pauseVideo == "function") {
+        if (typeof selfVideoPlayer.player != "undefined" && typeof selfVideoPlayer.player.pauseVideo == "function") {
             selfVideoPlayer.player.pauseVideo();
         } else {
             return false;
