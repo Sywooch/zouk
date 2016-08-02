@@ -28,6 +28,6 @@ $url = $event->getUrl();
         <b><?= Html::a($title, $url, ['class' => 'event-hyperlink']) ?></b>
     </div>
     <div class="mini-block-event-date">
-        <?= date("d.m.Y", $event->date_create) . " " . Lang::t("main", "at") . " " . date("H:i", $event->date_create) ?>
+        <?= date("d.m.Y", $event->date_create) . " " . Lang::t("main", "at") . " " . date("H:i", $event->date) ?>
     </div>
 </div>
