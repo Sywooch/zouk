@@ -42,6 +42,7 @@ class Item extends VoteModel
 
     const MIN_REPUTAION_BAD_ITEM_DELETE                    = 10;
     const MIN_REPUTATION_ITEM_CREATE                       = -4;
+    const MIN_REPUTATION_ITEM_CREATE_NO_STOP_WORD          = 15;
     const MIN_REPUTATION_ITEM_VOTE                         = -4;
     const MIN_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE = -3;
     const MAX_REPUTATION_FOR_ADD_REPUTATION_ITEM_VOTE_LIKE = 100;
@@ -63,6 +64,11 @@ class Item extends VoteModel
     public function getTitle2()
     {
         return strip_tags($this->title);
+    }
+
+    public function isStopWord($text = '')
+    {
+        return parent::isStopWord($this->title) !== false || parent::isStopWord($this->description) !== false;
     }
 
     public function getShortDescription($length = 500, $end = '...')

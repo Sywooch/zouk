@@ -69,7 +69,7 @@ class RightBlocksWidget extends \yii\bootstrap\Widget
         $events = Event::find()->andWhere(
             'date >= :dateStart AND date <= :dateEnd',
             [':dateStart' => $dateStart, ':dateEnd' => $dateEnd]
-        )->limit(10)->orderBy(new Expression('rand()'))->all();
+        )->limit(5)->orderBy(new Expression('rand()'))->all();
 
         return $this->render(
             'rightWidget/rightMonthEvents',

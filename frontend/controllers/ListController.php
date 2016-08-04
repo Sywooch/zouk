@@ -55,13 +55,21 @@ class ListController extends Controller
 
     public function actionAdd()
     {
-        if (User::thisUser()->reputation < Item::MIN_REPUTATION_ITEM_CREATE) {
+        $thisUser = User::thisUser();
+        if ($thisUser->reputation < Item::MIN_REPUTATION_ITEM_CREATE) {
             return Yii::$app->getResponse()->redirect(Url::home());
         }
         $item = new Item();
         if ($item->load(Yii::$app->request->post())) {
             $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
-            $item->user_id = Yii::$app->user->identity->getId();
+            if ($thisUser->reputation < Item::MIN_REPUTATION_ITEM_CREATE_NO_STOP_WORD) {
+                if ($item->isStopWord()) {
+                    Yii::$app->session->setFlash('error', Lang::t('main', 'stopWord'));
+                    return Yii::$app->getResponse()->redirect(Url::home());
+                }
+            }
+
+            $item->user_id = $thisUser->id;
             $item->like_count = 0;
             $item->show_count = 0;
             if ($item->save()) {

@@ -21,7 +21,8 @@ return [
     'location' => 'Место проведения:',
     'site'     => 'Веб-сайт:',
 
-    'events' => 'События',
+    'events'       => 'События',
+    'showAllEvent' => 'Все события месяца',
 
     'metaYearTitle'        => 'Зук календарь - Зук в Мире',
     'metaYearDescription'  => 'Все главные зук события в {year} году',

@@ -21,7 +21,8 @@ return [
     'location' => 'Location:',
     'site'     => 'Web-site:',
 
-    'events' => 'Events',
+    'events'       => 'Events',
+    'showAllEvent' => 'All events of the month',
 
     'metaYearTitle'        => 'Zouk Calendar — Zouk The World',
     'metaYearDescription'  => 'All the major zouk events in {year}',

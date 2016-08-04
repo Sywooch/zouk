@@ -111,7 +111,6 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
     ?>
 
     <div class="container">
-        <?= Alert::widget() ?>
         <div class="row main-header">
             <div class="col-md-12">
                 <?= Html::a(Html::img(Yii::$app->UrlManager->to('img/logo.png'), ['height' => '100px']), $mainUrl, ['class' => 'pull-left visible-md-block visible-lg-block visible-sm-block']) ?>
@@ -131,6 +130,7 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
                 <?= $this->render('/layouts/menu') ?>
             </div>
         </div>
+        <?= Alert::widget() ?>
         <div class="row">
         <?php
         if (!empty($this->params['breadcrumbs']) && count($this->params['breadcrumbs']) > 1) {

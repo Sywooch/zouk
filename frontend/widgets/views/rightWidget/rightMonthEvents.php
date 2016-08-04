@@ -16,25 +16,28 @@ $month = date('m');
         Html::a(Lang::t('month', 'month' . $month), ['event/month', 'year' => $year, 'month' => (int)$month]) .
         ', ' .
         Html::a(date('Y'), ['event/year', 'year' => $year]) ?></h4>
-    <div class="">
+    <div>
         <ul>
-        <?php
-        foreach ($events as $event) {
-            $eventText = "";
-            if (!empty($event->getCountryText())) {
-                $eventText .= $event->getCountryText() . ', ';
+            <?php
+            foreach ($events as $event) {
+                $eventText = "";
+                if (!empty($event->getCountryText())) {
+                    $eventText .= $event->getCountryText() . ', ';
+                }
+                $eventText .= $event->getTitle() . ' / ' . date('d.m.Y', $event->date);
+                echo Html::tag(
+                    'li',
+                    Html::a(
+                        $eventText,
+                        $event->getUrl(),
+                        ['target' => '_blank']
+                    )
+                );
             }
-            $eventText .= $event->getTitle() . ' / ' . date('d.m.Y', $event->date);
-            echo Html::tag(
-                'li',
-                Html::a(
-                    $eventText,
-                    $event->getUrl(),
-                    ['target' => '_blank']
-                )
-            );
-        }
-        ?>
+            ?>
         </ul>
+        <?= Html::a(Lang::t('page/eventView', 'showAllEvent'), ['event/month', 'year' => $year, 'month' => (int)$month]) ?>
+        <hr/>
+        <?= Html::a(Lang::t('main', 'mainButtonAddEvent'), ['event/add'], ['class' => 'btn btn-success btn-label-main add-item']) ?>
     </div>
 </div>
