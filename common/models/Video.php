@@ -199,4 +199,13 @@ class Video extends ActiveRecord
         }
         return $find->one();
     }
+
+
+    public function getItems()
+    {
+        return $this->hasMany(Item::className(), ['id' => 'entity_1_id'])
+            ->viaTable(EntityLink::tableName(), ['entity_2_id' => 'id'], function ($query) {
+                $query->onCondition(['entity_1' => Item::THIS_ENTITY, 'entity_2' => Video::THIS_ENTITY]);
+            });
+    }
 }

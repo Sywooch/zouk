@@ -10,6 +10,8 @@ class VideosWidget extends \yii\bootstrap\Widget
     /** @var Video[] $video */
     public $videos;
 
+    public $autoPlay = true;
+
     public function init()
     {
     }
@@ -19,7 +21,8 @@ class VideosWidget extends \yii\bootstrap\Widget
         return $this->render(
             'videosWidget/list',
             [
-                'videos' => $this->videos,
+                'videos'   => $this->videos,
+                'autoPlay' => $this->autoPlay,
             ]
         );
     }

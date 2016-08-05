@@ -74,17 +74,23 @@ $(document).ready(function() {
         var $this = $(this);
         var $block = $this.closest('.block-footer-event');
         if ($this.hasClass('tab-event-comment')) {
-            $block.find('.tab-event-list').closest('li').removeClass('active');
+            $block.find('.tab-event').closest('li').removeClass('active');
             $block.find('.tab-event-comment').closest('li').addClass('active');
 
-            $block.find('.block-event-list').addClass('hide');
+            $block.find('.block-event').addClass('hide');
             $block.find('.block-event-comment').removeClass('hide');
-        } else {
-            $block.find('.tab-event-list').closest('li').addClass('active');
-            $block.find('.tab-event-comment').closest('li').removeClass('active');
+        } else if ($this.hasClass('tab-event-videos')) {
+            $block.find('.tab-event').closest('li').removeClass('active');
+            $block.find('.tab-event-videos').closest('li').addClass('active');
 
+            $block.find('.block-event').addClass('hide');
+            $block.find('.block-event-videos').removeClass('hide');
+        } else if ($this.hasClass('tab-event-list')) {
+            $block.find('.tab-event').closest('li').removeClass('active');
+            $block.find('.tab-event-list').closest('li').addClass('active');
+
+            $block.find('.block-event').addClass('hide');
             $block.find('.block-event-list').removeClass('hide');
-            $block.find('.block-event-comment').addClass('hide');
         }
         return false;
     });

@@ -1,6 +1,7 @@
 <?php
 /**
  * @var \common\models\Video $video
+ * @var bool $autoPlay
  */
 use yii\helpers\Html;
 
@@ -14,7 +15,7 @@ echo Html::a(
     $video->original_url,
     [
         'target' => '_blank',
-        'class' => 'block-preview-video-link margin-right-10 video-link auto-play-video',
+        'class' => 'block-preview-video-link margin-right-10 video-link' . ($autoPlay ? ' auto-play-video' : ''),
         'data-video-id' => $video->entity_id,
         'data-title' => $video->video_title,
     ]

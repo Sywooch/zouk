@@ -13,6 +13,7 @@ return [
 
     'titleImg'     => 'Изображения',
     'titleComment' => 'Комментарии',
+    'titleVideos'  => 'Видео',
     'titleList'    => 'Записи',
 
     'viewDeleted' => 'Страница удалена',

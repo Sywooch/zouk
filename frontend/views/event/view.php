@@ -12,6 +12,7 @@ use common\models\Vote;
 use frontend\models\Lang;
 use frontend\widgets\ItemList;
 use frontend\widgets\ModalDialogsWidget;
+use frontend\widgets\VideoList;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
@@ -55,6 +56,14 @@ if (!empty($imgsEvent)) {
     $image_src = $mainImage->short_url;
 }
 $tags = $event->tagEntity;
+
+$tagsId = [];
+foreach ($tags as $tag) {
+    $tagEvent = $tag->tags;
+    if (!empty($tagEvent->getName())) {
+        $tagsId[] = $tag->tag_id;
+    }
+}
 
 $description = $this->title;
 $description .= ". " . $event->getShortDescription(500, '') . "..";
@@ -262,21 +271,15 @@ $locations = $event->locations;
 
 <div class="block-footer-event">
     <ul class="nav nav-tabs nav-main-tabs">
-        <li class="active"><?= Html::a(Lang::t('page/eventView', 'titleList'), ['list/popular'], ['class' => 'tab-event tab-event-list']) ?></li>
-        <li class=""><?= Html::a(Lang::t('page/eventView', 'titleComment'), ['list/month'], ['class' => 'tab-event tab-event-comment']) ?></a></li>
+        <li class="active"><?= Html::a(Lang::t('page/eventView', 'titleList'), $event->getUrl(), ['class' => 'tab-event tab-event-list']) ?></li>
+        <li class=""><?= Html::a(Lang::t('page/eventView', 'titleVideos'), $event->getUrl(), ['class' => 'tab-event tab-event-videos']) ?></a></li>
+        <li class=""><?= Html::a(Lang::t('page/eventView', 'titleComment'), $event->getUrl(), ['class' => 'tab-event tab-event-comment']) ?></a></li>
     </ul>
 
-    <div class="row block-event-list">
+    <div class="row block-event block-event-list">
         <div class="col-md-12">
             <h3><?= Lang::t('page/eventView', 'titleList') ?></h3>
             <?php
-            $tagsId = [];
-            foreach ($tags as $tag) {
-                $tagEvent = $tag->tags;
-                if (!empty($tagEvent->getName())) {
-                    $tagsId[] = $tag->tag_id;
-                }
-            }
             if (!empty($tagsId)) {
                 echo ItemList::widget(['orderBy' => ItemList::ORDER_BY_ID, 'searchTag' => $tagsId]);
             } else {
@@ -290,7 +293,26 @@ $locations = $event->locations;
         </div>
     </div>
 
-    <div class="row block-event-comment hide">
+    <div class="row block-event block-event-videos hide">
+        <div class="col-md-12">
+            <h3><?= Lang::t('page/eventView', 'titleVideos') ?></h3>
+            <?php
+            if (!empty($tagsId)) {
+                echo VideoList::widget([
+                    'searchTag' => $tagsId,
+                ]);
+            } else {
+                echo Html::a(
+                    Lang::t('main', 'mainButtonAddRecord'),
+                    ['/list/add'],
+                    ['class' => 'btn btn-success btn-label-main add-item']
+                );
+            }
+            ?>
+        </div>
+    </div>
+
+    <div class="row block-event block-event-comment hide">
         <div class="col-md-12">
             <div>
                 <h3><?= Lang::t('page/eventView', 'titleComment') ?></h3>
