@@ -77,8 +77,10 @@ $(document).ready(function() {
         schoolShowMap.map.setCenter(latlng);
         schoolShowMap.map.setZoom($this.data('zoom'));
     }).on('shown.bs.modal', function() {
-        schoolShowMap.initMap('mapShowLocation', {'lat': markerLocation.lat, 'lng': markerLocation.lng, 'zoom': markerLocation.zoom});
-        schoolShowMap.setMarkers([markerLocation], false, false);
+        if ($('.modal-show-location').hasClass('in')) {
+            schoolShowMap.initMap('mapShowLocation', {'lat': markerLocation.lat, 'lng': markerLocation.lng, 'zoom': markerLocation.zoom});
+            schoolShowMap.setMarkers([markerLocation], false, false);
+        }
     });
 
 });

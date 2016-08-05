@@ -97,16 +97,18 @@ $(document).ready(function() {
             'lng': parseFloat($blockLocation.find('input.field-lng').val())
         };
     }).on('shown.bs.modal', function() {
-        var lat = typeof markerLocation.lat != "undefined" ? markerLocation.lat : $('#location-lat').val();
-        var lng = typeof markerLocation.lng != "undefined" ? markerLocation.lng : $('#location-lng').val();
-        var zoom = typeof markerLocation.zoom != "undefinde" ? markerLocation.zoom : 9;
-        schoolAddMap.initMap('map', {'lat': lat, 'lng': lng, 'zoom': zoom});
-        schoolAddMap.addSearchBox(searchBoxText);
-        schoolAddMap.createMarkerOnClick(true, true);
-        if (typeof markerLocation.lat != "undefined" && typeof markerLocation.lng != "undefined") {
-            schoolAddMap.setMarkers([markerLocation], true, false, false);
+        if ($('.modal-show-location').hasClass('in')) {
+            var lat = typeof markerLocation.lat != "undefined" ? markerLocation.lat : $('#location-lat').val();
+            var lng = typeof markerLocation.lng != "undefined" ? markerLocation.lng : $('#location-lng').val();
+            var zoom = typeof markerLocation.zoom != "undefinde" ? markerLocation.zoom : 9;
+            schoolAddMap.initMap('map', {'lat': lat, 'lng': lng, 'zoom': zoom});
+            schoolAddMap.addSearchBox(searchBoxText);
+            schoolAddMap.createMarkerOnClick(true, true);
+            if (typeof markerLocation.lat != "undefined" && typeof markerLocation.lng != "undefined") {
+                schoolAddMap.setMarkers([markerLocation], true, false, false);
+            }
+            initingMap = false;
         }
-        initingMap = false;
     });
 
     schoolAddMap.addListener('markerChanged', function(marker, fromSearch) {
