@@ -281,7 +281,7 @@ $locations = $event->locations;
             <h3><?= Lang::t('page/eventView', 'titleList') ?></h3>
             <?php
             if (!empty($tagsId)) {
-                echo ItemList::widget(['orderBy' => ItemList::ORDER_BY_ID, 'searchTag' => $tagsId]);
+                echo ItemList::widget(['orderBy' => ItemList::ORDER_BY_ID, 'searchTag' => $tagsId, 'addModalShowVideo' => false]);
             } else {
                 echo Html::a(
                     Lang::t('main', 'mainButtonAddRecord'),
@@ -351,3 +351,4 @@ $locations = $event->locations;
 <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_ALARM, 'id' => $event->id]) ?>
 <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]) ?>
 <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_LOCATION]) ?>
+<?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_VIDEO]) ?>

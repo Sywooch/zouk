@@ -2,6 +2,7 @@
 /**
  * @var \common\models\Video[] $videos
  * @var bool $autoPlay
+ * @var bool $onlyVideos
  */
 
 use frontend\widgets\ModalDialogsWidget;
@@ -14,4 +15,6 @@ foreach ($videos as $video) {
 }
 echo '</div></div>';
 
-echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_VIDEO]);
+if (!$onlyVideos) {
+    echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_VIDEO]);
+}

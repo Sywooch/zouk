@@ -32,13 +32,11 @@ class VideoList extends \yii\bootstrap\Widget
     {
         $videos = $this->getAllItems($this->lastId, $this->searchTag, $this->userId, $this->limit);
         return $this->render(
-            'videoList/list',
+            'videosWidget/list',
             [
-                'videos'         => $videos,
-                'onlyItem'       => $this->onlyItem,
-                'searchTag'      => $this->searchTag,
-                'display'        => $this->display,
-                'limit'          => $this->limit,
+                'videos'     => $videos,
+                'autoPlay'   => false,
+                'onlyVideos' => true,
             ]
         );
     }

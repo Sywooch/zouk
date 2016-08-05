@@ -12,6 +12,8 @@ class VideosWidget extends \yii\bootstrap\Widget
 
     public $autoPlay = true;
 
+    public $onlyVideos = false;
+
     public function init()
     {
     }
@@ -21,8 +23,9 @@ class VideosWidget extends \yii\bootstrap\Widget
         return $this->render(
             'videosWidget/list',
             [
-                'videos'   => $this->videos,
-                'autoPlay' => $this->autoPlay,
+                'videos'     => $this->videos,
+                'autoPlay'   => $this->autoPlay,
+                'onlyVideos' => $this->onlyVideos,
             ]
         );
     }
