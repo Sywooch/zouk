@@ -68,19 +68,44 @@
       if (pos >= 0) _self._delimiters[index] = '\\' + character;
     });
 
-    // Store original input width
-    var elRules = (window && typeof window.getMatchedCSSRules === 'function') ? window.getMatchedCSSRules( element ) : null
-      , elStyleWidth = element.style.width
-      , elCSSWidth
-      , elWidth = this.$element.width()
+      function css(a) {
+          var sheets = document.styleSheets, o = {};
+          for (var i in sheets) {
+              var rules = sheets[i].rules || sheets[i].cssRules;
+              for (var r in rules) {
+                  if (a.is(rules[r].selectorText)) {
+                      o = $.extend(o, css2json(rules[r].style), css2json(a.attr('style')));
+                  }
+              }
+          }
+          return o;
+      }
+      function css2json(css) {
+          var s = {};
+          if (!css) return s;
+          if (css instanceof CSSStyleDeclaration) {
+              for (var i in css) {
+                  if ((css[i]).toLowerCase) {
+                      s[(css[i]).toLowerCase()] = (css[css[i]]);
+                  }
+              }
+          } else if (typeof css == "string") {
+              css = css.split("; ");
+              for (var i in css) {
+                  var l = css[i].split(": ");
+                  s[l[0].toLowerCase()] = (l[1]);
+              }
+          }
+          return s;
+      }
 
-    if (elRules) {
-      $.each( elRules, function (i, rule) {
-        if (rule.style.width) {
-          elCSSWidth = rule.style.width;
-        }
-      });
-    }
+      // Store original input width
+
+      var elStyleWidth = element.style.width
+          , elCSSWidth = css( $(element ) ).width
+          , elWidth = this.$element.width()
+          , elWidth = this.$element.width()
+      
 
     // Move original input out of the way
     var hidingPosition = $('body').css('direction') === 'rtl' ? 'right' : 'left',
