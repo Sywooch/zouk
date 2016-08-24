@@ -97,7 +97,7 @@ $(document).ready(function() {
             'lng': parseFloat($blockLocation.find('input.field-lng').val())
         };
     }).on('shown.bs.modal', function() {
-        if ($('.modal-show-location').hasClass('in')) {
+        if ($('.modal-add-location').hasClass('in')) {
             var lat = typeof markerLocation.lat != "undefined" ? markerLocation.lat : $('#location-lat').val();
             var lng = typeof markerLocation.lng != "undefined" ? markerLocation.lng : $('#location-lng').val();
             var zoom = typeof markerLocation.zoom != "undefinde" ? markerLocation.zoom : 9;
