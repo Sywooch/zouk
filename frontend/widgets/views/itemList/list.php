@@ -7,6 +7,7 @@
  * @var string $display
  * @var int    $limit
  * @var bool   $addModalShowVideo
+ * @var bool   $addModalShowImg
  */
 
 use common\models\Item;
@@ -47,7 +48,9 @@ if (!$onlyItem) {
             );
         }
     }
-    echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]);
+    if ($addModalShowImg) {
+        echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]);
+    }
     if ($addModalShowVideo) {
         echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_VIDEO]);
     }

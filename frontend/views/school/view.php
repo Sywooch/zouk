@@ -288,7 +288,7 @@ $locations = $school->locations;
                     }
                 }
                 if (!empty($tagsId)) {
-                    echo ItemList::widget(['orderBy' => ItemList::ORDER_BY_ID, 'searchTag' => $tagsId]);
+                    echo ItemList::widget(['orderBy' => ItemList::ORDER_BY_ID, 'searchTag' => $tagsId, 'addModalShowVideo' => false, 'addModalShowImg' => false]);
                 } else {
                     echo Html::a(
                         Lang::t('main', 'mainButtonAddRecord'),

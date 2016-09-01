@@ -281,7 +281,7 @@ $locations = $event->locations;
             <h3><?= Lang::t('page/eventView', 'titleList') ?></h3>
             <?php
             if (!empty($tagsId)) {
-                echo ItemList::widget(['orderBy' => ItemList::ORDER_BY_ID, 'searchTag' => $tagsId, 'addModalShowVideo' => false]);
+                echo ItemList::widget(['orderBy' => ItemList::ORDER_BY_ID, 'searchTag' => $tagsId, 'addModalShowVideo' => false, 'addModalShowImg' => false]);
             } else {
                 echo Html::a(
                     Lang::t('main', 'mainButtonAddRecord'),

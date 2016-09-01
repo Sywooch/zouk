@@ -40,6 +40,8 @@ class ItemList extends \yii\bootstrap\Widget
 
     public $addModalShowVideo = true;
 
+    public $addModalShowImg = true;
+
     public function init()
     {
     }
@@ -57,6 +59,7 @@ class ItemList extends \yii\bootstrap\Widget
                 'display'        => $this->display,
                 'limit'          => $this->limit,
                 'addModalShowVideo' => $this->addModalShowVideo,
+                'addModalShowImg'   => $this->addModalShowImg,
             ]
         );
     }
