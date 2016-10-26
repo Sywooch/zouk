@@ -10,6 +10,8 @@ class GoogleComponent
 
     public $googleApiKey;
 
+    public $googleRecaptchaPrivate;
+
     public function getVideoInfo($videoId)
     {
         $key = $this->googleApiKey;
@@ -56,6 +58,32 @@ class GoogleComponent
     {
         $path = 'urlshortener/v1/url?shortUrl=' . $shortUrl . '&projection=FULL&key=' . $this->googleApiKey;
         return json_decode($this->send('GET', $path, '', []), true);
+    }
+
+    public function testCaptcha($response, $ip)
+    {
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+
+        $data = [
+            'secret' => $this->googleRecaptchaPrivate,
+            'response' => $response,
+            'remoteip' => $ip,
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        $answer = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+
+        $result = isset($answer['success']) && $answer['success'];
+        return $result;
     }
 
     public function send($method, $path, $body, $addHeaders)
