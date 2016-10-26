@@ -100,7 +100,7 @@ return [
         ],
         'google'       => [
             'class'        => 'common\components\GoogleComponent',
-            'googleApiKey' => 'AIzaSyDCS1tWgpmOSfalYsWpLHbIy_YVDXu0l5A',
+            'googleApiKey' => '',
         ],
         'audioInfo'    => [
             'class' => 'common\components\GetidComponent',

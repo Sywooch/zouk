@@ -13,6 +13,7 @@ $this->title = Lang::t('page/siteLogin', 'titleSignup');
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->registerJsFile('//ulogin.ru/js/ulogin.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('https://www.google.com/recaptcha/api.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 ?>
 <div class="site-signup">
@@ -29,6 +30,8 @@ $this->registerJsFile('//ulogin.ru/js/ulogin.js', ['depends' => [\yii\web\Jquery
                 <?= $form->field($model, 'email')->label(Lang::t('page/siteLogin', 'email')) ?>
 
                 <?= $form->field($model, 'password')->label(Lang::t('page/siteLogin', 'password'))->passwordInput() ?>
+
+                <div class="g-recaptcha" data-sitekey="<?= Yii::$app->google->googleRecaptchaPublic ?>"></div>
 
                 <div class="form-group">
                     <?= Html::submitButton(Lang::t('page/siteLogin', 'signup'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
