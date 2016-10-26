@@ -49,30 +49,33 @@ class EventController extends Controller
             return Yii::$app->getResponse()->redirect(Url::home());
         }
         $event = new Event();
-        if ($event->load(Yii::$app->request->post())) {
-            $eventPost = Yii::$app->request->post('Event');
-            $event->country = $eventPost['country'];
-            $event->description = \yii\helpers\HtmlPurifier::process($event->description, []);
-            $event->user_id = Yii::$app->user->identity->getId();
-            $event->date = strtotime($eventPost['date']);
-            $event->like_count = 0;
-            $event->show_count = 0;
-            if ($event->save()) {
-                // Добавляем теги
-                $tagsArr = explode(',', Yii::$app->request->post('tags'));
-                $tags = array_shift($tagsArr);
-                $event->saveTags($tags);
-                // Добавляем картинки к записи
-                $imgs = Yii::$app->request->post('imgs');
-                if (!empty($imgs) && is_array($imgs)) {
-                    $event->saveImgs($imgs);
-                } else {
-                    $event->saveImgs([]);
+        if (Yii::$app->request->isPost && $event->load(Yii::$app->request->post())) {
+            $gRecaptchaResponse = Yii::$app->request->post('g-recaptcha-response');
+            if (!empty($gRecaptchaResponse) && Yii::$app->google->testCaptcha($gRecaptchaResponse, Yii::$app->request->getUserIP())) {
+                $eventPost = Yii::$app->request->post('Event');
+                $event->country = $eventPost['country'];
+                $event->description = \yii\helpers\HtmlPurifier::process($event->description, []);
+                $event->user_id = Yii::$app->user->identity->getId();
+                $event->date = strtotime($eventPost['date']);
+                $event->like_count = 0;
+                $event->show_count = 0;
+                if ($event->save()) {
+                    // Добавляем теги
+                    $tagsArr = explode(',', Yii::$app->request->post('tags'));
+                    $tags = array_shift($tagsArr);
+                    $event->saveTags($tags);
+                    // Добавляем картинки к записи
+                    $imgs = Yii::$app->request->post('imgs');
+                    if (!empty($imgs) && is_array($imgs)) {
+                        $event->saveImgs($imgs);
+                    } else {
+                        $event->saveImgs([]);
+                    }
+
+                    $event->saveLocations(Yii::$app->request->post('location'));
+
+                    return Yii::$app->getResponse()->redirect($event->getUrl());
                 }
-
-                $event->saveLocations(Yii::$app->request->post('location'));
-
-                return Yii::$app->getResponse()->redirect($event->getUrl());
             }
         }
         Yii::$app->params['jsZoukVar']['tagsAll'] = Tags::getTags(Tags::TAG_GROUP_ALL);

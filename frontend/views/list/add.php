@@ -28,6 +28,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/videoEdit.js', ['d
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/soundEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/imgEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/add.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('https://www.google.com/recaptcha/api.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $this->title = Lang::t('page/listAdd', 'title');
 
@@ -109,6 +110,8 @@ $userImgs = $thisUser->getUserImgs();
                 <span class="input-group-addon" id="basic-addon1">Метки</span>
                 <?= Html::textInput('tags', '', array('id' => 'tokenfield', 'data-tokens' => '', 'class' => 'form-control')) ?>
             </div>
+            
+            <div class="g-recaptcha" data-sitekey="<?= Yii::$app->google->googleRecaptchaPublic ?>"></div>
 
             <div class="form-group">
                 <?= Html::submitButton(Lang::t('page/listAdd', 'buttonAdd'), ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>

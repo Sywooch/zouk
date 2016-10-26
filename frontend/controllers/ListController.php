@@ -60,46 +60,49 @@ class ListController extends Controller
             return Yii::$app->getResponse()->redirect(Url::home());
         }
         $item = new Item();
-        if ($item->load(Yii::$app->request->post())) {
-            $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
-            if ($thisUser->reputation < Item::MIN_REPUTATION_ITEM_CREATE_NO_STOP_WORD) {
-                if ($item->isStopWord()) {
-                    Yii::$app->session->setFlash('error', Lang::t('main', 'stopWord'));
-                    return Yii::$app->getResponse()->redirect(Url::home());
-                }
-            }
-
-            $item->user_id = $thisUser->id;
-            $item->like_count = 0;
-            $item->show_count = 0;
-            if ($item->save()) {
-                // Добавление видео к записи
-                $videosUrl = Yii::$app->request->post('videos');
-                if (!empty($videosUrl) && is_array($videosUrl)) {
-                    $item->saveVideos($videosUrl, $item->user_id);
-                }
-                // Добавляем аудиозаписи к записи
-                $sounds = Yii::$app->request->post('sounds');
-                if (!empty($sounds) && is_array($sounds)) {
-                    $item->saveSounds($sounds);
-                } else {
-                    $item->saveSounds([]);
-                }
-                // Добавляем теги
-                $tags = explode(',', Yii::$app->request->post('tags'));
-                if (is_array($tags)) {
-                    $item->saveTags($tags);
-                }
-                // Добавляем картинки к записи
-                $imgs = Yii::$app->request->post('imgs');
-                if (!empty($imgs) && is_array($imgs)) {
-                    $item->saveImgs($imgs);
-                } else {
-                    $item->saveImgs([]);
+        if (Yii::$app->request->isPost && $item->load(Yii::$app->request->post())) {
+            $gRecaptchaResponse = Yii::$app->request->post('g-recaptcha-response');
+            if (!empty($gRecaptchaResponse) && Yii::$app->google->testCaptcha($gRecaptchaResponse, Yii::$app->request->getUserIP())) {
+                $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
+                if ($thisUser->reputation < Item::MIN_REPUTATION_ITEM_CREATE_NO_STOP_WORD) {
+                    if ($item->isStopWord()) {
+                        Yii::$app->session->setFlash('error', Lang::t('main', 'stopWord'));
+                        return Yii::$app->getResponse()->redirect(Url::home());
+                    }
                 }
 
+                $item->user_id = $thisUser->id;
+                $item->like_count = 0;
+                $item->show_count = 0;
+                if ($item->save()) {
+                    // Добавление видео к записи
+                    $videosUrl = Yii::$app->request->post('videos');
+                    if (!empty($videosUrl) && is_array($videosUrl)) {
+                        $item->saveVideos($videosUrl, $item->user_id);
+                    }
+                    // Добавляем аудиозаписи к записи
+                    $sounds = Yii::$app->request->post('sounds');
+                    if (!empty($sounds) && is_array($sounds)) {
+                        $item->saveSounds($sounds);
+                    } else {
+                        $item->saveSounds([]);
+                    }
+                    // Добавляем теги
+                    $tags = explode(',', Yii::$app->request->post('tags'));
+                    if (is_array($tags)) {
+                        $item->saveTags($tags);
+                    }
+                    // Добавляем картинки к записи
+                    $imgs = Yii::$app->request->post('imgs');
+                    if (!empty($imgs) && is_array($imgs)) {
+                        $item->saveImgs($imgs);
+                    } else {
+                        $item->saveImgs([]);
+                    }
 
-                return Yii::$app->getResponse()->redirect($item->getUrl());
+
+                    return Yii::$app->getResponse()->redirect($item->getUrl());
+                }
             }
         }
         Yii::$app->params['jsZoukVar']['tagsAll'] = Tags::getTags(Tags::TAG_GROUP_ALL);

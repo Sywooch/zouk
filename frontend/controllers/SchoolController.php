@@ -49,29 +49,32 @@ class SchoolController extends Controller
             return Yii::$app->getResponse()->redirect(Url::home());
         }
         $school = new School();
-        if ($school->load(Yii::$app->request->post())) {
-            $schoolPost = Yii::$app->request->post('School');
-            $school->country = $schoolPost['country'];
-            $school->description = \yii\helpers\HtmlPurifier::process($school->description, []);
-            $school->user_id = Yii::$app->user->identity->getId();
-            $school->date = strtotime(date('Y-m-d'));
-            $school->like_count = 0;
-            $school->show_count = 0;
-            if ($school->save()) {
-                // Добавляем теги
-                $tagsArr = explode(',', Yii::$app->request->post('tags'));
-                $school->saveTags($tagsArr);
-                // Добавляем картинки к записи
-                $imgs = Yii::$app->request->post('imgs');
-                if (!empty($imgs) && is_array($imgs)) {
-                    $school->saveImgs($imgs);
-                } else {
-                    $school->saveImgs([]);
+        if (Yii::$app->request->isPost && $school->load(Yii::$app->request->post())) {
+            $gRecaptchaResponse = Yii::$app->request->post('g-recaptcha-response');
+            if (!empty($gRecaptchaResponse) && Yii::$app->google->testCaptcha($gRecaptchaResponse, Yii::$app->request->getUserIP())) {
+                $schoolPost = Yii::$app->request->post('School');
+                $school->country = $schoolPost['country'];
+                $school->description = \yii\helpers\HtmlPurifier::process($school->description, []);
+                $school->user_id = Yii::$app->user->identity->getId();
+                $school->date = strtotime(date('Y-m-d'));
+                $school->like_count = 0;
+                $school->show_count = 0;
+                if ($school->save()) {
+                    // Добавляем теги
+                    $tagsArr = explode(',', Yii::$app->request->post('tags'));
+                    $school->saveTags($tagsArr);
+                    // Добавляем картинки к записи
+                    $imgs = Yii::$app->request->post('imgs');
+                    if (!empty($imgs) && is_array($imgs)) {
+                        $school->saveImgs($imgs);
+                    } else {
+                        $school->saveImgs([]);
+                    }
+
+                    $school->saveLocations(Yii::$app->request->post('location'));
+
+                    return Yii::$app->getResponse()->redirect($school->getUrl());
                 }
-
-                $school->saveLocations(Yii::$app->request->post('location'));
-
-                return Yii::$app->getResponse()->redirect($school->getUrl());
             }
         }
         Yii::$app->params['jsZoukVar']['tagsAll'] = Tags::getTags(Tags::TAG_GROUP_ALL);

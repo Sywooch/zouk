@@ -23,6 +23,7 @@ $this->registerCssFile('//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.
 
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/imgEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/event/add.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('https://www.google.com/recaptcha/api.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $this->title = Lang::t('page/eventEdit', 'titleAdd');
 
@@ -96,6 +97,8 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
                 <span class="input-group-addon"><?= Lang::t('page/eventEdit', 'tags') ?></span>
                 <?= Html::textInput('tags', $tagValue, ['id' => 'tokenfield', 'data-tokens' => $tagValue, 'class' => 'form-control']) ?>
             </div>
+            
+            <div class="g-recaptcha" data-sitekey="<?= Yii::$app->google->googleRecaptchaPublic ?>"></div>
 
             <div class="form-group">
                 <?= Html::submitButton(Lang::t('page/eventEdit', 'buttonAdd'), ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>
