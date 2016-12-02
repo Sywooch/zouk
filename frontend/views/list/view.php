@@ -102,7 +102,7 @@ if (!empty($image_src)) {
     <h1>
         <?= Html::a($item->getTitle(), $url, ['class' => 'item-hyperlink']) ?>
         <?php
-        if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $item->user_id) {
+        if (Yii::$app->user->can(User::PERMISSION_EDIT_ITEMS, ['object' => $item])) {
             echo Html::a(
                 Lang::t('page/listView', 'edit'),
                 Url::to(['list/edit', 'id' => $item->id]),
@@ -188,12 +188,7 @@ if (!empty($image_src)) {
         </div>
         <div>
             <?php
-            if (!Yii::$app->user->isGuest &&
-                (
-                    Yii::$app->user->identity->id == $item->user_id ||
-                    $thisUser->reputation > Item::MIN_REPUTAION_BAD_ITEM_DELETE && $item->like_count < 0
-                )
-            ) {
+            if (Yii::$app->user->can(User::PERMISSION_DELETE_ITEMS, ['object' => $item])) {
                 echo Html::button(
                     Lang::t('page/listView', 'delete'),
                     [
@@ -204,7 +199,7 @@ if (!empty($image_src)) {
                     ]
                 ), ' ';
             }
-            if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $item->user_id) {
+            if (Yii::$app->user->can(User::PERMISSION_EDIT_ITEMS, ['object' => $item])) {
                 echo Html::a(
                     Lang::t('page/listView', 'edit2'),
                     Url::to(['list/edit', 'id' => $item->id]),

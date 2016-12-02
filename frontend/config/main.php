@@ -13,8 +13,12 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components'          => [
         'user'         => [
+            'class' => 'common\components\User',
             'identityClass'   => 'common\models\User',
             'enableAutoLogin' => true,
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
         ],
         'log'          => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

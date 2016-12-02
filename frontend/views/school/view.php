@@ -88,7 +88,7 @@ $locations = $school->locations;
     <h1>
         <?= Html::a($school->getTitle(), $url, ['class' => 'school-hyperlink']) ?>
         <?php
-        if (!Yii::$app->user->isGuest && $thisUser->id == $school->user_id) {
+        if (Yii::$app->user->can(User::PERMISSION_EDIT_SCHOOLS)) {
             echo Html::a(
                 Lang::t('page/schoolView', 'edit'),
                 Url::to(['schools/edit', 'id' => $school->id]),
@@ -199,7 +199,7 @@ $locations = $school->locations;
         </div>
         <div>
             <?php
-            if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $school->user_id) {
+            if (Yii::$app->user->can(User::PERMISSION_DELETE_SCHOOLS)) {
                 echo Html::button(
                     Lang::t('page/schoolView', 'delete'),
                     [
@@ -209,6 +209,8 @@ $locations = $school->locations;
 
                     ]
                 ), ' ';
+            }
+            if (Yii::$app->user->can(User::PERMISSION_EDIT_SCHOOLS)) {
                 echo Html::a(
                     Lang::t('page/schoolView', 'edit2'),
                     Url::to(['schools/edit', 'id' => $school->id]),

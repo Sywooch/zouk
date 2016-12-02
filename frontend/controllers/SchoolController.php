@@ -45,7 +45,7 @@ class SchoolController extends Controller
 
     public function actionAdd()
     {
-        if (User::thisUser()->reputation < School::MIN_REPUTATION_SCHOOL_CREATE) {
+        if (!Yii::$app->user->can(User::PERMISSION_CREATE_SCHOOLS)) {
             return Yii::$app->getResponse()->redirect(Url::home());
         }
         $school = new School();
@@ -127,7 +127,7 @@ class SchoolController extends Controller
     {
         /** @var School $school */
         $school = School::findOne($id);
-        if ($school->user_id != User::thisUser()->id || $school->deleted) {
+        if (!Yii::$app->user->can(User::PERMISSION_EDIT_SCHOOLS)) {
             return Yii::$app->getResponse()->redirect($school->getUrl());
         }
         if ($school && $school->load(Yii::$app->request->post())) {
@@ -164,7 +164,7 @@ class SchoolController extends Controller
     {
         /** @var School $school */
         $school = School::findOne($id);
-        if ($school && $school->user_id == User::thisUser()->id) {
+        if (Yii::$app->user->can(User::PERMISSION_DELETE_SCHOOLS)) {
             $school->deleted = 1;
             if ($school->save()) {
                 return Yii::$app->getResponse()->redirect(['schools/all']);

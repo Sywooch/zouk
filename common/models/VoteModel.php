@@ -9,6 +9,8 @@ use yii\web\IdentityInterface;
 
 /**
  * Class VoteModel
+ *
+ * @property integer $user_id
  */
 class VoteModel extends ActiveRecord
 {

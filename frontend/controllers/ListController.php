@@ -56,7 +56,7 @@ class ListController extends Controller
     public function actionAdd()
     {
         $thisUser = User::thisUser();
-        if ($thisUser->reputation < Item::MIN_REPUTATION_ITEM_CREATE) {
+        if (!Yii::$app->user->can(User::PERMISSION_CREATE_ITEMS)) {
             return Yii::$app->getResponse()->redirect(Url::home());
         }
         $item = new Item();
@@ -64,12 +64,12 @@ class ListController extends Controller
             $gRecaptchaResponse = Yii::$app->request->post('g-recaptcha-response');
             if (!empty($gRecaptchaResponse) && Yii::$app->google->testCaptcha($gRecaptchaResponse, Yii::$app->request->getUserIP())) {
                 $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
-                if ($thisUser->reputation < Item::MIN_REPUTATION_ITEM_CREATE_NO_STOP_WORD) {
-                    if ($item->isStopWord()) {
-                        Yii::$app->session->setFlash('error', Lang::t('main', 'stopWord'));
-                        return Yii::$app->getResponse()->redirect(Url::home());
-                    }
-                }
+//                if ($thisUser->reputation < Item::MIN_REPUTATION_ITEM_CREATE_NO_STOP_WORD) {
+//                    if ($item->isStopWord()) {
+//                        Yii::$app->session->setFlash('error', Lang::t('main', 'stopWord'));
+//                        return Yii::$app->getResponse()->redirect(Url::home());
+//                    }
+//                }
 
                 $item->user_id = $thisUser->id;
                 $item->like_count = 0;
@@ -155,7 +155,7 @@ class ListController extends Controller
     {
         /** @var Item $item */
         $item = Item::findOne($id);
-        if ($item->user_id != User::thisUser()->id || $item->deleted) {
+        if (!Yii::$app->user->can(User::PERMISSION_EDIT_ITEMS)) {
             return Yii::$app->getResponse()->redirect($item->getUrl());
         }
         if ($item && $item->load(Yii::$app->request->post())) {
@@ -205,12 +205,7 @@ class ListController extends Controller
         /** @var Item $item */
         $item = Item::findOne($id);
         $thisUser = User::thisUser();
-        if ($item &&
-            (
-                $item->user_id == $thisUser->id ||
-                $thisUser->reputation > Item::MIN_REPUTAION_BAD_ITEM_DELETE && $item->like_count < 0
-            )
-        ) {
+        if ($item && Yii::$app->user->can(User::PERMISSION_DELETE_ITEMS)) {
             $item->deleted = 1;
             if ($item->save()) {
                 return Yii::$app->getResponse()->redirect(Url::home());

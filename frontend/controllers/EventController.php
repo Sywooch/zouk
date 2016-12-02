@@ -45,7 +45,7 @@ class EventController extends Controller
 
     public function actionAdd()
     {
-        if (User::thisUser()->reputation < Event::MIN_REPUTATION_EVENT_CREATE) {
+        if (!Yii::$app->user->can(User::PERMISSION_CREATE_EVENTS)) {
             return Yii::$app->getResponse()->redirect(Url::home());
         }
         $event = new Event();
@@ -128,7 +128,7 @@ class EventController extends Controller
     {
         /** @var Event $event */
         $event = Event::findOne($id);
-        if ($event->user_id != User::thisUser()->id || $event->deleted) {
+        if (!Yii::$app->user->can(User::PERMISSION_EDIT_EVENTS)) {
             return Yii::$app->getResponse()->redirect($event->getUrl());
         }
         if ($event && $event->load(Yii::$app->request->post())) {
@@ -167,7 +167,7 @@ class EventController extends Controller
     {
         /** @var Event $event */
         $event = Event::findOne($id);
-        if ($event && $event->user_id == User::thisUser()->id) {
+        if (Yii::$app->user->can(User::PERMISSION_DELETE_EVENTS)) {
             $event->deleted = 1;
             if ($event->save()) {
                 return Yii::$app->getResponse()->redirect(['events/all']);

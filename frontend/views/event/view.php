@@ -96,7 +96,7 @@ $locations = $event->locations;
     <h1>
         <?= Html::a($event->getTitle(), $url, ['class' => 'event-hyperlink']) ?>
         <?php
-        if (!Yii::$app->user->isGuest && $thisUser->id == $event->user_id) {
+        if (!Yii::$app->user->can(User::PERMISSION_EDIT_EVENTS)) {
             echo Html::a(
                 Lang::t('page/eventView', 'edit'),
                 Url::to(['events/edit', 'id' => $event->id]),
@@ -198,7 +198,7 @@ $locations = $event->locations;
         </div>
         <div>
             <?php
-            if (!Yii::$app->user->isGuest && Yii::$app->user->identity->id == $event->user_id) {
+            if (Yii::$app->user->can(User::PERMISSION_DELETE_EVENTS)) {
                 echo Html::button(
                     Lang::t('page/eventView', 'delete'),
                     [
@@ -208,6 +208,8 @@ $locations = $event->locations;
 
                     ]
                 ), ' ';
+            }
+            if (Yii::$app->user->can(User::PERMISSION_EDIT_EVENTS)) {
                 echo Html::a(
                     Lang::t('page/eventView', 'edit2'),
                     Url::to(['events/edit', 'id' => $event->id]),

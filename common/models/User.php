@@ -35,16 +35,24 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE  = 10;
 
+    const PERMISSION_CREATE_ITEMS = 'create_items';
     const PERMISSION_EDIT_ITEMS = 'edit_items';
     const PERMISSION_DELETE_ITEMS = 'delete_items';
+
+    const PERMISSION_CREATE_EVENTS = 'create_events';
     const PERMISSION_EDIT_EVENTS = 'edit_events';
     const PERMISSION_DELETE_EVENTS = 'delete_events';
+
+    const PERMISSION_CREATE_SCHOOLS = 'create_schools';
     const PERMISSION_EDIT_SCHOOLS = 'edit_schools';
     const PERMISSION_DELETE_SCHOOLS = 'delete_schools';
-    
+
+    const PERMISSION_MOCK_USER = 'mock_user';
+
     const ROLE_ADMIN = 'admin';
     const ROLE_MODERATOR = 'moderator';
     const ROLE_USER = 'user';
+    const ROLE_MOCK_USER = 'mock';
 
     /**
      * @var UploadedFile
