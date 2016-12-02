@@ -344,7 +344,7 @@ class SiteController extends Controller
                         $signupForm->displayName = $ulogin->nickname;
                         $signupForm->password = $ulogin->randomPassword();
                         $signupForm->email = $ulogin->email;
-                        $user = $signupForm->signup();
+                        $user = $signupForm->signup(false);
                         if (!empty($user)) {
                             $user->firstname = $ulogin->firstname;
                             $user->lastname = $ulogin->lastname;

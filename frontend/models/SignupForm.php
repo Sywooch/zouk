@@ -55,20 +55,33 @@ class SignupForm extends Model
     /**
      * Signs user up.
      *
+     * @param bool $testCaptcha
      * @return User|null the saved model or null if saving fails
      */
-    public function signup()
+    public function signup($testCaptcha = true)
     {
-        if ($this->testCaptcha() && $this->validate()) {
+        if (($this->testCaptcha() || !$testCaptcha) && $this->validate()) {
             $user = new User();
             $user->username = $this->username;
-            $user->display_name = !empty($this->displayName) ? $this->displayName : $this->username;
+            $displayName = !empty($this->displayName) ? $this->displayName : $this->username;
+            if (User::findOne(['display_name' => $displayName])) {
+                $i = 1;
+                $newDisplayName = $displayName . $i;
+                while (User::findOne(['display_name' => $newDisplayName])) {
+                    $i++;
+                    $newDisplayName = $displayName . $i;
+                }
+                $displayName = $newDisplayName;
+            }
+            $user->display_name = $displayName;
+
             $user->email = $this->email;
             $user->setPassword($this->password);
             $user->generateAuthKey();
             if ($user->save()) {
                 return $user;
             }
+            var_dump($user->display_name);
         }
 
         return null;
