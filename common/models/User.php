@@ -6,6 +6,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\Html;
 use yii\web\IdentityInterface;
 use yii\web\UploadedFile;
 
@@ -286,10 +287,31 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getDisplayName()
     {
+        $auth = \Yii::$app->authManager;
+        if ($auth->checkAccess($this->id, User::PERMISSION_MOCK_USER)) {
+            return 'Аноним';
+        }
+
         if (empty($this->display_name)) {
             return htmlspecialchars($this->username);
         }
         return htmlspecialchars($this->display_name);
+    }
+
+    public function isMock()
+    {
+        $auth = \Yii::$app->authManager;
+        return $auth->checkAccess($this->id, User::PERMISSION_MOCK_USER);
+    }
+
+    public function getAUserLink()
+    {
+        $auth = \Yii::$app->authManager;
+        if ($auth->checkAccess($this->id, User::PERMISSION_MOCK_USER)) {
+            return 'Аноним (<b>' . $this->reputation . '</b>)';
+        } else {
+            return Html::a($this->getDisplayName() . ' (<b>' . $this->reputation . '</b>)', ['user/' . $this->display_name]);
+        }
     }
 
     public function getLastAudio()

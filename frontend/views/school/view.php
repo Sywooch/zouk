@@ -13,6 +13,7 @@ use common\models\Vote;
 use frontend\models\Lang;
 use frontend\widgets\ItemList;
 use frontend\widgets\ModalDialogsWidget;
+use frontend\widgets\UserInfoWidget;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
@@ -251,18 +252,7 @@ $locations = $school->locations;
                             </div>
                         </td>
                         <td>
-                            <div class="pull-right user-info">
-                                <div class="user-action-time">
-                                    <?= Lang::t("main", "created") . " " . date("d.m.Y", $school->date_create) . " " . Lang::t("main", "at") . " " . date("H:i", $school->date_create) ?>
-                                </div>
-                                <div class="user-gravatar32">
-                                    <div class="background-img"
-                                         style="background-image: url('<?= $author->getAvatarPic() ?>')"></div>
-                                </div>
-                                <div class="user-details">
-                                    <?= $author->getDisplayName() ?> (<b><?= $author->reputation ?></b>)
-                                </div>
-                            </div>
+                            <?= UserInfoWidget::widget(['item' => $school]); ?>
                         </td>
                     </tr>
                 </table>

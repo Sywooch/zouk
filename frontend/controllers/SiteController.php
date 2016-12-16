@@ -37,10 +37,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['logout', 'signup', 'uloginbind', 'uloginunbind'],
+                'only'  => ['logout', 'uloginbind', 'uloginunbind'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => [],
                         'allow'   => true,
                         'roles'   => ['?'],
                     ],
@@ -94,7 +94,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
+        if (!\Yii::$app->user->isGuest && !Yii::$app->user->can(\common\models\User::PERMISSION_MOCK_USER)) {
             return $this->goHome();
         }
 

@@ -60,7 +60,7 @@ class SignupForm extends Model
      */
     public function signup($testCaptcha = true)
     {
-        if (($this->testCaptcha() || !$testCaptcha) && $this->validate()) {
+        if ((!$testCaptcha || $this->testCaptcha()) && $this->validate()) {
             $user = new User();
             $user->username = $this->username;
             $displayName = !empty($this->displayName) ? $this->displayName : $this->username;
@@ -81,7 +81,6 @@ class SignupForm extends Model
             if ($user->save()) {
                 return $user;
             }
-            var_dump($user->display_name);
         }
 
         return null;

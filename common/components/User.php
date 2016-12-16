@@ -8,6 +8,8 @@ use common\models\Item;
 use common\models\School;
 use common\models\User as ModelUser;
 use common\models\VoteModel;
+use frontend\models\SignupForm;
+use Yii;
 
 class User extends \yii\web\User
 {
@@ -74,5 +76,33 @@ class User extends \yii\web\User
         }
 
         return $can;
+    }
+
+    public function getIsGuest()
+    {
+        $isGuest = $this->getIdentity() === null;
+        $auth = \Yii::$app->authManager;
+        if ($isGuest) {
+            $userIpName = 'mock_' . substr(md5('mock'), 0, 8) . '_' . Yii::$app->request->getUserIP();
+            $user = \common\models\User::findOne(['username' => $userIpName]);
+            if (empty($user)) {
+                $model = new SignupForm();
+                $model->username = $userIpName;
+                $model->displayName = Yii::$app->request->getUserIP();
+                $model->password = md5($userIpName);
+                $model->email = 'ivsevolod@mail.ru';
+                $user = $model->signup(false);
+            }
+            if (!empty($user)) {
+                $role = $auth->getRole(\common\models\User::ROLE_MOCK_USER);
+                if (is_null($auth->getAssignment(\common\models\User::ROLE_MOCK_USER, $user->id))) {
+                    $auth->assign($role, $user->id);
+                }
+                $this->login($user);
+            }
+        } else {
+//            $isGuest = !is_null($auth->getAssignment(\common\models\User::ROLE_MOCK_USER, $this->id));
+        }
+        return $isGuest;
     }
 }

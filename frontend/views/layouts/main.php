@@ -85,7 +85,8 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
     <?php
 
     $menuItems = [];
-    if (Yii::$app->user->isGuest) {
+    
+    if (Yii::$app->user->isGuest || Yii::$app->user->can(User::PERMISSION_MOCK_USER)) {
         $menuItems[] = ['label' => Lang::t('main', 'loginSignup'), 'url' => ['site/login']];
     } else {
         $displayName = User::thisUser()->getDisplayName();

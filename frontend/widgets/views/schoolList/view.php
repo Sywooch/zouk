@@ -8,6 +8,7 @@ use common\models\Tags;
 use common\models\User;
 use frontend\models\Lang;
 use frontend\widgets\SchoolList;
+use frontend\widgets\UserInfoWidget;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -137,17 +138,7 @@ $locations = $school->locations;
                         </div>
                     </td>
                     <td>
-                        <div class="pull-right user-info">
-                            <div class="user-action-time">
-                                <?= Lang::t("main", "created") . " " . date("d.m.Y", $school->date_create) . " " . Lang::t("main", "at") . " " . date("H:i", $school->date_create) ?>
-                            </div>
-                            <div class="user-gravatar32">
-                                <?= Html::a('<div class="background-img" style="background-image: url(\'' . $author->getAvatarPic() . '\')"></div>', ['user/' . $author->display_name]) ?>
-                            </div>
-                            <div class="user-details">
-                                <?= Html::a($author->getDisplayName() . ' (<b>' . $author->reputation . '</b>)', ['user/' . $author->display_name]) ?>
-                            </div>
-                        </div>
+                        <?= UserInfoWidget::widget(['item' => $school]); ?>
                     </td>
                 </tr>
             </table>

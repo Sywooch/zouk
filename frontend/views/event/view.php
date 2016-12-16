@@ -12,6 +12,7 @@ use common\models\Vote;
 use frontend\models\Lang;
 use frontend\widgets\ItemList;
 use frontend\widgets\ModalDialogsWidget;
+use frontend\widgets\UserInfoWidget;
 use frontend\widgets\VideoList;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
@@ -243,25 +244,15 @@ $locations = $event->locations;
                                 $likeTitle = $event->like_count . " " . Lang::tn('main', 'vote', $event->like_count);
                                 $showTitle = $event->show_count . " " . Lang::tn('main', 'showCount', $event->show_count);
                                 ?>
-                                <span title="<?= $likeTitle ?>"><i
-                                        class="glyphicon glyphicon-thumbs-up"></i> <?= $event->like_count ?></span><br/>
+                                <span title="<?= $likeTitle ?>">
+                                    <i class="glyphicon glyphicon-thumbs-up"></i> <?= $event->like_count ?>
+                                </span><br/>
                                 <span title="<?= $showTitle ?>"><i
                                         class="glyphicon glyphicon-eye-open"></i> <?= $event->show_count ?></span>
                             </div>
                         </td>
                         <td>
-                            <div class="pull-right user-info">
-                                <div class="user-action-time">
-                                    <?= Lang::t("main", "created") . " " . date("d.m.Y", $event->date_create) . " " . Lang::t("main", "at") . " " . date("H:i", $event->date_create) ?>
-                                </div>
-                                <div class="user-gravatar32">
-                                    <div class="background-img"
-                                         style="background-image: url('<?= $author->getAvatarPic() ?>')"></div>
-                                </div>
-                                <div class="user-details">
-                                    <?= $author->getDisplayName() ?> (<b><?= $author->reputation ?></b>)
-                                </div>
-                            </div>
+                            <?= UserInfoWidget::widget(['item' => $event]); ?>
                         </td>
                     </tr>
                 </table>

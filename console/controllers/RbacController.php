@@ -65,6 +65,7 @@ class RbacController extends Controller
         $mock = $auth->createRole(User::ROLE_MOCK_USER);
         $auth->add($mock);
         $auth->addChild($mock, $user);
+        $auth->addChild($mock, $mockUsers);
 
         $moderator = $auth->createRole(User::ROLE_MODERATOR);
         $auth->add($moderator);
@@ -80,6 +81,11 @@ class RbacController extends Controller
         $auth->add($admin);
         $auth->addChild($admin, $moderator);
 
+
+        $users = User::find()->where(['like', 'username', 'mock_' . substr(md5('mock'), 0, 8)])->all();
+        foreach ($users as $user) {
+            $auth->assign($mock, $user->id);
+        }
         $auth->assign($admin, 1);
     }
 }
