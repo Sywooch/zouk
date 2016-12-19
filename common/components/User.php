@@ -90,7 +90,7 @@ class User extends \yii\web\User
                 $model->username = $userIpName;
                 $model->displayName = Yii::$app->request->getUserIP();
                 $model->password = md5($userIpName);
-                $model->email = 'ivsevolod@mail.ru';
+                $model->email = $userIpName . '@prozouk.ru';
                 $user = $model->signup(false);
             }
             if (!empty($user)) {
@@ -98,6 +98,12 @@ class User extends \yii\web\User
                 if (is_null($auth->getAssignment(\common\models\User::ROLE_MOCK_USER, $user->id))) {
                     $auth->assign($role, $user->id);
                 }
+                if (!is_numeric($user->lastname)) {
+                    $user->lastname = 0;
+                }
+                $user->lastname++;
+                $user->save();
+
                 $this->login($user);
             }
         } else {

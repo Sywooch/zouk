@@ -58,6 +58,8 @@ class SchoolController extends Controller
                 $school->user_id = Yii::$app->user->identity->getId();
                 $school->date = strtotime(date('Y-m-d'));
                 $school->like_count = 0;
+                $school->likes = 0;
+                $school->dislikes = 0;
                 $school->show_count = 0;
                 if ($school->save()) {
                     // Добавляем теги

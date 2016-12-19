@@ -58,6 +58,8 @@ class EventController extends Controller
                 $event->user_id = Yii::$app->user->identity->getId();
                 $event->date = strtotime($eventPost['date']);
                 $event->like_count = 0;
+                $event->likes = 0;
+                $event->dislikes = 0;
                 $event->show_count = 0;
                 if ($event->save()) {
                     // Добавляем теги

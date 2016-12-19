@@ -73,6 +73,8 @@ class ListController extends Controller
 
                 $item->user_id = $thisUser->id;
                 $item->like_count = 0;
+                $item->likes = 0;
+                $item->dislikes = 0;
                 $item->show_count = 0;
                 if ($item->save()) {
                     // Добавление видео к записи

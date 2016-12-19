@@ -55,6 +55,8 @@ class CommentController extends Controller
             $comment->parent_id = (int)$comment->parent_id;
             $comment->user_id = Yii::$app->user->identity->getId();
             $comment->like_count = 0;
+            $comment->likes = 0;
+            $comment->dislikes = 0;
 
             if ($comment->save()) {
                 $anchor = $comment->id;

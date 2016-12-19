@@ -20,6 +20,8 @@ use yii\web\IdentityInterface;
  * @property string      $description
  * @property int         $like_count
  * @property int         $show_count
+ * @property int         $likes
+ * @property int         $dislikes
  * @property string      $alias
  * @property int         $deleted
  * @property integer     $date_update
@@ -153,6 +155,11 @@ class Item extends VoteModel
     public function addVote($changeVote)
     {
         $this->like_count += $changeVote;
+        if ($changeVote > 0) {
+            $this->likes += $changeVote;
+        } else {
+            $this->likes += abs($changeVote);
+        }
     }
 
     public function getVoteCount()

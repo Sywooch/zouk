@@ -25,6 +25,8 @@ use yii\web\IdentityInterface;
  * @property string      $site
  * @property int         $like_count
  * @property int         $show_count
+ * @property int         $likes
+ * @property int         $dislikes
  * @property string      $alias
  * @property integer     $official_editor
  * @property int         $deleted
@@ -139,6 +141,11 @@ class School extends VoteModel
     public function addVote($changeVote)
     {
         $this->like_count += $changeVote;
+        if ($changeVote > 0) {
+            $this->likes += $changeVote;
+        } else {
+            $this->likes += abs($changeVote);
+        }
     }
 
     public function getVoteCount()
