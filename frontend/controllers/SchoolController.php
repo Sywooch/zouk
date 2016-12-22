@@ -129,7 +129,7 @@ class SchoolController extends Controller
     {
         /** @var School $school */
         $school = School::findOne($id);
-        if (!Yii::$app->user->can(User::PERMISSION_EDIT_SCHOOLS)) {
+        if (!Yii::$app->user->can(User::PERMISSION_EDIT_SCHOOLS, ['object' => $school])) {
             return Yii::$app->getResponse()->redirect($school->getUrl());
         }
         if ($school && $school->load(Yii::$app->request->post())) {
@@ -166,7 +166,7 @@ class SchoolController extends Controller
     {
         /** @var School $school */
         $school = School::findOne($id);
-        if (Yii::$app->user->can(User::PERMISSION_DELETE_SCHOOLS)) {
+        if (Yii::$app->user->can(User::PERMISSION_DELETE_SCHOOLS, ['object' => $school])) {
             $school->deleted = 1;
             if ($school->save()) {
                 return Yii::$app->getResponse()->redirect(['schools/all']);

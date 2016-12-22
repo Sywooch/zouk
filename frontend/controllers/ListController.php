@@ -157,7 +157,7 @@ class ListController extends Controller
     {
         /** @var Item $item */
         $item = Item::findOne($id);
-        if (!Yii::$app->user->can(User::PERMISSION_EDIT_ITEMS)) {
+        if (!Yii::$app->user->can(User::PERMISSION_EDIT_ITEMS, ['object' => $item])) {
             return Yii::$app->getResponse()->redirect($item->getUrl());
         }
         if ($item && $item->load(Yii::$app->request->post())) {
@@ -206,8 +206,7 @@ class ListController extends Controller
     {
         /** @var Item $item */
         $item = Item::findOne($id);
-        $thisUser = User::thisUser();
-        if ($item && Yii::$app->user->can(User::PERMISSION_DELETE_ITEMS)) {
+        if ($item && Yii::$app->user->can(User::PERMISSION_DELETE_ITEMS, ['object' => $item])) {
             $item->deleted = 1;
             if ($item->save()) {
                 return Yii::$app->getResponse()->redirect(Url::home());

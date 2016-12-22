@@ -130,7 +130,7 @@ class EventController extends Controller
     {
         /** @var Event $event */
         $event = Event::findOne($id);
-        if (!Yii::$app->user->can(User::PERMISSION_EDIT_EVENTS)) {
+        if (!Yii::$app->user->can(User::PERMISSION_EDIT_EVENTS, ['object' => $event])) {
             return Yii::$app->getResponse()->redirect($event->getUrl());
         }
         if ($event && $event->load(Yii::$app->request->post())) {
@@ -169,7 +169,7 @@ class EventController extends Controller
     {
         /** @var Event $event */
         $event = Event::findOne($id);
-        if (Yii::$app->user->can(User::PERMISSION_DELETE_EVENTS)) {
+        if (Yii::$app->user->can(User::PERMISSION_DELETE_EVENTS, ['object' => $event])) {
             $event->deleted = 1;
             if ($event->save()) {
                 return Yii::$app->getResponse()->redirect(['events/all']);
