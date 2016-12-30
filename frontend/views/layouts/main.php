@@ -64,7 +64,7 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                aria-expanded="false">
-                <?= Html::img($thisLang->getImg(), ['height' => '16px']) ?> <span class="caret"></span>
+                <?= Html::img($thisLang->getImg(), ['height' => '16px']) ?>
             </a>
             <ul class="dropdown-menu">
                 <?php
@@ -89,19 +89,44 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
     if (Yii::$app->user->isGuest || Yii::$app->user->can(User::PERMISSION_MOCK_USER)) {
         $menuItems[] = ['label' => Lang::t('main', 'loginSignup'), 'url' => ['site/login']];
     } else {
+        $childItems = [];
+        $childItems[] = [
+            'label'       => Lang::t('main', 'profile'),
+            'url'         => ['account/profile'],
+        ];
+        $childItems[] = [
+            'label'       => Lang::t('main', 'logout'),
+            'url'         => ['site/logout'],
+            'linkOptions' => ['data-method' => 'post'],
+        ];
+        $childItems[] = [
+            'label'       => Lang::t('main', 'logout'),
+            'url'         => ['site/logout'],
+            'linkOptions' => ['data-method' => 'post'],
+        ];
+
         $displayName = User::thisUser()->getDisplayName();
         $displayProfile = Html::tag('div', '', ['style' => "background-image: url('" . User::thisUser()->getAvatarPic() . "');", 'class' => 'background-img nav-profile-img']) . " " .
                 (empty($displayName) ? Lang::t('main', 'profile') : $displayName) . ' ' .
                 '<span class="badge">' . User::thisUser()->reputation . '</span>';
         $menuItems[] = [
-            'encode' => false,
-            'label'  => $displayProfile,
+            'encode'  => false,
+            'label'   => $displayProfile,
+//            'url'    => ['account/profile'],
+            'items'   => $childItems,
+            'options' => ['class' => 'hidden-xs']
+        ];
+        $menuItems[] = [
+            'encode'  => false,
+            'label'   => $displayProfile,
             'url'    => ['account/profile'],
+            'options' => ['class' => 'visible-xs-block']
         ];
         $menuItems[] = [
             'label'       => Lang::t('main', 'logout'),
             'url'         => ['site/logout'],
             'linkOptions' => ['data-method' => 'post'],
+            'options'     => ['class' => 'visible-xs-block'],
         ];
     }
     echo Nav::widget([
