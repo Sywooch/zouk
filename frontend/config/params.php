@@ -1,4 +1,5 @@
 <?php
 return [
-    'adminEmail' => 'ivsevolod@yandex.ru',
+    'adminEmail'         => 'ivsevolod@yandex.ru',
+    'gRecaptchaResponse' => true,
 ];

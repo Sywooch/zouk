@@ -31,7 +31,9 @@ $this->registerJsFile('https://www.google.com/recaptcha/api.js', ['depends' => [
 
                 <?= $form->field($model, 'password')->label(Lang::t('page/siteLogin', 'password'))->passwordInput() ?>
 
-                <div class="g-recaptcha" data-sitekey="<?= Yii::$app->google->googleRecaptchaPublic ?>"></div>
+                <?php if (Yii::$app->params['gRecaptchaResponse']) { ?>
+                    <div class="g-recaptcha" data-sitekey="<?= Yii::$app->google->googleRecaptchaPublic ?>"></div>
+                <?php } ?>
 
                 <div class="form-group">
                     <?= Html::submitButton(Lang::t('page/siteLogin', 'signup'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>

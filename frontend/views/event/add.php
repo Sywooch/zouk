@@ -97,8 +97,10 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
                 <span class="input-group-addon"><?= Lang::t('page/eventEdit', 'tags') ?></span>
                 <?= Html::textInput('tags', $tagValue, ['id' => 'tokenfield', 'data-tokens' => $tagValue, 'class' => 'form-control']) ?>
             </div>
-            
-            <div class="g-recaptcha" data-sitekey="<?= Yii::$app->google->googleRecaptchaPublic ?>"></div>
+
+            <?php if (Yii::$app->params['gRecaptchaResponse']) { ?>
+                <div class="g-recaptcha" data-sitekey="<?= Yii::$app->google->googleRecaptchaPublic ?>"></div>
+            <?php } ?>
 
             <div class="form-group">
                 <?= Html::submitButton(Lang::t('page/eventEdit', 'buttonAdd'), ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>

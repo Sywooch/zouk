@@ -62,7 +62,10 @@ class ListController extends Controller
         $item = new Item();
         if (Yii::$app->request->isPost && $item->load(Yii::$app->request->post())) {
             $gRecaptchaResponse = Yii::$app->request->post('g-recaptcha-response');
-            if (!empty($gRecaptchaResponse) && Yii::$app->google->testCaptcha($gRecaptchaResponse, Yii::$app->request->getUserIP())) {
+            if (!empty($gRecaptchaResponse)
+                && Yii::$app->google->testCaptcha($gRecaptchaResponse, Yii::$app->request->getUserIP())
+                || !Yii::$app->params['gRecaptchaResponse']
+            ) {
                 $item->description = \yii\helpers\HtmlPurifier::process($item->description, []);
 //                if ($thisUser->reputation < Item::MIN_REPUTATION_ITEM_CREATE_NO_STOP_WORD) {
 //                    if ($item->isStopWord()) {

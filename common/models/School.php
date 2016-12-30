@@ -38,7 +38,7 @@ use yii\web\IdentityInterface;
  * @property Location[]  $locations
  * @property User        $user
  */
-class School extends VoteModel
+class School extends EntryModel
 {
     const THIS_ENTITY = 'school';
 
@@ -56,35 +56,6 @@ class School extends VoteModel
     public static function tableName()
     {
         return 'school';
-    }
-
-    public function getTitle()
-    {
-        return htmlspecialchars($this->title);
-    }
-
-    public function getTitle2()
-    {
-        return strip_tags($this->title);
-    }
-
-    public function getShortDescription($length = 1500, $end = '...')
-    {
-        $charset = 'UTF-8';
-        $token = '~';
-        $description = $this->description;
-        $description = preg_replace("'<blockquote[^>]*?>.*?</blockquote>'si"," ",$description);
-        $str = strip_tags($description);
-        $str = nl2br($str);
-        $str = preg_replace('/\s+/', ' ', $str);
-        if (mb_strlen($str, $charset) >= $length) {
-            $wrap = wordwrap($str, $length, $token);
-            $str_cut = mb_substr($wrap, 0, mb_strpos($wrap, $token, 0, $charset), $charset);
-            $str_cut .= $end;
-            return $str_cut;
-        } else {
-            return $str;
-        }
     }
 
     /**
@@ -108,15 +79,15 @@ class School extends VoteModel
      */
     public function rules()
     {
-        return [
-            [['description'], 'default', 'value' => ''],
-            [['title', 'date'], 'required'],
-            [['date_update', 'date_create', 'official_editor'], 'integer'],
-            [['title', 'alias'], 'string', 'max' => 255],
-            [['description'], 'string', 'max' => 20000],
-            [['city'], 'string', 'max' => 60],
-            [['site'], 'string', 'max' => 120],
-        ];
+        return array_merge(
+            parent::rules(),
+            [
+                [['title', 'date'], 'required'],
+                [['official_editor'], 'integer'],
+                [['city'], 'string', 'max' => 60],
+                [['site'], 'string', 'max' => 120],
+            ]
+        );
     }
 
 
@@ -126,16 +97,6 @@ class School extends VoteModel
     public function attributeLabels()
     {
         return [];
-    }
-
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    public function getTagEntity()
-    {
-        return $this->hasMany(TagEntity::className(), ['entity_id' => 'id'])->andOnCondition([TagEntity::tableName() . '.entity' => self::THIS_ENTITY]);
     }
 
     public function addVote($changeVote)

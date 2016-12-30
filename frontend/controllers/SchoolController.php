@@ -51,7 +51,10 @@ class SchoolController extends Controller
         $school = new School();
         if (Yii::$app->request->isPost && $school->load(Yii::$app->request->post())) {
             $gRecaptchaResponse = Yii::$app->request->post('g-recaptcha-response');
-            if (!empty($gRecaptchaResponse) && Yii::$app->google->testCaptcha($gRecaptchaResponse, Yii::$app->request->getUserIP())) {
+            if (!empty($gRecaptchaResponse)
+                && Yii::$app->google->testCaptcha($gRecaptchaResponse, Yii::$app->request->getUserIP())
+                || !Yii::$app->params['gRecaptchaResponse']
+            ) {
                 $schoolPost = Yii::$app->request->post('School');
                 $school->country = $schoolPost['country'];
                 $school->description = \yii\helpers\HtmlPurifier::process($school->description, []);

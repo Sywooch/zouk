@@ -51,7 +51,10 @@ class EventController extends Controller
         $event = new Event();
         if (Yii::$app->request->isPost && $event->load(Yii::$app->request->post())) {
             $gRecaptchaResponse = Yii::$app->request->post('g-recaptcha-response');
-            if (!empty($gRecaptchaResponse) && Yii::$app->google->testCaptcha($gRecaptchaResponse, Yii::$app->request->getUserIP())) {
+            if (!empty($gRecaptchaResponse)
+                && Yii::$app->google->testCaptcha($gRecaptchaResponse, Yii::$app->request->getUserIP())
+                || !Yii::$app->params['gRecaptchaResponse']
+            ) {
                 $eventPost = Yii::$app->request->post('Event');
                 $event->country = $eventPost['country'];
                 $event->description = \yii\helpers\HtmlPurifier::process($event->description, []);

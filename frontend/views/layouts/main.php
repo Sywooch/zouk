@@ -99,11 +99,6 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
             'url'         => ['site/logout'],
             'linkOptions' => ['data-method' => 'post'],
         ];
-        $childItems[] = [
-            'label'       => Lang::t('main', 'logout'),
-            'url'         => ['site/logout'],
-            'linkOptions' => ['data-method' => 'post'],
-        ];
 
         $displayName = User::thisUser()->getDisplayName();
         $displayProfile = Html::tag('div', '', ['style' => "background-image: url('" . User::thisUser()->getAvatarPic() . "');", 'class' => 'background-img nav-profile-img']) . " " .

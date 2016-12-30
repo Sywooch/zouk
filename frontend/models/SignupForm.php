@@ -45,9 +45,13 @@ class SignupForm extends Model
 
     public function testCaptcha()
     {
-        $result = !empty($this->gRecaptchaResponse);
-        if ($result) {
-            $result = Yii::$app->google->testCaptcha($this->gRecaptchaResponse, Yii::$app->request->getUserIP());
+        if (!Yii::$app->params['gRecaptchaResponse']) {
+            $result = true;
+        } else {
+            $result = !empty($this->gRecaptchaResponse);
+            if ($result) {
+                $result = Yii::$app->google->testCaptcha($this->gRecaptchaResponse, Yii::$app->request->getUserIP());
+            }
         }
         return $result;
     }

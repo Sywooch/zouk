@@ -33,7 +33,7 @@ use yii\web\IdentityInterface;
  * @property TagEntity[] $tagEntity
  * @property User        $user
  */
-class Item extends VoteModel
+class Item extends EntryModel
 {
 
     const THIS_ENTITY = 'item';
@@ -58,69 +58,18 @@ class Item extends VoteModel
         return 'item';
     }
 
-    public function getTitle()
-    {
-        return htmlspecialchars($this->title);
-    }
-
-    public function getTitle2()
-    {
-        return strip_tags($this->title);
-    }
-
-    public function isStopWord($text = '')
-    {
-        return parent::isStopWord($this->title) !== false || parent::isStopWord($this->description) !== false;
-    }
-
-    public function getShortDescription($length = 500, $end = '...')
-    {
-        $charset = 'UTF-8';
-        $token = '~';
-        $description = $this->description;
-        $description = preg_replace("'<blockquote[^>]*?>.*?</blockquote>'si", " ", $description);
-        $str = $description;
-        $str = strip_tags($str);
-        $str = nl2br($str);
-        $str = preg_replace('/\s+/', ' ', $str);
-        if (mb_strlen($str, $charset) >= $length) {
-            $wrap = wordwrap($str, $length, $token);
-            $str_cut = mb_substr($wrap, 0, mb_strpos($wrap, $token, 0, $charset), $charset);
-            $str_cut .= $end;
-            return $str_cut;
-        } else {
-            return $str;
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'timestamp' => [
-                'class'      => 'yii\behaviors\TimestampBehavior',
-                'attributes' => [
-                    \yii\db\ActiveRecord::EVENT_BEFORE_INSERT => ['date_create', 'date_update'],
-                    \yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => ['date_update'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        return [
-            [['description'], 'default', 'value' => ''],
-            [['title'], 'required'],
-            [['date_update', 'date_create'], 'integer'],
-            [['title', 'alias'], 'string', 'max' => 255],
-            [['description'], 'string', 'max' => 20000],
-        ];
+        return array_merge(
+            parent::rules(),
+            [
+
+            ]
+        );
     }
 
 
@@ -140,16 +89,6 @@ class Item extends VoteModel
             'date_update' => 'Date Update',
             'date_create' => 'Date Create',
         ];
-    }
-
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    public function getTagEntity()
-    {
-        return $this->hasMany(TagEntity::className(), ['entity_id' => 'id'])->andOnCondition([TagEntity::tableName() . '.entity' => TagEntity::ENTITY_ITEM]);
     }
 
     public function addVote($changeVote)

@@ -37,7 +37,7 @@ use yii\web\IdentityInterface;
  * @property Location[]  $locations
  * @property User        $user
  */
-class Event extends VoteModel
+class Event extends EntryModel
 {
 
     const THIS_ENTITY = 'event';
@@ -57,36 +57,6 @@ class Event extends VoteModel
     {
         return 'event';
     }
-
-    public function getTitle()
-    {
-        return htmlspecialchars($this->title);
-    }
-
-    public function getTitle2()
-    {
-        return strip_tags($this->title);
-    }
-
-    public function getShortDescription($length = 1500, $end = '...')
-    {
-        $charset = 'UTF-8';
-        $token = '~';
-        $description = $this->description;
-        $description = preg_replace("'<blockquote[^>]*?>.*?</blockquote>'si"," ",$description);
-        $str = strip_tags($description);
-        $str = nl2br($str);
-        $str = preg_replace('/\s+/', ' ', $str);
-        if (mb_strlen($str, $charset) >= $length) {
-            $wrap = wordwrap($str, $length, $token);
-            $str_cut = mb_substr($wrap, 0, mb_strpos($wrap, $token, 0, $charset), $charset);
-            $str_cut .= $end;
-            return $str_cut;
-        } else {
-            return $str;
-        }
-    }
-
     /**
      * @inheritdoc
      */
@@ -108,17 +78,16 @@ class Event extends VoteModel
      */
     public function rules()
     {
-        return [
-            [['description'], 'default', 'value' => ''],
-            [['like_count', 'show_count'], 'default', 'value' => 0],
-            [['title', 'date'], 'required'],
-            [['description'], 'string'],
-            [['date_update', 'date_create', 'country', 'user_id', 'like_count', 'show_count'], 'integer'],
-            [['title', 'alias'], 'string', 'max' => 255],
-            [['description'], 'string', 'max' => 20000],
-            [['city'], 'string', 'max' => 60],
-            [['site'], 'string', 'max' => 120],
-        ];
+        return array_merge(
+            parent::rules(),
+            [
+                [['description'], 'default', 'value' => ''],
+                [['date'], 'required'],
+                [['country'], 'integer'],
+                [['city'], 'string', 'max' => 60],
+                [['site'], 'string', 'max' => 120],
+            ]
+        );
     }
 
 
@@ -128,16 +97,6 @@ class Event extends VoteModel
     public function attributeLabels()
     {
         return [];
-    }
-
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    public function getTagEntity()
-    {
-        return $this->hasMany(TagEntity::className(), ['entity_id' => 'id'])->andOnCondition([TagEntity::tableName() . '.entity' => self::THIS_ENTITY]);
     }
 
     public function addVote($changeVote)
