@@ -1,15 +1,20 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+/**
+ * @var $this \yii\web\View
+ * @var $content string
+ */
 
+use common\models\form\SearchEntryForm;
 use common\models\User;
+use common\models\Video;
 use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Url;
 use yii\web\View;
+use yii\widgets\ActiveForm;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
@@ -21,9 +26,16 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
 // Musics Player
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/soundmanager/soundmanager2-nodebug-jsmin.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/soundmanager/music.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/site.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerCssFile('//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/slick/slick-theme.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
+$year = date('Y');
+$month = date('m');
 $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->thisPage : 'list';
+$searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEntryForm'] : new SearchEntryForm();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -107,7 +119,6 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
         $menuItems[] = [
             'encode'  => false,
             'label'   => $displayProfile,
-//            'url'    => ['account/profile'],
             'items'   => $childItems,
             'options' => ['class' => 'hidden-xs']
         ];
@@ -128,29 +139,86 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
         'options' => ['class' => 'navbar-nav navbar-right', 'encodeLabels' => false,],
         'items'   => $menuItems,
     ]);
+
+    if ($thisPage == 'list') {
+        echo $this->render('_searchForm', [
+            'searchForm' => $searchForm,
+            'formClass' => 'navbar-form navbar-right hidden-xs',
+        ]);
+    }
     NavBar::end();
     ?>
 
     <div class="container">
-        <div class="row main-header">
-            <div class="col-md-12">
-                <?= Html::a(Html::img(Yii::$app->UrlManager->to('img/logo.png'), ['height' => '100px']), $mainUrl, ['class' => 'pull-left visible-md-block visible-lg-block visible-sm-block']) ?>
-                <div class="main-right-head-block">
-                    <?php
-                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/vk.png'), ['height' => '30px']), 'https://vk.com/prozouk', ['class' => 'margin-right-10', 'target' => '_blank']);
-                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/twitter.png'), ['height' => '30px']), 'https://twitter.com/pro_zouk', ['class' => 'margin-right-10', 'target' => '_blank']);
-                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/youtube.png'), ['height' => '30px']), 'https://www.youtube.com/channel/UCTDPXDsQqdMEmQ4aidSDomQ', ['class' => 'margin-right-10', 'target' => '_blank']);
-                    echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/googleplus.png'), ['height' => '30px']), 'https://plus.google.com/+BrazilianzoukRuStyle', ['class' => 'margin-right-10', 'target' => '_blank']);
-                    ?>
+        <div class="row main-header carousel-promotion hide">
+            <div class="block-promo">
+                <?= Html::img(Yii::$app->UrlManager->to('img/promo/interesting_block_0.png'), ['width' => '100%']); ?>
+                <div class="block-promo-social">
+                    <div>
+                        <?php
+                        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/fb.png'), []), 'https://www.facebook.com/ProZouk', ['class' => 'margin-right-10', 'target' => '_blank']);
+                        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/vk.png'), []), 'https://vk.com/prozouk', ['class' => 'margin-right-10', 'target' => '_blank']);
+                        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/twitter.png'), []), 'https://twitter.com/pro_zouk', ['class' => 'margin-right-10', 'target' => '_blank']);
+                        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/youtube.png'), []), 'https://www.youtube.com/channel/UCTDPXDsQqdMEmQ4aidSDomQ', ['class' => 'margin-right-10', 'target' => '_blank']);
+                        echo Html::a(Html::img(Yii::$app->UrlManager->to('img/social/googleplus.png'), []), 'https://plus.google.com/+BrazilianzoukRuStyle', ['class' => '', 'target' => '_blank']);
+                        ?>
+                    </div>
                 </div>
             </div>
-
+            <div class="block-promo">
+                <?= Html::a(
+                    Html::img(Yii::$app->UrlManager->to('img/promo/interesting_block_1.png'), ['width' => '100%']),
+                    ['event/month', 'year' => $year, 'month' => (int)$month]
+                ); ?>
+            </div>
+            <div class="block-promo">
+                <?= Html::a(
+                    Html::img(Yii::$app->UrlManager->to('img/promo/interesting_block_2.png'), ['width' => '100%']),
+                    ['list/index']
+                ); ?>
+            </div>
+            <div class="block-promo">
+                <?php
+                $video = Video::getRandomVideo();
+                echo Html::a(
+                    Html::img(Yii::$app->UrlManager->to('img/promo/interesting_block_3.png'), ['width' => '100%']),
+                    $video->original_url,
+                    [
+                        'target'                => '_blank',
+                        'class'                 => 'video-random-link',
+                        'data-video-id'         => $video->entity_id,
+                        'data-video-url'        => $video->getVideoUrl(true),
+                        'data-title'            => $video->video_title,
+                        'data-random-video-url' => Url::to(['video/random']),
+                    ]
+                );
+                ?>
+            </div>
+            <div class="block-promo">
+                <?= Html::a(
+                    Html::img(Yii::$app->UrlManager->to('img/promo/interesting_block_4.png'), ['width' => '100%']),
+                    ['list/index', 'tag' => 'article']
+                ); ?>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12 main-menu-block">
                 <?= $this->render('/layouts/menu') ?>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <?php
+                if ($thisPage == 'list') {
+                    echo $this->render('_searchForm', [
+                        'searchForm' => $searchForm,
+                        'formClass' => 'visible-xs-block',
+                    ]);
+                }
+                ?>
+            </div>
+        </div>
+
         <?= Alert::widget() ?>
         <div class="row">
         <?php

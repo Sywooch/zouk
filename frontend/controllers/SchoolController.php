@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Alarm;
+use common\models\form\SearchEntryForm;
 use common\models\School;
 use common\models\TagEntity;
 use common\models\Tags;
@@ -181,6 +182,7 @@ class SchoolController extends Controller
 
     public function actionSchools()
     {
+        $searchEntryForm = SearchEntryForm::loadFromPost();
         $lastDate = Yii::$app->request->post('lastDate', 0);
         $lastIds = Yii::$app->request->post('loadSchoolId', []);
         $schoolIds = Yii::$app->request->post('lastIds', []);

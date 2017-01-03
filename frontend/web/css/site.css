@@ -82,7 +82,7 @@ body.mce-fullscreen div.mce-fullscreen {
 .main-header {
     margin-top: -20px;
     background-color: #eee;
-    background-image: url("../img/head.jpg");
+    /*background-image: url("../img/head.jpg");*/
     background-size: contain;
 }
 
@@ -399,7 +399,7 @@ table.display-user-info .user-img:hover .block-user-img-edit {
     }
 
     .main-header {
-        height: 120px;
+        /*height: 156px;*/
         vertical-align: middle;
     }
 }
@@ -414,7 +414,7 @@ table.display-user-info .user-img:hover .block-user-img-edit {
     }
 
     .main-header {
-        height: 80px;
+        /*height: 156px;*/
         vertical-align: middle;
     }
 }

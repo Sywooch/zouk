@@ -83,8 +83,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $searchTag = Yii::$app->request->get('tag', '');
-        return $this->render('index', ['searchTag' => $searchTag]);
+        return $this->redirect(['list/index']);
     }
 
     /**

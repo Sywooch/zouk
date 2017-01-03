@@ -12,7 +12,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/findTagElement.js', ['d
 
 Yii::$app->params['jsZoukVar']['selectedTab'] = $selectTab;
 
-$urls = [1 => '/', 3 => 'list/' . ItemList::DATE_CREATE_MONTH, 4 => 'list/' . ItemList::DATE_CREATE_ALL];
+$urls = [1 => 'list/index', 3 => 'list/' . ItemList::DATE_CREATE_MONTH, 4 => 'list/' . ItemList::DATE_CREATE_ALL];
 $urlNoTag = Url::to([$urls[$selectTab]]);
 ?>
 <div>
@@ -20,7 +20,7 @@ $urlNoTag = Url::to([$urls[$selectTab]]);
         <li class="tab-title"><?= Lang::t('main', 'mainButtonList') ?></li>
         <li class="pull-right <?= $selectTab == 4 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabPopular'), ['list/popular']) ?></li>
         <li class="pull-right <?= $selectTab == 3 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabMonth'), ['list/month']) ?></a></li>
-        <li class="pull-right <?= $selectTab == 1 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabCurrent'), Url::home()) ?></li>
+        <li class="pull-right <?= $selectTab == 1 ? 'active ' : '' ?>"><?= Html::a(Lang::t('main', 'listTabCurrent'), ['list/index']) ?></li>
     </ul>
     <?php if (!empty($searchTag)) { ?>
         <br/>

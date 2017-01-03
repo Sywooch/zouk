@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\models\Alarm;
 use common\models\Event;
+use common\models\form\SearchEntryForm;
 use common\models\TagEntity;
 use common\models\Tags;
 use common\models\User;
@@ -184,6 +185,7 @@ class EventController extends Controller
 
     public function actionEvents()
     {
+        $searchEntryForm = SearchEntryForm::loadFromPost();
         $lastDate = Yii::$app->request->post('lastDate', 0);
         $lastIds = Yii::$app->request->post('loadEventId', []);
         $order = Yii::$app->request->post('order', EventList::ORDER_BY_DATE);

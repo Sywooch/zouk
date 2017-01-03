@@ -14,7 +14,7 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
     <?php
     echo Html::a(
         mb_strtoupper(Lang::t('main', 'mainButtonList')),
-        Url::home(),
+        ['/list/index'],
         ['class' => 'btn-label-main' . ($thisPage == 'list' ? ' youarehere' : '')]
     ), " ";
 

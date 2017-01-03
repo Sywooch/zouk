@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Alarm;
+use common\models\form\SearchEntryForm;
 use common\models\Item;
 use common\models\EntityLink;
 use common\models\TagEntity;
@@ -225,6 +226,12 @@ class ListController extends Controller
         $order = Yii::$app->request->post('order', ItemList::ORDER_BY_ID);
         $searchTag = Yii::$app->request->post('tag', '');
         return ItemList::widget(['lastId' => $lastId, 'onlyItem' => true, 'orderBy' => $order, 'searchTag' => $searchTag]);
+    }
+
+    public function actionIndex()
+    {
+        $searchEntryForm = SearchEntryForm::loadFromPost();
+        return $this->render('index', ['searchTag' => $searchEntryForm->search_text]);
     }
 
     public function actionWeek()
