@@ -9,6 +9,7 @@ use common\models\form\SearchEntryForm;
 use common\models\User;
 use common\models\Video;
 use frontend\models\Lang;
+use frontend\widgets\ModalDialogsWidget;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -230,6 +231,7 @@ $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEn
         ?>
         </div>
         <?= $content ?>
+        <?= ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_VIDEO]); ?>
     </div>
 </div>
 

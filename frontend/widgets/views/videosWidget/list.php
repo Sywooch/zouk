@@ -16,5 +16,5 @@ foreach ($videos as $video) {
 echo '</div></div>';
 
 if (!$onlyVideos) {
-    echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_VIDEO]);
+//    echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_VIDEO]);
 }

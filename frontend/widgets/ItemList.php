@@ -38,7 +38,7 @@ class ItemList extends \yii\bootstrap\Widget
 
     public $limit = false;
 
-    public $addModalShowVideo = true;
+    public $addModalShowVideo = false;
 
     public $addModalShowImg = true;
 
