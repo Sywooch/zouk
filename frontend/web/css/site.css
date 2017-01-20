@@ -537,6 +537,7 @@ ul.nav-main-tabs li.active a {
     border: 1px solid #dae7f1;
     padding-top: 4px;
     padding-bottom: 4px;
+    line-height: 26px;
 }
 
 .btn-edit-location-link:hover,

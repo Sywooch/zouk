@@ -138,7 +138,7 @@ $tags = $item->tagEntity;
             <?php
             if (count($locations)) {
                 echo '<div id="locations-event-block-' . $item->id . '">';
-                echo "<b>" . Lang::t("page/eventView", "location") . ":</b><br/>";
+                echo "<b>" . Lang::t("page/eventView", "location") . "</b><br/>";
                 foreach ($locations as $location) {
                     echo Html::a(
                         '<span class="glyphicon glyphicon-map-marker"></span> ' . $location->getTitle(),
