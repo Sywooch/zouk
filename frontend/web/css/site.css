@@ -32,9 +32,14 @@ body.mce-fullscreen div.mce-fullscreen {
     padding: 0 0 60px;
 }
 
-.wrap > .container {
+.wrap > .container:not(.block-entry-list) {
+    background-color: #fff;
     padding: 70px 15px 20px;
-    background-color: white;
+}
+
+.block-entry-list {
+    background-color: #eee;
+    padding: 70px 15px 20px;
 }
 
 .footer {
@@ -692,6 +697,20 @@ table.audio-list td .btn-music-add {
     font-size: 12px;
 }
 
+.block-video-play {
+    color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    left: calc(50% - 25px);
+    top: calc(50% - 25px);
+    z-index: 10;
+    white-space: nowrap;
+    font-size: 50px;
+}
+
+.video-link:hover .block-video-play {
+    color: #fff;
+}
+
 .block-random-video-link span.glyphicon,
 .block-preview-video-link span.glyphicon,
 .block-main-video-link span.glyphicon,
@@ -803,6 +822,7 @@ tr.audio-list-item>td:last-child {
     color: indianred;
 }
 
+.block-entry-pic .background-img,
 .user-gravatar32 .background-img,
 .block-imgs .img-input-group .background-img,
 #blockImgs .img-input-group .background-img {
@@ -972,4 +992,72 @@ span.selection span.select2-selection .select2-selection__arrow {
 
 .right-block.aliceblue {
     background-color: aliceblue;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    background-color: inherit; !important;
+}
+
+.label-title-event {
+    background-color: #337ab7;
+    color: white;
+    font-weight: bold;
+    width: 40%;
+    display: inline-block;
+    padding-left: 16px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    position: relative;
+}
+
+.label-title-event:after {
+    content: '';
+    border: 12px solid #337ab7;
+    border-right: 12px solid transparent;
+    position: absolute;
+    right: -24px;
+    top: 50%;
+    margin-top: -12px;
+}
+
+.label-title-school {
+    background-color: #f0ad4e;
+    color: white;
+    font-weight: bold;
+    width: 40%;
+    display: inline-block;
+    padding-left: 16px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    position: relative;
+}
+
+.label-title-school:after {
+    content: '';
+    border: 12px solid #f0ad4e;
+    border-right: 12px solid transparent;
+    position: absolute;
+    right: -24px;
+    top: 50%;
+    margin-top: -12px;
+}
+
+.block-entry-title .label-title-any {
+    margin-left: 16px;
+}
+
+.block-entry-title {
+    margin-left: -16px;
+}
+
+.block-entry .share42init {
+    text-align: right;
+}
+
+.truncate {
+    max-width: auto;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

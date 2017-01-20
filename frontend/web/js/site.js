@@ -20,57 +20,61 @@ var isInit = false;
 var $carouselPromotion = $('.carousel-promotion');
 
 
-function unslick() {
-    if (isInit) {
-        $carouselPromotion.slick('reinit');
-        isInit = false;
-    }
-}
-
 function setCarouselByEnv(env) {
     if (env != oldEnv) {
         if (env == 'lg') {
-            if (!isInit) {
-                $carouselPromotion.removeClass('hide').slick({
-                    infinite: true,
-                    slidesToShow: 5
-                    // slidesToScroll: 1,
-                });
+            if (!$carouselPromotion.data('is-slick')) {
+                if (!$carouselPromotion.data('is-slick')) {
+                    $carouselPromotion.data('is-slick', true).removeClass('hide').slick({
+                        infinite: true,
+                        slidesToShow: 5
+                        // slidesToScroll: 1,
+                    });
+                }
             } else {
                 $carouselPromotion.slick('slickSetOption', 'slidesToShow', 5, true);
+                oldEnv = env;
             }
         } else if (env == 'md') {
-            if (!isInit) {
-                $carouselPromotion.removeClass('hide').slick({
-                    infinite: true,
-                    slidesToShow: 4
-                    // slidesToScroll: 1,
-                });
+            if (!$carouselPromotion.data('is-slick')) {
+                if (!$carouselPromotion.data('is-slick')) {
+                    $carouselPromotion.data('is-slick', true).removeClass('hide').slick({
+                        infinite: true,
+                        slidesToShow: 4
+                        // slidesToScroll: 1,
+                    });
+                }
             } else {
                 $carouselPromotion.slick('slickSetOption', 'slidesToShow', 4, true);
+                oldEnv = env;
             }
         } else if (env == 'sm') {
-            if (!isInit) {
-                $carouselPromotion.removeClass('hide').slick({
-                    infinite: true,
-                    slidesToShow: 3
-                    // slidesToScroll: 1,
-                });
+            if (!$carouselPromotion.data('is-slick')) {
+                if (!$carouselPromotion.data('is-slick')) {
+                    $carouselPromotion.data('is-slick', true).removeClass('hide').slick({
+                        infinite: true,
+                        slidesToShow: 3
+                        // slidesToScroll: 1,
+                    });
+                }
             } else {
                 $carouselPromotion.slick('slickSetOption', 'slidesToShow', 3, true);
+                oldEnv = env;
             }
         } else if (env == 'xs') {
-            if (!isInit) {
-                $carouselPromotion.removeClass('hide').slick({
-                    infinite: true,
-                    slidesToShow: 2
-                    // slidesToScroll: 1,
-                });
+            if (!$carouselPromotion.data('is-slick')) {
+                if (!$carouselPromotion.data('is-slick')) {
+                    $carouselPromotion.data('is-slick', true).removeClass('hide').slick({
+                        infinite: true,
+                        slidesToShow: 2
+                        // slidesToScroll: 1,
+                    });
+                }
             } else {
                 $carouselPromotion.slick('slickSetOption', 'slidesToShow', 2, true);
+                oldEnv = env;
             }
         }
-        oldEnv = env;
     }
 }
 

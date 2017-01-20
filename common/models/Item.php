@@ -38,6 +38,12 @@ class Item extends EntryModel
 
     const THIS_ENTITY = 'item';
 
+    public function getThisEntity()
+    {
+        return self::THIS_ENTITY;
+    }
+
+
     const MAX_IMG_ITEM   = 5;
     const MAX_VIDEO_ITEM = 5;
     const MAX_SOUND_ITEM = 10;
@@ -139,7 +145,7 @@ class Item extends EntryModel
     {
         $query = Img::find()
             ->innerJoin(EntityLink::tableName(), Img::tableName() . '.id = `' . EntityLink::tableName() . '`.entity_2_id')
-            ->andWhere(['entity_1' => Item::THIS_ENTITY, 'entity_2' => Img::THIS_ENTITY, 'entity_1_id' => $this->id])
+            ->andWhere(['entity_1' => $this->getThisEntity(), 'entity_2' => Img::THIS_ENTITY, 'entity_1_id' => $this->id])
             ->orderBy(['sort' => SORT_ASC]);
         return $query->all();
     }

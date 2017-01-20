@@ -15,8 +15,14 @@ class SearchEntryForm extends Model
     {
         $searchEntryForm = new SearchEntryForm();
         $request = \Yii::$app->request;
-        $formData = $request->post($searchEntryForm->formName());
-        $searchEntryForm->search_text = $request->get('tag', $formData['search_text'] ? $formData['search_text'] : '');
+
+        $search = $request->post('search', false);
+        if ($search === false) {
+            $formData = $request->post($searchEntryForm->formName());
+            $searchEntryForm->search_text = $request->get('tag', isset($formData['search_text']) ? $formData['search_text'] : '');
+        } else {
+            $searchEntryForm->search_text = $search['search_text'];
+        }
 
         \Yii::$app->params['searchEntryForm'] = $searchEntryForm;
 
@@ -26,7 +32,14 @@ class SearchEntryForm extends Model
     public function attributeLabels()
     {
         return [
-            'search_text'   => 'Search Text',
+            'search_text' => 'Search Text',
+        ];
+    }
+
+    public function getSearchParams()
+    {
+        return [
+            'search_text' => $this->search_text,
         ];
     }
 

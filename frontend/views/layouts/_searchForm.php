@@ -7,6 +7,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+$action = isset(Yii::$app->controller->searchPath) ? Yii::$app->controller->searchPath : 'site/index';
+
 $form = ActiveForm::begin([
         'action'      => Yii::$app->getUrlManager()->createUrl(Yii::$app->request->pathInfo),
         'options'     => [

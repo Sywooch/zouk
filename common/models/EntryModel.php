@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
 /**
@@ -28,6 +29,11 @@ use yii\web\IdentityInterface;
 class EntryModel extends VoteModel
 {
     const THIS_ENTITY = 'item';
+
+    public function getThisEntity()
+    {
+        return self::THIS_ENTITY;
+    }
 
     public function getTitle()
     {
@@ -105,7 +111,33 @@ class EntryModel extends VoteModel
      */
     public function getTagEntity()
     {
-        return $this->hasMany(TagEntity::className(), ['entity_id' => 'id'])->andOnCondition([TagEntity::tableName() . '.entity' => self::THIS_ENTITY]);
+        return $this->hasMany(TagEntity::className(), ['entity_id' => 'id'])->andOnCondition([TagEntity::tableName() . '.entity' => $this->getThisEntity()]);
     }
 
+    public function getUrl($scheme = false, $addParams = [])
+    {
+        $str = get_class($this);
+        $className = end(explode('\\', $str));
+        if ($this->alias) {
+            $params = [$className . '/view', 'alias' => $this->alias];
+            $params = array_merge($params, $addParams);
+            return Url::to($params, $scheme);
+        } else {
+            $params = [$className . '/view', 'index' => $this->id];
+            $params = array_merge($params, $addParams);
+            return Url::to($params, $scheme);
+        }
+    }
+
+    /**
+     * @return Img[]
+     */
+    public function getImgsSort()
+    {
+        $query = Img::find()
+            ->innerJoin(EntityLink::tableName(), Img::tableName() . '.id = `' . EntityLink::tableName() . '`.entity_2_id')
+            ->andWhere(['entity_1' => $this->getThisEntity(), 'entity_2' => Img::THIS_ENTITY, 'entity_1_id' => $this->id])
+            ->orderBy(['sort' => SORT_ASC]);
+        return $query->all();
+    }
 }

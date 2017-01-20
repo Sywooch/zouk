@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\form\SearchEntryForm;
 use common\models\Item;
 use common\models\School;
 use common\models\Ulogin;
@@ -27,7 +28,9 @@ use yii\web\User;
 class SiteController extends Controller
 {
 
-    public $thisPage = 'list';
+    public $thisPage = 'main';
+
+    public $searchPath = 'site/index';
 
     /**
      * @inheritdoc
@@ -83,7 +86,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->redirect(['list/index']);
+        $searchEntryForm = SearchEntryForm::loadFromPost();
+        $request = Yii::$app->request;
+        $page = $request->get('page', $request->post('page'));
+        if ($request->isAjax) {
+            return $this->renderPartial('index', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
+        }
+        return $this->render('index', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
     }
 
     /**

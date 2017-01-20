@@ -14,7 +14,6 @@ return [
     'month11' => 'Ноябрь',
     'month12' => 'Декабрь',
 
-
     'monthB01' => 'Января',
     'monthB02' => 'Февраля',
     'monthB03' => 'Марта',
@@ -27,5 +26,18 @@ return [
     'monthB10' => 'Октября',
     'monthB11' => 'Ноября',
     'monthB12' => 'Декабря',
+
+    'monthMini01' => 'янв',
+    'monthMini02' => 'фев',
+    'monthMini03' => 'мар',
+    'monthMini04' => 'апр',
+    'monthMini05' => 'май',
+    'monthMini06' => 'июн',
+    'monthMini07' => 'июл',
+    'monthMini08' => 'авг',
+    'monthMini09' => 'сен',
+    'monthMini10' => 'окт',
+    'monthMini11' => 'ноя',
+    'monthMini12' => 'дек',
 
 ];

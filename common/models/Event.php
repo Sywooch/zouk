@@ -42,6 +42,11 @@ class Event extends EntryModel
 
     const THIS_ENTITY = 'event';
 
+    public function getThisEntity()
+    {
+        return self::THIS_ENTITY;
+    }
+
     const MAX_IMG_EVENT      = 5;
     const MAX_LOCATION_EVENT = 5;
 
@@ -119,7 +124,7 @@ class Event extends EntryModel
         return $this->hasMany(Img::className(), ['id' => 'entity_2_id'])
             ->viaTable(EntityLink::tableName(), ['entity_1_id' => 'id'], function ($query) {
                 /** @var ActiveQuery $query */
-                $query->onCondition(['entity_1' => self::THIS_ENTITY, 'entity_2' => Img::THIS_ENTITY])
+                $query->onCondition(['entity_1' => $this->getThisEntity(), 'entity_2' => Img::THIS_ENTITY])
                     ->orderBy(['sort' => SORT_DESC]);
             });
     }

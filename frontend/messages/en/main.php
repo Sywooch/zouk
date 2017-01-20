@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'mainButton'          => 'Main',
     'mainButtonList'      => 'List',
     'mainButtonTags'      => 'Tags',
     'mainButtonEvents'    => 'Events',
@@ -49,4 +50,6 @@ return [
     'infoBlockStep3' => 'Лучшие записи находятся выше остальных.',
 
     'stopWord' => '',
+
+    'video' => 'video',
 ];

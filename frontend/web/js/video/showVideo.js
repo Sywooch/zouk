@@ -7,15 +7,18 @@ $(document).ready(function () {
         modalVideoPlayer.loadPlayer($alink.data('video-id'));
 
         $('.block-video-list').show();
-        $('.block-video-list ul').empty();
+        var $ulBlockViewsList = $('.block-video-list ul');
+        $ulBlockViewsList.empty();
         var videoList = [];
         $alink.closest('.row').find('.video-link').each(function () {
             var $this = $(this);
-            var alink = $('<li></li>').append($('<a href="javascript: void(0);">' + $this.data('title') + '</a>').data('video-id', $this.data('video-id')).click(function () {
-                modalVideoPlayer.loadPlayer($this.data('video-id'));
-            }));
-            $('.block-video-list ul').append(alink);
-            videoList.push($this.data('video-id'));
+            if (videoList.indexOf($this.data('video-id')) < 0) {
+                var alink = $('<li></li>').append($('<a href="javascript: void(0);">' + $this.data('title') + '</a>').data('video-id', $this.data('video-id')).click(function () {
+                    modalVideoPlayer.loadPlayer($this.data('video-id'));
+                }));
+                $ulBlockViewsList.append(alink);
+                videoList.push($this.data('video-id'));
+            }
         });
         modalVideoPlayer.addList(videoList);
 

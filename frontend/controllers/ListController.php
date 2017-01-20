@@ -33,6 +33,8 @@ class ListController extends Controller
 
     public $thisPage = 'list';
 
+    public $searchPath = 'list/index';
+
     /**
      * @inheritdoc
      */

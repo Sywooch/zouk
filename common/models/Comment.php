@@ -29,14 +29,19 @@ class Comment extends VoteModel
 {
     const THIS_ENTITY = 'comment';
 
+    public function getThisEntity()
+    {
+        return self::THIS_ENTITY;
+    }
+
     const ENTITY_ITEM = Item::THIS_ENTITY;
     const ENTITY_EVENT = Event::THIS_ENTITY;
     const ENTITY_SCHOOL = School::THIS_ENTITY;
 
     const MAX_VIDEO_ITEM = 5;
 
-    const MIN_REPUTATION_COMMENT_CREATE = -4;
-    const MIN_REPUTATION_COMMENT_VOTE   = -4;
+    const MIN_REPUTATION_COMMENT_CREATE = 15;
+    const MIN_REPUTATION_COMMENT_VOTE   = 15;
 
     /**
      * @inheritdoc
@@ -136,12 +141,12 @@ class Comment extends VoteModel
         $user = User::thisUser();
         $modelUserId = $this->user_id;
         $paramsSelf = [
-            'entity' => self::THIS_ENTITY,
+            'entity' => $this->getThisEntity(),
             'itemId' => $this->id,
             'userId' => $user->id,
         ];
         $paramsOther = [
-            'entity' => self::THIS_ENTITY,
+            'entity' => $this->getThisEntity(),
             'itemId' => $this->id,
             'userId' => $modelUserId,
         ];

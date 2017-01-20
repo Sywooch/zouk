@@ -35,7 +35,7 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/slick/slick-theme.css
 
 $year = date('Y');
 $month = date('m');
-$thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->thisPage : 'list';
+$thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->thisPage : 'main';
 $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEntryForm'] : new SearchEntryForm();
 ?>
 <?php $this->beginPage() ?>
@@ -141,7 +141,7 @@ $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEn
         'items'   => $menuItems,
     ]);
 
-    if ($thisPage == 'list') {
+    if (in_array($thisPage, ['list', 'main'])) {
         echo $this->render('_searchForm', [
             'searchForm' => $searchForm,
             'formClass' => 'navbar-form navbar-right hidden-xs',
@@ -150,7 +150,7 @@ $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEn
     NavBar::end();
     ?>
 
-    <div class="container">
+    <div class="container <?= isset($this->params['containerClass']) ? $this->params['containerClass'] : '' ?>">
         <div class="row main-header carousel-promotion hide">
             <div class="block-promo">
                 <?= Html::img(Yii::$app->UrlManager->to('img/promo/interesting_block_0.png'), ['width' => '100%']); ?>
@@ -210,7 +210,7 @@ $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEn
         <div class="row">
             <div class="col-md-12">
                 <?php
-                if ($thisPage == 'list') {
+                if ($thisPage == 'list' || $thisPage == 'main') {
                     echo $this->render('_searchForm', [
                         'searchForm' => $searchForm,
                         'formClass' => 'visible-xs-block',

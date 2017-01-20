@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title'              => 'Title',
+    'title'              => 'School',
     'edit'               => 'Edit',
     'delete'             => 'delete',
     'edit2'              => 'edit',
