@@ -20,9 +20,9 @@ use frontend\widgets\ItemList;
 use frontend\widgets\ModalDialogsWidget;
 use yii\bootstrap\Html;
 
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/entryList/list.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerCssFile(Yii::$app->request->baseUrl . '/css/entryList/entryView.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/share42/share42.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/entryList/list.js?20170122', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerCssFile(Yii::$app->request->baseUrl . '/css/entryList/entryView.css?20170122', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/share42/share42.js?20170122', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $action = isset(Yii::$app->controller->searchPath) ? Yii::$app->controller->searchPath : 'site/index';
 ?>

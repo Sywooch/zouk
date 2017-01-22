@@ -1062,3 +1062,11 @@ span.selection span.select2-selection .select2-selection__arrow {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.dialog-modal-header {
+    padding: 3px 15px 15px 15px;
+}
+
+.dialog-modal-header .close span {
+    font-size: 30px;
+}
