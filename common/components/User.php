@@ -3,6 +3,7 @@
 namespace common\components;
 
 
+use common\models\Log;
 use common\models\Event;
 use common\models\Item;
 use common\models\School;
@@ -78,6 +79,23 @@ class User extends \yii\web\User
         return $can;
     }
 
+
+    private $_addedToLog = false;
+    public function addToLog($user_id)
+    {
+        if (!$this->_addedToLog) {
+            $request = Yii::$app->request;
+            $log = new Log();
+            $log->ip = $request->getUserIP();
+            $log->user_id = $user_id;
+            $log->url = mb_substr($request->getAbsoluteUrl(), 0, 255);
+            $log->date_create = (new \DateTime())->getTimestamp();
+            $log->post = json_encode($request->post());
+            $log->save();
+            $this->_addedToLog = true;
+        }
+    }
+
     public function getIsGuest()
     {
         $isGuest = $this->getIdentity() === null;
@@ -106,8 +124,10 @@ class User extends \yii\web\User
 
                 $this->login($user);
             }
+            $this->addToLog(empty($user) ? null : $user->id);
         } else {
 //            $isGuest = !is_null($auth->getAssignment(\common\models\User::ROLE_MOCK_USER, $this->id));
+            $this->addToLog($this->id);
         }
         return $isGuest;
     }
