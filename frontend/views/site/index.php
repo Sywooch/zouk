@@ -28,7 +28,6 @@ $this->registerMetaTag([
 
 $this->params['containerClass'] = 'block-entry-list';
 
-$isGuest = Yii::$app->user->getIsGuest();
 ?>
 <div class="site-index">
     <div class="body-content">

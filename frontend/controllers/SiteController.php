@@ -373,4 +373,10 @@ class SiteController extends Controller
         }
     }
 
+    public function actionBlocked()
+    {
+        echo "Blocked. Пожалуйста, свяжитесь с администрацией";
+        exit;
+    }
+
 }

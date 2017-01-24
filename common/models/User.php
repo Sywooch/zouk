@@ -28,6 +28,7 @@ use yii\web\UploadedFile;
  * @property integer      $reputation
  * @property integer      $created_at
  * @property integer      $updated_at
+ * @property integer      $date_blocked
  * @property string       $password  write-only password
  * @property string       $new_password
  */
@@ -88,6 +89,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['display_name', 'unique', 'message' => Lang::t('page/accountProfile', 'display_name_error')],
             ['display_name', 'required', 'message' => Lang::t('page/accountProfile', 'display_name_error2')],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            [['date_blocked'], 'integer'],
             [
                 ['imageFile'],
                 'file',

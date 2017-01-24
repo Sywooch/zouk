@@ -14,8 +14,8 @@ use yii\db\ActiveRecord;
  * @property string $ip
  * @property string $url
  * @property string $post
- * @property string referrer
- * @property string user_agent
+ * @property string $referrer
+ * @property string $user_agent
  * @property integer $date_create
  */
 class Log extends ActiveRecord

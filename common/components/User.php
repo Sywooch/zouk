@@ -9,11 +9,39 @@ use common\models\Item;
 use common\models\School;
 use common\models\User as ModelUser;
 use common\models\VoteModel;
+use Faker\Provider\DateTime;
 use frontend\models\SignupForm;
 use Yii;
 
 class User extends \yii\web\User
 {
+
+    private $_user = null;
+
+    public function init()
+    {
+        parent::init();
+
+        $user = $this->getUserModel();
+        if (!empty($user)) {
+            if (!empty($user->date_blocked) && $user->date_blocked >= (new \DateTime())->getTimestamp()) {
+                return Yii::$app->controller->redirect(['site/blocked']);
+            }
+            $date = (new \DateTime())->sub(new \DateInterval('PT3M'));
+            $countClick = Log::find()
+                ->andWhere(['user_id' => $user->id])
+                ->andWhere(['>=', 'date_create', $date->getTimestamp()])
+                ->count();
+            if ($countClick > 100) {
+                $newDateBlocked = (new \DateTime())->add(new \DateInterval('P1D'))->getTimestamp();
+                if (empty($user->date_blocked) || $newDateBlocked > $user->date_blocked) {
+                    $user->date_blocked = $newDateBlocked;
+                    $user->save();
+                }
+            }
+        }
+
+    }
     
     public function can($permissionName, $params = [], $allowCaching = true)
     {
@@ -125,6 +153,7 @@ class User extends \yii\web\User
                 $user->save();
 
                 $this->login($user);
+                $this->_user = $user;
             }
             $this->addToLog(empty($user) ? null : $user->id);
         } else {
@@ -132,5 +161,16 @@ class User extends \yii\web\User
             $this->addToLog($this->id);
         }
         return $isGuest;
+    }
+
+    public function getUserModel()
+    {
+        if (!$this->getIsGuest()) {
+            if (empty($this->_user)) {
+                $this->_user = \common\models\User::findOne($this->id);
+            }
+            return $this->_user;
+        }
+        return null;
     }
 }
