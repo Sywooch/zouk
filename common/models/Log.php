@@ -14,6 +14,8 @@ use yii\db\ActiveRecord;
  * @property string $ip
  * @property string $url
  * @property string $post
+ * @property string referrer
+ * @property string user_agent
  * @property integer $date_create
  */
 class Log extends ActiveRecord
@@ -35,7 +37,7 @@ class Log extends ActiveRecord
             [['user_id', 'date_create'], 'integer'],
             [['date_create'], 'required'],
             [['ip'], 'string', 'max' => 30],
-            [['url'], 'string', 'max' => 255],
+            [['url', 'referrer', 'user_agent'], 'string', 'max' => 255],
             [['post'], 'string'],
         ];
     }
@@ -51,6 +53,8 @@ class Log extends ActiveRecord
             'ip' => 'Ip',
             'url' => 'Url',
             'psot' => 'Post',
+            'referrer' => 'Referrer',
+            'user_agent' => 'Useragent',
             'date_create' => 'Date Create',
         ];
     }

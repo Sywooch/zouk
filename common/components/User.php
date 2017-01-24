@@ -91,6 +91,8 @@ class User extends \yii\web\User
             $log->url = mb_substr($request->getAbsoluteUrl(), 0, 255);
             $log->date_create = (new \DateTime())->getTimestamp();
             $log->post = json_encode($request->post());
+            $log->user_agent = $request->getUserAgent();
+            $log->referrer = $request->getReferrer();
             $log->save();
             $this->_addedToLog = true;
         }
