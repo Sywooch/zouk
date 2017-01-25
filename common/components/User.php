@@ -27,19 +27,38 @@ class User extends \yii\web\User
             if (!empty($user->date_blocked) && $user->date_blocked >= (new \DateTime())->getTimestamp()) {
                 return Yii::$app->controller->redirect(['site/blocked']);
             }
-            $date = (new \DateTime())->sub(new \DateInterval('PT3M'));
+            $date = (new \DateTime())->sub(new \DateInterval('PT2M'));
             $countClick = Log::find()
                 ->andWhere(['user_id' => $user->id])
                 ->andWhere(['>=', 'date_create', $date->getTimestamp()])
                 ->count();
-            if ($countClick > 100) {
+            if ($countClick > 66) {
                 $newDateBlocked = (new \DateTime())->add(new \DateInterval('P1D'))->getTimestamp();
                 if (empty($user->date_blocked) || $newDateBlocked > $user->date_blocked) {
                     $user->date_blocked = $newDateBlocked;
                     $user->save();
                 }
+            } else {
+                if (mb_strpos(Yii::$app->request->url, 'site/contact') > 0) {
+                    $date = (new \DateTime())->sub(new \DateInterval('PT10S'));
+                    $countClick = Log::find()
+                        ->andWhere(['user_id' => $user->id])
+                        ->andWhere(['like', 'url', 'site/contact'])
+                        ->andWhere(['>=', 'date_create', $date->getTimestamp()])
+                        ->count();
+                    if ($countClick > 8) {
+                        $newDateBlocked = (new \DateTime())->add(new \DateInterval('P1D'))->getTimestamp();
+                        if (empty($user->date_blocked) || $newDateBlocked > $user->date_blocked) {
+                            $user->date_blocked = $newDateBlocked;
+                            $user->save();
+                        }
+                    }
+                }
             }
+
         }
+        $this->addToLog(empty($user) ? null : $user->id);
+
 
     }
     
@@ -155,10 +174,8 @@ class User extends \yii\web\User
                 $this->login($user);
                 $this->_user = $user;
             }
-            $this->addToLog(empty($user) ? null : $user->id);
         } else {
 //            $isGuest = !is_null($auth->getAssignment(\common\models\User::ROLE_MOCK_USER, $this->id));
-            $this->addToLog($this->id);
         }
         return $isGuest;
     }

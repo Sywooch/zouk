@@ -375,7 +375,7 @@ class SiteController extends Controller
 
     public function actionBlocked()
     {
-        echo "Blocked. Пожалуйста, свяжитесь с администрацией";
+        echo "Blocked. Пожалуйста, свяжитесь с администрацией <a href='https://vk.com/prozouk'>ProZouk</a>";
         exit;
     }
 
