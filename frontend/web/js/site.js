@@ -79,9 +79,29 @@ function setCarouselByEnv(env) {
 }
 
 $(document).ready(function(){
+    $carouselPromotion.find('.block-promo').each(function() {
+        var $this = $(this);
+        if (typeof $this.data('is-create-img') == "undefined") {
+            var src = $this.data('img-url');
+            var $obj = $('<img>').attr('src', src).attr('width', '100%');
+            if ($this.hasClass('block-promo-prozouk')) {
+                var $blockSocial = $this.find('.block-promo-social');
+                $blockSocial.before($obj);
+                $blockSocial.find('a').each(function() {
+                    var $a = $(this);
+                    var $obj = $('<img>').attr('src', $a.data('img-url')).attr('width', '100%');
+                    $a.append($obj);
+                });
+            } else {
+                $this.find('a').append($obj);
+            }
+            $this.data('is-create-img', true);
+        }
+    });
+
     setCarouselByEnv(findBootstrapEnvironment());
 
-    $('.carousel-promotion').on('init', function() {
+    $carouselPromotion.on('init', function() {
         isInit = true;
     });
 

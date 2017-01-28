@@ -40,7 +40,7 @@ if (!empty($videos)) {
 }
 $tags = $item->tagEntity;
 ?>
-<div id="item-<?= $item->id ?>" data-id="<?= $item->id ?>" class="block-entry margin-bottom <?= $item->like_count < 0 ? 'bad-entry' : '' ?>"">
+<div id="item-<?= $item->id ?>" data-id="<?= $item->id ?>" class="block-entry margin-bottom-15 <?= $item->like_count < 0 ? 'bad-entry' : '' ?>"">
     <div class="margin-bottom block-entry-title">
         <?php
         if ($item instanceof Event && $countEntities > 1) {

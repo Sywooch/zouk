@@ -9,7 +9,6 @@ use common\models\Item;
 use common\models\School;
 use common\models\User as ModelUser;
 use common\models\VoteModel;
-use Faker\Provider\DateTime;
 use frontend\models\SignupForm;
 use Yii;
 
