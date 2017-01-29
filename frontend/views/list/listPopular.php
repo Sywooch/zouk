@@ -1,7 +1,12 @@
 <?php
+/**
+ * @var \common\models\form\SearchEntryForm $searchEntryForm
+ * @var yii\web\View $this
+ */
 
-
+use common\models\Item;
 use frontend\models\Lang;
+use frontend\widgets\EntryList;
 use frontend\widgets\ItemList;
 use yii\helpers\Html;
 
@@ -18,25 +23,23 @@ $this->registerMetaTag([
     'content' => $description,
 ], 'description');
 
+$this->params['containerClass'] = 'block-entry-list';
+
 ?>
 <div class="site-index">
     <div class="body-content">
-        <div class="row">
-            <div class="col-md-8">
-                <?= $this->render('/list/tabs', ['selectTab' => 4, 'searchTag' => $searchTag]) ?>
-                <?= ItemList::widget(['orderBy' => ItemList::ORDER_BY_LIKE_SHOW, 'dateCreateType' => ItemList::DATE_CREATE_ALL, 'searchTag' => $searchTag]) ?>
-            </div>
-            <div class="col-md-4">
-                <?php
-                echo Html::a(
-                    Lang::t('main', 'mainButtonAddRecord'),
-                    ['/list/add'],
-                    ['class' => 'btn btn-success btn-label-main add-item']
-                );
-                echo $this->render('/list/listRightBlock');
-                ?>
-            </div>
-        </div>
+        <?= $this->render('/list/tabs', ['selectTab' => 4, 'searchTag' => $searchEntryForm->search_text]) ?>
+        <?= EntryList::widget([
+            'orderBy' => ItemList::ORDER_BY_LIKE_SHOW,
+            'searchEntryForm' => $searchEntryForm,
+            'page' => $page,
+            'entityTypes' => [Item::THIS_ENTITY],
+            'blockAction' => Html::a(
+                Lang::t('main', 'mainButtonAddRecord'),
+                ['/list/add'],
+                ['class' => 'btn btn-success btn-label-main add-item']
+            ),
+        ]) ?>
 
     </div>
 </div>

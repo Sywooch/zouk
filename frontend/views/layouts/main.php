@@ -166,7 +166,7 @@ $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEn
                 </div>
             </div>
             <div class="block-promo" data-img-url="<?= Yii::$app->UrlManager->to('img/promo/' . $thisLang->url . '/interesting_block_1.png'); ?>">
-                <?= Html::a('', ['event/month']); ?>
+                <?= Html::a('', ['event/month', 'year' => $year, 'month' => (int)$month]); ?>
             </div>
             <div class="block-promo" data-img-url="<?= Yii::$app->UrlManager->to('img/promo/' . $thisLang->url . '/interesting_block_2.png'); ?>">
                 <?= Html::a('', ['list/index']); ?>

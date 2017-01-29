@@ -20,7 +20,7 @@ $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->this
 
     echo Html::a(
         mb_strtoupper(Lang::t('main', 'mainButtonList')),
-        ['/list/index'],
+        ['/list/popular'],
         ['class' => 'btn-label-main' . ($thisPage == 'list' ? ' youarehere' : '')]
     ), " ";
 

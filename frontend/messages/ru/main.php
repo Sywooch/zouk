@@ -2,7 +2,7 @@
 
 return [
     'mainButton'          => 'Главная',
-    'mainButtonList'      => 'Лента',
+    'mainButtonList'      => 'Записи',
     'mainButtonTags'      => 'Метки',
     'mainButtonEvents'    => 'События',
     'mainButtonSchools'   => 'Школы',
@@ -16,10 +16,10 @@ return [
     'monthEvents' => 'События месяца',
     'yearEvents'  => 'События года',
 
-    'listTabCurrent' => 'Текущие',
+    'listTabCurrent' => 'Новые',
     'listTabWeek'    => 'Неделя',
     'listTabMonth'   => 'Месяц',
-    'listTabPopular' => 'Лучшие',
+    'listTabPopular' => 'Популярные',
 
     'eventTabAll'    => 'Все',
     'eventTabAfter'  => 'Предстоящие',

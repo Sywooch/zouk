@@ -88,7 +88,7 @@ class EntryList extends \yii\bootstrap\Widget
             $itemQuery = Item::find()->from(["t" => Item::tableName()])->andWhere('t.deleted = 0')->addSelect('*');
             $this->addFilterBySearchText($itemQuery);
             $this->addSort($itemQuery, $this->orderBy);
-
+            
             $dataProviderItem = new ActiveDataProvider([
                 'query' => $itemQuery,
                 'pagination' => [
