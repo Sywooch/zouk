@@ -1074,3 +1074,50 @@ span.selection span.select2-selection .select2-selection__arrow {
 .dialog-modal-header .close span {
     font-size: 30px;
 }
+
+.carousel-promotion:not(.is-slick) {
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.carousel-promotion:not(.is-slick) img {
+    height: 100%;
+    width: auto !important;
+}
+
+
+
+@media (max-width: 767px) {
+    .carousel-promotion:not(.is-slick) {
+        height: 33vw;
+        width: 100%;
+    }
+    .carousel-promotion:not(.is-slick) .block-promo a {
+
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .carousel-promotion:not(.is-slick) {
+        height: 164px;
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .carousel-promotion:not(.is-slick) {
+        height: 160px;
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .carousel-promotion:not(.is-slick) {
+        height: 153px;
+        width: 1170px;
+    }
+    .carousel-promotion:not(.is-slick) .block-promo {
+        width: 20vw;
+    }
+}

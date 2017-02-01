@@ -204,11 +204,12 @@
 }
 
 .block-promo {
-    width: 90%;
     display: inline-block;
     position: relative;
     overflow: hidden;
-    margin-right: 0;
+    height: 100%;
+    margin-right: -4px;
+    margin-bottom: -5px;
 }
 
 .block-promo:focus {

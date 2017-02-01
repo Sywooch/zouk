@@ -25,7 +25,7 @@ function setCarouselByEnv(env) {
         if (env == 'lg') {
             if (!$carouselPromotion.data('is-slick')) {
                 if (!$carouselPromotion.data('is-slick')) {
-                    $carouselPromotion.data('is-slick', true).removeClass('hide').slick({
+                    $carouselPromotion.data('is-slick', true).addClass('is-slick').removeClass('hide').slick({
                         infinite: true,
                         slidesToShow: 5
                         // slidesToScroll: 1,
@@ -38,7 +38,7 @@ function setCarouselByEnv(env) {
         } else if (env == 'md') {
             if (!$carouselPromotion.data('is-slick')) {
                 if (!$carouselPromotion.data('is-slick')) {
-                    $carouselPromotion.data('is-slick', true).removeClass('hide').slick({
+                    $carouselPromotion.data('is-slick', true).addClass('is-slick').removeClass('hide').slick({
                         infinite: true,
                         slidesToShow: 4
                         // slidesToScroll: 1,
@@ -51,7 +51,7 @@ function setCarouselByEnv(env) {
         } else if (env == 'sm') {
             if (!$carouselPromotion.data('is-slick')) {
                 if (!$carouselPromotion.data('is-slick')) {
-                    $carouselPromotion.data('is-slick', true).removeClass('hide').slick({
+                    $carouselPromotion.data('is-slick', true).addClass('is-slick').removeClass('hide').slick({
                         infinite: true,
                         slidesToShow: 3
                         // slidesToScroll: 1,
@@ -64,7 +64,7 @@ function setCarouselByEnv(env) {
         } else if (env == 'xs') {
             if (!$carouselPromotion.data('is-slick')) {
                 if (!$carouselPromotion.data('is-slick')) {
-                    $carouselPromotion.data('is-slick', true).removeClass('hide').slick({
+                    $carouselPromotion.data('is-slick', true).addClass('is-slick').removeClass('hide').slick({
                         infinite: true,
                         slidesToShow: 2
                         // slidesToScroll: 1,
