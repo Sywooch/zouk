@@ -109,6 +109,9 @@ return [
         'audioInfo'    => [
             'class' => 'common\components\GetidComponent',
         ],
+        'assetManager' => [
+            'appendTimestamp' => true,
+        ],
     ],
     'params'              => $params,
 ];

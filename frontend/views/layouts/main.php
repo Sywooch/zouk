@@ -28,7 +28,6 @@ $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/soundmanager/soundmanager2-nodebug-jsmin.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/soundmanager/music.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile('//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/site.js?20170201', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerCssFile('//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerCssFile(Yii::$app->request->baseUrl . '/css/slick/slick-theme.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
@@ -154,7 +153,6 @@ $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEn
         <div class="row main-header carousel-promotion">
             <div class="block-promo block-promo-prozouk"
                  data-img-url="<?= Yii::$app->UrlManager->to('img/promo/interesting_block_0.png'); ?>"
-                 style="background-image: url('<?= Yii::$app->UrlManager->to('img/promo/interesting_block_0.png'); ?>');"
             >
                 <div class="block-promo-social">
                     <div>
@@ -170,19 +168,16 @@ $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEn
             </div>
             <div class="block-promo"
                  data-img-url="<?= Yii::$app->UrlManager->to('img/promo/' . $thisLang->url . '/interesting_block_1.png'); ?>"
-                 style="background-image: url('<?= Yii::$app->UrlManager->to('img/promo/' . $thisLang->url . '/interesting_block_1.png'); ?>');"
             >
                 <?= Html::a('', ['event/month', 'year' => $year, 'month' => (int)$month]); ?>
             </div>
             <div class="block-promo"
                  data-img-url="<?= Yii::$app->UrlManager->to('img/promo/' . $thisLang->url . '/interesting_block_2.png'); ?>"
-                 style="background-image: url('<?= Yii::$app->UrlManager->to('img/promo/' . $thisLang->url . '/interesting_block_2.png'); ?>');"
             >
                 <?= Html::a('', ['list/index']); ?>
             </div>
             <div class="block-promo"
                  data-img-url="<?= Yii::$app->UrlManager->to('img/promo/' . $thisLang->url . '/interesting_block_3.png'); ?>"
-                 style="background-image: url('<?= Yii::$app->UrlManager->to('img/promo/' . $thisLang->url . '/interesting_block_3.png'); ?>');"
             >
                 <?php
                 $video = Video::getRandomVideo();
@@ -202,7 +197,6 @@ $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEn
             </div>
             <div class="block-promo"
                  data-img-url="<?= Yii::$app->UrlManager->to('img/promo/' . $thisLang->url . '/interesting_block_4.png'); ?>"
-                 style="background-image: url('<?= Yii::$app->UrlManager->to('img/promo/' . $thisLang->url . '/interesting_block_4.png'); ?>');"
             >
                 <?= Html::a('', ['list/index', 'tag' => 'article']); ?>
             </div>

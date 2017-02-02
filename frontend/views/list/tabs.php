@@ -28,8 +28,3 @@ $urlNoTag = Url::to([$urls[$selectTab]]);
         </div>
     <?php } ?>
 </div>
-<?= Html::a(
-    Lang::t('main', 'mainButtonAddRecord'),
-    ['/list/add'],
-    ['class' => 'btn btn-success btn-label-main add-item visible-sm-block visible-xs-block']
-) ?>
