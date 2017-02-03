@@ -7,14 +7,15 @@
 
 use common\models\Ulogin;
 use common\models\User;
+use frontend\assets\UloginAsset;
 use frontend\models\ChangePasswordForm;
 use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
+UloginAsset::register($this);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/account/settings.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile('//ulogin.ru/js/ulogin.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 Yii::$app->params['jsZoukVar']['bindSocialUrl'] = Url::to(['site/uloginbind']);
 Yii::$app->params['jsZoukVar']['unbindSocialUrl'] = Url::to(['site/uloginunbind']);

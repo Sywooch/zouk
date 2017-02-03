@@ -64,6 +64,8 @@ Yii::$app->params['jsZoukVar']['blockLocationCount'] = count($locations);
 
             echo $form->field($event, 'date')->label(Lang::t('page/eventEdit', 'fieldDate'))->textInput(['id' => 'datepicker', 'value' => date('d.m.Y', $event->date)]);
 
+            echo $form->field($event, 'date_to')->label(Lang::t('page/eventEdit', 'fieldDateTo'))->textInput(['id' => 'datepicker_to', 'value' => date('d.m.Y', empty($event->date_to) ? $event->date : $event->date_to)]);
+
             echo $form->field($event, 'country')->label(Lang::t('page/eventEdit', 'fieldCountry'))->dropDownList($countries, ['id' => 'selectCountry']);
 
             echo $form->field($event, 'city')->label(Lang::t('page/eventEdit', 'fieldCity'));

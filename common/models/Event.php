@@ -20,6 +20,7 @@ use yii\web\IdentityInterface;
  * @property string      $title
  * @property string      $description
  * @property integer     $date
+ * @property integer     $date_to
  * @property integer     $country
  * @property string      $city
  * @property string      $site
@@ -88,9 +89,11 @@ class Event extends EntryModel
             [
                 [['description'], 'default', 'value' => ''],
                 [['date'], 'required'],
+//                ['date_to', 'compare', 'compareAttribute' => 'date', 'operator' => '>=', 'type' => 'number'],
                 [['country'], 'integer'],
                 [['city'], 'string', 'max' => 60],
                 [['site'], 'string', 'max' => 120],
+                [['date_to'], 'safe'],
             ]
         );
     }

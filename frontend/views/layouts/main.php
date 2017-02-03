@@ -8,6 +8,8 @@
 use common\models\form\SearchEntryForm;
 use common\models\User;
 use common\models\Video;
+use frontend\assets\SlickAsset;
+use frontend\assets\SoundManagerAsset;
 use frontend\models\Lang;
 use frontend\widgets\ModalDialogsWidget;
 use yii\helpers\Html;
@@ -21,16 +23,11 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
+SoundManagerAsset::register($this);
+SlickAsset::register($this);
+
 $var = isset(Yii::$app->params['jsZoukVar']) ? Yii::$app->params['jsZoukVar'] : [];
 $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
-
-// Musics Player
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/soundmanager/soundmanager2-nodebug-jsmin.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/soundmanager/music.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile('//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerCssFile(Yii::$app->request->baseUrl . '/css/soundmanager.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerCssFile('//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerCssFile(Yii::$app->request->baseUrl . '/css/slick/slick-theme.css', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $year = date('Y');
 $month = date('m');

@@ -4,15 +4,17 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
+use frontend\assets\UloginAsset;
 use frontend\models\Lang;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 
+UloginAsset::register($this);
+
 $this->title = Lang::t('page/siteLogin', 'title');
 $this->params['breadcrumbs'][] = $this->title;
 
-$this->registerJsFile('//ulogin.ru/js/ulogin.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile('https://www.google.com/recaptcha/api.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 ?>

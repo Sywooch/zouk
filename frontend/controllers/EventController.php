@@ -61,6 +61,10 @@ class EventController extends Controller
                 $event->description = \yii\helpers\HtmlPurifier::process($event->description, []);
                 $event->user_id = Yii::$app->user->identity->getId();
                 $event->date = strtotime($eventPost['date']);
+                $event->date_to = strtotime($eventPost['date_to']);
+                if ($event->date_to < $event->date) {
+                    $event->date_to = $event->date;
+                }
                 $event->like_count = 0;
                 $event->likes = 0;
                 $event->dislikes = 0;
@@ -142,6 +146,10 @@ class EventController extends Controller
             $event->country = $eventPost['country'];
             $event->description = \yii\helpers\HtmlPurifier::process($event->description, []);
             $event->date = strtotime($eventPost['date']);
+            $event->date_to = strtotime($eventPost['date_to']);
+            if ($event->date_to < $event->date) {
+                $event->date_to = $event->date;
+            }
             if ($event->save()) {
                 // Добавляем картинки к записи
                 $imgs = Yii::$app->request->post('imgs');

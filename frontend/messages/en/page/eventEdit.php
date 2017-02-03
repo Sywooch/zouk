@@ -6,7 +6,8 @@ return [
 
     'fieldTitle'       => 'Title',
     'fieldDescription' => 'Description',
-    'fieldDate'        => 'Date',
+    'fieldDate'        => 'Date from',
+    'fieldDateTo'      => 'Date to',
     'fieldCountry'     => 'Country',
     'fieldCity'        => 'City',
     'fieldSite'        => 'Web-site',

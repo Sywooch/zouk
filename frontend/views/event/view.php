@@ -97,7 +97,7 @@ $locations = $event->locations;
     <h1>
         <?= Html::a($event->getTitle(), $url, ['class' => 'event-hyperlink']) ?>
         <?php
-        if (!Yii::$app->user->can(User::PERMISSION_EDIT_EVENTS, ['object' => $event])) {
+        if (Yii::$app->user->can(User::PERMISSION_EDIT_EVENTS, ['object' => $event])) {
             echo Html::a(
                 Lang::t('page/eventView', 'edit'),
                 Url::to(['events/edit', 'id' => $event->id]),
@@ -157,7 +157,18 @@ $locations = $event->locations;
         }
         ?>
         <br/>
-        <b><?= Lang::t("page/eventView", "date") ?></b> <?= date("d.m.Y", $event->date) ?><br>
+        <?php
+        if (empty($event->date_to) || $event->date == $event->date_to) {
+            ?>
+            <b><?= Lang::t("page/eventView", "date") ?></b> <?= date("d.m.Y", $event->date) ?><br>
+            <?php
+        } else {
+            ?>
+            <b><?= Lang::t("page/eventView", "dateFrom") ?></b> <?= date("d.m.Y", $event->date) ?><br/>
+            <b><?= Lang::t("page/eventView", "dateTo") ?></b> <?= date("d.m.Y", $event->date_to) ?><br/>
+            <?php
+        }
+        ?>
         <?php
         if (count($locations)) {
             echo '<div id="locations-event-block-' . $event->id . '">';

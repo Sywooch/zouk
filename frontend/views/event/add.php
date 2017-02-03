@@ -55,6 +55,8 @@ $countries = array_merge([0 => '-'], Countries::getCountries(Lang::getCurrent())
 
             echo $form->field($event, 'date')->label(Lang::t('page/eventEdit', 'fieldDate'))->textInput(['id' => 'datepicker', 'value' => date('d.m.Y')]);
 
+            echo $form->field($event, 'date_to')->label(Lang::t('page/eventEdit', 'fieldDateTo'))->textInput(['id' => 'datepicker', 'value' => '']);
+
             echo $form->field($event, 'country')->label(Lang::t('page/eventEdit', 'fieldCountry'))->dropDownList($countries, ['id' => 'selectCountry']);
 
             echo $form->field($event, 'city')->label(Lang::t('page/eventEdit', 'fieldCity'));

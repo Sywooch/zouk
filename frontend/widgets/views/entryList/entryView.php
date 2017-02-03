@@ -128,7 +128,12 @@ $tags = $item->tagEntity;
         if (!empty($item->date)) {
             ?>
             <div class="margin-bottom">
-                <b><?= Lang::t("page/eventView", "date") ?></b> <?= date("d.m.Y", $item->date) ?>
+                <?php if (empty($item->date_to) || $item->date == $item->date_to) { ?>
+                    <b><?= Lang::t("page/eventView", "date") ?></b> <?= date("d.m.Y", $item->date) ?>
+                <?php } else { ?>
+                    <b><?= Lang::t("page/eventView", "dateFrom") ?></b> <?= date("d.m.Y", $item->date) ?><br/>
+                    <b><?= Lang::t("page/eventView", "dateTo") ?></b> <?= date("d.m.Y", $item->date_to) ?><br/>
+                <?php } ?>
             </div>
             <?php
         }
