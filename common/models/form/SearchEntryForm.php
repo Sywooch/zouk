@@ -10,6 +10,10 @@ class SearchEntryForm extends Model
     public $id;
     /** @var string */
     public $search_text;
+    /** @var integer */
+    public $date_from = null;
+    /** @var integer */
+    public $date_to = null;
 
     public static function loadFromPost()
     {
@@ -40,6 +44,8 @@ class SearchEntryForm extends Model
     {
         return [
             'search_text' => $this->search_text,
+            'date_from'   => $this->date_from,
+            'date_to'     => $this->date_to,
         ];
     }
 

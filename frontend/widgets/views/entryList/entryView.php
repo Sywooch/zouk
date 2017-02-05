@@ -66,6 +66,26 @@ $tags = $item->tagEntity;
             ?>
         </span>
     </div>
+    <?php
+    if ($item instanceof Event) {
+
+        if (!empty($item->date)) {
+            $dateFrom = date("d.m.Y", $item->date);
+            $dateTo = date("d.m.Y", empty($item->date_to) ? $item->date : $item->date_to);
+            ?>
+            <div class="row margin-bottom block-entry-event-row">
+                <div class="col-xs-6 block-entry-event-from" title="<?= Lang::t("page/eventView", "dateFrom") ?> <?= $dateFrom; ?>">
+                    <?= $dateFrom ?>
+                </div>
+                <div class="col-xs-6 block-entry-event-to" title="<?= Lang::t("page/eventView", "dateTo") ?> <?= $dateTo; ?>">
+                    <?= $dateTo ?>
+                </div>
+            </div>
+            <?php
+        }
+    }
+    ?>
+
     <div>
         <div class="carousel-entry-view">
             <?php
@@ -124,19 +144,6 @@ $tags = $item->tagEntity;
     ?>
     <?php
     if ($item instanceof Event) {
-
-        if (!empty($item->date)) {
-            ?>
-            <div class="margin-bottom">
-                <?php if (empty($item->date_to) || $item->date == $item->date_to) { ?>
-                    <b><?= Lang::t("page/eventView", "date") ?></b> <?= date("d.m.Y", $item->date) ?>
-                <?php } else { ?>
-                    <b><?= Lang::t("page/eventView", "dateFrom") ?></b> <?= date("d.m.Y", $item->date) ?><br/>
-                    <b><?= Lang::t("page/eventView", "dateTo") ?></b> <?= date("d.m.Y", $item->date_to) ?><br/>
-                <?php } ?>
-            </div>
-            <?php
-        }
         
         ?>
         <div class="margin-bottom">

@@ -1,7 +1,7 @@
 <?php
 /**
- * @var \common\models\form\SearchEntryForm $searchEntryForm
  * @var yii\web\View $this
+ * @var \common\models\form\SearchEntryForm $searchEntryForm
  */
 
 use common\models\Item;
@@ -34,7 +34,7 @@ $this->params['containerClass'] = 'block-entry-list';
     <div class="body-content">
         <?= $this->render('/list/tabs', ['selectTab' => 1, 'searchTag' => $searchEntryForm->search_text]) ?>
         <?= EntryList::widget([
-            'orderBy' => ItemList::ORDER_BY_ID,
+            'orderBy' => EntryList::ORDER_BY_ID,
             'searchEntryForm' => $searchEntryForm,
             'page' => $page,
             'entityTypes' => [Item::THIS_ENTITY],

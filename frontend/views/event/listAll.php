@@ -1,9 +1,12 @@
 <?php
 /**
  * @var yii\web\View $this
+ * @var \common\models\form\SearchEntryForm $searchEntryForm
  */
 
+use common\models\Event;
 use frontend\models\Lang;
+use frontend\widgets\EntryList;
 use frontend\widgets\EventList;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
@@ -25,25 +28,22 @@ $this->registerMetaTag([
 
 Yii::$app->params['jsZoukVar']['dateCreateType'] = EventList::DATE_CREATE_ALL;
 
+$this->params['containerClass'] = 'block-entry-list';
 ?>
 <div class="site-index">
     <div class="body-content">
+        <?= $this->render('/event/tabs', ['selectTab' => 1, 'searchTag' => $searchEntryForm->search_text]) ?>
+        <?= EntryList::widget([
+            'orderBy' => EntryList::ORDER_BY_DATE,
+            'searchEntryForm' => $searchEntryForm,
+            'page' => $page,
+            'entityTypes' => [Event::THIS_ENTITY],
+            'blockAction' => Html::a(
+                Lang::t('main', 'mainButtonAddEvent'),
+                ['/events/add'],
+                ['class' => 'btn btn-success btn-label-main add-item']
+            ),
+        ]) ?>
 
-        <div class="row">
-            <div class="col-md-8">
-                <?= $this->render('/event/tabs', ['selectTab' => 1]) ?>
-                <?= EventList::widget(['orderBy' => EventList::ORDER_BY_DATE, 'dateCreateType' => EventList::DATE_CREATE_ALL]) ?>
-            </div>
-            <div class="col-md-4">
-                <?php
-                echo Html::a(
-                    Lang::t('main', 'mainButtonAddEvent'),
-                    ['/events/add'],
-                    ['class' => 'btn btn-success btn-label-main add-item']
-                );
-                echo $this->render('/list/listRightBlock');
-                ?>
-            </div>
-        </div>
     </div>
 </div>

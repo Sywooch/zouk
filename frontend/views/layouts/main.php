@@ -137,7 +137,7 @@ $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEn
         'items'   => $menuItems,
     ]);
 
-    if (in_array($thisPage, ['list', 'main'])) {
+    if (in_array($thisPage, ['list', 'main', 'event'])) {
         echo $this->render('_searchForm', [
             'searchForm' => $searchForm,
             'formClass' => 'navbar-form navbar-right hidden-xs',

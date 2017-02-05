@@ -106,13 +106,28 @@ class EntryList extends \yii\bootstrap\Widget
         if (in_array(Event::THIS_ENTITY, $this->entityTypes)) {
             $eventQuery = Event::find()->from(["t" => Event::tableName()])->andWhere('t.deleted = 0')->addSelect('*');
             $this->addFilterBySearchText($eventQuery);
-            $this->addSort($eventQuery, self::ORDER_BY_DATE);
+            if (count($this->entityTypes) == 1) {
+                $this->addSort($eventQuery, $this->orderBy);
+            } else {
+                $this->addSort($eventQuery, self::ORDER_BY_DATE);
+            }
+            if (!empty($this->searchEntryForm->date_from)) {
+                $eventQuery->andWhere(['>=', 'date', $this->searchEntryForm->date_from]);
+            }
+            if (!empty($this->searchEntryForm->date_to)) {
+                $eventQuery->andWhere(['<=', 'date', $this->searchEntryForm->date_to]);
+            }
+
+            $pageSize = 4;
+            if (count($this->entityTypes) == 1) {
+                $pageSize = 10;
+            }
 
             $dataProviderEvent = new ActiveDataProvider([
-                'query' => $eventQuery,
+                'query'      => $eventQuery,
                 'pagination' => [
-                    'pageSize' => 4,
-                    'page' => $this->page,
+                    'pageSize' => $pageSize,
+                    'page'     => $this->page,
                 ],
             ]);
 

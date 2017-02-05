@@ -490,6 +490,13 @@ table.display-user-info .user-img:hover .block-user-img-edit {
     color: #333;
 }
 
+ul.nav-main-tabs {
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+    padding-left: 16px;
+    border-bottom: 0;
+}
+
 ul.nav-main-tabs li.tab-title {
     line-height: 45px;
     font-size: 24px;
@@ -1053,6 +1060,40 @@ span.selection span.select2-selection .select2-selection__arrow {
 
 .block-entry-title {
     margin-left: -16px;
+}
+
+.block-entry-event-row {
+    margin-left: -16px;
+    margin-right: -16px;
+}
+
+.block-entry-event-from {
+    background-color: #c2fc12;
+    font-size: 17px;
+    text-align: center;
+    padding-top: 2px;
+    position: relative;
+    font-weight: bold;
+    color: #e76585;
+}
+
+.block-entry-event-to:before {
+    content: '';
+    border: 13px solid transparent;
+    border-left: 13px solid #c2fc12;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -13px;
+}
+
+.block-entry-event-to {
+    background-color: #e76585;
+    font-size: 17px;
+    text-align: center;
+    padding-top: 2px;
+    font-weight: bold;
+    color: #c2fc12;
 }
 
 .block-entry .share42init {
