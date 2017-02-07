@@ -58,14 +58,15 @@ class EntryModel extends VoteModel
         $description = preg_replace("'<blockquote[^>]*?>.*?</blockquote>'si", " ", $description);
         $str = $description;
         $str = strip_tags($str);
-        $str = nl2br($str);
         $str = preg_replace('/\s+/', ' ', $str);
         if (mb_strlen($str, $charset) >= $length) {
             $wrap = wordwrap($str, $length, $token);
             $str_cut = mb_substr($wrap, 0, mb_strpos($wrap, $token, 0, $charset), $charset);
             $str_cut .= $end;
+            $str_cut = nl2br($str_cut);
             return $str_cut;
         } else {
+            $str = nl2br($str);
             return $str;
         }
     }

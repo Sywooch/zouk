@@ -23,7 +23,7 @@ class User extends \yii\web\User
 
         $request = Yii::$app->request;
         $agent = $request->getUserAgent();
-        $isBot = strpos($agent, "bot") >= 0;
+        $isBot = \common\models\User::isBot();
 
         $user = $this->getUserModel();
         if (!empty($user)) {
