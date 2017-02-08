@@ -22,6 +22,8 @@ class EntryList extends \yii\bootstrap\Widget
     const ORDER_BY_SHOW      = 'order_by_show';
     const ORDER_BY_LIKE_SHOW = 'order_by_like_show';
     const ORDER_BY_DATE      = 'order_by_date';
+    const ORDER_BY_DATE_OLD  = 'order_by_date_old';
+    const ORDER_BY_RAND      = 'order_by_random';
 
     const DATE_CREATE_LAST  = 'last';
     const DATE_CREATE_WEEK  = 'week';
@@ -145,13 +147,22 @@ class EntryList extends \yii\bootstrap\Widget
         if (in_array(School::THIS_ENTITY, $this->entityTypes)) {
             $schoolQuery = School::find()->from(["t" => School::tableName()])->andWhere('t.deleted = 0')->addSelect('*');
             $this->addFilterBySearchText($schoolQuery);
-            $this->addSort($schoolQuery, self::ORDER_BY_LIKE_SHOW);
+
+
+            $pageSize = 4;
+            if (count($this->entityTypes) == 1) {
+                $this->addSort($schoolQuery, self::ORDER_BY_LIKE_SHOW);
+                $pageSize = 10;
+            } else {
+                $this->addSort($schoolQuery, self::ORDER_BY_RAND);
+                $schoolQuery->limit($pageSize);
+            }
 
             $dataProviderSchool = new ActiveDataProvider([
                 'query' => $schoolQuery,
                 'pagination' => [
-                    'pageSize' => 4,
-                    'page' => $this->page,
+                    'pageSize' => $pageSize,
+                    'page'     => $this->page,
                 ],
             ]);
 
@@ -233,6 +244,10 @@ class EntryList extends \yii\bootstrap\Widget
             $query->addSelect(['(like_count * 15 + show_count) as like_show_count'])->orderBy(['like_show_count' => SORT_DESC]);
         } elseif ($orderBy == self::ORDER_BY_DATE) {
             $query->orderBy(['date' => SORT_DESC]);
+        } elseif ($orderBy == self::ORDER_BY_DATE_OLD) {
+            $query->orderBy(['date' => SORT_ASC]);
+        } elseif ($orderBy == self::ORDER_BY_RAND) {
+            $query->orderBy('RAND()');
         }
     }
 

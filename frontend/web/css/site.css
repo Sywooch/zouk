@@ -495,6 +495,7 @@ ul.nav-main-tabs {
     box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
     padding-left: 16px;
     border-bottom: 0;
+    background-color: #fefefe;
 }
 
 ul.nav-main-tabs li.tab-title {
@@ -1068,19 +1069,19 @@ span.selection span.select2-selection .select2-selection__arrow {
 }
 
 .block-entry-event-from {
-    background-color: #c2fc12;
+    background-color: #fcc200;
     font-size: 17px;
     text-align: center;
     padding-top: 2px;
     position: relative;
     font-weight: bold;
-    color: #e76585;
+    color: #5220dd;
 }
 
 .block-entry-event-to:before {
     content: '';
     border: 13px solid transparent;
-    border-left: 13px solid #c2fc12;
+    border-left: 13px solid #fcc200;
     position: absolute;
     left: 0;
     top: 50%;
@@ -1088,7 +1089,7 @@ span.selection span.select2-selection .select2-selection__arrow {
 }
 
 .block-entry-event-to {
-    background-color: #e76585;
+    background-color: #5220dd;
     font-size: 17px;
     text-align: center;
     padding-top: 2px;

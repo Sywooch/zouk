@@ -34,7 +34,7 @@ $this->params['containerClass'] = 'block-entry-list';
     <div class="body-content">
         <?= $this->render('/event/tabs', ['selectTab' => 2, 'searchTag' => $searchEntryForm->search_text]) ?>
         <?= EntryList::widget([
-            'orderBy'         => EntryList::ORDER_BY_DATE,
+            'orderBy'         => EntryList::ORDER_BY_DATE_OLD,
             'searchEntryForm' => $searchEntryForm,
             'page'            => $page,
             'entityTypes'     => [Event::THIS_ENTITY],
