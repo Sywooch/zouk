@@ -211,11 +211,11 @@ class EventController extends Controller
     {
         $searchEntryForm = SearchEntryForm::loadFromPost();
         $request = Yii::$app->request;
-        $page = $request->get('page', $request->post('page'));
+        $page = $request->get('page', $request->post('page', 0));
         if ($request->isAjax) {
             return $this->renderPartial('listAll', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
         }
-        return $this->render('listAll', ['searchEntryForm' => $searchEntryForm]);
+        return $this->render('listAll', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
     }
 
     public function actionBefore()
@@ -223,12 +223,12 @@ class EventController extends Controller
         $this->searchPath = 'event/before';
         $searchEntryForm = SearchEntryForm::loadFromPost();
         $request = Yii::$app->request;
-        $page = $request->get('page', $request->post('page'));
+        $page = $request->get('page', $request->post('page', 0));
         $searchEntryForm->date_to = (new \DateTime())->getTimestamp();
         if ($request->isAjax) {
             return $this->renderPartial('listBefore', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
         }
-        return $this->render('listBefore', ['searchEntryForm' => $searchEntryForm]);
+        return $this->render('listBefore', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
     }
 
     public function actionAfter()
@@ -236,12 +236,12 @@ class EventController extends Controller
         $this->searchPath = 'event/after';
         $searchEntryForm = SearchEntryForm::loadFromPost();
         $request = Yii::$app->request;
-        $page = $request->get('page', $request->post('page'));
+        $page = $request->get('page', $request->post('page', 0));
         $searchEntryForm->date_from = (new \DateTime())->getTimestamp();
         if ($request->isAjax) {
             return $this->renderPartial('listAfter', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
         }
-        return $this->render('listAfter', ['searchEntryForm' => $searchEntryForm]);
+        return $this->render('listAfter', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
     }
 
     public function actionAlarm()

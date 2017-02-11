@@ -23,6 +23,8 @@ class SchoolController extends Controller
 
     public $thisPage = 'school';
 
+    public $searchPath = 'school/all';
+
     /**
      * @inheritdoc
      */
@@ -232,8 +234,13 @@ class SchoolController extends Controller
 
     public function actionAll()
     {
-        $searchTag = Yii::$app->request->get('tag', '');
-        return $this->render('listAll', ['searchTag' => $searchTag]);
+        $searchEntryForm = SearchEntryForm::loadFromPost();
+        $request = Yii::$app->request;
+        $page = $request->get('page', $request->post('page', 0));
+        if ($request->isAjax) {
+            return $this->renderPartial('listAll', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
+        }
+        return $this->render('listAll', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
     }
 
     public function actionBefore()

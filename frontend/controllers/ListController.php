@@ -234,11 +234,11 @@ class ListController extends Controller
     {
         $searchEntryForm = SearchEntryForm::loadFromPost();
         $request = Yii::$app->request;
-        $page = $request->get('page', $request->post('page'));
+        $page = $request->get('page', $request->post('page', 0));
         if ($request->isAjax) {
             return $this->renderPartial('index', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
         }
-        return $this->render('index', ['searchEntryForm' => $searchEntryForm]);
+        return $this->render('index', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
     }
 
     public function actionWeek()
@@ -258,11 +258,11 @@ class ListController extends Controller
         $this->searchPath = 'list/popular';
         $searchEntryForm = SearchEntryForm::loadFromPost();
         $request = Yii::$app->request;
-        $page = $request->get('page', $request->post('page'));
+        $page = $request->get('page', $request->post('page', 0));
         if ($request->isAjax) {
             return $this->renderPartial('listPopular', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
         }
-        return $this->render('listPopular', ['searchEntryForm' => $searchEntryForm]);
+        return $this->render('listPopular', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
     }
 
     public function actionAlarm()

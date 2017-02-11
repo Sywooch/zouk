@@ -64,7 +64,6 @@ class EntryList extends \yii\bootstrap\Widget
     public function run()
     {
         $items = $this->getEntries();
-//        $items = $this->getAllItems(Item::find(), $this->lastId, $this->orderBy, $this->dateCreateType, $search, $this->userId, $this->limit);
         return $this->render(
             'entryList/list',
             [

@@ -1,9 +1,13 @@
 <?php
 /**
  * @var yii\web\View $this
+ * @var \common\models\form\SearchEntryForm $searchEntryForm
+ * @var int $page
  */
 
+use common\models\School;
 use frontend\models\Lang;
+use frontend\widgets\EntryList;
 use frontend\widgets\SchoolList;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
@@ -31,36 +35,25 @@ $this->title = Lang::t('main/index', 'title');
 
 Yii::$app->params['jsZoukVar']['dateCreateType'] = SchoolList::DATE_CREATE_ALL;
 
-echo $this->render('/school/tabs', ['selectTab' => 1]);
+$this->params['containerClass'] = 'block-entry-list';
 ?>
 <div class="site-index">
     <div class="body-content">
-        <div id="schoolMap">
-
+        <div style="margin: -11px -15px 0 -15px; -webkit-box-shadow: 0 4px 2px -2px rgba(0,0,0,0.5); box-shadow: 0 4px 2px -2px rgba(0,0,0,0.3);">
+            <div id="schoolMap"></div>
         </div>
         <br/>
-        <div class="row">
-            <div class="col-md-8">
-                <ul class="nav nav-tabs nav-main-tabs">
-                    <li class="tab-title"><?= Lang::t('main', 'mainButtonSchools') ?></li>
-                </ul>
-                <?= Html::a(
-                    Lang::t('main', 'mainButtonAddSchool'),
-                    ['/schools/add'],
-                    ['class' => 'btn btn-success btn-label-main add-item visible-sm-block visible-xs-block']
-                ) ?>
-                <?= SchoolList::widget(['orderBy' => SchoolList::ORDER_BY_LIKE_SHOW, 'dateCreateType' => SchoolList::DATE_CREATE_ALL]) ?>
-            </div>
-            <div class="col-md-4">
-                <?php
-                echo Html::a(
-                    Lang::t('main', 'mainButtonAddSchool'),
-                    ['/schools/add'],
-                    ['class' => 'btn btn-success btn-label-main add-item']
-                );
-                echo $this->render('/list/listRightBlock');
-                ?>
-            </div>
-        </div>
+        <?= EntryList::widget([
+            'orderBy' => EntryList::ORDER_BY_LIKE_SHOW,
+            'searchEntryForm' => $searchEntryForm,
+            'page' => $page,
+            'entityTypes' => [School::THIS_ENTITY],
+            'blockAction' => Html::a(
+                Lang::t('main', 'mainButtonAddSchool'),
+                ['/schools/add'],
+                ['class' => 'btn btn-success btn-label-main add-item']
+            ),
+        ]) ?>
     </div>
 </div>
+
