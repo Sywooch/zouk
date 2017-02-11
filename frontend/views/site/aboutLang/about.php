@@ -25,8 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="site-about">
-    <div id="item-header">
-        <h1><?= Html::encode($this->title) ?></h1>
+    <div style="margin: -10px -15px 0 -15px;">
+        <?= Html::img(Yii::$app->UrlManager->to('img/about.png'), ['class' => 'about-logo']); ?>
+    </div>
+    <div>
+        <h1 class="title"><?= Html::encode($this->title) ?></h1>
     </div>
 
     <p>

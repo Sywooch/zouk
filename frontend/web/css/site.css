@@ -1128,7 +1128,9 @@ span.selection span.select2-selection .select2-selection__arrow {
     width: auto !important;
 }
 
-
+.about-logo {
+    width: 100%;
+}
 
 @media (max-width: 767px) {
     .carousel-promotion:not(.is-slick) {
@@ -1162,4 +1164,27 @@ span.selection span.select2-selection .select2-selection__arrow {
     .carousel-promotion:not(.is-slick) .block-promo {
         width: 20vw;
     }
+}
+
+.title {
+    overflow: hidden;
+    text-align: center;
+}
+.title:before,
+.title:after {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    box-sizing: border-box;
+    width: 100%;
+    height: 3px;
+    background: #F35D5F;
+    border: solid #FFF;
+    border-width: 0 10px;
+}
+.title:before {
+    margin-left: -100%;
+}
+.title:after {
+    margin-right: -100%;
 }

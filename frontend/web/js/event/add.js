@@ -33,7 +33,7 @@ $(document).ready(function () {
         showAutocompleteOnFocus: true
     });
 
-    $("#datepicker").datepicker({
+    $("#datepicker,#datepicker_to").datepicker({
         dateFormat: "dd.mm.yy"
     });
 });
