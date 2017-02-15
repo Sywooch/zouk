@@ -1,3 +1,44 @@
+
+var view_oldEnv = '';
+var $carousel = $('.carousel-entry-view-main');
+
+
+function setCarouselByEnvView(env) {
+    if (env == 'lg' || env == 'md' || env == 'sm') {
+        env = 'sm';
+    }
+    if (env != view_oldEnv) {
+        if (env == 'sm') {
+            if (!$carousel.data('is-slick')) {
+                if (!$carousel.data('is-slick')) {
+                    $carousel.data('is-slick', true).addClass('is-slick').removeClass('hide').slick({
+                        infinite: true,
+                        slidesToShow: 3
+                        // slidesToScroll: 1,
+                    });
+                }
+            } else {
+                $carousel.slick('slickSetOption', 'slidesToShow', 3, true);
+                view_oldEnv = env;
+            }
+        } else if (env == 'xs') {
+            if (!$carousel.data('is-slick')) {
+                if (!$carousel.data('is-slick')) {
+                    $carousel.data('is-slick', true).addClass('is-slick').removeClass('hide').slick({
+                        infinite: true,
+                        slidesToShow: 2
+                        // slidesToScroll: 1,
+                    });
+                }
+            } else {
+                $carousel.slick('slickSetOption', 'slidesToShow', 2, true);
+                view_oldEnv = env;
+            }
+        }
+    }
+}
+
+
 $(document).ready(function() {
     var voteSending = false;
     $(document).on('click', '.vote-up-link, .vote-down-link', function() {
@@ -95,4 +136,9 @@ $(document).ready(function() {
         return false;
     });
 
+
+    setCarouselByEnvView(findBootstrapEnvironment());
+    $(window).resize(function() {
+        setCarouselByEnvView(findBootstrapEnvironment());
+    });
 });

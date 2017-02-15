@@ -28,10 +28,10 @@ $this->params['breadcrumbs'][] = Lang::t('page/schoolView', 'title');
 
 $thisUser = User::thisUser();
 $voteSchool = !empty($thisUser) ? $thisUser->getVoteByEntity(Vote::ENTITY_SCHOOL, $school->id) : null;
-$voteUpHtml = '<span class="glyphicon glyphicon-triangle-top"></span>';
-$voteLeftHtml = '<span class="glyphicon glyphicon-triangle-left"></span>';
-$voteDownHtml = '<span class="glyphicon glyphicon-triangle-bottom"></span>';
-$voteRightHtml = '<span class="glyphicon glyphicon-triangle-right"></span>';
+$voteUpHtml = '<span class="glyphicon glyphicon-thumbs-up"></span>';
+$voteLeftHtml = '<span class="glyphicon glyphicon-thumbs-down"></span>';
+$voteDownHtml = '<span class="glyphicon glyphicon-thumbs-down"></span>';
+$voteRightHtml = '<span class="glyphicon glyphicon-thumbs-up"></span>';
 $urlUp = Url::to(['vote/add']);
 $urlDown = Url::to(['vote/add']);
 

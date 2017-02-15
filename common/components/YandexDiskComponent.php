@@ -2,6 +2,8 @@
 
 namespace common\components;
 
+use Exception;
+
 class YandexDiskComponent
 {
 
@@ -209,7 +211,7 @@ class YandexDiskComponent
         if (!isset($type)) {
             $type = static::DECODE_TYPE_DEFAULT;
         }
-        if ($body == "Not found.\n") {
+        if ($body == "Not found.\n" || $body == "resource not found") {
             return null;
         }
         try {

@@ -19,7 +19,9 @@ use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
 
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/view.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+\frontend\assets\ListViewAsset::register($this);
+
+//$this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/view.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/findTagElement.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/share42/share42.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
@@ -29,10 +31,10 @@ $this->params['breadcrumbs'][] = Lang::t('page/listView', 'title');
 
 $thisUser = User::thisUser();
 $voteItem = !empty($thisUser) ? $thisUser->getVoteByEntity(Vote::ENTITY_ITEM, $item->id) : null;
-$voteUpHtml = '<span class="glyphicon glyphicon-triangle-top"></span>';
-$voteLeftHtml = '<span class="glyphicon glyphicon-triangle-left"></span>';
-$voteDownHtml = '<span class="glyphicon glyphicon-triangle-bottom"></span>';
-$voteRightHtml = '<span class="glyphicon glyphicon-triangle-right"></span>';
+$voteUpHtml = '<span class="glyphicon glyphicon-thumbs-up"></span>';
+$voteLeftHtml = '<span class="glyphicon glyphicon-thumbs-down"></span>';
+$voteDownHtml = '<span class="glyphicon glyphicon-thumbs-down"></span>';
+$voteRightHtml = '<span class="glyphicon glyphicon-thumbs-up"></span>';
 $urlUp = Url::to(['vote/add']);
 $urlDown = Url::to(['vote/add']);
 

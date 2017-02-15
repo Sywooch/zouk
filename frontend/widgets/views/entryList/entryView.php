@@ -77,7 +77,7 @@ $tags = $item->tagEntity;
                 <div class="col-xs-6 block-entry-event-from" title="<?= Lang::t("page/eventView", "dateFrom") ?> <?= $dateFrom; ?>">
                     <?= $dateFrom ?>
                 </div>
-                <div class="col-xs-6 block-entry-event-to" title="<?= Lang::t("page/eventView", "dateTo") ?> <?= $dateTo; ?>">
+                <div class="col-xs-6 block-entry-event-to-mini" title="<?= Lang::t("page/eventView", "dateTo") ?> <?= $dateTo; ?>">
                     <?= $dateTo ?>
                 </div>
             </div>

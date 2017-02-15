@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::img(Yii::$app->UrlManager->to('img/about.png'), ['class' => 'about-logo']); ?>
     </div>
     <div>
-        <h1 class="title"><?= Html::encode($this->title) ?></h1>
+        <h1 class="title truncate"><?= Html::encode($this->title) ?></h1>
     </div>
 
     <p>

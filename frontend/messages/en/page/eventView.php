@@ -18,8 +18,9 @@ return [
 
     'viewDeleted' => 'Removed',
 
-    'date'     => 'Date event from:',
-    'dateTo'   => 'Date event to:',
+    'date'     => 'Date event:',
+    'dateFrom' => 'Start the event',
+    'dateTo'   => 'End of the event',
     'location' => 'Location:',
     'site'     => 'Web-site:',
 

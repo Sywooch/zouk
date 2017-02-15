@@ -6,8 +6,8 @@ return [
 
     'fieldTitle'       => 'Заголовок',
     'fieldDescription' => 'Описание',
-    'fieldDate'        => 'Дата мероприятия с',
-    'fieldDateTo'      => 'Дата мероприятия по',
+    'fieldDate'        => 'Начало мероприятия',
+    'fieldDateTo'      => 'Окончание мероприятия',
     'fieldCountry'     => 'Страна',
     'fieldCity'        => 'Город',
     'fieldSite'        => 'Веб-сайт',

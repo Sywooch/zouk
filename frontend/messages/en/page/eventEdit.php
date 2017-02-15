@@ -6,8 +6,8 @@ return [
 
     'fieldTitle'       => 'Title',
     'fieldDescription' => 'Description',
-    'fieldDate'        => 'Date from',
-    'fieldDateTo'      => 'Date to',
+    'fieldDate'        => 'Start the event',
+    'fieldDateTo'      => 'End of the event',
     'fieldCountry'     => 'Country',
     'fieldCity'        => 'City',
     'fieldSite'        => 'Web-site',
