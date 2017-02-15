@@ -7,6 +7,7 @@
  * @var int    $limit
  * @var bool   $addModalShowVideo
  * @var bool   $addModalShowImg
+ * @var bool   $addModalShowLocation
  * @var SearchEntryForm $searchEntryForm
  * @var string $blockAction
  * @var integer $countEntities
@@ -82,6 +83,9 @@ if (!$onlyItem) {
     if ($addModalShowVideo) {
 //        echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_VIDEO]);
     }
-    echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_LOCATION]);
+    
+    if ($addModalShowLocation) {
+        echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_LOCATION]);
+    }
 }
 ?>

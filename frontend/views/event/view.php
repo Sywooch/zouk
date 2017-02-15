@@ -317,6 +317,7 @@ $dateTo = date("d.m.Y", empty($event->date_to) ? $event->date : $event->date_to)
                         'orderBy' => ItemList::ORDER_BY_LIKE_SHOW,
                         'addModalShowVideo' => false,
                         'addModalShowImg' => false,
+                        'addModalShowLocation' => false,
                         'searchEntryForm' => $searchEntryForm,
                         'page' => $page,
                         'entityTypes' => [Item::THIS_ENTITY],

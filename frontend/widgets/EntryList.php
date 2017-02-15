@@ -51,6 +51,8 @@ class EntryList extends \yii\bootstrap\Widget
 
     public $addModalShowImg = true;
 
+    public $addModalShowLocation = true;
+
     public $entityTypes = [Item::THIS_ENTITY, Event::THIS_ENTITY, School::THIS_ENTITY];
 
     public $blockAction = '';
@@ -67,16 +69,17 @@ class EntryList extends \yii\bootstrap\Widget
         return $this->render(
             'entryList/list',
             [
-                'items'             => $items,
-                'onlyItem'          => $this->onlyItem,
-                'dateCreateType'    => $this->dateCreateType,
-                'display'           => $this->display,
-                'limit'             => $this->limit,
-                'addModalShowVideo' => $this->addModalShowVideo,
-                'addModalShowImg'   => $this->addModalShowImg,
-                'searchEntryForm'   => $this->searchEntryForm,
-                'blockAction'       => $this->blockAction,
-                'countEntities'     => count($this->entityTypes),
+                'items'                => $items,
+                'onlyItem'             => $this->onlyItem,
+                'dateCreateType'       => $this->dateCreateType,
+                'display'              => $this->display,
+                'limit'                => $this->limit,
+                'addModalShowVideo'    => $this->addModalShowVideo,
+                'addModalShowImg'      => $this->addModalShowImg,
+                'addModalShowLocation' => $this->addModalShowLocation,
+                'searchEntryForm'      => $this->searchEntryForm,
+                'blockAction'          => $this->blockAction,
+                'countEntities'        => count($this->entityTypes),
             ]
         );
     }
