@@ -26,6 +26,7 @@ use yii\web\IdentityInterface;
  * @property int         $deleted
  * @property integer     $date_update
  * @property integer     $date_create
+ * @property integer     $shared_instagram
  *
  * @property Video[]     $videos
  * @property Music[]     $sounds
@@ -73,7 +74,8 @@ class Item extends EntryModel
         return array_merge(
             parent::rules(),
             [
-
+                [['shared_instagram'], 'boolean'],
+                [['description'], 'default', 'value' => false],
             ]
         );
     }

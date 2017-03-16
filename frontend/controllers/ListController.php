@@ -43,10 +43,10 @@ class ListController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['add', 'edit', 'delete', 'alarm'],
+                'only'  => ['add', 'edit', 'delete', 'alarm', 'share-to-instagram'],
                 'rules' => [
                     [
-                        'actions' => ['add', 'edit', 'delete', 'alarm'],
+                        'actions' => ['add', 'edit', 'delete', 'alarm', 'share-to-instagram'],
                         'allow'   => true,
                         'roles'   => ['@'],
                     ],
@@ -220,6 +220,42 @@ class ListController extends Controller
         }
 
         return Yii::$app->getResponse()->redirect($item->getUrl());
+    }
+
+    public function actionShareToInstagram($id)
+    {
+        /** @var Item $item */
+        $item = Item::findOne($id);
+        if ($item && (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_MODERATOR))) {
+            foreach ($item->videos as $video) {
+                $imgUrl = $video->getThumbnailUrl();
+                $comment = $item->title . "\n" . $video->video_title . "\n";
+
+                $tags = $item->tagEntity;
+
+                $tagValues = ['#prozouk', '#zouk'];
+                foreach ($tags as $tag) {
+                    $tagItem = $tag->tags;
+                    $tagName = $tagItem->getName();
+                    $tagName = str_replace(' ', '', $tagName);
+                    if (!empty($tagName)) {
+                        $tagValues[] = '#' . $tagName;
+                    }
+                }
+                $comment .= join(' ', $tagValues) . "\n";
+                $comment .= Url::to(['list/view', 'id' => $item->alias], true);
+
+                /** @var \common\components\InstagramComponent $x */
+                $instagram = Yii::$app->Instagram;
+                $instagram->sendInstagramm(
+                    $imgUrl,
+                    $comment
+                );
+            }
+            $item->shared_instagram = true;
+            $item->save();
+        }
+        return $this->redirect(['list/view', 'id' => $id]);
     }
 
     public function actionItems()

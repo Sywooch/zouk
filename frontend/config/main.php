@@ -102,6 +102,11 @@ return [
             'keys'   => [
             ],
         ],
+        'Instagram'   => [
+            'class'  => 'common\components\InstagramComponent',
+            'login'    => '',
+            'password' => '',
+        ],
         'google'       => [
             'class'        => 'common\components\GoogleComponent',
             'googleApiKey' => '',

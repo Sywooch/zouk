@@ -6,6 +6,8 @@ return [
     'edit2'               => 'изменить',
     'delete'              => 'удалить',
     'deleteBtn'           => 'Удалить',
+    'sharedToInstagram'   => 'в instagram-е',
+    'shareToInstagram'    => 'поделиться в instagram',
     'cancel'              => 'Отмена',
     'share'               => 'поделиться',
     'deleteConfirmTitle'  => 'Удалить запись?',

@@ -224,6 +224,17 @@ if (!empty($image_src)) {
                     'data-target' => ".modal-alarm",
                 ]
             ), ' ';
+            if (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_MODERATOR)) {
+                if ($item->shared_instagram) {
+                    echo Html::tag('s', Lang::t('page/listView', 'sharedToInstagram'));
+                } else {
+                    echo Html::a(
+                        Lang::t('page/listView', 'shareToInstagram'),
+                        Url::to(['list/share-to-instagram', 'id' => $item->id]),
+                        ['class' => 'btn btn-link no-focus']
+                    );
+                }
+            }
             /** @var User $author */
             $author = $item->user;
             ?>
