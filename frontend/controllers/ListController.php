@@ -229,7 +229,7 @@ class ListController extends Controller
         if ($item && (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_MODERATOR))) {
             $k = 0;
             foreach ($item->videos as $video) {
-                $imgUrl = $video->getThumbnailUrl();
+                $imgUrl = $video->getThumbnailUrl(2);
                 $comment = $item->title . "\n" . $video->video_title . "\n";
 
                 $tags = $item->tagEntity;
