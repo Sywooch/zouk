@@ -227,6 +227,7 @@ class ListController extends Controller
         /** @var Item $item */
         $item = Item::findOne($id);
         if ($item && (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_MODERATOR))) {
+            $k = 0;
             foreach ($item->videos as $video) {
                 $imgUrl = $video->getThumbnailUrl();
                 $comment = $item->title . "\n" . $video->video_title . "\n";
@@ -247,13 +248,18 @@ class ListController extends Controller
 
                 /** @var \common\components\InstagramComponent $x */
                 $instagram = Yii::$app->Instagram;
-                $instagram->sendInstagramm(
+                $result = $instagram->sendInstagramm(
                     $imgUrl,
                     $comment
                 );
+                if ($result !== false) {
+                    $k++;
+                }
             }
-            $item->shared_instagram = true;
-            $item->save();
+            if ($k > 0) {
+                $item->shared_instagram = true;
+                $item->save();
+            }
         }
         return $this->redirect(['list/view', 'id' => $id]);
     }
