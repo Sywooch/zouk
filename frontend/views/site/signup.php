@@ -15,7 +15,7 @@ UloginAsset::register($this);
 $this->title = Lang::t('page/siteLogin', 'titleSignup');
 $this->params['breadcrumbs'][] = $this->title;
 
-$this->registerJsFile('https://www.google.com/recaptcha/api.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('//google.com/recaptcha/api.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 ?>
 <div class="site-signup">

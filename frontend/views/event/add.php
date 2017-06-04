@@ -23,7 +23,7 @@ $this->registerCssFile('//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.
 
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/imgEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/event/add.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile('https://www.google.com/recaptcha/api.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('//google.com/recaptcha/api.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $this->title = Lang::t('page/eventEdit', 'titleAdd');
 

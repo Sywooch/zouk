@@ -28,7 +28,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/videoEdit.js', ['d
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/soundEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/imgEdit.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/list/add.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile('https://www.google.com/recaptcha/api.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile('//google.com/recaptcha/api.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $this->title = Lang::t('page/listAdd', 'title');
 
