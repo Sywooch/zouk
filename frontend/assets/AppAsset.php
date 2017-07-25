@@ -9,6 +9,7 @@ namespace frontend\assets;
 
 use yii\web\AssetBundle;
 use yii\web\JqueryAsset;
+use yii\web\View;
 
 /**
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -22,7 +23,11 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
-        'js/site.js'
+        'js/site.js',
+        [
+            '//vk.com/js/api/openapi.js?146',
+            'position' => View::POS_HEAD,
+        ]
     ];
     public $depends = [
         'yii\web\YiiAsset',

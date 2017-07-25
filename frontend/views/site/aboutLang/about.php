@@ -21,6 +21,9 @@ $this->registerMetaTag([
     'content' => $description,
 ], 'description');
 
+
+$this->registerJs("VK.Widgets.Group('vk_groups', {mode: 3}, 117236846);", \yii\web\View::POS_END);
+
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -51,4 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
         возникли предложения, пожалуйста, <?= Html::a('свяжитесь с нами', Url::to(['site/contact'])) ?>.
     </p>
 
+    <div class="row">
+        <div class="col-md-offset-9 col-sm-offset-8 col-md-3 col-sm-4 text-centr">
+            <div id="vk_groups" style="margin: auto"></div>
+        </div>
+    </div>
 </div>

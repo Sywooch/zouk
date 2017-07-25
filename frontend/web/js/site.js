@@ -19,6 +19,34 @@ var oldEnv = '';
 var isInit = false;
 var $carouselPromotion = $('.carousel-promotion');
 
+function setCarusel() {
+    $carouselPromotion.slick({
+        dots: false,
+        infinite: true,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 4
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 3
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2
+                }
+            }
+        ]
+    });
+}
 
 function setCarouselByEnv(env) {
     if (env != oldEnv) {
@@ -79,6 +107,9 @@ function setCarouselByEnv(env) {
 }
 
 $(document).ready(function(){
+
+    // setCarusel();
+
     $carouselPromotion.find('.block-promo').each(function() {
         var $this = $(this);
         if (typeof $this.data('is-create-img') == "undefined") {
@@ -98,6 +129,7 @@ $(document).ready(function(){
             $this.data('is-create-img', true);
         }
     });
+
 
     setCarouselByEnv(findBootstrapEnvironment());
 

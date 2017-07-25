@@ -25,6 +25,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/event/view.js', ['depen
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/findTagElement.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/share42/share42.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
+$this->registerJs("VK.Widgets.Like('vk_like', {type: 'mini'});", \yii\web\View::POS_END);
+$this->registerJs("VK.Widgets.Comments('vk_comments', {limit: 10, attach: '*'});", \yii\web\View::POS_END);
+
 $this->title = $event->getTitle2();
 
 $this->params['breadcrumbs'][] = Lang::t('page/eventView', 'title');
@@ -218,6 +221,9 @@ $dateTo = date("d.m.Y", empty($event->date_to) ? $event->date : $event->date_to)
 <div class="row margin-bottom">
     <div class="col-sm-7">
         <div>
+            <div id="vk_like"></div>
+        </div>
+        <div>
 
         <?php
         if (Yii::$app->user->can(User::PERMISSION_DELETE_EVENTS, ['object' => $event])) {
@@ -304,7 +310,7 @@ $dateTo = date("d.m.Y", empty($event->date_to) ? $event->date : $event->date_to)
         <ul class="nav nav-tabs nav-main-tabs margin-bottom">
             <li class="active"><?= Html::a(Lang::t('page/eventView', 'titleList'), $event->getUrl(), ['class' => 'tab-event tab-event-list']) ?></li>
             <li class=""><?= Html::a(Lang::t('page/eventView', 'titleVideos'), $event->getUrl(), ['class' => 'tab-event tab-event-videos']) ?></a></li>
-<!--            <li class="">--><?//= Html::a(Lang::t('page/eventView', 'titleComment'), $event->getUrl(), ['class' => 'tab-event tab-event-comment']) ?><!--</a></li>-->
+            <li class=""><?= Html::a(Lang::t('page/eventView', 'titleComment'), $event->getUrl(), ['class' => 'tab-event tab-event-comment']) ?></a></li>
         </ul>
 
         <div class="row block-event block-event-list">
@@ -347,17 +353,20 @@ $dateTo = date("d.m.Y", empty($event->date_to) ? $event->date : $event->date_to)
             </div>
         </div>
 
-<!--        <div class="row block-event block-event-comment hide">-->
-<!--            <div class="col-md-12">-->
-<!--                <div>-->
-<!--                    <h3>--><?//= Lang::t('page/eventView', 'titleComment') ?><!--</h3>-->
+        <div class="row block-event block-event-comment hide">
+            <div class="col-md-12">
+                <div>
+                    <h3><?= Lang::t('page/eventView', 'titleComment') ?></h3>
+                    <div class="col-sm-6">
+                        <div id="vk_comments"></div>
+                    </div>
 <!--                    <div>-->
 <!--                        --><?//= \frontend\widgets\CommentsWidget::widget(['entity' => Comment::ENTITY_EVENT, 'entity_id' => $event->id]); ?>
 <!--                    </div>-->
-<!--                </div>-->
-<!---->
-<!--            </div>-->
-<!--        </div>-->
+                </div>
+
+            </div>
+        </div>
     </div>
 
 <div class="modal fade modal-delete-confirm bs-example-modal-sm" tabindex="-1" role="dialog"

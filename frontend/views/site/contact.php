@@ -11,6 +11,9 @@ use yii\captcha\Captcha;
 
 $this->title = Lang::t('page/contact', 'title');
 $this->params['breadcrumbs'][] = $this->title;
+
+
+$this->registerJs("VK.Widgets.Comments('vk_comments', {limit: 10, attach: '*'});", \yii\web\View::POS_END);
 ?>
 <div class="site-contact">
     <div id="item-header">
@@ -20,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p><?= Lang::t('page/contact', 'labelContact') ?></p>
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-md-6">
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
                 <?= $form->field($model, 'name')->label(Lang::t('page/contact', 'name')) ?>
@@ -40,6 +43,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
             <?php ActiveForm::end(); ?>
+        </div>
+        <div class="col-md-6">
+            <div id="vk_comments"></div>
         </div>
     </div>
 

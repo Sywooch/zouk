@@ -28,6 +28,7 @@ SlickAsset::register($this);
 
 $var = isset(Yii::$app->params['jsZoukVar']) ? Yii::$app->params['jsZoukVar'] : [];
 $this->registerJs("var jsZoukVar = " . json_encode($var) . ";", View::POS_HEAD);
+$this->registerJs("VK.init({apiId: 4423944, onlyWidgets: true});", View::POS_HEAD);
 
 $year = date('Y');
 $month = date('m');
@@ -236,8 +237,9 @@ $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEn
         <p class="pull-left">&copy; ProZouk <?= date('Y') ?></p>
         <?php if (!YII_DEBUG) { ?>
             <p class="pull-right" style="margin-right: 10px">
-                <!-- begin of Top100 code -->
+                <a href="http://www.dance-league.com"  title="Танцы, уроки танца" target="_blank"><img src="http://www.dance-league.com/dl-88x31.gif" alt="Танцы, уроки танца" /></a>
 
+                <!-- begin of Top100 code -->
                 <script id="top100Counter" type="text/javascript" src="http://counter.rambler.ru/top100.jcn?4434208"></script>
                 <noscript>
                     <a href="http://top100.rambler.ru/navi/4434208/">

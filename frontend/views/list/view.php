@@ -25,6 +25,9 @@ use yii\helpers\Url;
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/findTagElement.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/share42/share42.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
+$this->registerJs("VK.Widgets.Like('vk_like', {type: 'mini'});", \yii\web\View::POS_END);
+$this->registerJs("VK.Widgets.Comments('vk_comments', {limit: 10, attach: '*'});", \yii\web\View::POS_END);
+
 $this->title = $item->getTitle2();
 
 $this->params['breadcrumbs'][] = Lang::t('page/listView', 'title');
@@ -190,6 +193,9 @@ if (!empty($image_src)) {
             ?>
         </div>
         <div>
+            <div id="vk_like"></div>
+        </div>
+        <div>
             <?php
             if (Yii::$app->user->can(User::PERMISSION_DELETE_ITEMS, ['object' => $item])) {
                 echo Html::button(
@@ -266,7 +272,10 @@ if (!empty($image_src)) {
     <div class="col-md-12">
         <div>
             <h3><?= Lang::t('page/listView', 'titleComment') ?></h3>
-            <div>
+            <div class="col-sm-6">
+                <div id="vk_comments"></div>
+            </div>
+            <div class="col-sm-6">
                 <?= \frontend\widgets\CommentsWidget::widget(['entity' => Comment::ENTITY_ITEM, 'entity_id' => $item->id]); ?>
             </div>
         </div>
