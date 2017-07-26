@@ -148,7 +148,7 @@ $searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEn
     ?>
 
     <div class="container <?= isset($this->params['containerClass']) ? $this->params['containerClass'] : '' ?>">
-        <div class="row main-header carousel-promotion">
+        <div class="row main-header carousel-promotion is-slick">
             <div class="block-promo block-promo-prozouk"
                  data-img-url="<?= Yii::$app->UrlManager->to('img/promo/interesting_block_0.png'); ?>"
             >
