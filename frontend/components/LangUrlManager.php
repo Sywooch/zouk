@@ -22,7 +22,7 @@ class LangUrlManager extends UrlManager
         } else {
             //Если не указан параметр языка, то работаем с текущим языком
             $lang = Lang::getCurrent();
-            if (empty($params['lang_id'])) {
+            if (isset($params['lang_id'])) {
                 $addLang = false;
                 unset($params['lang_id']);
             }
