@@ -42,7 +42,11 @@ class LangUrlManager extends UrlManager
                 for ($i = 0; $i <= Yii::$app->params['mainPathCount']; $i++) {
                     $mainPath[] = array_shift($url_list);
                 }
-                $url_list = array_merge($mainPath, [$lang->url], $url_list);
+                if ($addLang) {
+                    $url_list = array_merge($mainPath, [$lang->url], $url_list);
+                } else {
+                    $url_list = array_merge($mainPath, $url_list);
+                }
                 return join('/', $url_list);
             }
             return '/' . ($addLang ? $lang->url : '') . $url;
