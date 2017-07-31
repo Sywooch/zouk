@@ -32,24 +32,21 @@ class LangUrlManager extends UrlManager
         $url = parent::createUrl($params);
 
 
-        if ($addLang) {
-            //Добавляем к URL префикс - буквенный идентификатор языка
-            if ($url == '/') {
-                return '/' . $lang->url;
-            } else {
-                if (YII_DEBUG && !empty(Yii::$app->params['mainPathCount'])) {
-                    $url_list = explode('/', $url);
-                    $mainPath = [];
-                    for ($i = 0; $i <= Yii::$app->params['mainPathCount']; $i++) {
-                        $mainPath[] = array_shift($url_list);
-                    }
-                    $url_list = array_merge($mainPath, [$lang->url], $url_list);
-                    return join('/', $url_list);
+        //Добавляем к URL префикс - буквенный идентификатор языка
+        if ($url == '/') {
+            return '/' . ($addLang ? $lang->url : '');
+        } else {
+            if (YII_DEBUG && !empty(Yii::$app->params['mainPathCount'])) {
+                $url_list = explode('/', $url);
+                $mainPath = [];
+                for ($i = 0; $i <= Yii::$app->params['mainPathCount']; $i++) {
+                    $mainPath[] = array_shift($url_list);
                 }
-                return '/' . $lang->url . $url;
+                $url_list = array_merge($mainPath, [$lang->url], $url_list);
+                return join('/', $url_list);
             }
+            return '/' . ($addLang ? $lang->url : '') . $url;
         }
-        return $url;
     }
 
     public function toLang($lang)
