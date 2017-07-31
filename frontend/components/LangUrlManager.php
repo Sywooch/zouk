@@ -49,7 +49,7 @@ class LangUrlManager extends UrlManager
                 }
                 return join('/', $url_list);
             }
-            return '/' . ($addLang ? $lang->url : '') . $url;
+            return ($addLang ? ('/' . $lang->url) : '') . $url;
         }
     }
 

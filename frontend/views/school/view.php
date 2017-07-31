@@ -22,7 +22,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/school/view.js', ['depe
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/findTagElement.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/share42/share42.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
-$url = $school->getUrl(false, ['lang_id' => false]);
+$url = $school->getUrl(true, ['lang_id' => false]);
 $this->registerJs("VK.Widgets.Like('vk_like', {type: 'mini', 'pageTitle': '{$this->title}', 'pageUrl': '{$url}'});", \yii\web\View::POS_END);
 $this->registerJs("VK.Widgets.Comments('vk_comments', {limit: 10, attach: '*', 'pageUrl': '{$url}'});", \yii\web\View::POS_END);
 
