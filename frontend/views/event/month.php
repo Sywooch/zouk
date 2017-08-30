@@ -6,6 +6,7 @@
  */
 
 use common\models\Event;
+use common\models\User;
 use frontend\models\Lang;
 use frontend\widgets\EventList;
 use yii\bootstrap\Html;
@@ -92,3 +93,27 @@ $this->registerMetaTag([
     </div>
 </div>
 
+
+
+<?php
+if (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_MODERATOR)) {
+    ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <pre><?php
+                echo "@prozouk (ProZouk - события на {$monthA})\n\n";
+                foreach ($events as $event) {
+                    echo "* " . date('d.m.Y', $event->date) . ' - ' . $event->title . "\n";
+                    echo $event->getUrl(true) . "\n";
+                }
+                echo "\n";
+                echo "Нет вашего события? Добавляйте его на сайте http://prozouk.ru/ru/events/add или пишите личным сообщением!\n\n";
+                echo "#prozouk #zouk #events #brazilianzouk\n";
+                echo "Список с картой на сайте: http://prozouk.ru/events/{$year}/{$month}";
+            ?></pre>
+        </div>
+
+    </div>
+    <?php
+}
+?>

@@ -25,6 +25,7 @@ use yii\web\IdentityInterface;
  * @property integer     $date_create
  *
  * @property User        $user
+ * @property TagEntity[] $tagEntity
  */
 class EntryModel extends VoteModel
 {
@@ -140,5 +141,26 @@ class EntryModel extends VoteModel
             ->andWhere(['entity_1' => $this->getThisEntity(), 'entity_2' => Img::THIS_ENTITY, 'entity_1_id' => $this->id])
             ->orderBy(['sort' => SORT_ASC]);
         return $query->all();
+    }
+
+
+    public function generateTagValues($additionalTags)
+    {
+        /** @var TagEntity[] $tags */
+        $tags = $this->tagEntity;
+
+        $tagValues = $additionalTags;
+        foreach ($tags as $tag) {
+            $tagItem = $tag->tags;
+            $tagName = $tagItem->getName();
+            $tagName = str_replace(' ', '', $tagName);
+            if (!empty($tagName)) {
+                $tagValues[] = $tagName;
+            }
+        }
+        foreach ($tagValues as $key => $tagValue) {
+            $tagValues[$key] = '#' . $tagValue;
+        }
+        return $tagValues;
     }
 }

@@ -132,16 +132,20 @@ Yii::$app->params['jsZoukVar']['blockLocationCount'] = count($locations);
                 }
                 ?>
             </div>
+            <div class="clearfix"></div>
 
             <div class="input-group margin-bottom">
                 <span class="input-group-addon"><?= Lang::t('page/eventEdit', 'tags') ?></span>
                 <?= Html::textInput('tags', $tagValue, ['id' => 'tokenfield', 'data-tokens' => $tagValue, 'class' => 'form-control']) ?>
             </div>
+            <div class="clearfix"></div>
+
 
             <div class="form-group">
                 <?= Html::submitButton(Lang::t('page/eventEdit', 'buttonSave'), ['class' => 'btn btn-primary', 'name' => 'list-add-button']) ?>
                 <?= Html::a(Lang::t('page/eventEdit', 'buttonCancel'), $event->getUrl(), ['class' => 'btn btn-default pull-right']) ?>
             </div>
+            <div class="clearfix"></div>
 
             <?php ActiveForm::end(); ?>
         </div>

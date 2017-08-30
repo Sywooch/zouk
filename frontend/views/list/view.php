@@ -269,6 +269,23 @@ if (!empty($image_src)) {
         <div class="share42init hide"></div>
     </div>
 </div>
+<?php
+    if (Yii::$app->user->can(User::ROLE_ADMIN) || Yii::$app->user->can(User::ROLE_MODERATOR)) {
+        ?>
+        <div class="row">
+            <div class="col-xs-12">
+                <pre><?php
+                    echo $item->title . "\n\n";
+                    $genTags = $item->generateTagValues(['prozouk', 'zouk', 'dancezouk', 'dance']);
+                    echo join(' ', $genTags) . "\n";
+                    echo $item->getUrl(true);
+                ?></pre>
+            </div>
+
+        </div>
+        <?php
+    }
+?>
 <div class="row">
     <hr/>
     <div class="col-md-12">
