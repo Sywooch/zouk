@@ -144,7 +144,36 @@ class AccountController extends Controller
         $vkapi->setGroupIds([$groupId]);
         $url = $vkapi->getAccessTokenUrl();
 
-        return $this->redirect($url);
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL            => $url, // Полный адрес метода
+            CURLOPT_RETURNTRANSFER => true, // Возвращать ответ
+            CURLOPT_POST           => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+        ]);
+        $response = curl_exec($curl); // Выполненяем запрос
+        if ($response !== false) {
+            $response = json_decode($response, true); // Декодируем из JSON в массив
+            $key = 'access_token_' . $groupId;
+            if (isset($response[$key])) {
+                /** @var User $user */
+                $user = Yii::$app->user->identity;
+                $token = VkAccessToken::findOne(['user_id' => $user->id]);
+                if (empty($token)) {
+                    $token = new VkAccessToken();
+                }
+                $token->setAttributes([
+                    'user_id'      => $user->id,
+                    'group_id'     => $groupId,
+                    'access_token' => $response[$key],
+                    'expires_in'   => $response['expires_in'],
+                ]);
+                $token->save();
+            }
+        }
+        curl_close($curl); // Закрываем соединение
+
+        return $this->redirect($request->referrer);
     }
 
     public function actionSetAccessToken($id)
