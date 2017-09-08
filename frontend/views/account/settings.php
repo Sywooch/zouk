@@ -66,8 +66,33 @@ $userDisplayName = $user->getDisplayName();
             </table>
             <label><?= Lang::t('page/accountProfile', 'socialConnect') ?></label>
             <div id="uLogin"
-                 data-ulogin="display=panel;fields=first_name,last_name,email;optional=nickname;providers=facebook,google,vkontakte,twitter,odnoklassniki,mailru;hidden=other;redirect_uri=;callback=bindSocial"></div>
+                 data-ulogin="display=panel;fields=first_name,last_name,email;optional=nickname;providers=facebook,google,vkontakte,twitter,odnoklassniki,mailru;hidden=other;redirect_uri=;callback=bindSocial">
+            </div>
+            <div class="clearfix"></div>
 
+            <?php
+            $vkAccessToken = \common\models\VkAccessToken::findOne(['user_id' => $user->id]);
+            if (!empty($vkAccessToken)) {
+                ?>
+                <h3>Дуступ к группе вк</h3>
+                <label>
+                    Группа <b><?= $vkAccessToken->group_id; ?></b>: <code><?= $vkAccessToken->access_token; ?></code>.
+                </label>
+                <?php
+            }
+            ?>
+
+
+            <h3>Дать доступ к группе вк</h3>
+            <?php
+            $form = ActiveForm::begin(['action' => ['account/get-access-token'], 'id' => 'profile-settings-form']);
+
+            echo Html::tag('label', 'ID группы', ['class' => 'control-label']);
+            echo Html::textInput('group_id', '',['class' => 'form-control']);
+
+            echo Html::submitButton('Получить access_token', ['class' => 'btn btn-default', 'name' => 'list-add-button']);
+            ActiveForm::end();
+            ?>
         </div>
     </div>
 </div>

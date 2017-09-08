@@ -359,4 +359,9 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return $userinfo;
     }
+
+   public function getVkAccessTokens()
+   {
+       return $this->hasMany(VkAccessToken::class, ['user_id' => 'id']);
+   }
 }

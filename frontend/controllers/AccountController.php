@@ -1,21 +1,14 @@
 <?php
 namespace frontend\controllers;
 
+use common\components\vk\VkontakteComponent;
 use common\models\Ulogin;
 use common\models\User;
+use common\models\VkAccessToken;
 use frontend\models\ChangePasswordForm;
 use frontend\models\Lang;
 use Yii;
-use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
-use frontend\models\ContactForm;
-use yii\base\InvalidParamException;
-use yii\bootstrap\Html;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
@@ -34,10 +27,9 @@ class AccountController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['profile'],
                 'rules' => [
                     [
-                        'actions' => ['profile'],
+                        'actions' => ['profile', 'edit', 'settings', 'view', 'editavatar', 'get-access-token', 'set-access-token'],
                         'allow'   => true,
                         'roles'   => ['@'],
                     ],
@@ -142,4 +134,39 @@ class AccountController extends Controller
         return $this->render('profile', ['user' => $user, 'isThisUser' => false]);
     }
 
+    public function actionGetAccessToken()
+    {
+        $request = Yii::$app->request;
+        $groupId = $request->post('group_id');
+        /** @var VkontakteComponent $vkapi */
+        $vkapi = Yii::$app->vkapi;
+        $vkapi->setRedirectUri(Url::to(['account/set-access-token', 'id' => $groupId]));
+        $vkapi->setGroupIds([$groupId]);
+        $url = $vkapi->getAccessTokenUrl();
+
+        return $this->redirect($url);
+    }
+
+    public function actionSetAccessToken($id)
+    {
+        $request = Yii::$app->request;
+        $key = 'access_token_' . $id;
+        $access_token = $request->get($key, '');
+        if (!empty($access_token)) {
+            /** @var User $user */
+            $user = Yii::$app->user->identity;
+            $token = VkAccessToken::findOne(['user_id' => $user->id]);
+            if (empty($token)) {
+                $token = new VkAccessToken();
+            }
+            $token->setAttributes([
+                'user_id'      => $user->id,
+                'group_id'     => $id,
+                'access_token' => $access_token,
+                'expires_in'   => $request->get('expires_in', 0),
+            ]);
+            $token->save();
+        }
+        return $this->redirect($request->referrer);
+    }
 }

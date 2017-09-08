@@ -13,11 +13,11 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components'          => [
         'user'         => [
-            'class' => 'common\components\User',
+            'class'           => 'common\components\User',
             'identityClass'   => 'common\models\User',
             'enableAutoLogin' => true,
         ],
-        'authManager' => [
+        'authManager'  => [
             'class' => 'yii\rbac\DbManager',
         ],
         'log'          => [
@@ -102,8 +102,8 @@ return [
             'keys'   => [
             ],
         ],
-        'Instagram'   => [
-            'class'  => 'common\components\InstagramComponent',
+        'Instagram'    => [
+            'class'    => 'common\components\InstagramComponent',
             'login'    => '',
             'password' => '',
         ],
@@ -116,6 +116,9 @@ return [
         ],
         'assetManager' => [
             'appendTimestamp' => true,
+        ],
+        'vkapi'        => [
+            'class' => \common\components\vk\VkontakteComponent::class,
         ],
     ],
     'params'              => $params,
