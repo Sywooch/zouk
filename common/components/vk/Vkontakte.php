@@ -13,7 +13,7 @@ use yii\base\Component;
 class Vkontakte extends Component
 {
 
-    const VERSION = '5.21';
+    const VERSION = '5.68';
 
     /**
      * The application ID
@@ -246,16 +246,17 @@ class Vkontakte extends Component
         . '&scope=' . urlencode(implode(',', $this->getScope()))
         . '&redirect_uri=' . urlencode($this->getRedirectUri())
         . '&response_type=' . urlencode($this->getResponceType())
-        . '&v=' . urlencode(self::VERSION);
+        . '&group_ids=' . urlencode(implode(',', $this->groupIds))
+        . '&display=page&v=' . urlencode(self::VERSION);
     }
 
-    public function getAccessTokenUrl()
+    public function getAccessTokenUrl($code)
     {
-        return 'https://oauth.vk.com/authorize'
+        return 'https://oauth.vk.com/access_token'
             . '?client_id=' . urlencode($this->getAppId())
-            . '&scope=' . urlencode(implode(',', $this->getScope()))
-            . '&group_ids=' . urlencode(implode(',', $this->getGroupIds()))
-            . '&redirect_uri=' . urlencode($this->getRedirectUri());
+            . '&client_secret=' . urlencode($this->getSecret())
+            . '&redirect_uri=' . urlencode($this->getRedirectUri())
+            . '&code=' . urlencode($code);
     }
 
     /**

@@ -142,60 +142,55 @@ class AccountController extends Controller
         $vkapi = Yii::$app->vkapi;
         $vkapi->setRedirectUri(Url::to(['account/set-access-token', 'id' => $groupId], true));
         $vkapi->setGroupIds([$groupId]);
-        $url = $vkapi->getAccessTokenUrl();
+        $url = $vkapi->getLoginUrl();
 
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-            CURLOPT_URL            => $url, // Полный адрес метода
-            CURLOPT_RETURNTRANSFER => true, // Возвращать ответ
-            CURLOPT_POST           => false,
-            CURLOPT_SSL_VERIFYPEER => false,
-        ]);
-        $response = curl_exec($curl); // Выполненяем запрос
-        if ($response !== false) {
-            $response = json_decode($response, true); // Декодируем из JSON в массив
-            $key = 'access_token_' . $groupId;
-            if (isset($response[$key])) {
-                /** @var User $user */
-                $user = Yii::$app->user->identity;
-                $token = VkAccessToken::findOne(['user_id' => $user->id]);
-                if (empty($token)) {
-                    $token = new VkAccessToken();
-                }
-                $token->setAttributes([
-                    'user_id'      => $user->id,
-                    'group_id'     => $groupId,
-                    'access_token' => $response[$key],
-                    'expires_in'   => $response['expires_in'],
-                ]);
-                $token->save();
-            }
-        }
-        curl_close($curl); // Закрываем соединение
-
-        return $this->redirect($request->referrer);
+        return $this->redirect($url);
     }
 
     public function actionSetAccessToken($id)
     {
         $request = Yii::$app->request;
-        $key = 'access_token_' . $id;
-        $access_token = $request->get($key, '');
-        if (!empty($access_token)) {
-            /** @var User $user */
-            $user = Yii::$app->user->identity;
-            $token = VkAccessToken::findOne(['user_id' => $user->id]);
-            if (empty($token)) {
-                $token = new VkAccessToken();
-            }
-            $token->setAttributes([
-                'user_id'      => $user->id,
-                'group_id'     => $id,
-                'access_token' => $access_token,
-                'expires_in'   => $request->get('expires_in', 0),
+
+        if (!empty($request->get('code'))) {
+            /** @var VkontakteComponent $vkapi */
+            $vkapi = Yii::$app->vkapi;
+            $vkapi->setRedirectUri(Url::to(['account/set-access-token', 'id' => $id], true));
+
+            $url = $vkapi->getAccessTokenUrl($request->get('code'));
+
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_URL            => $url, // Полный адрес метода
+                CURLOPT_RETURNTRANSFER => true, // Возвращать ответ
+                CURLOPT_POST           => false,
+                CURLOPT_SSL_VERIFYPEER => false,
             ]);
-            $token->save();
+
+            $response = curl_exec($curl); // Выполненяем запрос
+
+            if ($response !== false) {
+                $response = json_decode($response, true); // Декодируем из JSON в массив
+                $key = 'access_token_' . $id;
+                if (isset($response[$key])) {
+                    /** @var User $user */
+                    $user = Yii::$app->user->identity;
+                    $token = VkAccessToken::findOne(['user_id' => $user->id]);
+                    if (empty($token)) {
+                        $token = new VkAccessToken();
+                    }
+                    $token->setAttributes([
+                        'user_id'      => $user->id,
+                        'group_id'     => $id,
+                        'access_token' => $response[$key],
+                        'expires_in'   => $response['expires_in'],
+                    ]);
+                    $token->save();
+                }
+            }
+
+            curl_close($curl); // Закрываем соединение
         }
-        return $this->redirect($request->referrer);
+
+        return $this->redirect(['account/settings']);
     }
 }
