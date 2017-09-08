@@ -140,7 +140,7 @@ class AccountController extends Controller
         $groupId = $request->post('group_id');
         /** @var VkontakteComponent $vkapi */
         $vkapi = Yii::$app->vkapi;
-        $vkapi->setRedirectUri(Url::to(['account/set-access-token', 'id' => $groupId]));
+        $vkapi->setRedirectUri(Url::to(['account/set-access-token', 'id' => $groupId], true));
         $vkapi->setGroupIds([$groupId]);
         $url = $vkapi->getAccessTokenUrl();
 
