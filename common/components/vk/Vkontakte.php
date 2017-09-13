@@ -246,7 +246,6 @@ class Vkontakte extends Component
         . '&scope=' . urlencode(implode(',', $this->getScope()))
         . '&redirect_uri=' . urlencode($this->getRedirectUri())
         . '&response_type=' . urlencode($this->getResponceType())
-        . '&group_ids=' . urlencode(implode(',', $this->groupIds))
         . '&display=page&v=' . urlencode(self::VERSION);
     }
 

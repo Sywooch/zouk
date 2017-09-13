@@ -57,4 +57,27 @@ class VkontakteComponent extends Vkontakte
     }
 
 
+    /**
+     * @param $groupId
+     * @param int $publishDate
+     * @param array $videos
+     * @param string[] $tags
+     * @return bool|mixed
+     */
+    public function postRandomVideo($groupId, $publishDate, $videos, $tags = [])
+    {
+        $attachments = "";
+
+        $params = [
+            'owner_id'     => -$groupId,
+            'message'      => 'тест',
+            'from_group'   => 1,
+            'publish_date' => $publishDate,
+            'guid'         => date('YmdHis'),
+            'attachments'  => $attachments,
+        ];
+
+        return $this->apiPost('wall.post', $params);
+    }
+
 }
