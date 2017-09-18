@@ -83,14 +83,31 @@ $userDisplayName = $user->getDisplayName();
             ?>
 
 
-            <h3>Дать доступ к группе вк</h3>
+            <h3>Дать доступ для постинга вк</h3>
             <?php
-            $form = ActiveForm::begin(['action' => ['account/get-access-token'], 'id' => 'profile-settings-form']);
+            $form = ActiveForm::begin(['action' => ['account/get-access-token'], 'id' => 'profile-settings-form', 'options' => ['target' => '_blank']]);
 
             echo Html::tag('label', 'ID группы', ['class' => 'control-label']);
-            echo Html::textInput('group_id', '',['class' => 'form-control']);
+            ?>
+            <div class="input-group">
+                <?= Html::textInput('group_id', '',['class' => 'form-control']); ?>
+                <span class="input-group-btn">
+                    <?= Html::submitButton('Получить code', ['class' => 'btn btn-default', 'name' => 'list-add-button']); ?>
+                </span>
+            </div>
+            <?php
+            echo Html::tag('label', 'Code', ['class' => 'control-label']);
+            ?>
+            <div class="input-group">
+                <?= Html::textInput('code', '',['class' => 'form-control']); ?>
+                <span class="input-group-btn">
+                    <?= Html::submitButton('Получить access_token', ['class' => 'btn btn-default', 'name' => 'list-add-button']); ?>
+                </span>
+            </div>
+            <?php
+            echo Html::tag('p', 'После нажатия на кнопку "Получить code" Вас перенаправит на страницу доступа, в адресе будет написан code, который необходимо скопировать в поле и нажать на "Получить access_token"');
 
-            echo Html::submitButton('Получить access_token', ['class' => 'btn btn-default', 'name' => 'list-add-button']);
+
             ActiveForm::end();
             ?>
         </div>

@@ -140,9 +140,44 @@ class AccountController extends Controller
         $groupId = $request->post('group_id');
         /** @var VkontakteComponent $vkapi */
         $vkapi = Yii::$app->vkapi;
-        $vkapi->setRedirectUri(Url::to(['account/set-access-token', 'id' => $groupId], true));
+//        $vkapi->setRedirectUri(Url::to(['account/set-access-token', 'id' => $groupId], true));
+        $vkapi->setRedirectUri('https://oauth.vk.com/blank.html');
         $vkapi->setGroupIds([$groupId]);
         $url = $vkapi->getLoginUrl();
+        $code = $request->post('code');
+        if (!empty($code)) {
+            $url = $vkapi->getAccessTokenUrl($code);
+
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_URL            => $url, // Полный адрес метода
+                CURLOPT_RETURNTRANSFER => true, // Возвращать ответ
+                CURLOPT_POST           => false,
+                CURLOPT_SSL_VERIFYPEER => false,
+            ]);
+            $response = curl_exec($curl); // Выполненяем запрос
+
+            if ($response !== false) {
+                $response = json_decode($response, true); // Декодируем из JSON в массив
+                $key = 'access_token';
+                if (isset($response[$key])) {
+                    /** @var User $user */
+                    $user = Yii::$app->user->identity;
+                    $token = VkAccessToken::findOne(['user_id' => $user->id]);
+                    if (empty($token)) {
+                        $token = new VkAccessToken();
+                    }
+                    $token->setAttributes([
+                        'user_id'      => $user->id,
+                        'group_id'     => $groupId,
+                        'access_token' => $response[$key],
+                        'expires_in'   => $response['expires_in'],
+                    ]);
+                    $token->save();
+                    return $this->redirect(['account/settings']);
+                }
+            }
+        }
 
         return $this->redirect($url);
     }
