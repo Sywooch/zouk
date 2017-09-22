@@ -340,7 +340,7 @@ class Vkontakte extends Component
             $q .= '&'; // Add "&" sign for access_token if query exists
         }
         $url = 'https://api.vk.com/method/' . $method . '?' . $q . 'access_token=' . $this->accessToken->access_token;
-        $result = json_decode($this->curl($url));
+        $result = json_decode($this->curl($url), true);
         if (isset($result->response)) {
 
             return $result->response;

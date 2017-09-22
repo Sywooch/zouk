@@ -4,6 +4,8 @@
 namespace common\components\vk;
 
 
+use common\models\Item;
+use common\models\Video;
 use common\models\Vkpost;
 use CURLFile;
 use yii\base\Component;
@@ -56,25 +58,72 @@ class VkontakteComponent extends Vkontakte
         return $this->api('wall.get', $params);
     }
 
+    public function uploadVideo($options = [], $file = false)
+    {
+        if (!is_array($options)) return false;
+
+        $response = $this->api('video.save', $options);
+        $response = $response['response'];
+
+        if (!isset($response['upload_url'])) return false;
+
+        $attachment = 'video' . $response['owner_id'] . '_' . $response['vid'];
+        $upload_url = $response['upload_url'];
+        $ch = curl_init($upload_url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-type: multipart/form-data"]);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible;)");
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        if ($file) {
+
+        }
+        curl_exec($ch);
+
+        return $attachment;
+    }
 
     /**
      * @param $groupId
      * @param int $publishDate
-     * @param array $videos
      * @param string[] $tags
      * @return bool|mixed
      */
-    public function postRandomVideo($groupId, $publishDate, $videos, $tags = [])
+    public function postRandomVideo($groupId, $publishDate, $tags = [])
     {
-        $attachments = "";
+        $attachments = [];
+
+        /** @var Video[] $videos */
+        $videos = Video::find()->orderBy('RAND()')->limit(1)->all();
+        $text = "Случайное видео с сайта prozouk.ru\n";
+        foreach ($videos as $video) {
+            $attachment = $this->uploadVideo([
+                'group_id'   => abs($groupId),
+                'is_private' => true,
+                'link'       => $video->original_url,
+                'title'      => 'ProZouk. ' . $video->video_title,
+            ]);
+
+            if ($attachment) {
+                $attachments[] = $attachment;
+                $text .= $video->video_title;
+            }
+        }
+        $text .= "\n\n#prozouk #zouk #brazilianzouk\n";
+
+        if (empty($attachments)) {
+            return false;
+        }
+        $attachments[] = 'http://prozouk.ru';
 
         $params = [
             'owner_id'     => -$groupId,
-            'message'      => 'тест',
+            'message'      => $text,
             'from_group'   => 1,
             'publish_date' => $publishDate,
             'guid'         => date('YmdHis'),
-            'attachments'  => $attachments,
+            'attachments'  => join(',', $attachments),
         ];
 
         return $this->apiPost('wall.post', $params);

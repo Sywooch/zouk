@@ -50,8 +50,7 @@ class VkController extends Controller
             $vkapi->initAccessToken($access->access_token);
             $publishDate = strtotime('+7 min', time());
 
-            var_dump($vkapi->postRandomVideo($access->group_id, $publishDate, [], []));
-exit;
+            $vkapi->postRandomVideo($access->group_id, $publishDate, []);
         }
 
         return $this->redirect(Yii::$app->request->referrer);
