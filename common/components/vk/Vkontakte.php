@@ -318,9 +318,15 @@ class Vkontakte extends Component
 
     /**
      * Make an API call to https://api.vk.com/method/
+     *
+     * @param $method
+     * @param array $query
+     * @param bool $assoc
      * @return string The response, decoded from json format
+     *
+     * @throws \Exception
      */
-    public function api($method, array $query = array())
+    public function api($method, array $query = array(), $assoc = false)
     {
         /* Generate query string from array */
         $parameters = array();
@@ -340,7 +346,7 @@ class Vkontakte extends Component
             $q .= '&'; // Add "&" sign for access_token if query exists
         }
         $url = 'https://api.vk.com/method/' . $method . '?' . $q . 'access_token=' . $this->accessToken->access_token;
-        $result = json_decode($this->curl($url), true);
+        $result = json_decode($this->curl($url), $assoc);
         if (isset($result->response)) {
 
             return $result->response;
@@ -349,7 +355,7 @@ class Vkontakte extends Component
         return $result;
     }
 
-    public function apiPost($method, array $query = array())
+    public function apiPost($method, array $query = array(), $assoc = false)
     {
         $ch = curl_init();
 
@@ -389,11 +395,16 @@ class Vkontakte extends Component
             return false;
         }
 
-        $result = json_decode($result);
+        $result = json_decode($result, $assoc);
 
-        if (isset($result->response)) {
-
-            return $result->response;
+        if ($assoc) {
+            if (isset($result['response'])) {
+                return $result['response'];
+            }
+        } else {
+            if (isset($result->response)) {
+                return $result->response;
+            }
         }
 
         return $result;

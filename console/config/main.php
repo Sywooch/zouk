@@ -23,6 +23,9 @@ return [
                 ],
             ],
         ],
+        'vkapi'        => [
+            'class' => \common\components\vk\VkontakteComponent::class,
+        ],
     ],
     'params' => $params,
 ];

@@ -41,6 +41,11 @@ $userinfo = $user->getUerinfo();
                         Url::to(['account/settings']),
                         ['class' => 'btn btn-default pull-right']
                     );
+                    echo Html::a(
+                        Html::tag('span', '', ['class' => 'glyphicon glyphicon-cog']) . ' ' . 'vk settings',
+                        Url::to(['vk-settings/index']),
+                        ['class' => 'btn btn-default pull-right', 'style' => 'margin-right: 10px;']
+                    );
                 }
                 ?></h1>
         </div>

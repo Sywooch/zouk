@@ -31,6 +31,8 @@ use yii\web\UploadedFile;
  * @property integer      $date_blocked
  * @property string       $password  write-only password
  * @property string       $new_password
+ *
+ * @property VkTask       $vkTasks
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -364,4 +366,12 @@ class User extends ActiveRecord implements IdentityInterface
    {
        return $this->hasMany(VkAccessToken::class, ['user_id' => 'id']);
    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVkTasks()
+    {
+        return $this->hasMany(VkTask::class, ['user_id' => 'id']);
+    }
 }

@@ -11,26 +11,25 @@ use yii\web\IdentityInterface;
 use yii\web\UploadedFile;
 
 /**
- * VkAccessToken model
+ * VkTaskCompleted model
  *
  * @property integer $id         Идентификатор
- * @property integer $user_id    Пользователь загрузивший картинку
- * @property string  $access_token
- * @property integer $expires_in
- * @property integer $created_at
- * @property integer $updated_at
+ * @property string  $type       Тип задания
+ * @property integer $user_id    Пользователь
+ * @property integer $vk_task_id Ссылка на задачу
+ * @property integer $date_create
+ * @property integer $date_update
  */
-class VkAccessToken extends ActiveRecord
+class VkTaskCompleted extends ActiveRecord
 {
-
-    const THIS_ENTITY = 'vk_access_token';
+    const THIS_ENTITY = 'vk_task_completed';
 
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'vk_access_tokens';
+        return 'vk_tasks_completed';
     }
 
     /**
@@ -55,8 +54,17 @@ class VkAccessToken extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'expires_in', 'date_update', 'date_create'], 'integer'],
-            [['access_token'], 'string'],
+            [['user_id', 'vk_task_id', 'date_update', 'date_create'], 'integer'],
         ];
+    }
+    
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getVkTask()
+    {
+        return $this->hasOne(VkTask::class, ['id' => 'vk_task_id']);
     }
 }

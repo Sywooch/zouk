@@ -62,10 +62,10 @@ class VkontakteComponent extends Vkontakte
     {
         if (!is_array($options)) return false;
 
-        $response = $this->api('video.save', $options);
-        $response = $response['response'];
+        $responseApi = $this->api('video.save', $options, true);
+        $response = $responseApi['response'];
 
-        if (!isset($response['upload_url'])) return false;
+        if (!isset($response['upload_url'])) return $responseApi;
 
         $attachment = 'video' . $response['owner_id'] . '_' . $response['vid'];
         $upload_url = $response['upload_url'];
@@ -96,7 +96,7 @@ class VkontakteComponent extends Vkontakte
 
         /** @var Video[] $videos */
         $videos = Video::find()->orderBy('RAND()')->limit(1)->all();
-        $text = "Случайное видео с сайта prozouk.ru\n";
+        $text = "Случайное видео от @prozouk (Зук портала — \"ProZouk\")\n";
         foreach ($videos as $video) {
             $attachment = $this->uploadVideo([
                 'group_id'   => abs($groupId),
@@ -105,12 +105,21 @@ class VkontakteComponent extends Vkontakte
                 'title'      => 'ProZouk. ' . $video->video_title,
             ]);
 
-            if ($attachment) {
+            if (is_string($attachment) && $attachment) {
                 $attachments[] = $attachment;
                 $text .= $video->video_title;
+            } else {
+                $error = $attachment['error'] ?? [];
+                if (!empty($error)) {
+                    if ($error['error_code'] == 203) {
+                        // "Access to group denied: !group
+                        return $attachment;
+                    }
+                }
             }
+
         }
-        $text .= "\n\n#prozouk #zouk #brazilianzouk\n";
+        $text .= "\n\nСайт проекта prozouk.ru\n#prozouk #zouk #brazilianzouk\n";
 
         if (empty($attachments)) {
             return false;
@@ -126,7 +135,7 @@ class VkontakteComponent extends Vkontakte
             'attachments'  => join(',', $attachments),
         ];
 
-        return $this->apiPost('wall.post', $params);
+        return $this->apiPost('wall.post', $params, true);
     }
 
 }
