@@ -19,7 +19,7 @@ use yii\web\UploadedFile;
  * @property string $group_id   Группа
  * @property integer $period     Периодичность (раз в сутки)
  * @property integer $time_start Постить не раньше этого времени
- * @property integer $time_end   Поститьа не позже этого времени
+ * @property integer $time_end   Постить не позже этого времени
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -78,7 +78,7 @@ class VkTask extends ActiveRecord
             'Периодичность' => 'Периодичность',
             'period'        => 'Частота постинга',
             'time_start'    => 'Постить не раньше этого времени',
-            'time_end'      => 'Поститьа не позже этого времени',
+            'time_end'      => 'Постить не позже этого времени',
             'create_time'   => 'Зарегистрирована',
             'update_time'   => 'Дата последнего изменения',
         ];

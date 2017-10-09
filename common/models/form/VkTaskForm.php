@@ -11,7 +11,7 @@ class VkTaskForm extends VkTask
         return [
             [['user_id', 'period', 'date_update', 'date_create'], 'integer'],
             [['type', 'group_id'], 'string'],
-            [['time_start', 'time_end'], 'date', 'format' => 'H:i']
+            [['time_start', 'time_end'], 'safe']
         ];
     }
 

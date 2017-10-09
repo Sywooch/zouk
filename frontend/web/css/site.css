@@ -1014,6 +1014,7 @@ span.selection span.select2-selection .select2-selection__arrow {
 }
 
 .label-title-event {
+    line-height: 20px;
     background-color: #337ab7;
     color: white;
     font-weight: bold;
@@ -1036,6 +1037,7 @@ span.selection span.select2-selection .select2-selection__arrow {
 }
 
 .label-title-school {
+    line-height: 20px;
     background-color: #f0ad4e;
     color: white;
     font-weight: bold;
