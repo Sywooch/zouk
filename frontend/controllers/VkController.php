@@ -40,6 +40,7 @@ class VkController extends Controller
 
     public function actionPostRandomVideo()
     {
+        return $this->redirect(Yii::$app->request->referrer);
         /** @var User $user */
         $user = Yii::$app->user->identity;
         /** @var VkAccessToken[] $accesses */

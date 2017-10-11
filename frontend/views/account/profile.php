@@ -116,7 +116,6 @@ $userinfo = $user->getUerinfo();
                 }
                 ?>
             </table>
-            <?= Html::a('Пост со случайными видео в группу Vk', ['vk/post-random-video'], ['class' => 'btn btn-default']); ?>
         </div>
         <div id="block-user-item" class="block-user-tab-info hide">
             <?= ItemList::widget(['orderBy' => ItemList::ORDER_BY_ID, 'userId' => $user->id, 'display' => ItemList::ITEM_LIST_DISPLAY_MINI, 'onlyItem' => true, 'limit' => 50]) ?>

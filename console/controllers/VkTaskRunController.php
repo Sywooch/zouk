@@ -28,7 +28,7 @@ class VkTaskRunController extends Controller
                         $new = (new \DateTime())->setTime(0,0,0);
                         $dayInterval = $new->diff($oldDate);
                         $day = $dayInterval->d;
-                        if ($day !== false && $day <= 1) {
+                        if ($day !== false && $day < 1) {
                             continue;
                         }
                     }
@@ -46,8 +46,8 @@ class VkTaskRunController extends Controller
                         if ($vkTask->time_start < $nowTime) {
                             $vkTask->time_start = $nowTime;
                         }
-                        if ($vkTask->time_start < $vkTask->time_end) {
-                            $vkTask->time_start = $nowTime;
+                        if ($vkTask->time_start > $nowTime) {
+                            $vkTask->time_start = $vkTask->time_end;
                         }
                         $publishDateGenerate = rand($vkTask->time_start, $vkTask->time_end);
                         $h = intval($publishDateGenerate / 3600);

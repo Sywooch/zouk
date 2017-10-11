@@ -33,8 +33,8 @@ echo \yii\grid\GridView::widget([
             'attribute' => 'startEnd',
             'label' => 'Время',
             'value' => function(VkTask $vkTask) {
-                $start = intval($vkTask->time_start / 3600) . ':' . intval($vkTask->time_start /60 % 60);
-                $end = intval($vkTask->time_end / 3600) . ':' . intval($vkTask->time_end /60 % 60);
+                $start = intval($vkTask->time_start / 3600) . ':' . str_pad(intval($vkTask->time_start /60 % 60), 2, '0', STR_PAD_LEFT);
+                $end = intval($vkTask->time_end / 3600) . ':' . str_pad(intval($vkTask->time_end /60 % 60), 2, '0', STR_PAD_LEFT);
 
                 return "с {$start} до {$end}";
             }
