@@ -46,9 +46,6 @@ class VkTaskRunController extends Controller
                         if ($vkTask->time_start < $nowTime) {
                             $vkTask->time_start = $nowTime;
                         }
-                        if ($vkTask->time_start > $nowTime) {
-                            $vkTask->time_start = $vkTask->time_end;
-                        }
                         $publishDateGenerate = rand($vkTask->time_start, $vkTask->time_end);
                         $h = intval($publishDateGenerate / 3600);
                         $m = intval($publishDateGenerate / 60) % 60;
