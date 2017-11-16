@@ -2,6 +2,7 @@
 namespace frontend\components;
 
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\web\Request;
 use frontend\models\Lang;
 
@@ -72,7 +73,7 @@ class LangRequest extends Request
             throw new InvalidConfigException('Unable to determine the path info of the current request.');
         }
 
-        if ($pathInfo[0] === '/') {
+        if ($pathInfo[0] ?? '' === '/') {
             $pathInfo = substr($pathInfo, 1);
         }
 
