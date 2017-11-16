@@ -33,7 +33,7 @@ $this->registerJs("VK.init({apiId: 4423944, onlyWidgets: true});", View::POS_HEA
 $year = date('Y');
 $month = date('m');
 $thisPage = isset(Yii::$app->controller->thisPage) ? Yii::$app->controller->thisPage : 'main';
-$searchForm = Yii::$app->params['searchEntryForm'] ? Yii::$app->params['searchEntryForm'] : new SearchEntryForm();
+$searchForm = isset(Yii::$app->params['searchEntryForm']) ? Yii::$app->params['searchEntryForm'] : new SearchEntryForm();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
