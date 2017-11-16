@@ -198,12 +198,14 @@ class EventController extends Controller
         $lastIds = Yii::$app->request->post('loadEventId', []);
         $order = Yii::$app->request->post('order', EventList::ORDER_BY_DATE);
         $dateCreateType = Yii::$app->request->post('dateCreateType', EventList::DATE_CREATE_ALL);
+        $display = Yii::$app->request->post('display', EventList::EVENT_LIST_DISPLAY_MAIN);
         return EventList::widget([
             'lastIds'        => $lastIds,
             'lastDate'       => $lastDate,
             'onlyEvent'      => true,
             'orderBy'        => $order,
             'dateCreateType' => $dateCreateType,
+            'display'        => $display,
         ]);
     }
 

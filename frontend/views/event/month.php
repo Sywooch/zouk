@@ -81,7 +81,11 @@ $this->registerMetaTag([
             if ($i == $month) {
                 $monthText = Html::tag('b', $monthText);
             } else {
-                $monthText = Html::a($monthText, ['event/month', 'year' => $year, 'month' => $i]);
+                $monthText = Html::a(
+                    $monthText,
+                    ['event/month', 'year' => $year, 'month' => $i],
+                    ['data-display' => EventList::EVENT_LIST_DISPLAY_MINI]
+                );
             }
             echo Html::tag(
                 'div',

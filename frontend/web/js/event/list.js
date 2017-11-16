@@ -24,14 +24,15 @@ $(document).ready(function () {
 
     $(document).on('click', '#loadMore', function () {
         var searchTag = $(this).data('tag');
-        console.log(eventIdByDate);
+        var display = $(this).data('display');
         $.ajax({
             url: 'events',
             data: {
                 lastDate: minEventDate,
                 loadEventId: eventIdByDate[minEventDate],
                 tag: searchTag,
-                dateCreateType: pageDateCreateTime
+                dateCreateType: pageDateCreateTime,
+                display: display
             },
             method: 'post',
             success: function (data) {

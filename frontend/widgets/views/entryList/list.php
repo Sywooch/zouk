@@ -17,6 +17,7 @@ use common\models\form\SearchEntryForm;
 use common\models\Item;
 use frontend\models\Lang;
 use frontend\widgets\EntryList;
+use frontend\widgets\EventList;
 use frontend\widgets\ItemList;
 use frontend\widgets\ModalDialogsWidget;
 use yii\bootstrap\Html;
@@ -83,7 +84,7 @@ if (!$onlyItem) {
     if ($addModalShowVideo) {
 //        echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_VIDEO]);
     }
-    
+
     if ($addModalShowLocation) {
         echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_LOCATION]);
     }

@@ -12,6 +12,7 @@
 
 use common\models\Item;
 use frontend\models\Lang;
+use frontend\widgets\EventList;
 use frontend\widgets\ItemList;
 use frontend\widgets\ModalDialogsWidget;
 use yii\bootstrap\Html;

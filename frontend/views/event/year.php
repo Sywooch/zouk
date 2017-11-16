@@ -69,7 +69,11 @@ $this->params['breadcrumbs'][] = $year;
         for ($i = 1; $i <= 12; $i++) {
             echo Html::tag(
                 'div',
-                Html::a(Lang::t('month', 'month' . str_pad($i, 2, '0', STR_PAD_LEFT)), ['event/month', 'year' => $year, 'month' => $i])
+                Html::a(
+                    Lang::t('month', 'month' . str_pad($i, 2, '0', STR_PAD_LEFT)),
+                    ['event/month', 'year' => $year, 'month' => $i],
+                    ['data-display' => EventList::EVENT_LIST_DISPLAY_MINI]
+                )
             );
         }
         ?>

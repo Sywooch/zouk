@@ -1,10 +1,10 @@
 <?php
 /**
  * @var Event[] $events
- * @var bool    $onlyEvent
- * @var string  $dateCreateType
- * @var string  $searchTag
- * @var string  $display
+ * @var bool $onlyEvent
+ * @var string $dateCreateType
+ * @var string $searchTag
+ * @var string $display
  */
 
 use common\models\Event;
@@ -30,7 +30,14 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/event/list.js', ['depen
 <?php
 if (!$onlyEvent) {
     if (count($events) >= 20) {
-        echo Html::button(Lang::t("main", "showMore"), ['class' => 'btn btn-primary', 'id' => 'loadMore']);
+        echo Html::button(
+            Lang::t("main", "showMore"),
+            [
+                'class'        => 'btn btn-primary',
+                'id'           => 'loadMore',
+                'data-display' => EventList::EVENT_LIST_DISPLAY_MAIN,
+            ]
+        );
     }
     echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_IMG]);
     echo ModalDialogsWidget::widget(['action' => ModalDialogsWidget::ACTION_MODAL_SHOW_LOCATION]);
