@@ -35,7 +35,7 @@ if (!$onlyEvent) {
             [
                 'class'        => 'btn btn-primary',
                 'id'           => 'loadMore',
-                'data-display' => EventList::EVENT_LIST_DISPLAY_MAIN,
+                'data-display' => $display
             ]
         );
     }
