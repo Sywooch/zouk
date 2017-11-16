@@ -110,6 +110,7 @@ $userImgs = $thisUser->getUserImgs();
                 <span class="input-group-addon" id="basic-addon1">Метки</span>
                 <?= Html::textInput('tags', '', array('id' => 'tokenfield', 'data-tokens' => '', 'class' => 'form-control')) ?>
             </div>
+            <div class="clearfix"></div>
 
             <?php if (Yii::$app->params['gRecaptchaResponse']) { ?>
                 <div class="g-recaptcha" data-sitekey="<?= Yii::$app->google->googleRecaptchaPublic ?>"></div>

@@ -33,6 +33,7 @@ $this->registerJsFile('//google.com/recaptcha/api.js', ['depends' => [\yii\web\J
 
                 <?= $form->field($model, 'password')->label(Lang::t('page/siteLogin', 'password'))->passwordInput() ?>
 
+                <div class="clearfix"></div>
                 <?php if (Yii::$app->params['gRecaptchaResponse']) { ?>
                     <div class="g-recaptcha" data-sitekey="<?= Yii::$app->google->googleRecaptchaPublic ?>"></div>
                 <?php } ?>
