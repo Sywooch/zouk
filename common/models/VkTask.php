@@ -31,6 +31,7 @@ class VkTask extends ActiveRecord
     const THIS_ENTITY = 'vk_task';
 
     const TYPE_RANDOM_VIDEO = 'type_random_video';
+    const TYPE_BDAY = 'type_bay';
 
     const PERIOD_DAY = 86400;
 
@@ -46,6 +47,7 @@ class VkTask extends ActiveRecord
     {
         return [
             self::TYPE_RANDOM_VIDEO => 'Случайное видео',
+            self::TYPE_BDAY         => 'Поздравления с днем рождения',
         ];
     }
 
