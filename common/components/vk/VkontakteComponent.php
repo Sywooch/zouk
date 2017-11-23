@@ -220,7 +220,7 @@ class VkontakteComponent extends Vkontakte
             $offset = $page * $limit;
             $newMembers = $this->getMembers($groupId, $offset, $limit);
             foreach ($newMembers['users'] ?? [] as $user) {
-                $bdate = $user['bdate'];
+                $bdate = $user['bdate'] ?? '13.13';
                 $dmy = explode('.', $bdate);
                 $userDay = $dmy[0] ?? 0;
                 $userMonth = $dmy[1] ?? 0;

@@ -31,7 +31,7 @@ class VkTask extends ActiveRecord
     const THIS_ENTITY = 'vk_task';
 
     const TYPE_RANDOM_VIDEO = 'type_random_video';
-    const TYPE_BDAY = 'type_bay';
+    const TYPE_BDAY = 'type_bday';
 
     const PERIOD_DAY = 86400;
 
