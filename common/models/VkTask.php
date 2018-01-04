@@ -20,6 +20,7 @@ use yii\web\UploadedFile;
  * @property integer $period     Периодичность (раз в сутки)
  * @property integer $time_start Постить не раньше этого времени
  * @property integer $time_end   Постить не позже этого времени
+ * @property string $params
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -34,6 +35,9 @@ class VkTask extends ActiveRecord
     const TYPE_BDAY = 'type_bday';
 
     const PERIOD_DAY = 86400;
+
+    const PARAMS_START_TEXT = 'start_text';
+    const PARAMS_BOTTOM_TEXT = 'bottom_text';
 
     /**
      * @inheritdoc
@@ -54,7 +58,7 @@ class VkTask extends ActiveRecord
     public function getTypeLabel()
     {
         $labels = self::getTypeLabels();
-        return $labels[$this->type] ?? '';
+        return $labels[$this->type] ?? $this->type;
     }
 
     public static function getPeriodLabels()
@@ -129,4 +133,26 @@ class VkTask extends ActiveRecord
         return $this->hasMany(VkTaskCompleted::class, ['vk_task_id' => 'id']);
     }
 
+    public function getParams()
+    {
+        return json_decode($this->params ?? '', true) ?: [];
+    }
+
+    public function getParamsByKey($key, $defaultValue = '')
+    {
+        $params = $this->getParams();
+        return $params[$key] ?? $defaultValue;
+    }
+
+    public function setParams($params)
+    {
+        $this->params = json_encode($params);
+    }
+
+    public function setParamsByKey($key, $value)
+    {
+        $params = $this->getParams();
+        $params[$key] = $value;
+        $this->setParams($params);
+    }
 }

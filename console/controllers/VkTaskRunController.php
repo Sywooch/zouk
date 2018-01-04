@@ -40,7 +40,7 @@ class VkTaskRunController extends Controller
                         'user_id'    => $vkTask->user_id,
                         'vk_task_id' => $vkTask->id,
                     ]);
-                    $vkTaskCompleted->save();
+                    return $vkTaskCompleted->save();
                 } else {
                     if (!empty($response['error'])) {
                         $error = $response['error'];
@@ -52,11 +52,12 @@ class VkTaskRunController extends Controller
                 }
             }
         }
-
+        return false;
     }
 
     /**
      * @param VkTask $vkTask
+     * @return bool
      */
     private function typeBDay($vkTask)
     {
@@ -66,19 +67,19 @@ class VkTaskRunController extends Controller
             /** @var VkontakteComponent $vkapi */
             $vkapi = \Yii::$app->vkapi;
             $vkapi->initAccessToken($access->access_token);
-            $publishDate = new \DateTime();
-            $nowTime = intval($publishDate->format('H')) * 3600 + intval($publishDate->format('m')) * 60;
+            $publishDate = new \DateTime('now', timezone_open('Europe/Moscow'));
+            $nowTime = intval($publishDate->format('H')) * 3600 + intval($publishDate->format('i')) * 60;
 
             if ($vkTask->time_end > $nowTime) {
                 if ($vkTask->time_start < $nowTime) {
                     $vkTask->time_start = $nowTime;
                 }
                 $publishDateGenerate = rand($vkTask->time_start, $vkTask->time_end);
-                $h = intval($publishDateGenerate / 3600);
-                $m = intval($publishDateGenerate / 60) % 60;
+                $h = floor($publishDateGenerate / 3600);
+                $m = floor(($publishDateGenerate % 3600) / 60);
                 $publishDate->setTime($h, $m);
 
-                $response = $vkapi->congratulateBDay($vkTask->group_id, $publishDate->getTimestamp());
+                $response = $vkapi->congratulateBDay($vkTask, $publishDate->getTimestamp());
 
                 if (!empty($response['post_id'])) {
                     $vkTaskCompleted = new VkTaskCompleted();
@@ -87,7 +88,7 @@ class VkTaskRunController extends Controller
                         'user_id'    => $vkTask->user_id,
                         'vk_task_id' => $vkTask->id,
                     ]);
-                    $vkTaskCompleted->save();
+                    return $vkTaskCompleted->save();
                 } else {
                     if (!empty($response['error'])) {
                         $error = $response['error'];
@@ -99,15 +100,17 @@ class VkTaskRunController extends Controller
                 }
             }
         }
+        return false;
     }
 
     public function actionRun()
     {
 
         /** @var VkTask[] $vkTasks */
-        $vkTasks = VkTask::find()->all();
+        $vkTasks = VkTask::find()->orderBy(['time_start' => SORT_ASC])->all();
 
 
+        $taskCountRun = 0;
         foreach ($vkTasks as $vkTask) {
             /** @var VkTaskCompleted $vkTaskCompleted */
             $vkTaskCompleted = $vkTask->getVkTaskCompleted()->orderBy(['date_create' => SORT_DESC])->one();
@@ -124,9 +127,16 @@ class VkTaskRunController extends Controller
                 }
             }
             if ($vkTask->type == VkTask::TYPE_RANDOM_VIDEO) {
-                $this->typeRandomVideo($vkTask);
+                if ($this->typeRandomVideo($vkTask)) {
+                    $taskCountRun++;
+                }
             } elseif ($vkTask->type == VkTask::TYPE_BDAY) {
-                $this->typeBDay($vkTask);
+                if ($this->typeBDay($vkTask)) {
+                    $taskCountRun++;
+                }
+            }
+            if ($taskCountRun > 5) {
+                break;
             }
         }
     }

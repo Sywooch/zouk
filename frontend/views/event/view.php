@@ -362,9 +362,6 @@ $dateTo = date("d.m.Y", empty($event->date_to) ? $event->date : $event->date_to)
                     <div class="col-sm-6">
                         <div id="vk_comments"></div>
                     </div>
-                    <!--                    <div>-->
-                    <!--                        --><? //= \frontend\widgets\CommentsWidget::widget(['entity' => Comment::ENTITY_EVENT, 'entity_id' => $event->id]); ?>
-                    <!--                    </div>-->
                 </div>
 
             </div>

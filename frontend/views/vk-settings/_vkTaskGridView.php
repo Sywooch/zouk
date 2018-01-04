@@ -6,6 +6,8 @@
  */
 
 use common\models\VkTask;
+use yii\grid\ActionColumn;
+use yii\helpers\Html;
 
 \yii\widgets\Pjax::begin();
 
@@ -40,9 +42,20 @@ echo \yii\grid\GridView::widget([
             }
         ],
         [
-            'class'    => 'yii\grid\ActionColumn',
+            'class'    => ActionColumn::class,
             'header'   => 'Действия',
-            'template' => '{delete} '
+            'template' => '{update-task} {delete}',
+            'buttons' => [
+                'update-task' => function ($url, $model, $key) {
+                    $icon = Html::tag('span', '', ['class' => "glyphicon glyphicon-pencil"]);
+                    $title = 'Изменить';
+                    return Html::a($icon, $url, [
+                        'title' => $title,
+                        'aria-label' => $title,
+                        'data-pjax' => '0',
+                    ]);
+                },
+            ],
         ],
     ]
 ]);

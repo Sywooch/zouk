@@ -15,7 +15,7 @@ echo $this->render('_form', [
     'form'       => $form,
 ]);
 
-echo \yii\helpers\Html::submitButton('Добавить', ['class' => 'btn btn-primary']);
+echo \yii\helpers\Html::submitButton('Сохранить', ['class' => 'btn btn-primary']);
 echo ' ';
 echo \yii\helpers\Html::a('Назад', ['vk-settings/index'], ['class' => 'btn btn-danger']);
 

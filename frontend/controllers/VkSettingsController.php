@@ -142,16 +142,33 @@ class VkSettingsController extends Controller
     }
 
 
-    public function actionAddTask()
+    public function actionAddTask($type = VkTaskForm::TYPE_RANDOM_VIDEO)
     {
         $vkTaskForm = new VkTaskForm();
 
         $request = Yii::$app->request;
-        if ($request->isPost && $vkTaskForm->load($request->post()) && $vkTaskForm->saveNewVkTask()) {
+        $vkTaskForm->type = $type;
+        if ($request->isPost && $vkTaskForm->load($request->post(), null) && $vkTaskForm->saveNewVkTask()) {
             return $this->redirect(['vk-settings/index']);
+        } else {
         }
 
         return $this->render('addTask', [
+            'vkTaskForm' => $vkTaskForm,
+        ]);
+    }
+
+    public function actionUpdateTask($id)
+    {
+        $vkTaskForm = VkTaskForm::loadById($id);
+
+        $request = Yii::$app->request;
+        if ($request->isPost && $vkTaskForm->load($request->post(), null) && $vkTaskForm->saveVkTask()) {
+            return $this->redirect(['vk-settings/index']);
+        } else {
+        }
+
+        return $this->render('editTask', [
             'vkTaskForm' => $vkTaskForm,
         ]);
     }

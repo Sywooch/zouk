@@ -341,8 +341,9 @@ class User extends ActiveRecord implements IdentityInterface
             'yandexSomething', 'Copyscape.com', 'AdsBot-Google', 'domaintools.com',
             'Nigma.ru', 'bing.com', 'dotnetdotcom', 'tweetmemebot', 'twitterbot',
         ];
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'none';
         foreach ($bots as $bot)
-            if (stripos($_SERVER['HTTP_USER_AGENT'], $bot) !== false) {
+            if (stripos($userAgent, $bot) !== false) {
                 return true;
             }
         return false;

@@ -5,6 +5,7 @@
  * @var \common\models\search\VkTaskSearch $searchModel
  * @var \yii\data\ActiveDataProvider $dataProvider
  */
+use common\models\form\VkTaskForm;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -47,8 +48,23 @@ ActiveForm::end();
 
 
 <h3>Список заданий</h3>
+
+<h4>Добавить задание:</h4>
+<div class="btn-group">
+    <?php
+    echo Html::a(
+        'Случайное видео',
+        ['vk-settings/add-task', 'type' => VkTaskForm::TYPE_RANDOM_VIDEO],
+        ['class' => 'btn btn-default']
+    );
+    echo Html::a(
+        'Поздравление с Днём Рождения',
+        ['vk-settings/add-task', 'type' => VkTaskForm::TYPE_BDAY],
+        ['class' => 'btn btn-default']
+    );
+    ?>
+</div>
 <?php
-echo Html::a('Добавить задание', ['vk-settings/add-task'], ['class' => 'btn btn-default']);
 
 echo $this->render('_vkTaskGridView', [
     'searchModel'  => $searchModel,
