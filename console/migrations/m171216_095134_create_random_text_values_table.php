@@ -13,11 +13,16 @@ class m171216_095134_create_random_text_values_table extends Migration
      */
     public function up()
     {
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+        }
+        
         $this->createTable('random_text_values', [
             'id'          => $this->primaryKey(),
             'entity_type' => $this->string(),
             'value'       => $this->text(),
-        ]);
+        ], $tableOptions);
 
 
         $congratulations = [
