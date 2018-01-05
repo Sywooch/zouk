@@ -81,7 +81,7 @@ class VkTaskRunController extends Controller
 
                 $response = $vkapi->congratulateBDay($vkTask, $publishDate->getTimestamp());
 
-                if (!empty($response['post_id'])) {
+                if (!empty($response['post_id']) || $response === false) {
                     $vkTaskCompleted = new VkTaskCompleted();
                     $vkTaskCompleted->setAttributes([
                         'type'       => $vkTask->type,
