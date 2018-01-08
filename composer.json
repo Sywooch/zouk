@@ -14,14 +14,15 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5",
         "yiisoft/yii2": ">=2.0.6",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "fxp/composer-asset-plugin": "~1.0",
         "yiisoft/yii2-jui": "^2.0",
         "nixsolutions/yandex-php-library": "*",
-        "mgp25/instagram-php": "^1.6"
+        "mgp25/instagram-php": "^1.6",
+        "telegram-bot/api": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

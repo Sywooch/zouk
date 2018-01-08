@@ -107,7 +107,7 @@ class Video extends ActiveRecord
                 $name = "hqdefault.jpg";
             }
 
-            $url = 'http://img.youtube.com/vi/' . $this->entity_id . '/' . $name;
+            $url = 'https://img.youtube.com/vi/' . $this->entity_id . '/' . $name;
         }
 
         return $url;
@@ -117,7 +117,7 @@ class Video extends ActiveRecord
     {
         $url = '';
         if ($this->entity == self::ENTITY_YOUTUBE) {
-            $url = 'http://www.youtube.com/embed/' . $this->entity_id . ($autoplay ? '?autoplay=1' : '');
+            $url = 'https://www.youtube.com/embed/' . $this->entity_id . ($autoplay ? '?autoplay=1' : '');
         }
 
         return $url;

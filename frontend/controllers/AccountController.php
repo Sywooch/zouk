@@ -112,7 +112,7 @@ class AccountController extends Controller
                     'a' . md5("avatar_" . $user->id),
                     ["avatar"]
                 );
-                $user->avatar_pic = $uploadInfo['url'];
+                $user->avatar_pic = $uploadInfo['secure_url'];
 
                 if ($user->save()) {
                     return Yii::$app->getResponse()->redirect(Url::to(['account/profile']));

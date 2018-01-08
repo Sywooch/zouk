@@ -238,13 +238,13 @@ $searchForm = isset(Yii::$app->params['searchEntryForm']) ? Yii::$app->params['s
         <p class="pull-left">&copy; ProZouk <?= date('Y') ?></p>
         <?php if (!YII_DEBUG) { ?>
             <p class="pull-right" style="margin-right: 10px">
-                <a href="http://www.dance-league.com"  title="Танцы, уроки танца" target="_blank"><img src="http://www.dance-league.com/dl-88x31.gif" alt="Танцы, уроки танца" /></a>
+<!--                <a href="http://www.dance-league.com"  title="Танцы, уроки танца" target="_blank"><img src="http://www.dance-league.com/dl-88x31.gif" alt="Танцы, уроки танца" /></a>-->
 
                 <!-- begin of Top100 code -->
-                <script id="top100Counter" type="text/javascript" src="http://counter.rambler.ru/top100.jcn?4434208"></script>
+                <script id="top100Counter" type="text/javascript" src="https://counter.rambler.ru/top100.jcn?4434208"></script>
                 <noscript>
-                    <a href="http://top100.rambler.ru/navi/4434208/">
-                        <img src="http://counter.rambler.ru/top100.cnt?4434208" alt="Rambler's Top100" border="0" />
+                    <a href="https://top100.rambler.ru/navi/4434208/">
+                        <img src="https://counter.rambler.ru/top100.cnt?4434208" alt="Rambler's Top100" border="0" />
                     </a>
 
                 </noscript>
@@ -252,7 +252,7 @@ $searchForm = isset(Yii::$app->params['searchEntryForm']) ? Yii::$app->params['s
 
                 <!--LiveInternet counter-->
                 <script type="text/javascript"><!--
-                    document.write("<a href='http://www.liveinternet.ru/click' " +
+                    document.write("<a href='https://www.liveinternet.ru/click' " +
                         "target=_blank><img src='//counter.yadro.ru/hit?t14.7;r" +
                         escape(document.referrer) + ((typeof(screen) == "undefined") ? "" :
                         ";s" + screen.width + "*" + screen.height + "*" + (screen.colorDepth ?
