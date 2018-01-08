@@ -29,3 +29,5 @@ phpunit.phar
 config/env/local/*
 
 vendor.zip
+
+frontend/web/.well-known/*
