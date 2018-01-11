@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\components\TelegramBotComponent;
+use common\models\EntityLink;
 use common\models\Item;
 use common\models\TagEntity;
 use common\models\Tags;
@@ -89,20 +90,21 @@ class TelegramController extends Controller
         });
 
         $bot->command('demo',  function (Message $message) use ($bot, $telegramBot) {
-            $video = \common\models\Video::find()
-                ->rightJoin(\common\models\EntityLink::tableName() . ' el', [
+            /** @var Video $video */
+            $video = Video::find()
+                ->innerJoin(EntityLink::tableName() . ' el', [
                     'and',
                     'el.entity_2_id=video.id',
-                    ['entity_1' => \common\models\Item::THIS_ENTITY],
-                    ['entity_2' => \common\models\Video::THIS_ENTITY],
+                    ['entity_1' => Item::THIS_ENTITY],
+                    ['entity_2' => Video::THIS_ENTITY],
                 ])
-                ->rightJoin(\common\models\Item::tableName() . ' item', 'el.entity_1_id=item.id')
-                ->rightJoin(\common\models\TagEntity::tableName() . ' te', [
+                ->innerJoin(Item::tableName() . ' item', 'el.entity_1_id=item.id')
+                ->innerJoin(TagEntity::tableName() . ' te', [
                     'and',
                     'te.entity_id=item.id',
-                    ['te.entity' => \common\models\Item::THIS_ENTITY]
+                    ['te.entity' => Item::THIS_ENTITY]
                 ])
-                ->rightJoin(\common\models\Tags::tableName() . ' tag', 'te.tag_id=tag.id and tag.name=\'demo\'')
+                ->innerJoin(Tags::tableName() . ' tag', 'te.tag_id=tag.id and tag.name=\'demo\'')
                 ->orderBy(new Expression('rand()'))
                 ->one();
 
@@ -113,20 +115,20 @@ class TelegramController extends Controller
 
         $bot->command('show',  function (Message $message) use ($bot, $telegramBot) {
             /** @var Video $video */
-            $video = \common\models\Video::find()
-                ->rightJoin(\common\models\EntityLink::tableName() . ' el', [
+            $video = Video::find()
+                ->innerJoin(EntityLink::tableName() . ' el', [
                     'and',
                     'el.entity_2_id=video.id',
-                    ['entity_1' => \common\models\Item::THIS_ENTITY],
-                    ['entity_2' => \common\models\Video::THIS_ENTITY],
+                    ['entity_1' => Item::THIS_ENTITY],
+                    ['entity_2' => Video::THIS_ENTITY],
                 ])
-                ->rightJoin(\common\models\Item::tableName() . ' item', 'el.entity_1_id=item.id')
-                ->rightJoin(\common\models\TagEntity::tableName() . ' te', [
+                ->innerJoin(Item::tableName() . ' item', 'el.entity_1_id=item.id')
+                ->innerJoin(TagEntity::tableName() . ' te', [
                     'and',
                     'te.entity_id=item.id',
-                    ['te.entity' => \common\models\Item::THIS_ENTITY]
+                    ['te.entity' => Item::THIS_ENTITY]
                 ])
-                ->rightJoin(\common\models\Tags::tableName() . ' tag', 'te.tag_id=tag.id and tag.name=\'show\'')
+                ->innerJoin(Tags::tableName() . ' tag', 'te.tag_id=tag.id and tag.name=\'show\'')
                 ->orderBy(new Expression('rand()'))
                 ->one();
 
@@ -137,12 +139,12 @@ class TelegramController extends Controller
         $bot->command('article',  function (Message $message) use ($bot, $telegramBot) {
             /** @var Item $item */
             $item = Item::find()
-                ->rightJoin(\common\models\TagEntity::tableName() . ' te', [
+                ->innerJoin(TagEntity::tableName() . ' te', [
                     'and',
                     'te.entity_id=item.id',
-                    ['te.entity' => \common\models\Item::THIS_ENTITY]
+                    ['te.entity' => Item::THIS_ENTITY]
                 ])
-                ->rightJoin(\common\models\Tags::tableName() . ' tag', 'te.tag_id=tag.id and tag.name=\'article\'')
+                ->innerJoin(Tags::tableName() . ' tag', 'te.tag_id=tag.id and tag.name=\'article\'')
                 ->orderBy(new Expression('rand()'))
                 ->one();
 

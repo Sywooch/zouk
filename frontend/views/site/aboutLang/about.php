@@ -3,7 +3,6 @@
 /* @var $this yii\web\View */
 
 use frontend\models\Lang;
-use yii\db\Expression;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
