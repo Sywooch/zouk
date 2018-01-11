@@ -146,7 +146,11 @@ class TelegramController extends Controller
                 ->orderBy(new Expression('rand()'))
                 ->one();
 
-            $answer = $item->title . "\n" . $item->getUrl();
+            if ($item) {
+                $answer = $item->title . "\n" . $item->getUrl(true, ['lang_id' => false]);
+            } else {
+                $answer = 'Что-то пошло не так... Статья не найдена';
+            }
             $telegramBot->sendMessage($message->getChat()->getId(), $answer);
         });
 
