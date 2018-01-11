@@ -24,12 +24,13 @@ $(document).ready(function () {
     if (typeof jsZoukVar['tagsAll'] != "undefined") {
         tags = jsZoukVar['tagsAll'];
     }
+
     $('#tokenfield').tokenfield({
         autocomplete: {
             limit: 5,
+            minLength: 2,
             source: tags,
             delay: 100
-        },
-        showAutocompleteOnFocus: true
-    })
+        }
+    });
 });

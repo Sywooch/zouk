@@ -27,6 +27,7 @@ $(document).ready(function () {
     $('#tokenfield').tokenfield({
         autocomplete: {
             limit: 5,
+            minLength: 2,
             source: tags,
             delay: 100
         },
