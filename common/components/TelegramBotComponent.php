@@ -22,6 +22,10 @@ class TelegramBotComponent extends BotApi implements Configurable
 
     public $apiTokens;
 
+    public $apiToken;
+
+    protected $token;
+
     public $trackerToken = null;
 
     private $bot = null;
@@ -34,7 +38,9 @@ class TelegramBotComponent extends BotApi implements Configurable
         if (empty($this->apiToken)) {
             throw new Exception('Bot token cannot be empty');
         }
-        parent::__construct($this->apiToken);
+        $apiTokens = $this->apiTokens;
+        $firstApiToken = array_shift($apiTokens);
+        parent::__construct($firstApiToken);
     }
 
     /**
@@ -45,6 +51,8 @@ class TelegramBotComponent extends BotApi implements Configurable
     {
         if (empty($this->bot)) {
             $apiToken = $this->apiTokens[$keyToken] ?? '';
+            $this->apiToken = $apiToken;
+            $this->token = $apiToken;
             $this->bot = new Client($apiToken, $this->trackerToken);
         }
         return $this->bot;
@@ -87,7 +95,9 @@ class TelegramBotComponent extends BotApi implements Configurable
     {
         $message = $update->getMessage();
 
-        $find = Item::find()->orderBy(new Expression('rand()'));
+        $find = Item::find()
+            ->orderBy(new Expression('rand()'))
+            ->andWhere('item.deleted = 0');
         if (!empty($tag)) {
             $find
                 ->innerJoin(TagEntity::tableName() . ' te', [
