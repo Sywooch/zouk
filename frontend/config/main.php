@@ -112,8 +112,10 @@ return [
             'googleApiKey' => '',
         ],
         'telegram'     => [
-            'class'    => \common\components\TelegramBotComponent::class,
-            'apiToken' => '',
+            'class'     => \common\components\TelegramBotComponent::class,
+            'apiTokens' => [
+                'prozouk' => '',
+            ],
         ],
         'audioInfo'    => [
             'class' => 'common\components\GetidComponent',

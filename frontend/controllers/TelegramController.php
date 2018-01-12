@@ -9,6 +9,7 @@ use common\models\TagEntity;
 use common\models\Tags;
 use common\models\Video;
 use TelegramBot\Api\Types\Message;
+use TelegramBot\Api\Types\Update;
 use Yii;
 use yii\db\Expression;
 use yii\filters\AccessControl;
@@ -52,7 +53,30 @@ class TelegramController extends Controller
     {
         /** @var TelegramBotComponent $telegramBot */
         $telegramBot = Yii::$app->telegram;
-        $bot = $telegramBot->getBot();
+        $bot = $telegramBot->getBot('prozouk');
+
+        $bot->on(function (Update $update) use ($bot, $telegramBot) {
+            $message = $update->getMessage();
+            $mtext = $message->getText();
+            $cid = $message->getChat()->getId();
+            $commands = explode(' ', $mtext, 2);
+            $command = $commands[0] ?? '';
+            $paramStr = trim($commands[1] ?? '');
+            if (in_array($command, ['/randomVideo', '/randomvideo', '/случайное-видео', '/случайноевидео'])) {
+                $telegramBot->messageRandomVideo($update, $paramStr);
+            } elseif (in_array($command, ['/demo'])) {
+                $telegramBot->messageRandomVideo($update, $paramStr, 'demo');
+            } elseif (in_array($command, ['/show'])) {
+                $telegramBot->messageRandomVideo($update, $paramStr, 'show');
+            } elseif (in_array($command, ['/article', '/статья'])) {
+                $telegramBot->messageRandomItem($update, $paramStr, 'article');
+            } elseif (in_array($command, ['/events', '/события'])) {
+                $telegramBot->messageRandomItem($update, $paramStr);
+            }
+
+        }, function($message) {
+            return true; // когда тут true - команда проходит
+        });
 
         $bot->command('start',  function (Message $message) use ($bot, $telegramBot) {
             $answer =
@@ -64,6 +88,8 @@ class TelegramController extends Controller
 /show - случайное видео шоу номера
 
 /article - случайная статья
+
+/events - ближайшие события
 ";
             $telegramBot->sendMessage($message->getChat()->getId(), $answer);
         });
@@ -78,84 +104,11 @@ class TelegramController extends Controller
 /show - случайное видео шоу номера
 
 /article - случайная статья
+
+/events - ближайшие события
 ";
             $telegramBot->sendMessage($message->getChat()->getId(), $answer);
         });
-
-
-        $bot->command('randomvideo',  function (Message $message) use ($bot, $telegramBot) {
-            $video = Video::getRandomVideo([]);
-            $answer = $video->original_url;
-            $telegramBot->sendMessage($message->getChat()->getId(), $answer);
-        });
-
-        $bot->command('demo',  function (Message $message) use ($bot, $telegramBot) {
-            /** @var Video $video */
-            $video = Video::find()
-                ->innerJoin(EntityLink::tableName() . ' el', [
-                    'and',
-                    'el.entity_2_id=video.id',
-                    ['entity_1' => Item::THIS_ENTITY],
-                    ['entity_2' => Video::THIS_ENTITY],
-                ])
-                ->innerJoin(Item::tableName() . ' item', 'el.entity_1_id=item.id')
-                ->innerJoin(TagEntity::tableName() . ' te', [
-                    'and',
-                    'te.entity_id=item.id',
-                    ['te.entity' => Item::THIS_ENTITY]
-                ])
-                ->innerJoin(Tags::tableName() . ' tag', 'te.tag_id=tag.id and tag.name=\'demo\'')
-                ->orderBy(new Expression('rand()'))
-                ->one();
-
-            $answer = $video->video_title . "\n" . $video->original_url;
-            $telegramBot->sendMessage($message->getChat()->getId(), $answer);
-        });
-
-
-        $bot->command('show',  function (Message $message) use ($bot, $telegramBot) {
-            /** @var Video $video */
-            $video = Video::find()
-                ->innerJoin(EntityLink::tableName() . ' el', [
-                    'and',
-                    'el.entity_2_id=video.id',
-                    ['entity_1' => Item::THIS_ENTITY],
-                    ['entity_2' => Video::THIS_ENTITY],
-                ])
-                ->innerJoin(Item::tableName() . ' item', 'el.entity_1_id=item.id')
-                ->innerJoin(TagEntity::tableName() . ' te', [
-                    'and',
-                    'te.entity_id=item.id',
-                    ['te.entity' => Item::THIS_ENTITY]
-                ])
-                ->innerJoin(Tags::tableName() . ' tag', 'te.tag_id=tag.id and tag.name=\'show\'')
-                ->orderBy(new Expression('rand()'))
-                ->one();
-
-            $answer = $video->video_title . "\n" . $video->original_url;
-            $telegramBot->sendMessage($message->getChat()->getId(), $answer);
-        });
-
-        $bot->command('article',  function (Message $message) use ($bot, $telegramBot) {
-            /** @var Item $item */
-            $item = Item::find()
-                ->innerJoin(TagEntity::tableName() . ' te', [
-                    'and',
-                    'te.entity_id=item.id',
-                    ['te.entity' => Item::THIS_ENTITY]
-                ])
-                ->innerJoin(Tags::tableName() . ' tag', 'te.tag_id=tag.id and tag.name=\'article\'')
-                ->orderBy(new Expression('rand()'))
-                ->one();
-
-            if ($item) {
-                $answer = $item->title . "\n" . $item->getUrl(true, ['lang_id' => false]);
-            } else {
-                $answer = 'Что-то пошло не так... Статья не найдена';
-            }
-            $telegramBot->sendMessage($message->getChat()->getId(), $answer);
-        });
-
 
         return $bot->run();
     }

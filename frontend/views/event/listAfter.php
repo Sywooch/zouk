@@ -36,7 +36,7 @@ $this->params['containerClass'] = 'block-entry-list';
         <?= EntryList::widget([
             'orderBy'         => EntryList::ORDER_BY_DATE_OLD,
             'searchEntryForm' => $searchEntryForm,
-            'page'            => $page,
+            'page'            => $page ?? 0,
             'entityTypes'     => [Event::THIS_ENTITY],
             'blockAction'     => Html::a(
                 Lang::t('main', 'mainButtonAddEvent'),
