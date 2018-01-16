@@ -57,57 +57,74 @@ class TelegramController extends Controller
 
         $bot->on(function (Update $update) use ($bot, $telegramBot) {
             $message = $update->getMessage();
-            $mtext = $message->getText();
-            $cid = $message->getChat()->getId();
-            $commands = explode(' ', $mtext, 2);
-            $command = $commands[0] ?? '';
-            $paramStr = trim($commands[1] ?? '');
-            if (in_array($command, ['/randomVideo', '/randomvideo', '/случайное-видео', '/случайноевидео'])) {
-                $telegramBot->messageRandomVideo($update, $paramStr);
-            } elseif (in_array($command, ['/demo'])) {
-                $telegramBot->messageRandomVideo($update, $paramStr, 'demo');
-            } elseif (in_array($command, ['/show'])) {
-                $telegramBot->messageRandomVideo($update, $paramStr, 'show');
-            } elseif (in_array($command, ['/article', '/статья'])) {
-                $telegramBot->messageRandomItem($update, $paramStr, 'article');
-            } elseif (in_array($command, ['/events', '/события'])) {
-                $telegramBot->messageRandomItem($update, $paramStr);
+            if ($message instanceof Message) {
+                $user = $message->getFrom();
+                $chat = $message->getChat();
+                if (!$user->isBot() && $chat->getType() == 'private') {
+                    $mtext = $message->getText();
+                    Yii::info($mtext, 'telegram');
+                    $cid = $message->getChat()->getId();
+                    $commands = explode(' ', $mtext, 2);
+                    $command = $commands[0] ?? '';
+                    $paramStr = trim($commands[1] ?? '');
+                    if (in_array($command, ['/randomVideo', '/randomvideo', '/случайное-видео', '/случайноевидео'])) {
+                        $telegramBot->messageRandomVideo($update, $paramStr);
+                    } elseif (in_array($command, ['/demo', '/демо'])) {
+                        $telegramBot->messageRandomVideo($update, $paramStr, 'demo');
+                    } elseif (in_array($command, ['/show', '/шоу'])) {
+                        $telegramBot->messageRandomVideo($update, $paramStr, 'show');
+                    } elseif (in_array($command, ['/article', '/статья'])) {
+                        $telegramBot->messageRandomItem($update, $paramStr, 'article');
+                    } elseif (in_array($command, ['/events', '/события'])) {
+                        $telegramBot->messageEventAfter($update, $paramStr);
+                    }
+
+                    if ($mtext == '/start') {
+                        $answer =
+                            "Привет! Я помогу найти интересующую тебя информацию о Зуке.
+Ты можешь отправить мне эти команды:
+
+/randomvideo - посмотреть случайное видео
+/demo - случайная демка
+/show - случайное видео шоу номера
+
+/article - случайная статья
+
+/events - ближайшие события
+";
+                        $telegramBot->sendMessage($message->getChat()->getId(), $answer);
+                    } elseif ($mtext == '/help') {
+                        $answer =
+                            "Я помогу найти интересующую тебя информацию о Зуке.
+Ты можешь отправить мне эти команды:
+
+/randomvideo - посмотреть случайное видео
+/demo - случайная демка
+/show - случайное видео шоу номера
+
+/article - случайная статья
+
+/events - ближайшие события
+";
+                        $telegramBot->sendMessage($message->getChat()->getId(), $answer);
+                    }
+                }
             }
 
-        }, function($message) {
-            return true; // когда тут true - команда проходит
-        });
-
-        $bot->command('start',  function (Message $message) use ($bot, $telegramBot) {
-            $answer =
-"Привет! Я помогу найти интересующую тебя информацию о Зуке.
-Ты можешь отправить мне эти команды:
-
-/randomvideo - посмотреть случайное видео
-/demo - случайная демка
-/show - случайное видео шоу номера
-
-/article - случайная статья
-
-/events - ближайшие события
-";
-            $telegramBot->sendMessage($message->getChat()->getId(), $answer);
-        });
-
-        $bot->command('help',  function (Message $message) use ($bot, $telegramBot) {
-            $answer =
-"Я помогу найти интересующую тебя информацию о Зуке.
-Ты можешь отправить мне эти команды:
-
-/randomvideo - посмотреть случайное видео
-/demo - случайная демка
-/show - случайное видео шоу номера
-
-/article - случайная статья
-
-/events - ближайшие события
-";
-            $telegramBot->sendMessage($message->getChat()->getId(), $answer);
+        }, function(Update $update) {
+            $message = $update->getMessage();
+            if ($message instanceof Message) {
+                $user = $message->getFrom();
+                $chat = $message->getChat();
+                if ($user->isBot()) {
+                    return false;
+                }
+                if ($chat->getType() != 'private') {
+                    return false;
+                }
+                return true;
+            }
+            return false;
         });
 
         return $bot->run();

@@ -26,6 +26,13 @@ return [
                 [
                     'class'  => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'categories' => ['application'],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['telegram'],
+                    'logFile' => '@app/runtime/logs/telegram/bot.log',
                 ],
             ],
         ],

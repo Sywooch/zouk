@@ -35,12 +35,15 @@ class TelegramBotComponent extends BotApi implements Configurable
         if (!empty($config)) {
             Yii::configure($this, $config);
         }
-        if (empty($this->apiToken)) {
+        if (empty($this->apiTokens)) {
             throw new Exception('Bot token cannot be empty');
         }
         $apiTokens = $this->apiTokens;
         $firstApiToken = array_shift($apiTokens);
-        parent::__construct($firstApiToken);
+        if (empty($firstApiToken)) {
+            throw new Exception('Bot token cannot be empty');
+        }
+        parent::__construct($firstApiToken['token']);
     }
 
     /**
@@ -50,10 +53,11 @@ class TelegramBotComponent extends BotApi implements Configurable
     public function getBot($keyToken)
     {
         if (empty($this->bot)) {
-            $apiToken = $this->apiTokens[$keyToken] ?? '';
-            $this->apiToken = $apiToken;
-            $this->token = $apiToken;
-            $this->bot = new Client($apiToken, $this->trackerToken);
+            $apiTokenParams = $this->apiTokens[$keyToken] ?? '';
+            $this->apiToken = $apiTokenParams['token'];
+            $this->token = $apiTokenParams['token'];
+            $this->trackerToken = $apiTokenParams['trackerToken'];
+            $this->bot = new Client($this->token, $this->trackerToken);
         }
         return $this->bot;
     }
@@ -129,7 +133,7 @@ class TelegramBotComponent extends BotApi implements Configurable
             ->andWhere('event.deleted = 0')
             ->orderBy(['date' => SORT_ASC])
             ->andWhere(['>=', 'date', (new \DateTime())->getTimestamp()])
-            ->limit(15);
+            ->limit(7);
 
         /** @var Event[] $events */
         $events = $findQuery->all();
@@ -138,6 +142,7 @@ class TelegramBotComponent extends BotApi implements Configurable
         foreach ($events ?? [] as $event) {
             $i++;
             $answer .= $i . ") " . date('d.m.Y', $event->date) . "(" . $event->getCity() . "): " . $event->title . "\n";
+            $answer .= $event->getUrl(true, ['lang_id' => false]) . "\n\n";
         }
         $answer .= "\n prozouk.ru/events/after";
         return $this->sendMessage($message->getChat()->getId(), $answer);
