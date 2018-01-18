@@ -31,7 +31,7 @@ class TelegramController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['init'],
+                        'actions' => ['init', 'stage', 'dev', 'prod'],
                         'allow'   => true,
                     ],
                 ],
@@ -117,6 +117,7 @@ class TelegramController extends Controller
             return false;
         });
 
+        $bot->run();
 
         header("HTTP/1.1 200 OK");
         exit;
@@ -187,6 +188,7 @@ class TelegramController extends Controller
             return false;
         });
 
+        $bot->run();
 
         header("HTTP/1.1 200 OK");
         exit;
@@ -256,6 +258,7 @@ class TelegramController extends Controller
             return false;
         });
 
+        $bot->run();
 
         header("HTTP/1.1 200 OK");
         exit;

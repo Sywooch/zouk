@@ -26,7 +26,6 @@ return [
                 [
                     'class'  => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
-                    'categories' => ['application'],
                 ],
                 [
                     'class' => 'yii\log\FileTarget',

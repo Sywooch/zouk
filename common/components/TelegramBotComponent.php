@@ -50,7 +50,9 @@ class TelegramBotComponent extends BotApi implements Configurable
             throw new Exception('Bot token cannot be empty');
         }
         $apiTokens = $this->apiTokens;
-        $firstApiToken = array_shift($apiTokens);
+        $keys = array_keys($apiTokens);
+        $firstKey = array_shift($keys);
+        $firstApiToken = $apiTokens[$firstKey];
         if (empty($firstApiToken)) {
             throw new Exception('Bot token cannot be empty');
         }
@@ -291,6 +293,8 @@ class TelegramBotComponent extends BotApi implements Configurable
         if ($this->isNewMessage($message)) {
             $telegramMessage = new TelegramMessage();
             $telegramMessage->setAttributes([
+                'user_id'    => $message->getFrom()->getId(),
+                'username'   => $message->getFrom()->getUsername(),
                 'chat_id'    => $message->getChat()->getId(),
                 'message_id' => $message->getMessageId(),
                 'text'       => $message->getText(),
@@ -309,7 +313,7 @@ class TelegramBotComponent extends BotApi implements Configurable
     {
         $chatId = $message->getChat()->getId();
         $messageId = $message->getMessageId();
-        return TelegramMessage::find()
+        return !TelegramMessage::find()
             ->where(['chat_id' => $chatId, 'message_id' => $messageId])
             ->exists();
     }

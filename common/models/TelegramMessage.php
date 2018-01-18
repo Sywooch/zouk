@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
  * TelegramMessage model
  *
  * @property integer $id         Идентификатор
+ * @property integer $user_id
  * @property integer $chat_id
  * @property integer $message_id
  * @property string $text
@@ -25,7 +26,7 @@ class TelegramMessage extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'telegram_message';
+        return 'telegram_messages';
     }
 
     /**
@@ -50,9 +51,9 @@ class TelegramMessage extends ActiveRecord
     public function rules()
     {
         return [
-            [['chat_id', 'message_id', 'date_update', 'date_create'], 'integer'],
+            [['user_id', 'chat_id', 'message_id', 'date_update', 'date_create'], 'integer'],
             [['text', 'status'], 'string'],
         ];
     }
-    
+
 }
