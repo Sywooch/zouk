@@ -48,12 +48,20 @@ class TelegramController extends Controller
         return parent::beforeAction($action);
     }
 
-
     public function actionInit()
     {
+        return $this->actionStage();
+    }
+
+    // prozouk_bot
+    public function actionDev()
+    {
+        // https://api.telegram.org/bot$Token/getWebhookInfo
+        // https://api.telegram.org/bot$Token/deleteWebhook
+        // https://api.telegram.org/bot$Token/setWebhook?url=https://prozouk.ru/telegram/dev
         /** @var TelegramBotComponent $telegramBot */
         $telegramBot = Yii::$app->telegram;
-        $bot = $telegramBot->getBot('prozouk');
+        $bot = $telegramBot->getBot('prozouk_bot');
 
         $bot->on(function (Update $update) use ($bot, $telegramBot) {
             $message = $update->getMessage();
@@ -62,7 +70,12 @@ class TelegramController extends Controller
                 $chat = $message->getChat();
                 if (!$user->isBot() && $chat->getType() == 'private') {
                     $mtext = $message->getText();
-                    Yii::info($mtext, 'telegram');
+                    Yii::info([
+                        'action'     => 'dev',
+                        'chat_id'    => $chat->getId(),
+                        'message_id' => $message->getMessageId(),
+                        'text'       => $message->getText(),
+                    ], 'telegram');
                     $cid = $message->getChat()->getId();
                     $commands = explode(' ', $mtext, 2);
                     $command = $commands[0] ?? '';
@@ -77,57 +90,175 @@ class TelegramController extends Controller
                         $telegramBot->messageRandomItem($update, $paramStr, 'article');
                     } elseif (in_array($command, ['/events', '/события'])) {
                         $telegramBot->messageEventAfter($update, $paramStr);
-                    }
-
-                    if ($mtext == '/start') {
-                        $answer =
-                            "Привет! Я помогу найти интересующую тебя информацию о Зуке.
-Ты можешь отправить мне эти команды:
-
-/randomvideo - посмотреть случайное видео
-/demo - случайная демка
-/show - случайное видео шоу номера
-
-/article - случайная статья
-
-/events - ближайшие события
-";
-                        $telegramBot->sendMessage($message->getChat()->getId(), $answer);
+                    } elseif ($mtext == '/start') {
+                        $telegramBot->messageStart($update, TelegramBotComponent::VERSION_DEV);
                     } elseif ($mtext == '/help') {
-                        $answer =
-                            "Я помогу найти интересующую тебя информацию о Зуке.
-Ты можешь отправить мне эти команды:
-
-/randomvideo - посмотреть случайное видео
-/demo - случайная демка
-/show - случайное видео шоу номера
-
-/article - случайная статья
-
-/events - ближайшие события
-";
-                        $telegramBot->sendMessage($message->getChat()->getId(), $answer);
+                        $telegramBot->messageHelp($update, TelegramBotComponent::VERSION_DEV);
                     }
                 }
             }
 
-        }, function(Update $update) {
+        }, function (Update $update) use ($telegramBot) {
             $message = $update->getMessage();
             if ($message instanceof Message) {
-                $user = $message->getFrom();
-                $chat = $message->getChat();
-                if ($user->isBot()) {
-                    return false;
+                if ($telegramBot->isNewMessage($message)) {
+                    $telegramBot->messageProcessed($message);
+                    $user = $message->getFrom();
+                    $chat = $message->getChat();
+                    if ($user->isBot()) {
+                        return false;
+                    }
+                    if ($chat->getType() != 'private') {
+                        return false;
+                    }
+                    return true;
                 }
-                if ($chat->getType() != 'private') {
-                    return false;
-                }
-                return true;
             }
             return false;
         });
 
-        return $bot->run();
+
+        header("HTTP/1.1 200 OK");
+        exit;
+    }
+
+
+    // zoukersbot
+    public function actionStage()
+    {
+        // https://api.telegram.org/bot$Token/getWebhookInfo
+        // https://api.telegram.org/bot$Token/deleteWebhook
+        // https://api.telegram.org/bot$Token/setWebhook?url=https://prozouk.ru/telegram/stage
+        /** @var TelegramBotComponent $telegramBot */
+        $telegramBot = Yii::$app->telegram;
+        $bot = $telegramBot->getBot('zoukersbot');
+
+        $bot->on(function (Update $update) use ($bot, $telegramBot) {
+            $message = $update->getMessage();
+            if ($message instanceof Message) {
+                $user = $message->getFrom();
+                $chat = $message->getChat();
+                if (!$user->isBot() && $chat->getType() == 'private') {
+                    $mtext = $message->getText();
+                    Yii::info([
+                        'action'     => 'stage',
+                        'chat_id'    => $chat->getId(),
+                        'message_id' => $message->getMessageId(),
+                        'text'       => $message->getText(),
+                    ], 'telegram');
+                    $cid = $message->getChat()->getId();
+                    $commands = explode(' ', $mtext, 2);
+                    $command = $commands[0] ?? '';
+                    $paramStr = trim($commands[1] ?? '');
+                    if (in_array($command, ['/randomVideo', '/randomvideo', '/случайное-видео', '/случайноевидео'])) {
+                        $telegramBot->messageRandomVideo($update, $paramStr);
+                    } elseif (in_array($command, ['/demo', '/демо'])) {
+                        $telegramBot->messageRandomVideo($update, $paramStr, 'demo');
+                    } elseif (in_array($command, ['/show', '/шоу'])) {
+                        $telegramBot->messageRandomVideo($update, $paramStr, 'show');
+                    } elseif (in_array($command, ['/article', '/статья'])) {
+                        $telegramBot->messageRandomItem($update, $paramStr, 'article');
+                    } elseif (in_array($command, ['/events', '/события'])) {
+                        $telegramBot->messageEventAfter($update, $paramStr);
+                    } elseif ($mtext == '/start') {
+                        $telegramBot->messageStart($update, TelegramBotComponent::VERSION_STAGE);
+                    } elseif ($mtext == '/help') {
+                        $telegramBot->messageHelp($update, TelegramBotComponent::VERSION_STAGE);
+                    }
+                }
+            }
+
+        }, function (Update $update) use ($telegramBot) {
+            $message = $update->getMessage();
+            if ($message instanceof Message) {
+                if ($telegramBot->isNewMessage($message)) {
+                    $telegramBot->messageProcessed($message);
+                    $user = $message->getFrom();
+                    $chat = $message->getChat();
+                    if ($user->isBot()) {
+                        return false;
+                    }
+                    if ($chat->getType() != 'private') {
+                        return false;
+                    }
+                    return true;
+                }
+            }
+            return false;
+        });
+
+
+        header("HTTP/1.1 200 OK");
+        exit;
+    }
+
+    // prozoukbot
+    public function actionProd()
+    {
+        // https://api.telegram.org/bot$Token/getWebhookInfo
+        // https://api.telegram.org/bot$Token/deleteWebhook
+        // https://api.telegram.org/bot$Token/setWebhook?url=https://prozouk.ru/telegram/prod
+        /** @var TelegramBotComponent $telegramBot */
+        $telegramBot = Yii::$app->telegram;
+        $bot = $telegramBot->getBot('prozoukbot');
+
+        $bot->on(function (Update $update) use ($bot, $telegramBot) {
+            $message = $update->getMessage();
+            if ($message instanceof Message) {
+                $user = $message->getFrom();
+                $chat = $message->getChat();
+                if (!$user->isBot() && $chat->getType() == 'private') {
+                    $mtext = $message->getText();
+                    Yii::info([
+                        'action'     => 'prod',
+                        'chat_id'    => $chat->getId(),
+                        'message_id' => $message->getMessageId(),
+                        'text'       => $message->getText(),
+                    ], 'telegram');
+                    $cid = $message->getChat()->getId();
+                    $commands = explode(' ', $mtext, 2);
+                    $command = $commands[0] ?? '';
+                    $paramStr = trim($commands[1] ?? '');
+                    if (in_array($command, ['/randomVideo', '/randomvideo', '/случайное-видео', '/случайноевидео'])) {
+                        $telegramBot->messageRandomVideo($update, $paramStr);
+                    } elseif (in_array($command, ['/demo', '/демо'])) {
+                        $telegramBot->messageRandomVideo($update, $paramStr, 'demo');
+                    } elseif (in_array($command, ['/show', '/шоу'])) {
+                        $telegramBot->messageRandomVideo($update, $paramStr, 'show');
+                    } elseif (in_array($command, ['/article', '/статья'])) {
+                        $telegramBot->messageRandomItem($update, $paramStr, 'article');
+                    } elseif (in_array($command, ['/events', '/события'])) {
+                        $telegramBot->messageEventAfter($update, $paramStr);
+                    } elseif ($mtext == '/start') {
+                        $telegramBot->messageStart($update, TelegramBotComponent::VERSION_PROD);
+                    } elseif ($mtext == '/help') {
+                        $telegramBot->messageHelp($update, TelegramBotComponent::VERSION_PROD);
+                    }
+                }
+            }
+
+        }, function (Update $update) use ($telegramBot) {
+            $message = $update->getMessage();
+            if ($message instanceof Message) {
+                if ($telegramBot->isNewMessage($message)) {
+                    $telegramBot->messageProcessed($message);
+                    $user = $message->getFrom();
+                    $chat = $message->getChat();
+                    if ($user->isBot()) {
+                        return false;
+                    }
+                    if ($chat->getType() != 'private') {
+                        return false;
+                    }
+                    return true;
+                }
+            }
+            return false;
+        });
+
+
+        header("HTTP/1.1 200 OK");
+        exit;
     }
 
 }

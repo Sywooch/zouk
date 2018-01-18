@@ -8,9 +8,12 @@ use common\models\Event;
 use common\models\Item;
 use common\models\TagEntity;
 use common\models\Tags;
+use common\models\TelegramMessage;
 use common\models\Video;
+use TelegramBot\Api\Botan;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Client;
+use TelegramBot\Api\Types\Message;
 use TelegramBot\Api\Types\Update;
 use Yii;
 use Exception;
@@ -28,7 +31,15 @@ class TelegramBotComponent extends BotApi implements Configurable
 
     public $trackerToken = null;
 
+    public $apiTrackerToken = null;
+
     private $bot = null;
+
+    const VERSION_DEV = 'dev';
+
+    const VERSION_STAGE = 'stage';
+
+    const VERSION_PROD = 'prod';
 
     public function __construct($config = [])
     {
@@ -56,10 +67,127 @@ class TelegramBotComponent extends BotApi implements Configurable
             $apiTokenParams = $this->apiTokens[$keyToken] ?? '';
             $this->apiToken = $apiTokenParams['token'];
             $this->token = $apiTokenParams['token'];
-            $this->trackerToken = $apiTokenParams['trackerToken'];
+            $this->apiTrackerToken = $apiTokenParams['trackerToken'] ?? null;
             $this->bot = new Client($this->token, $this->trackerToken);
         }
         return $this->bot;
+    }
+
+    public function track(Message $message, $eventName = 'Message')
+    {
+        if ($this->apiTrackerToken) {
+            $tracker = new Botan($this->apiTrackerToken);
+            $tracker->track($message, $eventName);
+        }
+    }
+
+    public function messageStart(Update $update, $version = '')
+    {
+        $message = $update->getMessage();
+        if ($version == self::VERSION_DEV) {
+            $answer =
+                "Привет! Я помогу найти интересующую тебя информацию о Зуке.
+Ты можешь отправить мне эти команды:
+
+/randomvideo - посмотреть случайное видео
+/demo - случайная демка
+/show - случайное видео шоу номера
+
+/article - случайная статья
+
+/events - ближайшие события
+";
+        } elseif ($version == self::VERSION_STAGE) {
+            $answer =
+                "Привет! Я помогу найти интересующую тебя информацию о Зуке.
+Ты можешь отправить мне эти команды:
+
+/randomvideo - посмотреть случайное видео
+/demo - случайная демка
+/show - случайное видео шоу номера
+
+/article - случайная статья
+
+/events - ближайшие события
+";
+        } elseif ($version == self::VERSION_PROD) {
+            $answer =
+                "Привет! Я помогу найти интересующую тебя информацию о Зуке.
+Ты можешь отправить мне эти команды:
+
+/randomvideo - посмотреть случайное видео
+/demo - случайная демка
+/show - случайное видео шоу номера
+
+/article - случайная статья
+
+/events - ближайшие события
+";
+        } else {
+            $answer = '';
+        }
+
+        if (!empty($answer)) {
+            $response = $this->sendMessage($message->getChat()->getId(), $answer);
+            $this->track($message, 'start');
+            return $response;
+        }
+        return false;
+    }
+
+
+    public function messageHelp(Update $update, $version = '')
+    {
+        $message = $update->getMessage();
+        if ($version == self::VERSION_DEV) {
+            $answer =
+                "Я помогу найти интересующую тебя информацию о Зуке.
+Ты можешь отправить мне эти команды:
+
+/randomvideo - посмотреть случайное видео
+/demo - случайная демка
+/show - случайное видео шоу номера
+
+/article - случайная статья
+
+/events - ближайшие события
+";
+        } elseif ($version == self::VERSION_STAGE) {
+            $answer =
+                "Я помогу найти интересующую тебя информацию о Зуке.
+Ты можешь отправить мне эти команды:
+
+/randomvideo - посмотреть случайное видео
+/demo - случайная демка
+/show - случайное видео шоу номера
+
+/article - случайная статья
+
+/events - ближайшие события
+";
+        } elseif ($version == self::VERSION_PROD) {
+            $answer =
+                "Я помогу найти интересующую тебя информацию о Зуке.
+Ты можешь отправить мне эти команды:
+
+/randomvideo - посмотреть случайное видео
+/demo - случайная демка
+/show - случайное видео шоу номера
+
+/article - случайная статья
+
+/events - ближайшие события
+";
+        } else {
+            $answer = '';
+        }
+
+        if (!empty($answer)) {
+            $response = $this->sendMessage($message->getChat()->getId(), $answer);
+            $this->track($message, 'help');
+            return $response;
+        }
+        return false;
     }
 
     public function messageRandomVideo(Update $update, $paramStr = '', $tag = '')
@@ -79,7 +207,7 @@ class TelegramBotComponent extends BotApi implements Configurable
                 ->innerJoin(TagEntity::tableName() . ' te', [
                     'and',
                     'te.entity_id=item.id',
-                    ['te.entity' => Item::THIS_ENTITY]
+                    ['te.entity' => Item::THIS_ENTITY],
                 ])
                 ->innerJoin(Tags::tableName() . ' tag', 'te.tag_id=tag.id and tag.name=:tag', [':tag' => $tag]);
         }
@@ -90,7 +218,9 @@ class TelegramBotComponent extends BotApi implements Configurable
         $video = $find->one();
         if ($video) {
             $answer = $video->video_title . "\n" . $video->original_url;
-            return $this->sendMessage($message->getChat()->getId(), $answer);
+            $response = $this->sendMessage($message->getChat()->getId(), $answer);
+            $this->track($message, 'randomVideo');
+            return $response;
         }
         return false;
     }
@@ -107,7 +237,7 @@ class TelegramBotComponent extends BotApi implements Configurable
                 ->innerJoin(TagEntity::tableName() . ' te', [
                     'and',
                     'te.entity_id=item.id',
-                    ['te.entity' => Item::THIS_ENTITY]
+                    ['te.entity' => Item::THIS_ENTITY],
                 ])
                 ->innerJoin(Tags::tableName() . ' tag', 'te.tag_id=tag.id and tag.name=:tag', [':tag' => $tag]);
         }
@@ -122,7 +252,9 @@ class TelegramBotComponent extends BotApi implements Configurable
         } else {
             $answer = 'Статья не найдена';
         }
-        return $this->sendMessage($message->getChat()->getId(), $answer);
+        $response = $this->sendMessage($message->getChat()->getId(), $answer);
+        $this->track($message, 'randomItem');
+        return $response;
     }
 
     public function messageEventAfter(Update $update, $paramStr = '')
@@ -145,7 +277,41 @@ class TelegramBotComponent extends BotApi implements Configurable
             $answer .= $event->getUrl(true, ['lang_id' => false]) . "\n\n";
         }
         $answer .= "\n prozouk.ru/events/after";
-        return $this->sendMessage($message->getChat()->getId(), $answer);
+        $response = $this->sendMessage($message->getChat()->getId(), $answer);
+        $this->track($message, 'eventAfter');
+        return $response;
+    }
+
+    /**
+     * @param Message $message
+     * @return bool
+     */
+    public function messageProcessed($message)
+    {
+        if ($this->isNewMessage($message)) {
+            $telegramMessage = new TelegramMessage();
+            $telegramMessage->setAttributes([
+                'chat_id'    => $message->getChat()->getId(),
+                'message_id' => $message->getMessageId(),
+                'text'       => $message->getText(),
+                'status'     => TelegramMessage::STATUS_PROCESSED,
+            ]);
+            return $telegramMessage->save();
+        }
+        return true;
+    }
+
+    /**
+     * @param Message $message
+     * @return bool
+     */
+    public function isNewMessage($message)
+    {
+        $chatId = $message->getChat()->getId();
+        $messageId = $message->getMessageId();
+        return TelegramMessage::find()
+            ->where(['chat_id' => $chatId, 'message_id' => $messageId])
+            ->exists();
     }
 
 }
