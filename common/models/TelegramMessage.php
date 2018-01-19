@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  * @property integer $message_id
  * @property string $text
  * @property string $status
+ * @property string $bot_name
  * @property integer $date_create
  * @property integer $date_update
  */
@@ -52,7 +53,7 @@ class TelegramMessage extends ActiveRecord
     {
         return [
             [['user_id', 'chat_id', 'message_id', 'date_update', 'date_create'], 'integer'],
-            [['text', 'status'], 'string'],
+            [['text', 'status', 'bot_name'], 'string'],
         ];
     }
 

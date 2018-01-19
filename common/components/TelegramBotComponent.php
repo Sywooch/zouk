@@ -41,6 +41,8 @@ class TelegramBotComponent extends BotApi implements Configurable
 
     public $apiTrackerToken = null;
 
+    public $keyToken = '';
+
     private $bot = null;
 
     const VERSION_DEV = 'dev';
@@ -74,6 +76,7 @@ class TelegramBotComponent extends BotApi implements Configurable
     {
         if (empty($this->bot)) {
             $apiTokenParams = $this->apiTokens[$keyToken] ?? '';
+            $this->keyToken = $keyToken;
             $this->apiToken = $apiTokenParams['token'];
             $this->token = $apiTokenParams['token'];
             $this->apiTrackerToken = $apiTokenParams['trackerToken'] ?? null;
@@ -311,6 +314,7 @@ class TelegramBotComponent extends BotApi implements Configurable
                 'message_id' => $message->getMessageId(),
                 'text'       => $message->getText(),
                 'status'     => TelegramMessage::STATUS_READ,
+                'bot_name'   => $this->keyToken,
             ]);
             return $telegramMessage->save();
         }
@@ -370,7 +374,7 @@ class TelegramBotComponent extends BotApi implements Configurable
             $chat = new TelegramChat();
             $chat->setAttributes([
                 'chat_id' => $chatId,
-                'params' => json_encode([]),
+                'params'  => json_encode([]),
             ]);
         }
         $chat->setParamsByKey(TelegramChat::PARAMS_LAST_COMMAND, [
@@ -380,5 +384,5 @@ class TelegramBotComponent extends BotApi implements Configurable
         ]);
         $chat->save();
     }
-    
+
 }
