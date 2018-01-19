@@ -14,7 +14,9 @@ use common\models\Video;
 use TelegramBot\Api\Botan;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Client;
+use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
 use TelegramBot\Api\Types\Message;
+use TelegramBot\Api\Types\ReplyKeyboardMarkup;
 use TelegramBot\Api\Types\Update;
 use Yii;
 use Exception;
@@ -28,6 +30,7 @@ class TelegramBotComponent extends BotApi implements Configurable
     const LAST_COMMAND_ARTICLE = 'article';
     const LAST_COMMAND_EVENTS = 'events';
     const LAST_COMMAND_START = 'start';
+    const LAST_COMMAND_SETTINGS = 'settings';
 
     public $apiTokens;
 
@@ -299,6 +302,41 @@ class TelegramBotComponent extends BotApi implements Configurable
         return $response;
     }
 
+    public function messageSettings(Update $update, $paramStr = '')
+    {
+        $message = $update->getMessage();
+
+        $replyMarkup = [];
+        $answer = 'Что-то пошло не так :(';
+        if (empty($paramStr)) {
+            $answer = "Настройки";
+
+            $buttonSettings = ["text" => "Lang", "callback_data" => '/settings lang'];
+            $inlineKeyboard = [[$buttonSettings]];
+            $keyboard = ["inline_keyboard" => $inlineKeyboard];
+            $replyMarkup = json_encode($keyboard);
+
+        } else {
+            $params = explode(' ', $paramStr);
+            $settingGroup = $params[0] ?? '';
+            if ($settingGroup == 'lang') {
+
+                $buttonLangRu = ["text" => "Ru", "callback_data" => '/settings lang ru'];
+                $buttonLangEn = ["text" => "Ru", "callback_data" => '/settings lang en'];
+                $inlineKeyboard = [[$buttonLangRu, $buttonLangEn]];
+                $keyboard = ["inline_keyboard" => $inlineKeyboard];
+                $replyMarkup = json_encode($keyboard);
+
+            }
+        }
+
+        $response = $this->sendMessage($message->getChat()->getId(), $answer, null, false, $message->getMessageId(), $replyMarkup);
+        $this->trackMessage($message, 'settings');
+        $this->setLastCommandToChat($message, self::LAST_COMMAND_SETTINGS);
+
+        return $response;
+    }
+
     /**
      * @param Message $message
      * @return bool
@@ -365,8 +403,9 @@ class TelegramBotComponent extends BotApi implements Configurable
     /**
      * @param Message $message
      * @param string $command
+     * @param array $params
      */
-    public function setLastCommandToChat($message, $command)
+    public function setLastCommandToChat($message, $command, $params = [])
     {
         $chatId = $message->getChat()->getId();
         $chat = TelegramChat::find()->andWhere(['chat_id' => $chatId])->one();
@@ -378,11 +417,26 @@ class TelegramBotComponent extends BotApi implements Configurable
             ]);
         }
         $chat->setParamsByKey(TelegramChat::PARAMS_LAST_COMMAND, [
-            'name' => $command,
-            'date' => date('d.m.Y H:i:s'),
-            'time' => time(),
+            'name'   => $command,
+            'date'   => date('d.m.Y H:i:s'),
+            'time'   => time(),
+            'params' => $params,
         ]);
         $chat->save();
+    }
+
+    /**
+     * @param Message $message
+     * @return array
+     */
+    public function getLastCommandFromChat($message)
+    {
+        $chatId = $message->getChat()->getId();
+        $chat = TelegramChat::find()->andWhere(['chat_id' => $chatId])->one();
+        if ($chat) {
+            return $chat->getPrimaryKey(TelegramChat::PARAMS_LAST_COMMAND);
+        }
+        return [];
     }
 
 }

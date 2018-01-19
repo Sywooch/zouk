@@ -79,7 +79,9 @@ class TelegramController extends Controller
                     ], 'telegram');
                     $cid = $message->getChat()->getId();
                     $commands = explode(' ', $mtext, 2);
-                    $command = $commands[0] ?? '';
+                    $commandDog = $commands[0] ?? '';
+                    $commandDogs = explode('@', $commandDog);
+                    $command = $commandDogs[0] ?? '';
                     $paramStr = trim($commands[1] ?? '');
                     if (in_array($command, ['/randomVideo', '/randomvideo', '/случайное-видео', '/случайноевидео'])) {
                         $telegramBot->messageRandomVideo($update, $paramStr);
@@ -95,7 +97,11 @@ class TelegramController extends Controller
                         $telegramBot->messageStart($update, TelegramBotComponent::VERSION_DEV);
                     } elseif ($mtext == '/help') {
                         $telegramBot->messageHelp($update, TelegramBotComponent::VERSION_DEV);
+                    } elseif ($mtext == '/settings') {
+                        $telegramBot->messageSettings($update, $paramStr);
                     }
+                    
+                    
                 }
             }
 
@@ -109,9 +115,6 @@ class TelegramController extends Controller
                     if ($user->isBot()) {
                         return false;
                     }
-//                    if ($chat->getType() != 'private') {
-//                        return false;
-//                    }
                     return true;
                 }
             }
@@ -140,7 +143,7 @@ class TelegramController extends Controller
             if ($message instanceof Message) {
                 $user = $message->getFrom();
                 $chat = $message->getChat();
-                if (!$user->isBot() && $chat->getType() == 'private') {
+                if (!$user->isBot()) {
                     $mtext = $message->getText();
                     Yii::info([
                         'action'     => 'stage',
@@ -150,7 +153,9 @@ class TelegramController extends Controller
                     ], 'telegram');
                     $cid = $message->getChat()->getId();
                     $commands = explode(' ', $mtext, 2);
-                    $command = $commands[0] ?? '';
+                    $commandDog = $commands[0] ?? '';
+                    $commandDogs = explode('@', $commandDog);
+                    $command = $commandDogs[0] ?? '';
                     $paramStr = trim($commands[1] ?? '');
                     if (in_array($command, ['/randomVideo', '/randomvideo', '/случайное-видео', '/случайноевидео'])) {
                         $telegramBot->messageRandomVideo($update, $paramStr);
@@ -180,9 +185,6 @@ class TelegramController extends Controller
                     if ($user->isBot()) {
                         return false;
                     }
-                    if ($chat->getType() != 'private') {
-                        return false;
-                    }
                     return true;
                 }
             }
@@ -210,7 +212,7 @@ class TelegramController extends Controller
             if ($message instanceof Message) {
                 $user = $message->getFrom();
                 $chat = $message->getChat();
-                if (!$user->isBot() && $chat->getType() == 'private') {
+                if (!$user->isBot()) {
                     $mtext = $message->getText();
                     Yii::info([
                         'action'     => 'prod',
@@ -220,7 +222,9 @@ class TelegramController extends Controller
                     ], 'telegram');
                     $cid = $message->getChat()->getId();
                     $commands = explode(' ', $mtext, 2);
-                    $command = $commands[0] ?? '';
+                    $commandDog = $commands[0] ?? '';
+                    $commandDogs = explode('@', $commandDog);
+                    $command = $commandDogs[0] ?? '';
                     $paramStr = trim($commands[1] ?? '');
                     if (in_array($command, ['/randomVideo', '/randomvideo', '/случайное-видео', '/случайноевидео'])) {
                         $telegramBot->messageRandomVideo($update, $paramStr);
@@ -250,9 +254,6 @@ class TelegramController extends Controller
                     if ($user->isBot()) {
                         return false;
                     }
-//                    if ($chat->getType() != 'private') {
-//                        return false;
-//                    }
                     return true;
                 }
             }
