@@ -8,6 +8,7 @@ use common\models\Event;
 use common\models\Item;
 use common\models\TagEntity;
 use common\models\Tags;
+use common\models\TelegramChat;
 use common\models\TelegramMessage;
 use common\models\Video;
 use TelegramBot\Api\Botan;
@@ -23,7 +24,14 @@ use yii\db\Expression;
 class TelegramBotComponent extends BotApi implements Configurable
 {
 
+    const LAST_COMMAND_VIDEO = 'video';
+    const LAST_COMMAND_ARTICLE = 'article';
+    const LAST_COMMAND_EVENTS = 'events';
+    const LAST_COMMAND_START = 'start';
+
     public $apiTokens;
+
+    public $defaultToken;
 
     public $apiToken;
 
@@ -50,9 +58,8 @@ class TelegramBotComponent extends BotApi implements Configurable
             throw new Exception('Bot token cannot be empty');
         }
         $apiTokens = $this->apiTokens;
-        $keys = array_keys($apiTokens);
-        $firstKey = array_shift($keys);
-        $firstApiToken = $apiTokens[$firstKey];
+        $defaultToken = $this->defaultToken ?: 'zoukersbot';
+        $firstApiToken = $apiTokens[$defaultToken];
         if (empty($firstApiToken)) {
             throw new Exception('Bot token cannot be empty');
         }
@@ -75,9 +82,10 @@ class TelegramBotComponent extends BotApi implements Configurable
         return $this->bot;
     }
 
-    public function track(Message $message, $eventName = 'Message')
+    public function trackMessage(Message $message, $eventName = 'Message')
     {
-        if ($this->apiTrackerToken) {
+        $this->messageProcessed($message);
+        if ($this->apiTrackerToken && false) {
             $tracker = new Botan($this->apiTrackerToken);
             $tracker->track($message, $eventName);
         }
@@ -131,7 +139,8 @@ class TelegramBotComponent extends BotApi implements Configurable
 
         if (!empty($answer)) {
             $response = $this->sendMessage($message->getChat()->getId(), $answer);
-            $this->track($message, 'start');
+            $this->trackMessage($message, 'start');
+            $this->setLastCommandToChat($message, self::LAST_COMMAND_START);
             return $response;
         }
         return false;
@@ -186,7 +195,7 @@ class TelegramBotComponent extends BotApi implements Configurable
 
         if (!empty($answer)) {
             $response = $this->sendMessage($message->getChat()->getId(), $answer);
-            $this->track($message, 'help');
+            $this->trackMessage($message, 'help');
             return $response;
         }
         return false;
@@ -221,7 +230,8 @@ class TelegramBotComponent extends BotApi implements Configurable
         if ($video) {
             $answer = $video->video_title . "\n" . $video->original_url;
             $response = $this->sendMessage($message->getChat()->getId(), $answer);
-            $this->track($message, 'randomVideo');
+            $this->trackMessage($message, 'randomVideo');
+            $this->setLastCommandToChat($message, self::LAST_COMMAND_VIDEO);
             return $response;
         }
         return false;
@@ -255,7 +265,8 @@ class TelegramBotComponent extends BotApi implements Configurable
             $answer = 'Статья не найдена';
         }
         $response = $this->sendMessage($message->getChat()->getId(), $answer);
-        $this->track($message, 'randomItem');
+        $this->trackMessage($message, 'randomItem');
+        $this->setLastCommandToChat($message, self::LAST_COMMAND_ARTICLE);
         return $response;
     }
 
@@ -280,7 +291,8 @@ class TelegramBotComponent extends BotApi implements Configurable
         }
         $answer .= "\n prozouk.ru/events/after";
         $response = $this->sendMessage($message->getChat()->getId(), $answer);
-        $this->track($message, 'eventAfter');
+        $this->trackMessage($message, 'eventAfter');
+        $this->setLastCommandToChat($message, self::LAST_COMMAND_EVENTS);
         return $response;
     }
 
@@ -288,7 +300,7 @@ class TelegramBotComponent extends BotApi implements Configurable
      * @param Message $message
      * @return bool
      */
-    public function messageProcessed($message)
+    public function messageRead($message)
     {
         if ($this->isNewMessage($message)) {
             $telegramMessage = new TelegramMessage();
@@ -298,11 +310,25 @@ class TelegramBotComponent extends BotApi implements Configurable
                 'chat_id'    => $message->getChat()->getId(),
                 'message_id' => $message->getMessageId(),
                 'text'       => $message->getText(),
-                'status'     => TelegramMessage::STATUS_PROCESSED,
+                'status'     => TelegramMessage::STATUS_READ,
             ]);
             return $telegramMessage->save();
         }
         return true;
+    }
+
+    /**
+     * @param Message $message
+     * @return bool
+     */
+    public function messageProcessed($message)
+    {
+        $telegramMessage = $this->getTelegramMessage($message);
+        if ($telegramMessage) {
+            $telegramMessage->status = TelegramMessage::STATUS_PROCESSED;
+            return $telegramMessage->save(true, ['status']);
+        }
+        return false;
     }
 
     /**
@@ -318,4 +344,41 @@ class TelegramBotComponent extends BotApi implements Configurable
             ->exists();
     }
 
+    /**
+     * @param Message $message
+     * @return TelegramMessage
+     */
+    public function getTelegramMessage($message)
+    {
+        $chatId = $message->getChat()->getId();
+        $messageId = $message->getMessageId();
+        return !TelegramMessage::find()
+            ->where(['chat_id' => $chatId, 'message_id' => $messageId])
+            ->one();
+    }
+
+
+    /**
+     * @param Message $message
+     * @param string $command
+     */
+    public function setLastCommandToChat($message, $command)
+    {
+        $chatId = $message->getChat()->getId();
+        $chat = TelegramChat::find()->andWhere(['chat_id' => $chatId])->one();
+        if (empty($chat)) {
+            $chat = new TelegramChat();
+            $chat->setAttributes([
+                'chat_id' => $chatId,
+                'params' => json_encode([]),
+            ]);
+        }
+        $chat->setParamsByKey(TelegramChat::PARAMS_LAST_COMMAND, [
+            'name' => $command,
+            'date' => date('d.m.Y H:i:s'),
+            'time' => time(),
+        ]);
+        $chat->save();
+    }
+    
 }

@@ -41,9 +41,10 @@ class TelegramController extends Controller
 
     public function beforeAction($action)
     {
-        if (in_array($action->id, ['init'])) {
+        if (in_array($action->id, ['init', 'stage', 'dev', 'prod'])) {
             $this->enableCsrfValidation = false;
         }
+        $this->enableCsrfValidation = false;
 
         return parent::beforeAction($action);
     }
@@ -68,7 +69,7 @@ class TelegramController extends Controller
             if ($message instanceof Message) {
                 $user = $message->getFrom();
                 $chat = $message->getChat();
-                if (!$user->isBot() && $chat->getType() == 'private') {
+                if (!$user->isBot()) {
                     $mtext = $message->getText();
                     Yii::info([
                         'action'     => 'dev',
@@ -102,15 +103,15 @@ class TelegramController extends Controller
             $message = $update->getMessage();
             if ($message instanceof Message) {
                 if ($telegramBot->isNewMessage($message)) {
-                    $telegramBot->messageProcessed($message);
+                    $telegramBot->messageRead($message);
                     $user = $message->getFrom();
                     $chat = $message->getChat();
                     if ($user->isBot()) {
                         return false;
                     }
-                    if ($chat->getType() != 'private') {
-                        return false;
-                    }
+//                    if ($chat->getType() != 'private') {
+//                        return false;
+//                    }
                     return true;
                 }
             }
@@ -173,7 +174,7 @@ class TelegramController extends Controller
             $message = $update->getMessage();
             if ($message instanceof Message) {
                 if ($telegramBot->isNewMessage($message)) {
-                    $telegramBot->messageProcessed($message);
+                    $telegramBot->messageRead($message);
                     $user = $message->getFrom();
                     $chat = $message->getChat();
                     if ($user->isBot()) {
@@ -243,15 +244,15 @@ class TelegramController extends Controller
             $message = $update->getMessage();
             if ($message instanceof Message) {
                 if ($telegramBot->isNewMessage($message)) {
-                    $telegramBot->messageProcessed($message);
+                    $telegramBot->messageRead($message);
                     $user = $message->getFrom();
                     $chat = $message->getChat();
                     if ($user->isBot()) {
                         return false;
                     }
-                    if ($chat->getType() != 'private') {
-                        return false;
-                    }
+//                    if ($chat->getType() != 'private') {
+//                        return false;
+//                    }
                     return true;
                 }
             }
