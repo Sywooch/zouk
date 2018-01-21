@@ -11,9 +11,12 @@ use common\models\Tags;
 use common\models\TelegramChat;
 use common\models\TelegramMessage;
 use common\models\Video;
+use frontend\models\Lang;
 use TelegramBot\Api\Botan;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Client;
+use TelegramBot\Api\Types\CallbackQuery;
+use TelegramBot\Api\Types\Chat;
 use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
 use TelegramBot\Api\Types\Message;
 use TelegramBot\Api\Types\ReplyKeyboardMarkup;
@@ -100,19 +103,25 @@ class TelegramBotComponent extends BotApi implements Configurable
     public function messageStart(Update $update, $version = '')
     {
         $message = $update->getMessage();
+        $lang = $this->getLangFromChat($message->getChat());
         if ($version == self::VERSION_DEV) {
             $answer =
-                "Привет! Я помогу найти интересующую тебя информацию о Зуке.
-Ты можешь отправить мне эти команды:
-
-/randomvideo - посмотреть случайное видео
-/demo - случайная демка
-/show - случайное видео шоу номера
-
-/article - случайная статья
-
-/events - ближайшие события
-";
+                Lang::t('telegram/start', 'mainDescription', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'mainTitle', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'title', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuRandomVideo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuDemo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuShow', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuArticle', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuEvents', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuSettings', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'bottomMessage', [], $lang->local) . "\n"
+            ;
         } elseif ($version == self::VERSION_STAGE) {
             $answer =
                 "Привет! Я помогу найти интересующую тебя информацию о Зуке.
@@ -156,19 +165,25 @@ class TelegramBotComponent extends BotApi implements Configurable
     public function messageHelp(Update $update, $version = '')
     {
         $message = $update->getMessage();
+        $lang = $this->getLangFromChat($message->getChat());
         if ($version == self::VERSION_DEV) {
             $answer =
-                "Я помогу найти интересующую тебя информацию о Зуке.
-Ты можешь отправить мне эти команды:
-
-/randomvideo - посмотреть случайное видео
-/demo - случайная демка
-/show - случайное видео шоу номера
-
-/article - случайная статья
-
-/events - ближайшие события
-";
+                Lang::t('telegram/start', 'mainDescription', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'mainTitle', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'title', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuRandomVideo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuDemo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuShow', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuArticle', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuEvents', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuSettings', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'bottomMessage', [], $lang->local) . "\n"
+            ;
         } elseif ($version == self::VERSION_STAGE) {
             $answer =
                 "Я помогу найти интересующую тебя информацию о Зуке.
@@ -302,39 +317,72 @@ class TelegramBotComponent extends BotApi implements Configurable
         return $response;
     }
 
-    public function messageSettings(Update $update, $paramStr = '')
+    /**
+     * @param Update|CallbackQuery $update
+     * @param string $paramStr
+     * @return Message
+     */
+    public function messageSettings($update, $paramStr = '')
     {
         $message = $update->getMessage();
 
-        $replyMarkup = [];
-        $answer = 'Что-то пошло не так :(';
+        $lang = $this->getLangFromChat($message->getChat());
         if (empty($paramStr)) {
-            $answer = "Настройки";
+            $answer = Lang::t('telegram/settings', 'settingLabel', [], $lang->local);
 
-            $buttonSettings = ["text" => "Lang", "callback_data" => '/settings lang'];
-            $inlineKeyboard = [[$buttonSettings]];
-            $keyboard = ["inline_keyboard" => $inlineKeyboard];
-            $replyMarkup = json_encode($keyboard);
+            $replyMarkup = new InlineKeyboardMarkup([[
+                ['text' => Lang::t('telegram/settings', 'languageBtn', [], $lang->local), "callback_data" => '/settings lang'],
+            ]]);
 
+            $response = $this->sendMessage($message->getChat()->getId(), $answer, null, false, null, $replyMarkup);
+            $this->trackMessage($message, 'settings');
+            $this->setLastCommandToChat($message, self::LAST_COMMAND_SETTINGS);
+
+            return $response;
         } else {
             $params = explode(' ', $paramStr);
             $settingGroup = $params[0] ?? '';
             if ($settingGroup == 'lang') {
+                if (empty($params[1])) {
+                    $answer = Lang::t('telegram/settings', 'languageSelectBtn', [], $lang->local);
+                    /** @var Lang[] $langs */
+                    $langs = Lang::find()->all();
+                    $buttons = [];
+                    foreach ($langs as $lang) {
+                        $buttons[] = [
+                            'text' => $lang->name,
+                            'callback_data' => '/settings lang ' . $lang->id,
+                        ];
+                    }
 
-                $buttonLangRu = ["text" => "Ru", "callback_data" => '/settings lang ru'];
-                $buttonLangEn = ["text" => "Ru", "callback_data" => '/settings lang en'];
-                $inlineKeyboard = [[$buttonLangRu, $buttonLangEn]];
-                $keyboard = ["inline_keyboard" => $inlineKeyboard];
-                $replyMarkup = json_encode($keyboard);
+                    $replyMarkup = new InlineKeyboardMarkup([$buttons]);
+
+                    $response = $this->editMessageText($message->getChat()->getId(), $message->getMessageId(), $answer, null, false, $replyMarkup);
+                    return $response;
+                } else {
+                    $lang = $params[1] ?? '';
+                    /** @var Lang $langModel */
+                    $langModel = Lang::find()->where(['id' => intval($lang)])->one();
+                    if ($langModel) {
+                        $answer = Lang::t('telegram/settings', 'languageSelectedLabel', [], $lang->local) . $langModel->name;
+
+                        $chatId = $message->getChat()->getId();
+                        /** @var TelegramChat $chat */
+                        $chat = TelegramChat::find()->andWhere(['chat_id' => $chatId])->one();
+                        $chat->lang_id = $langModel->id;
+                        $chat->save();
+
+                        $replyMarkup = new InlineKeyboardMarkup([]);
+
+                        $response = $this->editMessageText($message->getChat()->getId(), $message->getMessageId(), $answer, null, false, $replyMarkup);
+                        return $response;
+                    }
+                }
 
             }
         }
 
-        $response = $this->sendMessage($message->getChat()->getId(), $answer, null, false, $message->getMessageId(), $replyMarkup);
-        $this->trackMessage($message, 'settings');
-        $this->setLastCommandToChat($message, self::LAST_COMMAND_SETTINGS);
-
-        return $response;
+        return false;
     }
 
     /**
@@ -437,6 +485,26 @@ class TelegramBotComponent extends BotApi implements Configurable
             return $chat->getPrimaryKey(TelegramChat::PARAMS_LAST_COMMAND);
         }
         return [];
+    }
+
+
+    /**
+     * @param Chat $chat
+     * @return Lang
+     */
+    public function getLangFromChat($chat)
+    {
+        /** @var TelegramChat $chat */
+        $chat = TelegramChat::find()->andWhere(['chat_id' => $chat->getId()])->one();
+        $lang = null;
+        if ($chat) {
+            $langId = $chat->lang_id;
+            $lang = Lang::find()->where(['id' => $langId])->one();
+        }
+        if (empty($lang)) {
+            $lang = Lang::find()->where(['default' => 1])->one();
+        }
+        return $lang;
     }
 
 }

@@ -8,6 +8,7 @@ use common\models\Item;
 use common\models\TagEntity;
 use common\models\Tags;
 use common\models\Video;
+use TelegramBot\Api\Types\CallbackQuery;
 use TelegramBot\Api\Types\Message;
 use TelegramBot\Api\Types\Update;
 use Yii;
@@ -63,6 +64,14 @@ class TelegramController extends Controller
         /** @var TelegramBotComponent $telegramBot */
         $telegramBot = Yii::$app->telegram;
         $bot = $telegramBot->getBot('prozouk_bot');
+
+        $bot->callbackQuery(function (CallbackQuery $query) use ($bot, $telegramBot){
+            $data = $query->getData();
+            $commands = explode(' ', $data, 2);
+            if ($commands[0] ?? '' == '/settings') {
+                $telegramBot->messageSettings($query, $commands[1] ?? '');
+            }
+        });
 
         $bot->on(function (Update $update) use ($bot, $telegramBot) {
             $message = $update->getMessage();

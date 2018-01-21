@@ -69,9 +69,11 @@ class Lang extends \yii\db\ActiveRecord
             ],
         ];
     }
-
-
-    //Получение текущего объекта языка
+    
+    /**
+     * Получение текущего объекта языка
+     * @return array|Lang|null|\yii\db\ActiveRecord
+     */
     static function getCurrent()
     {
         $cookies = \Yii::$app->response->cookies;
