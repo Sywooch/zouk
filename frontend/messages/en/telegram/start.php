@@ -11,7 +11,7 @@ Hi there! I\'m a ProZouk bot.",
     'menuShow'        => '/show - watch random show',
     'menuArticle'     => '/article - random zouk article',
     'menuEvents'      => '/events - upcomming world zouk congresses and events',
-    'menuSettings'    => '/settings - настройки бота',
+    'menuSettings'    => '/settings - bot settings',
 
     'bottomMessage' => "You can also search by artist name. For example: /randomvideo kamacho",
 ];

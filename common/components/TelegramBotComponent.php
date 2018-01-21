@@ -106,7 +106,6 @@ class TelegramBotComponent extends BotApi implements Configurable
         $lang = $this->getLangFromChat($message->getChat());
         if ($version == self::VERSION_DEV) {
             $answer =
-                Lang::t('telegram/start', 'mainDescription', [], $lang->local) . "\n" .
                 Lang::t('telegram/start', 'mainTitle', [], $lang->local) . "\n" .
                 Lang::t('telegram/start', 'title', [], $lang->local) . "\n" .
                 "\n" .
@@ -124,17 +123,21 @@ class TelegramBotComponent extends BotApi implements Configurable
             ;
         } elseif ($version == self::VERSION_STAGE) {
             $answer =
-                "Привет! Я помогу найти интересующую тебя информацию о Зуке.
-Ты можешь отправить мне эти команды:
-
-/randomvideo - посмотреть случайное видео
-/demo - случайная демка
-/show - случайное видео шоу номера
-
-/article - случайная статья
-
-/events - ближайшие события
-";
+                Lang::t('telegram/start', 'mainTitle', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'title', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuRandomVideo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuDemo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuShow', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuArticle', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuEvents', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuSettings', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'bottomMessage', [], $lang->local) . "\n"
+            ;
         } elseif ($version == self::VERSION_PROD) {
             $answer =
                 "Привет! Я помогу найти интересующую тебя информацию о Зуке.
@@ -168,7 +171,6 @@ class TelegramBotComponent extends BotApi implements Configurable
         $lang = $this->getLangFromChat($message->getChat());
         if ($version == self::VERSION_DEV) {
             $answer =
-                Lang::t('telegram/start', 'mainDescription', [], $lang->local) . "\n" .
                 Lang::t('telegram/start', 'mainTitle', [], $lang->local) . "\n" .
                 Lang::t('telegram/start', 'title', [], $lang->local) . "\n" .
                 "\n" .
@@ -186,17 +188,21 @@ class TelegramBotComponent extends BotApi implements Configurable
             ;
         } elseif ($version == self::VERSION_STAGE) {
             $answer =
-                "Я помогу найти интересующую тебя информацию о Зуке.
-Ты можешь отправить мне эти команды:
-
-/randomvideo - посмотреть случайное видео
-/demo - случайная демка
-/show - случайное видео шоу номера
-
-/article - случайная статья
-
-/events - ближайшие события
-";
+                Lang::t('telegram/start', 'mainTitle', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'title', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuRandomVideo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuDemo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuShow', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuArticle', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuEvents', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuSettings', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'bottomMessage', [], $lang->local) . "\n"
+            ;
         } elseif ($version == self::VERSION_PROD) {
             $answer =
                 "Я помогу найти интересующую тебя информацию о Зуке.
