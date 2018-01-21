@@ -147,6 +147,14 @@ class TelegramController extends Controller
         $telegramBot = Yii::$app->telegram;
         $bot = $telegramBot->getBot('zoukersbot');
 
+        $bot->callbackQuery(function (CallbackQuery $query) use ($bot, $telegramBot){
+            $data = $query->getData();
+            $commands = explode(' ', $data, 2);
+            if ($commands[0] ?? '' == '/settings') {
+                $telegramBot->messageSettings($query, $commands[1] ?? '');
+            }
+        });
+
         $bot->on(function (Update $update) use ($bot, $telegramBot) {
             $message = $update->getMessage();
             if ($message instanceof Message) {
@@ -180,6 +188,8 @@ class TelegramController extends Controller
                         $telegramBot->messageStart($update, TelegramBotComponent::VERSION_STAGE);
                     } elseif ($mtext == '/help') {
                         $telegramBot->messageHelp($update, TelegramBotComponent::VERSION_STAGE);
+                    } elseif ($mtext == '/settings') {
+                        $telegramBot->messageSettings($update, $paramStr);
                     }
                 }
             }
