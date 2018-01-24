@@ -317,10 +317,6 @@ class TelegramBotComponent extends BotApi implements Configurable
         $count = $findQuery->count();
         $countPages = ceil($count /$countOnPage);
 
-        /** @var Event[] $events */
-        $events = $findQuery->all();
-
-
         $answer = "Ближайшие события:\n";
         $buttons = [];
         if (!is_null($page)) {
@@ -330,7 +326,7 @@ class TelegramBotComponent extends BotApi implements Configurable
             if ($page > $countPages) {
                 $page = $countPages;
             }
-            $findQuery->offset($page * $countOnPage)
+            $findQuery->offset(($page-1) * $countOnPage)
                 ->limit($countOnPage);
 
             if ($page > 1) {
@@ -341,13 +337,20 @@ class TelegramBotComponent extends BotApi implements Configurable
                 $newPage = $page + 1;
                 $buttons[] = ['text' => Lang::t('telegram/events', 'page', [], $lang->local) . " " . $newPage, "callback_data" => '/events ' . ($newPage)];
             }
-            $answer = "Ближайшие события. Показана страница {$page} из {$countPages}, всего событий {$count}\n";
+            $answer = "Ближайшие события.\nПоказана страница {$page} из {$countPages}, найдено событий {$count}\n";
+            $i = ($page - 1) * $countOnPage;
+        } else {
+            $findQuery->limit($countOnPage);
+            $i = 0;
         }
 
-        $i = 0;
+
+        /** @var Event[] $events */
+        $events = $findQuery->all();
+
         foreach ($events ?? [] as $event) {
             $i++;
-            $answer .= $i . ") " . date('d.m.Y', $event->date) . "(" . $event->getCity() . "): " . $event->title . "\n";
+            $answer .= $i . ") " . date('d.m.Y', $event->date) . " (" . $event->getCity() . "): " . $event->title . "\n";
             $answer .= $event->getUrl(true, ['lang_id' => false]) . "\n\n";
         }
         $answer .= "\n prozouk.ru/events/after";
@@ -483,8 +486,8 @@ class TelegramBotComponent extends BotApi implements Configurable
         $chatId = $message->getChat()->getId();
         $messageId = $message->getMessageId();
         return (TelegramMessage::find()
-            ->where(['chat_id' => $chatId, 'message_id' => $messageId])
-            ->count() == 0);
+                ->where(['chat_id' => $chatId, 'message_id' => $messageId])
+                ->count() == 0);
     }
 
     /**
