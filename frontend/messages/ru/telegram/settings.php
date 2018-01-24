@@ -4,5 +4,5 @@ return [
     'settingLabel'          => 'Настройки',
     'languageBtn'           => 'Язык',
     'languageSelectBtn'     => 'Выберите язык',
-    'languageSelectedLabel' => 'Язык бота установлен ',
+    'languageSelectedLabel' => 'Язык бота установлен на ',
 ];

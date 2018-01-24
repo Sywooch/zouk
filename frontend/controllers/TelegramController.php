@@ -71,6 +71,10 @@ class TelegramController extends Controller
             if ($commands[0] ?? '' == '/settings') {
                 $telegramBot->messageSettings($query, $commands[1] ?? '');
             }
+            if ($commands[0] ?? '' == '/events') {
+                $page = intval($commands[1] ?? '1');
+                $telegramBot->messageEventAfter($query, $commands[1] ?? '', $page);
+            }
         });
 
         $bot->on(function (Update $update) use ($bot, $telegramBot) {
@@ -101,12 +105,12 @@ class TelegramController extends Controller
                     } elseif (in_array($command, ['/article', '/статья'])) {
                         $telegramBot->messageRandomItem($update, $paramStr, 'article');
                     } elseif (in_array($command, ['/events', '/события'])) {
-                        $telegramBot->messageEventAfter($update, $paramStr);
-                    } elseif ($mtext == '/start') {
+                        $telegramBot->messageEventAfter($update, $paramStr, 1);
+                    } elseif ($command == '/start') {
                         $telegramBot->messageStart($update, TelegramBotComponent::VERSION_DEV);
-                    } elseif ($mtext == '/help') {
+                    } elseif ($command == '/help') {
                         $telegramBot->messageHelp($update, TelegramBotComponent::VERSION_DEV);
-                    } elseif ($mtext == '/settings') {
+                    } elseif ($command == '/settings') {
                         $telegramBot->messageSettings($update, $paramStr);
                     }
                     
@@ -184,11 +188,11 @@ class TelegramController extends Controller
                         $telegramBot->messageRandomItem($update, $paramStr, 'article');
                     } elseif (in_array($command, ['/events', '/события'])) {
                         $telegramBot->messageEventAfter($update, $paramStr);
-                    } elseif ($mtext == '/start') {
+                    } elseif ($command == '/start') {
                         $telegramBot->messageStart($update, TelegramBotComponent::VERSION_STAGE);
-                    } elseif ($mtext == '/help') {
+                    } elseif ($command == '/help') {
                         $telegramBot->messageHelp($update, TelegramBotComponent::VERSION_STAGE);
-                    } elseif ($mtext == '/settings') {
+                    } elseif ($command == '/settings') {
                         $telegramBot->messageSettings($update, $paramStr);
                     }
                 }
@@ -255,9 +259,9 @@ class TelegramController extends Controller
                         $telegramBot->messageRandomItem($update, $paramStr, 'article');
                     } elseif (in_array($command, ['/events', '/события'])) {
                         $telegramBot->messageEventAfter($update, $paramStr);
-                    } elseif ($mtext == '/start') {
+                    } elseif ($command == '/start') {
                         $telegramBot->messageStart($update, TelegramBotComponent::VERSION_PROD);
-                    } elseif ($mtext == '/help') {
+                    } elseif ($command == '/help') {
                         $telegramBot->messageHelp($update, TelegramBotComponent::VERSION_PROD);
                     }
                 }

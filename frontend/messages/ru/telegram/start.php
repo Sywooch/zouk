@@ -11,5 +11,5 @@ return [
     'menuEvents'      => '/events - ближайшие события',
     'menuSettings'    => '/settings - настройки бота',
 
-    'bottomMessage' => "Также вы можете задать параметры поиска. Например: /randomvideo kamacho",
+    'bottomMessage' => "Также вы можете задать параметры поиска. Например:\n /randomvideo kamacho",
 ];

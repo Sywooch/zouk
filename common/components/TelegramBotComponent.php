@@ -297,19 +297,53 @@ class TelegramBotComponent extends BotApi implements Configurable
         return $response;
     }
 
-    public function messageEventAfter(Update $update, $paramStr = '')
+    /**
+     * @param Update|CallbackQuery $update
+     * @param string $paramStr
+     * @param null $page
+     * @return Message
+     */
+    public function messageEventAfter($update, $paramStr = '', $page = null)
     {
         $message = $update->getMessage();
+        $lang = $this->getLangFromChat($message->getChat());
+        $countOnPage = 5;
 
         $findQuery = Event::find()
             ->andWhere('event.deleted = 0')
             ->orderBy(['date' => SORT_ASC])
-            ->andWhere(['>=', 'date', (new \DateTime())->getTimestamp()])
-            ->limit(7);
+            ->andWhere(['>=', 'date', (new \DateTime())->getTimestamp()]);
+
+        $count = $findQuery->count();
+        $countPages = ceil($count /$countOnPage);
 
         /** @var Event[] $events */
         $events = $findQuery->all();
+
+
         $answer = "Ближайшие события:\n";
+        $buttons = [];
+        if (!is_null($page)) {
+            if ($page < 1) {
+                $page = 1;
+            }
+            if ($page > $countPages) {
+                $page = $countPages;
+            }
+            $findQuery->offset($page * $countOnPage)
+                ->limit($countOnPage);
+
+            if ($page > 1) {
+                $newPage = $page - 1;
+                $buttons[] = ['text' => Lang::t('telegram/events', 'page', [], $lang->local) . " " . $newPage, "callback_data" => '/events ' . ($newPage)];
+            }
+            if ($page < $countPages) {
+                $newPage = $page + 1;
+                $buttons[] = ['text' => Lang::t('telegram/events', 'page', [], $lang->local) . " " . $newPage, "callback_data" => '/events ' . ($newPage)];
+            }
+            $answer = "Ближайшие события. Показана страница {$page} из {$countPages}, всего событий {$count}\n";
+        }
+
         $i = 0;
         foreach ($events ?? [] as $event) {
             $i++;
@@ -317,8 +351,21 @@ class TelegramBotComponent extends BotApi implements Configurable
             $answer .= $event->getUrl(true, ['lang_id' => false]) . "\n\n";
         }
         $answer .= "\n prozouk.ru/events/after";
-        $response = $this->sendMessage($message->getChat()->getId(), $answer);
-        $this->trackMessage($message, 'eventAfter');
+
+        $response = false;
+        if (is_null($page)) {
+            $response = $this->sendMessage($message->getChat()->getId(), $answer, null, true);
+            $this->trackMessage($message, 'eventAfter');
+        } else {
+            $replyMarkup = new InlineKeyboardMarkup([$buttons]);
+            if ($update instanceof Update) {
+                $response = $this->sendMessage($message->getChat()->getId(), $answer, null, true, null, $replyMarkup);
+                $this->trackMessage($message, 'eventAfter');
+            } else if ($update instanceof CallbackQuery) {
+                $response = $this->editMessageText($message->getChat()->getId(), $message->getMessageId(), $answer, null, true, $replyMarkup);
+                $this->trackMessage($message, 'eventAfter');
+            }
+        }
         $this->setLastCommandToChat($message, self::LAST_COMMAND_EVENTS);
         return $response;
     }
@@ -370,11 +417,11 @@ class TelegramBotComponent extends BotApi implements Configurable
                     /** @var Lang $langModel */
                     $langModel = Lang::find()->where(['id' => intval($lang)])->one();
                     if ($langModel) {
-                        $answer = Lang::t('telegram/settings', 'languageSelectedLabel', [], $lang->local) . $langModel->name;
+                        $answer = Lang::t('telegram/settings', 'languageSelectedLabel', [], $langModel->local ?: 'en-EN') . $langModel->name;
 
                         $chatId = $message->getChat()->getId();
                         /** @var TelegramChat $chat */
-                        $chat = TelegramChat::find()->andWhere(['chat_id' => $chatId])->one();
+                        $chat = $this->getChatSettings($chatId);
                         $chat->lang_id = $langModel->id;
                         $chat->save();
 
@@ -435,9 +482,9 @@ class TelegramBotComponent extends BotApi implements Configurable
     {
         $chatId = $message->getChat()->getId();
         $messageId = $message->getMessageId();
-        return !TelegramMessage::find()
+        return (TelegramMessage::find()
             ->where(['chat_id' => $chatId, 'message_id' => $messageId])
-            ->exists();
+            ->count() == 0);
     }
 
     /**
@@ -448,7 +495,7 @@ class TelegramBotComponent extends BotApi implements Configurable
     {
         $chatId = $message->getChat()->getId();
         $messageId = $message->getMessageId();
-        return !TelegramMessage::find()
+        return TelegramMessage::find()
             ->where(['chat_id' => $chatId, 'message_id' => $messageId])
             ->one();
     }
@@ -462,14 +509,7 @@ class TelegramBotComponent extends BotApi implements Configurable
     public function setLastCommandToChat($message, $command, $params = [])
     {
         $chatId = $message->getChat()->getId();
-        $chat = TelegramChat::find()->andWhere(['chat_id' => $chatId])->one();
-        if (empty($chat)) {
-            $chat = new TelegramChat();
-            $chat->setAttributes([
-                'chat_id' => $chatId,
-                'params'  => json_encode([]),
-            ]);
-        }
+        $chat = $this->getChatSettings($chatId);
         $chat->setParamsByKey(TelegramChat::PARAMS_LAST_COMMAND, [
             'name'   => $command,
             'date'   => date('d.m.Y H:i:s'),
@@ -486,9 +526,9 @@ class TelegramBotComponent extends BotApi implements Configurable
     public function getLastCommandFromChat($message)
     {
         $chatId = $message->getChat()->getId();
-        $chat = TelegramChat::find()->andWhere(['chat_id' => $chatId])->one();
+        $chat = $this->getChatSettings($chatId);
         if ($chat) {
-            return $chat->getPrimaryKey(TelegramChat::PARAMS_LAST_COMMAND);
+            return $chat->getParamsByKey(TelegramChat::PARAMS_LAST_COMMAND, []);
         }
         return [];
     }
@@ -500,9 +540,8 @@ class TelegramBotComponent extends BotApi implements Configurable
      */
     public function getLangFromChat($chat)
     {
-        /** @var TelegramChat $chat */
-        $chat = TelegramChat::find()->andWhere(['chat_id' => $chat->getId()])->one();
         $lang = null;
+        $chat = $this->getChatSettings($chat->getId());
         if ($chat) {
             $langId = $chat->lang_id;
             $lang = Lang::find()->where(['id' => $langId])->one();
@@ -513,4 +552,20 @@ class TelegramBotComponent extends BotApi implements Configurable
         return $lang;
     }
 
+    /**
+     * @param $chatId
+     * @return array|TelegramChat|null|\yii\db\ActiveRecord
+     */
+    public function getChatSettings($chatId)
+    {
+        $chat = TelegramChat::find()->andWhere(['chat_id' => $chatId])->one();
+        if (empty($chat)) {
+            $chat = new TelegramChat();
+            $chat->setAttributes([
+                'chat_id' => $chatId,
+                'params'  => json_encode([]),
+            ]);
+        }
+        return $chat;
+    }
 }
