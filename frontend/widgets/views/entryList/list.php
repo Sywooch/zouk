@@ -11,6 +11,7 @@
  * @var SearchEntryForm $searchEntryForm
  * @var string $blockAction
  * @var integer $countEntities
+ * @var string $status;
  */
 
 use common\models\form\SearchEntryForm;
@@ -27,6 +28,8 @@ $this->registerCssFile(Yii::$app->request->baseUrl . '/css/entryList/entryView.c
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/share42/share42.js?20170122', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 $action = isset(Yii::$app->controller->searchPath) ? Yii::$app->controller->searchPath : 'site/index';
+$urlParams = [$action];
+$urlParams['status'] = $status ?? \common\models\EntryModel::STATUS_APPROVED;
 ?>
     <?php
     if (!empty($blockAction)) {
@@ -75,7 +78,7 @@ if (!$onlyItem) {
             'style'       => 'width: 100%;',
             'id'          => 'loadMore',
             'data-search' => json_encode($searchEntryForm->getSearchParams()),
-            'data-url'    => \yii\helpers\Url::to([$action]),
+            'data-url'    => \yii\helpers\Url::to($urlParams),
         ]
     );
     if ($addModalShowImg) {

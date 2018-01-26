@@ -68,10 +68,11 @@ class TelegramController extends Controller
         $bot->callbackQuery(function (CallbackQuery $query) use ($bot, $telegramBot){
             $data = $query->getData();
             $commands = explode(' ', $data, 2);
-            if ($commands[0] ?? '' == '/settings') {
+            $command = $commands[0] ?? '';
+            if ($command == '/settings') {
                 $telegramBot->messageSettings($query, $commands[1] ?? '');
             }
-            if ($commands[0] ?? '' == '/events') {
+            if ($command == '/events') {
                 $page = intval($commands[1] ?? '1');
                 $telegramBot->messageEventAfter($query, $commands[1] ?? '', $page);
             }
@@ -112,6 +113,8 @@ class TelegramController extends Controller
                         $telegramBot->messageHelp($update, TelegramBotComponent::VERSION_DEV);
                     } elseif ($command == '/settings') {
                         $telegramBot->messageSettings($update, $paramStr);
+                    } elseif ($command == '/addEvent') {
+
                     }
                     
                     
@@ -154,10 +157,11 @@ class TelegramController extends Controller
         $bot->callbackQuery(function (CallbackQuery $query) use ($bot, $telegramBot){
             $data = $query->getData();
             $commands = explode(' ', $data, 2);
-            if ($commands[0] ?? '' == '/settings') {
+            $command = $commands[0] ?? '';
+            if ($command == '/settings') {
                 $telegramBot->messageSettings($query, $commands[1] ?? '');
             }
-            if ($commands[0] ?? '' == '/events') {
+            if ($command == '/events') {
                 $page = intval($commands[1] ?? '1');
                 $telegramBot->messageEventAfter($query, $commands[1] ?? '', $page);
             }
@@ -234,6 +238,20 @@ class TelegramController extends Controller
         $telegramBot = Yii::$app->telegram;
         $bot = $telegramBot->getBot('prozoukbot');
 
+
+        $bot->callbackQuery(function (CallbackQuery $query) use ($bot, $telegramBot){
+            $data = $query->getData();
+            $commands = explode(' ', $data, 2);
+            $command = $commands[0] ?? '';
+            if ($command == '/settings') {
+                $telegramBot->messageSettings($query, $commands[1] ?? '');
+            }
+            if ($command == '/events') {
+                $page = intval($commands[1] ?? '1');
+                $telegramBot->messageEventAfter($query, $commands[1] ?? '', $page);
+            }
+        });
+
         $bot->on(function (Update $update) use ($bot, $telegramBot) {
             $message = $update->getMessage();
             if ($message instanceof Message) {
@@ -262,11 +280,13 @@ class TelegramController extends Controller
                     } elseif (in_array($command, ['/article', '/статья'])) {
                         $telegramBot->messageRandomItem($update, $paramStr, 'article');
                     } elseif (in_array($command, ['/events', '/события'])) {
-                        $telegramBot->messageEventAfter($update, $paramStr);
+                        $telegramBot->messageEventAfter($update, $paramStr, 1);
                     } elseif ($command == '/start') {
                         $telegramBot->messageStart($update, TelegramBotComponent::VERSION_PROD);
                     } elseif ($command == '/help') {
                         $telegramBot->messageHelp($update, TelegramBotComponent::VERSION_PROD);
+                    } elseif ($command == '/settings') {
+                        $telegramBot->messageSettings($update, $paramStr);
                     }
                 }
             }

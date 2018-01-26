@@ -36,6 +36,10 @@ class RbacController extends Controller
         $editEvents->description = 'Редактирование событий';
         $auth->add($editEvents);
 
+        $approvedEvents = $auth->createPermission(User::PERMISSION_APPROVED_EVENTS);
+        $approvedEvents->description = 'Одобрение событий';
+        $auth->add($approvedEvents);
+
         $deleteEvents = $auth->createPermission(User::PERMISSION_DELETE_EVENTS);
         $deleteEvents->description = 'Удаление событий';
         $auth->add($deleteEvents);
@@ -74,6 +78,7 @@ class RbacController extends Controller
         $auth->addChild($moderator, $deleteItems);
         $auth->addChild($moderator, $editEvents);
         $auth->addChild($moderator, $deleteEvents);
+        $auth->addChild($moderator, $approvedEvents);
         $auth->addChild($moderator, $editSchools);
         $auth->addChild($moderator, $deleteSchools);
 
@@ -87,5 +92,18 @@ class RbacController extends Controller
             $auth->assign($mock, $user->id);
         }
         $auth->assign($admin, 1);
+    }
+
+    public function actionAddPermissions()
+    {
+        $auth = \Yii::$app->authManager;
+
+        $approvedEvents = $auth->createPermission(User::PERMISSION_APPROVED_EVENTS);
+        $approvedEvents->description = 'Одобрение событий';
+        $auth->add($approvedEvents);
+
+        $moderator = $auth->getRole(User::ROLE_MODERATOR);
+
+        $auth->addChild($moderator, $approvedEvents);
     }
 }

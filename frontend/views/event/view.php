@@ -246,6 +246,15 @@ $dateTo = date("d.m.Y", empty($event->date_to) ? $event->date : $event->date_to)
                         ['class' => 'btn btn-link no-focus']
                     ), ' ';
                 }
+                if (Yii::$app->user->can(User::PERMISSION_APPROVED_EVENTS, ['object' => $event])
+                    && $event->status == \common\models\EntryModel::STATUS_WAIT_APPROVED
+                ) {
+                    echo Html::a(
+                        Lang::t('page/eventView', 'approve'),
+                        Url::to(['events/approve', 'id' => $event->id]),
+                        ['class' => 'btn btn-link no-focus']
+                    ), ' ';
+                }
                 echo Html::button(
                     Lang::t('page/eventView', 'share'),
                     [

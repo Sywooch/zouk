@@ -31,6 +31,9 @@ class EntryModel extends VoteModel
 {
     const THIS_ENTITY = 'item';
 
+    const STATUS_APPROVED = 'approved';
+    const STATUS_WAIT_APPROVED = 'wait_approved';
+
     public function getThisEntity()
     {
         return self::THIS_ENTITY;

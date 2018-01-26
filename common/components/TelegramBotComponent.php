@@ -140,17 +140,21 @@ class TelegramBotComponent extends BotApi implements Configurable
             ;
         } elseif ($version == self::VERSION_PROD) {
             $answer =
-                "Привет! Я помогу найти интересующую тебя информацию о Зуке.
-Ты можешь отправить мне эти команды:
-
-/randomvideo - посмотреть случайное видео
-/demo - случайная демка
-/show - случайное видео шоу номера
-
-/article - случайная статья
-
-/events - ближайшие события
-";
+                Lang::t('telegram/start', 'mainTitle', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'title', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuRandomVideo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuDemo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuShow', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuArticle', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuEvents', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuSettings', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'bottomMessage', [], $lang->local) . "\n"
+            ;
         } else {
             $answer = '';
         }
@@ -337,7 +341,7 @@ class TelegramBotComponent extends BotApi implements Configurable
                 $newPage = $page + 1;
                 $buttons[] = ['text' => Lang::t('telegram/events', 'page', [], $lang->local) . " " . $newPage, "callback_data" => '/events ' . ($newPage)];
             }
-            $answer = "Ближайшие события.\nПоказана страница {$page} из {$countPages}, найдено событий {$count}\n";
+            $answer = "[Ближайшие события](https://prozouk.ru/events/after).\nПоказана страница {$page} из {$countPages}, найдено событий {$count}\n";
             $i = ($page - 1) * $countOnPage;
         } else {
             $findQuery->limit($countOnPage);
@@ -350,22 +354,21 @@ class TelegramBotComponent extends BotApi implements Configurable
 
         foreach ($events ?? [] as $event) {
             $i++;
-            $answer .= $i . ") " . date('d.m.Y', $event->date) . " (" . $event->getCity() . "): " . $event->title . "\n";
-            $answer .= $event->getUrl(true, ['lang_id' => false]) . "\n\n";
+            $answer .= $i . ") *" . date('d.m.Y', $event->date) . "* (" . $event->getCity() . "): [" . $event->title . "](" . $event->getUrl(true, ['lang_id' => false]) . ")\n";
         }
         $answer .= "\n prozouk.ru/events/after";
 
         $response = false;
         if (is_null($page)) {
-            $response = $this->sendMessage($message->getChat()->getId(), $answer, null, true);
+            $response = $this->sendMessage($message->getChat()->getId(), $answer, 'Markdown', true);
             $this->trackMessage($message, 'eventAfter');
         } else {
             $replyMarkup = new InlineKeyboardMarkup([$buttons]);
             if ($update instanceof Update) {
-                $response = $this->sendMessage($message->getChat()->getId(), $answer, null, true, null, $replyMarkup);
+                $response = $this->sendMessage($message->getChat()->getId(), $answer, 'Markdown', true, null, $replyMarkup);
                 $this->trackMessage($message, 'eventAfter');
             } else if ($update instanceof CallbackQuery) {
-                $response = $this->editMessageText($message->getChat()->getId(), $message->getMessageId(), $answer, null, true, $replyMarkup);
+                $response = $this->editMessageText($message->getChat()->getId(), $message->getMessageId(), $answer, 'Markdown', true, $replyMarkup);
                 $this->trackMessage($message, 'eventAfter');
             }
         }
@@ -439,6 +442,21 @@ class TelegramBotComponent extends BotApi implements Configurable
         }
 
         return false;
+    }
+
+    /**
+     * @param Update|CallbackQuery $update
+     * @param string $paramStr
+     * @return Message
+     */
+    public function messageAddEvent($update, $paramStr = '')
+    {
+        $message = $update->getMessage();
+
+        $lang = $this->getLangFromChat($message->getChat());
+        if ($this->isNewMessage($message)) {
+            
+        }
     }
 
     /**

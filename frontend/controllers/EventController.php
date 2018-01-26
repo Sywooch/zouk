@@ -2,12 +2,14 @@
 namespace frontend\controllers;
 
 use common\models\Alarm;
+use common\models\EntryModel;
 use common\models\Event;
 use common\models\form\SearchEntryForm;
 use common\models\TagEntity;
 use common\models\Tags;
 use common\models\User;
 use common\models\Vote;
+use console\controllers\RbacController;
 use frontend\models\Lang;
 use frontend\widgets\EventList;
 use Yii;
@@ -40,6 +42,11 @@ class EventController extends Controller
                         'allow'   => true,
                         'roles'   => ['@'],
                     ],
+                    [
+                        'actions' => ['approve'],
+                        'allow' =>true,
+                        'roles' => [User::PERMISSION_APPROVED_EVENTS],
+                    ]
                 ],
             ],
         ];
@@ -214,10 +221,19 @@ class EventController extends Controller
         $searchEntryForm = SearchEntryForm::loadFromPost();
         $request = Yii::$app->request;
         $page = $request->get('page', $request->post('page', 0));
+        $status = $request->get('status', EntryModel::STATUS_APPROVED);
         if ($request->isAjax) {
-            return $this->renderPartial('listAll', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
+            return $this->renderPartial('listAll', [
+                'searchEntryForm' => $searchEntryForm,
+                'page'            => $page,
+                'status'          => $status,
+            ]);
         }
-        return $this->render('listAll', ['searchEntryForm' => $searchEntryForm, 'page' => $page]);
+        return $this->render('listAll', [
+            'searchEntryForm' => $searchEntryForm,
+            'page'            => $page,
+            'status'          => $status,
+        ]);
     }
 
     public function actionBefore()
@@ -288,6 +304,15 @@ class EventController extends Controller
         )->orderBy('date')->all();
 
         return $this->render('month', ['events' => $events, 'year' => $year, 'month' => $month]);
+    }
+
+    public function actionApprove($id)
+    {
+        /** @var Event $event */
+        $event = Event::findOne($id);
+        $event->status = EntryModel::STATUS_APPROVED;
+        $event->save();
+        return $this->goBack();
     }
 
 }

@@ -1,6 +1,7 @@
 <?php
 namespace frontend\widgets;
 
+use common\models\EntryModel;
 use common\models\Event;
 
 class EventList extends \yii\bootstrap\Widget
@@ -34,6 +35,8 @@ class EventList extends \yii\bootstrap\Widget
 
     public $events = false;
 
+    public $statuses = [EntryModel::STATUS_APPROVED];
+    
     public function init()
     {
     }
@@ -58,7 +61,13 @@ class EventList extends \yii\bootstrap\Widget
 
     public function getAllEvents($lastIds = [], $lastDate = 0, $orderBy = self::ORDER_BY_DATE, $dateCreateType = self::DATE_CREATE_ALL, $userId = false, $limit = false)
     {
-        $query = Event::find()->from(["t" => Event::tableName()])->andWhere('t.deleted = 0')->addSelect('*');
+        $query = Event::find()
+            ->from(["t" => Event::tableName()])
+            ->andWhere([
+                't.deleted' => 0,
+                't.status' => $this->statuses,
+            ])
+            ->addSelect('*');
         if ($lastDate != 0) {
             if ($dateCreateType == self::DATE_CREATE_AFTER) {
                 $query = $query->andWhere('t.date >= :date', [':date' => $lastDate]);

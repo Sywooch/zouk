@@ -30,6 +30,7 @@ use yii\web\IdentityInterface;
  * @property int         $dislikes
  * @property string      $alias
  * @property int         $deleted
+ * @property string      $status
  * @property integer     $date_update
  * @property integer     $date_create
  *
@@ -93,6 +94,7 @@ class Event extends EntryModel
                 [['country'], 'integer'],
                 [['city'], 'string', 'max' => 60],
                 [['site'], 'string', 'max' => 120],
+                [['status'], 'string'],
                 [['date_to'], 'safe'],
             ]
         );

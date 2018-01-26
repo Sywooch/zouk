@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\EntryModel;
 use common\models\form\SearchEntryForm;
 use common\models\Item;
 use common\models\School;
@@ -249,14 +250,14 @@ class SiteController extends Controller
         $urls = array();
 
         $items = Item::find()->where(['deleted' => 0])->all();
-        $events = \common\models\Event::find()->where(['deleted' => 0])->all();
+        $events = \common\models\Event::find()->where(['deleted' => 0, 'status' => EntryModel::STATUS_APPROVED])->all();
         $schools = School::find()->where(['deleted' => 0])->all();
 
         foreach ($items as $item) {
             /** @var Item $item */
             $urls[] = [
                 'url'      => $item->getUrl(true),
-                'priority' => 0.5,
+                'priority' => 0.3,
             ];
         }
         foreach ($events as $event) {

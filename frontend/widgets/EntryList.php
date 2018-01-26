@@ -1,6 +1,7 @@
 <?php
 namespace frontend\widgets;
 
+use common\models\EntryModel;
 use common\models\Event;
 use common\models\form\SearchEntryForm;
 use common\models\Item;
@@ -17,18 +18,18 @@ class EntryList extends \yii\bootstrap\Widget
     const ITEM_LIST_DISPLAY_MAIN = 'main';
     const ITEM_LIST_DISPLAY_MINI = 'mini';
 
-    const ORDER_BY_ID        = 'order_by_id';
-    const ORDER_BY_LIKE      = 'order_by_like';
-    const ORDER_BY_SHOW      = 'order_by_show';
+    const ORDER_BY_ID = 'order_by_id';
+    const ORDER_BY_LIKE = 'order_by_like';
+    const ORDER_BY_SHOW = 'order_by_show';
     const ORDER_BY_LIKE_SHOW = 'order_by_like_show';
-    const ORDER_BY_DATE      = 'order_by_date';
-    const ORDER_BY_DATE_OLD  = 'order_by_date_old';
-    const ORDER_BY_RAND      = 'order_by_random';
+    const ORDER_BY_DATE = 'order_by_date';
+    const ORDER_BY_DATE_OLD = 'order_by_date_old';
+    const ORDER_BY_RAND = 'order_by_random';
 
-    const DATE_CREATE_LAST  = 'last';
-    const DATE_CREATE_WEEK  = 'week';
+    const DATE_CREATE_LAST = 'last';
+    const DATE_CREATE_WEEK = 'week';
     const DATE_CREATE_MONTH = 'month';
-    const DATE_CREATE_ALL   = 'popular';
+    const DATE_CREATE_ALL = 'popular';
 
     public $page = 0;
 
@@ -59,6 +60,8 @@ class EntryList extends \yii\bootstrap\Widget
 
     private $_tagsId = null;
 
+    public $statuses = [EntryModel::STATUS_APPROVED];
+
     public function init()
     {
     }
@@ -66,6 +69,8 @@ class EntryList extends \yii\bootstrap\Widget
     public function run()
     {
         $items = $this->getEntries();
+        $statuses = $this->statuses;
+        $status = array_shift($statuses);
         return $this->render(
             'entryList/list',
             [
@@ -80,6 +85,7 @@ class EntryList extends \yii\bootstrap\Widget
                 'searchEntryForm'      => $this->searchEntryForm,
                 'blockAction'          => $this->blockAction,
                 'countEntities'        => count($this->entityTypes),
+                'status'               => $status
             ]
         );
     }
@@ -92,12 +98,12 @@ class EntryList extends \yii\bootstrap\Widget
             $itemQuery = Item::find()->from(["t" => Item::tableName()])->andWhere('t.deleted = 0')->addSelect('*');
             $this->addFilterBySearchText($itemQuery);
             $this->addSort($itemQuery, $this->orderBy);
-            
+
             $dataProviderItem = new ActiveDataProvider([
-                'query' => $itemQuery,
+                'query'      => $itemQuery,
                 'pagination' => [
                     'pageSize' => 10,
-                    'page' => $this->page,
+                    'page'     => $this->page,
                 ],
             ]);
 
@@ -108,7 +114,12 @@ class EntryList extends \yii\bootstrap\Widget
         }
 
         if (in_array(Event::THIS_ENTITY, $this->entityTypes)) {
-            $eventQuery = Event::find()->from(["t" => Event::tableName()])->andWhere('t.deleted = 0')->addSelect('*');
+            $eventQuery = Event::find()->from(["t" => Event::tableName()])
+                ->andWhere([
+                    't.deleted' => 0,
+                    't.status'  => $this->statuses,
+                ])
+                ->addSelect('*');
             $this->addFilterBySearchText($eventQuery);
             if (count($this->entityTypes) == 1) {
                 $this->addSort($eventQuery, $this->orderBy);
@@ -161,7 +172,7 @@ class EntryList extends \yii\bootstrap\Widget
             }
 
             $dataProviderSchool = new ActiveDataProvider([
-                'query' => $schoolQuery,
+                'query'      => $schoolQuery,
                 'pagination' => [
                     'pageSize' => $pageSize,
                     'page'     => $this->page,

@@ -5,6 +5,7 @@ return [
     'edit'               => 'Edit',
     'delete'             => 'delete',
     'edit2'              => 'edit',
+    'approve'            => 'approve',
     'share'              => 'share',
     'deleteBtn'          => 'Delete',
     'cancel'             => 'Cancel',

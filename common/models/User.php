@@ -46,6 +46,7 @@ class User extends ActiveRecord implements IdentityInterface
     const PERMISSION_CREATE_EVENTS = 'create_events';
     const PERMISSION_EDIT_EVENTS = 'edit_events';
     const PERMISSION_DELETE_EVENTS = 'delete_events';
+    const PERMISSION_APPROVED_EVENTS = 'approved_events';
 
     const PERMISSION_CREATE_SCHOOLS = 'create_schools';
     const PERMISSION_EDIT_SCHOOLS = 'edit_schools';

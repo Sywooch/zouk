@@ -2,6 +2,8 @@
 /**
  * @var yii\web\View $this
  * @var \common\models\form\SearchEntryForm $searchEntryForm
+ * @var int $page
+ * @var string $status
  */
 
 use common\models\Event;
@@ -34,11 +36,12 @@ $this->params['containerClass'] = 'block-entry-list';
     <div class="body-content">
         <?= $this->render('/event/tabs', ['selectTab' => 1, 'searchTag' => $searchEntryForm->search_text]) ?>
         <?= EntryList::widget([
-            'orderBy' => EntryList::ORDER_BY_DATE,
+            'orderBy'         => EntryList::ORDER_BY_DATE,
             'searchEntryForm' => $searchEntryForm,
-            'page' => $page,
-            'entityTypes' => [Event::THIS_ENTITY],
-            'blockAction' => Html::a(
+            'page'            => $page,
+            'entityTypes'     => [Event::THIS_ENTITY],
+            'statuses'        => [$status],
+            'blockAction'     => Html::a(
                 Lang::t('main', 'mainButtonAddEvent'),
                 ['/events/add'],
                 ['class' => 'btn btn-success btn-label-main add-item']
