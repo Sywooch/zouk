@@ -18,6 +18,7 @@ class TelegramChat extends ActiveRecord
 {
 
     const PARAMS_LAST_COMMAND = 'last_command';
+    const PARAMS_ADD_VIDEO_SETTINGS = 'add_video_settings';
 
     /**
      * @inheritdoc

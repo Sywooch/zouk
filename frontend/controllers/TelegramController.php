@@ -114,7 +114,7 @@ class TelegramController extends Controller
                     } elseif ($command == '/settings') {
                         $telegramBot->messageSettings($update, $paramStr);
                     } elseif ($command == '/addEvent') {
-
+                        $telegramBot->messageAddEvent($update, $paramStr);
                     }
                     
                     

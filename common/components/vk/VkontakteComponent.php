@@ -174,7 +174,7 @@ class VkontakteComponent extends Vkontakte
         if (empty($attachments)) {
             return false;
         }
-        $attachments[] = 'http://prozouk.ru';
+        $attachments[] = 'https://prozouk.ru';
 
         $params = [
             'owner_id'     => -$groupId,
@@ -273,11 +273,16 @@ class VkontakteComponent extends Vkontakte
             $text .= "\n\n" . $randomCongratulation;
 
             $text .= "\n\n";
-            $text .= $vkTask->getParamsByKey(VkTask::PARAMS_BOTTOM_TEXT, "#prozouk #zouk #dancezouk #congratulation #happybirthday");
+            $bottomText = $vkTask->getParamsByKey(VkTask::PARAMS_BOTTOM_TEXT, "#prozouk #zouk #dancezouk #congratulation #happybirthday");
+            $text .= $bottomText;
 
-            $text .= "\n\n@prozouk (сервис от ProZouk)";
+            if ($bottomText != 'ivsevolod.ru') {
+                $text .= "\n\n@prozouk (сервис от ProZouk)";
+                $attachments[] = 'https://prozouk.ru';
+            } else {
+                $attachments[] = 'https://ivsevolod.ru';
+            }
 
-            $attachments[] = 'http://prozouk.ru';
 
             $params = [
                 'owner_id'     => -$groupId,

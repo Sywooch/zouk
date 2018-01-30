@@ -172,6 +172,7 @@ class TelegramBotComponent extends BotApi implements Configurable
     public function messageHelp(Update $update, $version = '')
     {
         $message = $update->getMessage();
+        $chat = $message->getChat();
         $lang = $this->getLangFromChat($message->getChat());
         if ($version == self::VERSION_DEV) {
             $answer =
@@ -184,8 +185,11 @@ class TelegramBotComponent extends BotApi implements Configurable
                 "\n" .
                 Lang::t('telegram/start', 'menuArticle', [], $lang->local) . "\n" .
                 "\n" .
-                Lang::t('telegram/start', 'menuEvents', [], $lang->local) . "\n" .
-                "\n" .
+                Lang::t('telegram/start', 'menuEvents', [], $lang->local) . "\n";
+            if ($chat->getType() == 'private') {
+                $answer .= '/addEvent - добавить событие' . "\n";
+            }
+            $answer .= "\n" .
                 Lang::t('telegram/start', 'menuSettings', [], $lang->local) . "\n" .
                 "\n" .
                 Lang::t('telegram/start', 'bottomMessage', [], $lang->local) . "\n"
@@ -209,17 +213,21 @@ class TelegramBotComponent extends BotApi implements Configurable
             ;
         } elseif ($version == self::VERSION_PROD) {
             $answer =
-                "Я помогу найти интересующую тебя информацию о Зуке.
-Ты можешь отправить мне эти команды:
-
-/randomvideo - посмотреть случайное видео
-/demo - случайная демка
-/show - случайное видео шоу номера
-
-/article - случайная статья
-
-/events - ближайшие события
-";
+                Lang::t('telegram/start', 'mainTitle', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'title', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuRandomVideo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuDemo', [], $lang->local) . "\n" .
+                Lang::t('telegram/start', 'menuShow', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuArticle', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuEvents', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'menuSettings', [], $lang->local) . "\n" .
+                "\n" .
+                Lang::t('telegram/start', 'bottomMessage', [], $lang->local) . "\n"
+            ;
         } else {
             $answer = '';
         }
@@ -452,11 +460,45 @@ class TelegramBotComponent extends BotApi implements Configurable
     public function messageAddEvent($update, $paramStr = '')
     {
         $message = $update->getMessage();
+        $chat = $message->getChat();
+        if ($chat->getType() != 'private') {
+            return false;
+        }
 
         $lang = $this->getLangFromChat($message->getChat());
         if ($this->isNewMessage($message)) {
-            
+
+            $chatSettings = $this->getChatSettings($chat->getId());
+            if (empty($paramStr)) {
+                $answer = 'Добавление события.';
+                $response = $this->sendMessage($message->getChat()->getId(), $answer);
+                $this->trackMessage($message, 'addEvent');
+                $chatSettings->setParamsByKey(TelegramChat::PARAMS_ADD_VIDEO_SETTINGS, [
+                    'step' => 'addUrl',
+                ]);
+                $chatSettings->save();
+                return $response;
+            } else {
+                $command = trim($paramStr);
+                if ($command == 'save') {
+
+                } elseif ($command == 'cancel') {
+
+                } elseif ($command == 'next') {
+
+                } else {
+                    $chatSettings = $this->getChatSettings($chat->getId());
+                    $paramsSettings = $chatSettings->getParamsByKey(TelegramChat::PARAMS_ADD_VIDEO_SETTINGS, []);
+                    $step = $paramsSettings['step'] ?? 'addUrl';
+                    if ($step == 'addUrl') {
+
+                    }
+                }
+            }
+
         }
+
+        return false;
     }
 
     /**
@@ -575,7 +617,7 @@ class TelegramBotComponent extends BotApi implements Configurable
 
     /**
      * @param $chatId
-     * @return array|TelegramChat|null|\yii\db\ActiveRecord
+     * @return TelegramChat|null
      */
     public function getChatSettings($chatId)
     {
